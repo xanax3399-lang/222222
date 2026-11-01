@@ -1,0 +1,22 @@
+{
+  "runtime": "GameSense for Windows CS:GO/Source 1 with Allow unsafe scripts enabled",
+  "builtin": [
+    "ffi",
+    "bit",
+    "vector"
+  ],
+  "required_libraries": [
+    "gamesense/http",
+    "gamesense/images",
+    "gamesense/msgpack",
+    "gamesense/csgo_weapons",
+    "gamesense/antiaim_funcs"
+  ],
+  "optional_libraries": [
+    {
+      "name": "gamesense/websockets",
+      "feature": "online indicator"
+    }
+  ],
+  "external_libraries_bundled": false
+}

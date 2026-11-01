@@ -3,7 +3,7 @@
   "original_file": "output_outlaw_beta (1).lua",
   "original_sha256": "b02aee528f19bc85f6c02f61530372798e164465fa6f0bf94d1ca8e812400be2",
   "recovered_file": "outlaw_source.lua",
-  "recovered_sha256": "492f15347bd1c954f83d627575a7d99a68b2794f5e0b5f0726250ac59a3be8ff",
+  "recovered_sha256": "ec375342233a53a8317ff379b11b2d99bdf27d856703d675cd475e701758eefd",
   "original_application_functions": 386,
   "recovered_function_ids": [
     1,
@@ -411,8 +411,8 @@
     "removed_gotos": 17,
     "structured_regions": 8
   },
-  "original_outer_require_wrapper_preserved": true,
-  "application_visible_original_newindex_instrumentation_preserved": true,
+  "original_outer_require_wrapper_preserved": false,
+  "application_visible_original_newindex_instrumentation_preserved": false,
   "decoded_resources": {
     "msgpack": 33,
     "json": 7
@@ -422,14 +422,22 @@
     "closure_lifetime_and_table_hook_checks": 39,
     "additional_real_loop_variadic_and_iterator_checks": 9,
     "predict_extraction_and_related_regression_checks": 11,
-    "total_checks_passed": 160,
+    "total_checks_passed": 176,
     "syntax_lua51": "passed on the final packaged source and both extracted UI files",
     "syntax_lua53": "passed on the final packaged source and both extracted UI files",
     "whole_gamesense_execution": "not tested; gamesense/LuaJIT and external modules unavailable",
     "full_behavioral_equivalence": "not proven by selected-function tests",
     "alphabet_original_vm_comparisons": 28,
     "function_string_constant_audits": 385,
-    "function_global_binding_audits": 385
+    "function_global_binding_audits": 385,
+    "startup_and_optional_network_checks_luajit": 15,
+    "syntax_luajit": "passed on final source with LuaJIT 2.1; no application execution",
+    "startup_environment": "Mocked game APIs; stops at the first actual Windows engine-interface boundary",
+    "compatibility_changes_audited": [
+      "Function 64: one-time initialization and protected optional WebSocket import",
+      "Function 126: optional WebSocket presence and connection-error handling"
+    ],
+    "write_only_capture_naming_regression": 1
   },
   "experimental_predict": {
     "creation_function": 242,
@@ -445,7 +453,7 @@
     "author local variable names",
     "author comments"
   ],
-  "source_lines": 13362,
+  "source_lines": 13384,
   "readability_comparison": {
     "previous": {
       "assignments": 13159,
@@ -454,7 +462,7 @@
       "gotos": 0
     },
     "current": {
-      "assignments": 7451,
+      "assignments": 7455,
       "reference_value_accesses": 1286,
       "capture_factories": 159,
       "gotos": 0
@@ -477,5 +485,14 @@
     "immutable_capture_aliases_removed": 441,
     "capture_factories_removed": 102
   },
-  "embedded_source_files": 12
+  "embedded_source_files": 12,
+  "runtime_adaptation": {
+    "plain_table_constructors_restored": 193,
+    "global_require_override_removed": true,
+    "application_initialization": "explicit and idempotent",
+    "initializer_flag_capture_index": 1,
+    "websockets_optional": true,
+    "optional_feature": "online indicator",
+    "module_name": "gamesense/websockets"
+  }
 }
