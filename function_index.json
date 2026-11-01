@@ -1,1932 +1,1932 @@
 [
   {
     "id": 1,
-    "line": 51,
+    "line": 50,
     "description": "application root chunk"
   },
   {
     "id": 2,
-    "line": 53,
-    "description": "application entry"
+    "line": 51,
+    "description": "outlaw_main"
   },
   {
     "id": 3,
-    "line": 490,
-    "description": "recovered function body"
+    "line": 197,
+    "description": "reconstructed function"
   },
   {
     "id": 4,
-    "line": 21851,
-    "description": "recovered function body"
+    "line": 13192,
+    "description": "reconstructed function"
   },
   {
     "id": 5,
-    "line": 1775,
-    "description": "recovered function body"
+    "line": 828,
+    "description": "reconstructed function"
   },
   {
     "id": 6,
-    "line": 1668,
-    "description": "recovered function body"
+    "line": 789,
+    "description": "reconstructed function"
   },
   {
     "id": 7,
-    "line": 1671,
-    "description": "recovered function body"
+    "line": 790,
+    "description": "reconstructed function"
   },
   {
     "id": 8,
-    "line": 2167,
-    "description": "recovered function body"
+    "line": 1059,
+    "description": "reconstructed function"
   },
   {
     "id": 9,
-    "line": 2186,
-    "description": "recovered function body"
+    "line": 1071,
+    "description": "reconstructed function"
   },
   {
     "id": 10,
-    "line": 109,
-    "description": "recovered function body"
+    "line": 84,
+    "description": "random_alphabet"
   },
   {
     "id": 11,
-    "line": 770,
-    "description": "recovered function body"
+    "line": 340,
+    "description": "reconstructed function"
   },
   {
     "id": 12,
-    "line": 870,
-    "description": "recovered function body"
+    "line": 446,
+    "description": "reconstructed function"
   },
   {
     "id": 13,
-    "line": 2109,
-    "description": "recovered function body"
+    "line": 1034,
+    "description": "reconstructed function"
   },
   {
     "id": 14,
-    "line": 21737,
-    "description": "recovered function body"
+    "line": 13166,
+    "description": "reconstructed function"
   },
   {
     "id": 15,
-    "line": 2147,
-    "description": "recovered function body"
+    "line": 1050,
+    "description": "reconstructed function"
   },
   {
     "id": 16,
-    "line": 1118,
-    "description": "recovered function body"
+    "line": 560,
+    "description": "reconstructed function"
   },
   {
     "id": 17,
-    "line": 1126,
-    "description": "recovered function body"
+    "line": 564,
+    "description": "reconstructed function"
   },
   {
     "id": 18,
-    "line": 1191,
-    "description": "recovered function body"
+    "line": 601,
+    "description": "reconstructed function"
   },
   {
     "id": 19,
-    "line": 1199,
-    "description": "recovered function body"
+    "line": 605,
+    "description": "reconstructed function"
   },
   {
     "id": 20,
-    "line": 1142,
-    "description": "recovered function body"
+    "line": 572,
+    "description": "reconstructed function"
   },
   {
     "id": 21,
-    "line": 1209,
-    "description": "recovered function body"
+    "line": 609,
+    "description": "reconstructed function"
   },
   {
     "id": 22,
-    "line": 1221,
-    "description": "recovered function body"
+    "line": 613,
+    "description": "reconstructed function"
   },
   {
     "id": 23,
-    "line": 1885,
-    "description": "recovered function body"
+    "line": 876,
+    "description": "reconstructed function"
   },
   {
     "id": 24,
-    "line": 21820,
-    "description": "recovered function body"
+    "line": 13177,
+    "description": "reconstructed function"
   },
   {
     "id": 25,
-    "line": 1489,
-    "description": "recovered function body"
+    "line": 693,
+    "description": "reconstructed function"
   },
   {
     "id": 26,
-    "line": 1249,
-    "description": "recovered function body"
+    "line": 621,
+    "description": "reconstructed function"
   },
   {
     "id": 27,
-    "line": 68,
-    "description": "recovered function body"
+    "line": 59,
+    "description": "execute_panorama"
   },
   {
     "id": 28,
-    "line": 73,
-    "description": "recovered function body"
+    "line": 63,
+    "description": "open_panorama"
   },
   {
     "id": 29,
-    "line": 22027,
-    "description": "recovered function body"
+    "line": 13281,
+    "description": "reconstructed function"
   },
   {
     "id": 30,
-    "line": 22045,
-    "description": "recovered function body"
+    "line": 13287,
+    "description": "reconstructed function"
   },
   {
     "id": 31,
-    "line": 22070,
-    "description": "recovered function body"
+    "line": 13302,
+    "description": "reconstructed function"
   },
   {
     "id": 32,
-    "line": 22107,
-    "description": "recovered function body"
+    "line": 13308,
+    "description": "reconstructed function"
   },
   {
     "id": 33,
-    "line": 22130,
-    "description": "recovered function body"
+    "line": 13348,
+    "description": "reconstructed function"
   },
   {
     "id": 34,
-    "line": 22076,
-    "description": "loader data reset console handler"
+    "line": 13326,
+    "description": "reset_loader_data"
   },
   {
     "id": 35,
-    "line": 22086,
-    "description": "loader paint callback"
+    "line": 13332,
+    "description": "paint_loader"
   },
   {
     "id": 36,
-    "line": 1685,
-    "description": "recovered function body"
+    "line": 797,
+    "description": "reconstructed function"
   },
   {
     "id": 37,
-    "line": 1447,
-    "description": "recovered function body"
+    "line": 676,
+    "description": "reconstructed function"
   },
   {
     "id": 38,
-    "line": 1517,
-    "description": "recovered function body"
+    "line": 709,
+    "description": "reconstructed function"
   },
   {
     "id": 39,
-    "line": 81,
-    "description": "variadic console output wrapper"
+    "line": 69,
+    "description": "print_values"
   },
   {
     "id": 40,
-    "line": 1557,
-    "description": "recovered function body"
+    "line": 735,
+    "description": "reconstructed function"
   },
   {
     "id": 41,
-    "line": 1111,
-    "description": "recovered function body"
+    "line": 557,
+    "description": "reconstructed function"
   },
   {
     "id": 42,
-    "line": 21757,
-    "description": "recovered function body"
+    "line": 13138,
+    "description": "reconstructed function"
   },
   {
     "id": 43,
-    "line": 1464,
-    "description": "recovered function body"
+    "line": 683,
+    "description": "reconstructed function"
   },
   {
     "id": 44,
-    "line": 1287,
-    "description": "recovered function body"
+    "line": 636,
+    "description": "reconstructed function"
   },
   {
     "id": 45,
-    "line": 397,
-    "description": "add notification"
+    "line": 130,
+    "description": "add_notification"
   },
   {
     "id": 46,
-    "line": 459,
-    "description": "recovered function body"
+    "line": 182,
+    "description": "reconstructed function"
   },
   {
     "id": 47,
-    "line": 1149,
-    "description": "recovered function body"
+    "line": 576,
+    "description": "reconstructed function"
   },
   {
     "id": 48,
-    "line": 1280,
-    "description": "recovered function body"
+    "line": 632,
+    "description": "reconstructed function"
   },
   {
     "id": 49,
-    "line": 468,
-    "description": "recovered function body"
+    "line": 185,
+    "description": "make_encoder"
   },
   {
     "id": 50,
-    "line": 21878,
-    "description": "recovered function body"
+    "line": 13206,
+    "description": "reconstructed function"
   },
   {
     "id": 51,
-    "line": 21941,
-    "description": "recovered function body"
+    "line": 13228,
+    "description": "reconstructed function"
   },
   {
     "id": 52,
-    "line": 410,
-    "description": "draw notifications"
+    "line": 137,
+    "description": "paint_notifications"
   },
   {
     "id": 53,
-    "line": 1310,
-    "description": "recovered function body"
+    "line": 651,
+    "description": "bytes_to_string"
   },
   {
     "id": 54,
-    "line": 1643,
-    "description": "recovered function body"
+    "line": 777,
+    "description": "reconstructed function"
   },
   {
     "id": 55,
-    "line": 1535,
-    "description": "recovered function body"
+    "line": 720,
+    "description": "reconstructed function"
   },
   {
     "id": 56,
-    "line": 1805,
-    "description": "recovered function body"
+    "line": 843,
+    "description": "reconstructed function"
   },
   {
     "id": 57,
-    "line": 1267,
-    "description": "recovered function body"
+    "line": 628,
+    "description": "reconstructed function"
   },
   {
     "id": 58,
-    "line": 1183,
-    "description": "recovered function body"
+    "line": 597,
+    "description": "reconstructed function"
   },
   {
     "id": 59,
-    "line": 1176,
-    "description": "recovered function body"
+    "line": 594,
+    "description": "reconstructed function"
   },
   {
     "id": 60,
-    "line": 1873,
-    "description": "recovered function body"
+    "line": 868,
+    "description": "reconstructed function"
   },
   {
     "id": 61,
-    "line": 1232,
-    "description": "recovered function body"
+    "line": 616,
+    "description": "reconstructed function"
   },
   {
     "id": 62,
-    "line": 1914,
-    "description": "recovered function body"
+    "line": 891,
+    "description": "reconstructed function"
   },
   {
     "id": 63,
-    "line": 1163,
-    "description": "recovered function body"
+    "line": 586,
+    "description": "reconstructed function"
   },
   {
     "id": 64,
-    "line": 2192,
-    "description": "module imports and initialization"
+    "line": 1076,
+    "description": "reconstructed function"
   },
   {
     "id": 65,
-    "line": 2221,
-    "description": "recovered function body"
+    "line": 1086,
+    "description": "reconstructed function"
   },
   {
     "id": 66,
-    "line": 2361,
-    "description": "recovered function body"
+    "line": 1192,
+    "description": "reconstructed function"
   },
   {
     "id": 67,
-    "line": 2367,
-    "description": "recovered function body"
+    "line": 1195,
+    "description": "reconstructed function"
   },
   {
     "id": 68,
-    "line": 13436,
-    "description": "recovered function body"
+    "line": 8259,
+    "description": "reconstructed function"
   },
   {
     "id": 69,
-    "line": 14558,
-    "description": "recovered function body"
+    "line": 8943,
+    "description": "reconstructed function"
   },
   {
     "id": 70,
-    "line": 15387,
-    "description": "recovered function body"
+    "line": 9502,
+    "description": "reconstructed function"
   },
   {
     "id": 71,
-    "line": 15322,
-    "description": "recovered function body"
+    "line": 9454,
+    "description": "reconstructed function"
   },
   {
     "id": 72,
-    "line": 14987,
-    "description": "recovered function body"
+    "line": 9273,
+    "description": "reconstructed function"
   },
   {
     "id": 73,
-    "line": 14941,
-    "description": "recovered function body"
+    "line": 9235,
+    "description": "reconstructed function"
   },
   {
     "id": 74,
-    "line": 14999,
-    "description": "recovered function body"
+    "line": 9281,
+    "description": "reconstructed function"
   },
   {
     "id": 75,
-    "line": 15069,
-    "description": "recovered function body"
+    "line": 9328,
+    "description": "reconstructed function"
   },
   {
     "id": 76,
-    "line": 15123,
-    "description": "recovered function body"
+    "line": 9359,
+    "description": "reconstructed function"
   },
   {
     "id": 77,
-    "line": 15086,
-    "description": "recovered function body"
+    "line": 9338,
+    "description": "reconstructed function"
   },
   {
     "id": 78,
-    "line": 14837,
-    "description": "recovered function body"
+    "line": 9160,
+    "description": "reconstructed function"
   },
   {
     "id": 79,
-    "line": 14823,
-    "description": "recovered function body"
+    "line": 9150,
+    "description": "reconstructed function"
   },
   {
     "id": 80,
-    "line": 14763,
-    "description": "recovered function body"
+    "line": 9099,
+    "description": "reconstructed function"
   },
   {
     "id": 81,
-    "line": 15238,
-    "description": "recovered function body"
+    "line": 9429,
+    "description": "reconstructed function"
   },
   {
     "id": 82,
-    "line": 15194,
-    "description": "recovered function body"
+    "line": 9396,
+    "description": "reconstructed function"
   },
   {
     "id": 83,
-    "line": 15448,
-    "description": "recovered function body"
+    "line": 9527,
+    "description": "reconstructed function"
   },
   {
     "id": 84,
-    "line": 15807,
-    "description": "recovered function body"
+    "line": 9749,
+    "description": "reconstructed function"
   },
   {
     "id": 85,
-    "line": 15885,
-    "description": "recovered function body"
+    "line": 9811,
+    "description": "reconstructed function"
   },
   {
     "id": 86,
-    "line": 15457,
-    "description": "recovered function body"
+    "line": 9532,
+    "description": "reconstructed function"
   },
   {
     "id": 87,
-    "line": 15049,
-    "description": "recovered function body"
+    "line": 9318,
+    "description": "reconstructed function"
   },
   {
     "id": 88,
-    "line": 15546,
-    "description": "recovered function body"
+    "line": 9582,
+    "description": "reconstructed function"
   },
   {
     "id": 89,
-    "line": 15673,
-    "description": "recovered function body"
+    "line": 9663,
+    "description": "reconstructed function"
   },
   {
     "id": 90,
-    "line": 14598,
-    "description": "recovered function body"
+    "line": 8971,
+    "description": "reconstructed function"
   },
   {
     "id": 91,
-    "line": 15039,
-    "description": "recovered function body"
+    "line": 9311,
+    "description": "reconstructed function"
   },
   {
     "id": 92,
-    "line": 14611,
-    "description": "recovered function body"
+    "line": 8982,
+    "description": "reconstructed function"
   },
   {
     "id": 93,
-    "line": 15494,
-    "description": "recovered function body"
+    "line": 9558,
+    "description": "reconstructed function"
   },
   {
     "id": 94,
-    "line": 15608,
-    "description": "recovered function body"
+    "line": 9629,
+    "description": "reconstructed function"
   },
   {
     "id": 95,
-    "line": 14703,
-    "description": "recovered function body"
+    "line": 9060,
+    "description": "reconstructed function"
   },
   {
     "id": 96,
-    "line": 15334,
-    "description": "recovered function body"
+    "line": 9460,
+    "description": "reconstructed function"
   },
   {
     "id": 97,
-    "line": 15106,
-    "description": "recovered function body"
+    "line": 9348,
+    "description": "reconstructed function"
   },
   {
     "id": 98,
-    "line": 15728,
-    "description": "recovered function body"
+    "line": 9708,
+    "description": "reconstructed function"
   },
   {
     "id": 99,
-    "line": 13497,
-    "description": "recovered function body"
+    "line": 8294,
+    "description": "reconstructed function"
   },
   {
     "id": 100,
-    "line": 13503,
-    "description": "recovered function body"
+    "line": 8298,
+    "description": "reconstructed function"
   },
   {
     "id": 101,
-    "line": 13512,
-    "description": "recovered function body"
+    "line": 8301,
+    "description": "reconstructed function"
   },
   {
     "id": 102,
-    "line": 13890,
-    "description": "recovered function body"
+    "line": 8416,
+    "description": "reconstructed function"
   },
   {
     "id": 103,
-    "line": 13479,
-    "description": "recovered function body"
+    "line": 8286,
+    "description": "reconstructed function"
   },
   {
     "id": 104,
-    "line": 14426,
-    "description": "recovered function body"
+    "line": 8871,
+    "description": "reconstructed function"
   },
   {
     "id": 105,
-    "line": 14312,
-    "description": "recovered function body"
+    "line": 8790,
+    "description": "reconstructed function"
   },
   {
     "id": 106,
-    "line": 14329,
-    "description": "recovered function body"
+    "line": 8802,
+    "description": "reconstructed function"
   },
   {
     "id": 107,
-    "line": 14460,
-    "description": "recovered function body"
+    "line": 8889,
+    "description": "reconstructed function"
   },
   {
     "id": 108,
-    "line": 14475,
-    "description": "recovered function body"
+    "line": 8901,
+    "description": "reconstructed function"
   },
   {
     "id": 109,
-    "line": 14492,
-    "description": "recovered function body"
+    "line": 8914,
+    "description": "reconstructed function"
   },
   {
     "id": 110,
-    "line": 13463,
-    "description": "recovered function body"
+    "line": 8275,
+    "description": "reconstructed function"
   },
   {
     "id": 111,
-    "line": 13594,
-    "description": "recovered function body"
+    "line": 8318,
+    "description": "reconstructed function"
   },
   {
     "id": 112,
-    "line": 13653,
-    "description": "recovered function body"
+    "line": 8361,
+    "description": "reconstructed function"
   },
   {
     "id": 113,
-    "line": 13662,
-    "description": "recovered function body"
+    "line": 8364,
+    "description": "reconstructed function"
   },
   {
     "id": 114,
-    "line": 13667,
-    "description": "recovered function body"
+    "line": 8367,
+    "description": "reconstructed function"
   },
   {
     "id": 115,
-    "line": 13672,
-    "description": "recovered function body"
+    "line": 8370,
+    "description": "reconstructed function"
   },
   {
     "id": 116,
-    "line": 13692,
-    "description": "recovered function body"
+    "line": 8386,
+    "description": "reconstructed function"
   },
   {
     "id": 117,
-    "line": 13706,
-    "description": "recovered function body"
+    "line": 8396,
+    "description": "reconstructed function"
   },
   {
     "id": 118,
-    "line": 13614,
-    "description": "recovered function body"
+    "line": 8327,
+    "description": "reconstructed function"
   },
   {
     "id": 119,
-    "line": 14514,
-    "description": "recovered function body"
+    "line": 8927,
+    "description": "reconstructed function"
   },
   {
     "id": 120,
-    "line": 13806,
-    "description": "recovered function body"
+    "line": 8477,
+    "description": "reconstructed function"
   },
   {
     "id": 121,
-    "line": 13966,
-    "description": "recovered function body"
+    "line": 8543,
+    "description": "reconstructed function"
   },
   {
     "id": 122,
-    "line": 13488,
-    "description": "recovered function body"
+    "line": 8290,
+    "description": "reconstructed function"
   },
   {
     "id": 123,
-    "line": 13936,
-    "description": "recovered function body"
+    "line": 8523,
+    "description": "reconstructed function"
   },
   {
     "id": 124,
-    "line": 13743,
-    "description": "recovered function body"
+    "line": 8441,
+    "description": "reconstructed function"
   },
   {
     "id": 125,
-    "line": 18627,
-    "description": "recovered function body"
+    "line": 11426,
+    "description": "reconstructed function"
   },
   {
     "id": 126,
-    "line": 18630,
-    "description": "recovered function body"
+    "line": 11427,
+    "description": "reconstructed function"
   },
   {
     "id": 127,
-    "line": 18769,
-    "description": "recovered function body"
+    "line": 11523,
+    "description": "reconstructed function"
   },
   {
     "id": 128,
-    "line": 20042,
-    "description": "recovered function body"
+    "line": 12240,
+    "description": "reconstructed function"
   },
   {
     "id": 129,
-    "line": 20599,
-    "description": "recovered function body"
+    "line": 12598,
+    "description": "reconstructed function"
   },
   {
     "id": 130,
-    "line": 20075,
-    "description": "recovered function body"
+    "line": 12262,
+    "description": "reconstructed function"
   },
   {
     "id": 131,
-    "line": 18800,
-    "description": "recovered function body"
+    "line": 11550,
+    "description": "reconstructed function"
   },
   {
     "id": 132,
-    "line": 20084,
-    "description": "recovered function body"
+    "line": 12268,
+    "description": "reconstructed function"
   },
   {
     "id": 133,
-    "line": 20094,
-    "description": "recovered function body"
+    "line": 12274,
+    "description": "reconstructed function"
   },
   {
     "id": 134,
-    "line": 20017,
-    "description": "recovered function body"
+    "line": 12222,
+    "description": "reconstructed function"
   },
   {
     "id": 135,
-    "line": 20051,
-    "description": "recovered function body"
+    "line": 12246,
+    "description": "reconstructed function"
   },
   {
     "id": 136,
-    "line": 20832,
-    "description": "recovered function body"
+    "line": 12683,
+    "description": "reconstructed function"
   },
   {
     "id": 137,
-    "line": 19528,
-    "description": "recovered function body"
+    "line": 11952,
+    "description": "reconstructed function"
   },
   {
     "id": 138,
-    "line": 20550,
-    "description": "recovered function body"
+    "line": 12560,
+    "description": "reconstructed function"
   },
   {
     "id": 139,
-    "line": 20579,
-    "description": "recovered function body"
+    "line": 12584,
+    "description": "reconstructed function"
   },
   {
     "id": 140,
-    "line": 18952,
-    "description": "recovered function body"
+    "line": 11625,
+    "description": "reconstructed function"
   },
   {
     "id": 141,
-    "line": 20446,
-    "description": "recovered function body"
+    "line": 12497,
+    "description": "reconstructed function"
   },
   {
     "id": 142,
-    "line": 18880,
-    "description": "recovered function body"
+    "line": 11577,
+    "description": "reconstructed function"
   },
   {
     "id": 143,
-    "line": 18993,
-    "description": "recovered function body"
+    "line": 11647,
+    "description": "reconstructed function"
   },
   {
     "id": 144,
-    "line": 20665,
-    "description": "recovered function body"
+    "line": 12624,
+    "description": "reconstructed function"
   },
   {
     "id": 145,
-    "line": 19999,
-    "description": "recovered function body"
+    "line": 12210,
+    "description": "reconstructed function"
   },
   {
     "id": 146,
-    "line": 19089,
-    "description": "recovered function body"
+    "line": 11680,
+    "description": "reconstructed function"
   },
   {
     "id": 147,
-    "line": 20484,
-    "description": "recovered function body"
+    "line": 12521,
+    "description": "reconstructed function"
   },
   {
     "id": 148,
-    "line": 20026,
-    "description": "recovered function body"
+    "line": 12228,
+    "description": "reconstructed function"
   },
   {
     "id": 149,
-    "line": 20532,
-    "description": "recovered function body"
+    "line": 12549,
+    "description": "reconstructed function"
   },
   {
     "id": 150,
-    "line": 19656,
-    "description": "recovered function body"
+    "line": 12026,
+    "description": "reconstructed function"
   },
   {
     "id": 151,
-    "line": 20539,
-    "description": "recovered function body"
+    "line": 12553,
+    "description": "reconstructed function"
   },
   {
     "id": 152,
-    "line": 20034,
-    "description": "recovered function body"
+    "line": 12234,
+    "description": "reconstructed function"
   },
   {
     "id": 153,
-    "line": 20408,
-    "description": "recovered function body"
+    "line": 12472,
+    "description": "reconstructed function"
   },
   {
     "id": 154,
-    "line": 21505,
-    "description": "recovered function body"
+    "line": 13016,
+    "description": "reconstructed function"
   },
   {
     "id": 155,
-    "line": 19310,
-    "description": "recovered function body"
+    "line": 11814,
+    "description": "reconstructed function"
   },
   {
     "id": 156,
-    "line": 20701,
-    "description": "recovered function body"
+    "line": 12633,
+    "description": "reconstructed function"
   },
   {
     "id": 157,
-    "line": 20722,
-    "description": "recovered function body"
+    "line": 12643,
+    "description": "reconstructed function"
   },
   {
     "id": 158,
-    "line": 19289,
-    "description": "recovered function body"
+    "line": 11803,
+    "description": "reconstructed function"
   },
   {
     "id": 159,
-    "line": 20008,
-    "description": "recovered function body"
+    "line": 12216,
+    "description": "reconstructed function"
   },
   {
     "id": 160,
-    "line": 18712,
-    "description": "recovered function body"
+    "line": 11477,
+    "description": "reconstructed function"
   },
   {
     "id": 161,
-    "line": 19886,
-    "description": "recovered function body"
+    "line": 12173,
+    "description": "reconstructed function"
   },
   {
     "id": 162,
-    "line": 20904,
-    "description": "recovered function body"
+    "line": 12708,
+    "description": "reconstructed function"
   },
   {
     "id": 163,
-    "line": 19136,
-    "description": "recovered function body"
+    "line": 11713,
+    "description": "reconstructed function"
   },
   {
     "id": 164,
-    "line": 21628,
-    "description": "recovered function body"
+    "line": 13091,
+    "description": "reconstructed function"
   },
   {
     "id": 165,
-    "line": 21339,
-    "description": "recovered function body"
+    "line": 12909,
+    "description": "reconstructed function"
   },
   {
     "id": 166,
-    "line": 21394,
-    "description": "recovered function body"
+    "line": 12954,
+    "description": "reconstructed function"
   },
   {
     "id": 167,
-    "line": 20960,
-    "description": "recovered function body"
+    "line": 12742,
+    "description": "reconstructed function"
   },
   {
     "id": 168,
-    "line": 19897,
-    "description": "recovered function body"
+    "line": 12179,
+    "description": "reconstructed function"
   },
   {
     "id": 169,
-    "line": 21473,
-    "description": "recovered function body"
+    "line": 12993,
+    "description": "reconstructed function"
   },
   {
     "id": 170,
-    "line": 19169,
-    "description": "recovered function body"
+    "line": 11732,
+    "description": "reconstructed function"
   },
   {
     "id": 171,
-    "line": 20066,
-    "description": "recovered function body"
+    "line": 12256,
+    "description": "reconstructed function"
   },
   {
     "id": 172,
-    "line": 19733,
-    "description": "recovered function body"
+    "line": 12087,
+    "description": "reconstructed function"
   },
   {
     "id": 173,
-    "line": 20920,
-    "description": "recovered function body"
+    "line": 12719,
+    "description": "reconstructed function"
   },
   {
     "id": 174,
-    "line": 21178,
-    "description": "recovered function body"
+    "line": 12849,
+    "description": "reconstructed function"
   },
   {
     "id": 175,
-    "line": 20932,
-    "description": "recovered function body"
+    "line": 12723,
+    "description": "reconstructed function"
   },
   {
     "id": 176,
-    "line": 19373,
-    "description": "recovered function body"
+    "line": 11856,
+    "description": "reconstructed function"
   },
   {
     "id": 177,
-    "line": 19398,
-    "description": "recovered function body"
+    "line": 11870,
+    "description": "reconstructed function"
   },
   {
     "id": 178,
-    "line": 19097,
-    "description": "recovered function body"
+    "line": 11684,
+    "description": "reconstructed function"
   },
   {
     "id": 179,
-    "line": 20471,
-    "description": "recovered function body"
+    "line": 12514,
+    "description": "reconstructed function"
   },
   {
     "id": 180,
-    "line": 18686,
-    "description": "recovered function body"
+    "line": 11462,
+    "description": "reconstructed function"
   },
   {
     "id": 181,
-    "line": 3250,
-    "description": "recovered function body"
+    "line": 1552,
+    "description": "reconstructed function"
   },
   {
     "id": 182,
-    "line": 3253,
-    "description": "recovered function body"
+    "line": 1554,
+    "description": "reconstructed function"
   },
   {
     "id": 183,
-    "line": 3260,
-    "description": "recovered function body"
+    "line": 1557,
+    "description": "reconstructed function"
   },
   {
     "id": 184,
-    "line": 3391,
-    "description": "recovered function body"
+    "line": 1617,
+    "description": "reconstructed function"
   },
   {
     "id": 185,
-    "line": 3299,
-    "description": "recovered function body"
+    "line": 1582,
+    "description": "reconstructed function"
   },
   {
     "id": 186,
-    "line": 3281,
-    "description": "recovered function body"
+    "line": 1569,
+    "description": "reconstructed function"
   },
   {
     "id": 187,
-    "line": 3541,
-    "description": "recovered function body"
+    "line": 1699,
+    "description": "reconstructed function"
   },
   {
     "id": 188,
-    "line": 3744,
-    "description": "recovered function body"
+    "line": 1815,
+    "description": "reconstructed function"
   },
   {
     "id": 189,
-    "line": 3577,
-    "description": "recovered function body"
+    "line": 1705,
+    "description": "reconstructed function"
   },
   {
     "id": 190,
-    "line": 3608,
-    "description": "recovered function body"
+    "line": 1720,
+    "description": "reconstructed function"
   },
   {
     "id": 191,
-    "line": 3624,
-    "description": "recovered function body"
+    "line": 1732,
+    "description": "reconstructed function"
   },
   {
     "id": 192,
-    "line": 3547,
-    "description": "recovered function body"
+    "line": 1802,
+    "description": "point_in_rectangle"
   },
   {
     "id": 193,
-    "line": 3778,
-    "description": "recovered function body"
+    "line": 1835,
+    "description": "ease_in_out_cubic"
   },
   {
     "id": 194,
-    "line": 3796,
-    "description": "recovered function body"
+    "line": 1847,
+    "description": "reconstructed function"
   },
   {
     "id": 195,
-    "line": 4448,
-    "description": "recovered function body"
+    "line": 2147,
+    "description": "reconstructed function"
   },
   {
     "id": 196,
-    "line": 10768,
-    "description": "recovered function body"
+    "line": 6404,
+    "description": "reconstructed function"
   },
   {
     "id": 197,
-    "line": 10771,
-    "description": "recovered function body"
+    "line": 6405,
+    "description": "reconstructed function"
   },
   {
     "id": 198,
-    "line": 11617,
-    "description": "recovered function body"
+    "line": 6951,
+    "description": "reconstructed function"
   },
   {
     "id": 199,
-    "line": 11634,
-    "description": "recovered function body"
+    "line": 6964,
+    "description": "reconstructed function"
   },
   {
     "id": 200,
-    "line": 11649,
-    "description": "recovered function body"
+    "line": 6973,
+    "description": "reconstructed function"
   },
   {
     "id": 201,
-    "line": 11675,
-    "description": "recovered function body"
+    "line": 6990,
+    "description": "reconstructed function"
   },
   {
     "id": 202,
-    "line": 10870,
-    "description": "recovered function body"
+    "line": 6463,
+    "description": "reconstructed function"
   },
   {
     "id": 203,
-    "line": 11456,
-    "description": "recovered function body"
+    "line": 6867,
+    "description": "reconstructed function"
   },
   {
     "id": 204,
-    "line": 12051,
-    "description": "recovered function body"
+    "line": 7196,
+    "description": "reconstructed function"
   },
   {
     "id": 205,
-    "line": 13288,
-    "description": "recovered function body"
+    "line": 8168,
+    "description": "reconstructed function"
   },
   {
     "id": 206,
-    "line": 13323,
-    "description": "recovered function body"
+    "line": 8197,
+    "description": "reconstructed function"
   },
   {
     "id": 207,
-    "line": 11839,
-    "description": "recovered function body"
+    "line": 7081,
+    "description": "reconstructed function"
   },
   {
     "id": 208,
-    "line": 11092,
-    "description": "recovered function body"
+    "line": 6633,
+    "description": "reconstructed function"
   },
   {
     "id": 209,
-    "line": 10903,
-    "description": "recovered function body"
+    "line": 6484,
+    "description": "reconstructed function"
   },
   {
     "id": 210,
-    "line": 11828,
-    "description": "recovered function body"
+    "line": 7073,
+    "description": "reconstructed function"
   },
   {
     "id": 211,
-    "line": 12056,
-    "description": "recovered function body"
+    "line": 7200,
+    "description": "reconstructed function"
   },
   {
     "id": 212,
-    "line": 12066,
-    "description": "recovered function body"
+    "line": 7203,
+    "description": "reconstructed function"
   },
   {
     "id": 213,
-    "line": 10921,
-    "description": "recovered function body"
+    "line": 6501,
+    "description": "reconstructed function"
   },
   {
     "id": 214,
-    "line": 12084,
-    "description": "recovered function body"
+    "line": 7214,
+    "description": "reconstructed function"
   },
   {
     "id": 215,
-    "line": 13374,
-    "description": "recovered function body"
+    "line": 8210,
+    "description": "reconstructed function"
   },
   {
     "id": 216,
-    "line": 12105,
-    "description": "recovered function body"
+    "line": 7226,
+    "description": "reconstructed function"
   },
   {
     "id": 217,
-    "line": 12126,
-    "description": "recovered function body"
+    "line": 7238,
+    "description": "reconstructed function"
   },
   {
     "id": 218,
-    "line": 11118,
-    "description": "recovered function body"
+    "line": 6657,
+    "description": "reconstructed function"
   },
   {
     "id": 219,
-    "line": 10892,
-    "description": "recovered function body"
+    "line": 6477,
+    "description": "reconstructed function"
   },
   {
     "id": 220,
-    "line": 11276,
-    "description": "recovered function body"
+    "line": 6765,
+    "description": "reconstructed function"
   },
   {
     "id": 221,
-    "line": 12024,
-    "description": "recovered function body"
+    "line": 7177,
+    "description": "reconstructed function"
   },
   {
     "id": 222,
-    "line": 10934,
-    "description": "recovered function body"
+    "line": 6511,
+    "description": "reconstructed function"
   },
   {
     "id": 223,
-    "line": 10881,
-    "description": "recovered function body"
+    "line": 6470,
+    "description": "reconstructed function"
   },
   {
     "id": 224,
-    "line": 11286,
-    "description": "recovered function body"
+    "line": 6769,
+    "description": "reconstructed function"
   },
   {
     "id": 225,
-    "line": 12003,
-    "description": "recovered function body"
+    "line": 7168,
+    "description": "reconstructed function"
   },
   {
     "id": 226,
-    "line": 11546,
-    "description": "recovered function body"
+    "line": 6910,
+    "description": "reconstructed function"
   },
   {
     "id": 227,
-    "line": 12216,
-    "description": "recovered function body"
+    "line": 7311,
+    "description": "reconstructed function"
   },
   {
     "id": 228,
-    "line": 11102,
-    "description": "recovered function body"
+    "line": 6643,
+    "description": "reconstructed function"
   },
   {
     "id": 229,
-    "line": 13277,
-    "description": "recovered function body"
+    "line": 8163,
+    "description": "reconstructed function"
   },
   {
     "id": 230,
-    "line": 11744,
-    "description": "recovered function body"
+    "line": 7023,
+    "description": "reconstructed function"
   },
   {
     "id": 231,
-    "line": 11300,
-    "description": "recovered function body"
+    "line": 6779,
+    "description": "reconstructed function"
   },
   {
     "id": 232,
-    "line": 11536,
-    "description": "recovered function body"
+    "line": 6903,
+    "description": "reconstructed function"
   },
   {
     "id": 233,
-    "line": 10944,
-    "description": "recovered function body"
+    "line": 6516,
+    "description": "reconstructed function"
   },
   {
     "id": 234,
-    "line": 11045,
-    "description": "recovered function body"
+    "line": 6602,
+    "description": "reconstructed function"
   },
   {
     "id": 235,
-    "line": 11432,
-    "description": "recovered function body"
+    "line": 6854,
+    "description": "reconstructed function"
   },
   {
     "id": 236,
-    "line": 11249,
-    "description": "recovered function body"
+    "line": 6746,
+    "description": "reconstructed function"
   },
   {
     "id": 237,
-    "line": 11442,
-    "description": "recovered function body"
+    "line": 6858,
+    "description": "reconstructed function"
   },
   {
     "id": 238,
-    "line": 3768,
-    "description": "recovered function body"
+    "line": 1828,
+    "description": "lerp"
   },
   {
     "id": 239,
-    "line": 18507,
-    "description": "recovered function body"
+    "line": 11378,
+    "description": "reconstructed function"
   },
   {
     "id": 240,
-    "line": 18564,
-    "description": "recovered function body"
+    "line": 11412,
+    "description": "reconstructed function"
   },
   {
     "id": 241,
-    "line": 4766,
-    "description": "recovered function body"
+    "line": 2340,
+    "description": "reconstructed function"
   },
   {
     "id": 242,
-    "line": 4787,
-    "description": "create application UI, including Experimental Predict"
+    "line": 2354,
+    "description": "reconstructed function"
   },
   {
     "id": 243,
-    "line": 8908,
-    "description": "recovered function body"
+    "line": 5179,
+    "description": "reconstructed function"
   },
   {
     "id": 244,
-    "line": 4841,
-    "description": "recovered function body"
+    "line": 2374,
+    "description": "reconstructed function"
   },
   {
     "id": 245,
-    "line": 4869,
-    "description": "recovered function body"
+    "line": 2393,
+    "description": "reconstructed function"
   },
   {
     "id": 246,
-    "line": 8525,
-    "description": "recovered function body"
+    "line": 4906,
+    "description": "reconstructed function"
   },
   {
     "id": 247,
-    "line": 6233,
-    "description": "recovered function body"
+    "line": 3114,
+    "description": "reconstructed function"
   },
   {
     "id": 248,
-    "line": 9646,
-    "description": "recovered function body"
+    "line": 5696,
+    "description": "reconstructed function"
   },
   {
     "id": 249,
-    "line": 5018,
-    "description": "recovered function body"
+    "line": 2471,
+    "description": "reconstructed function"
   },
   {
     "id": 250,
-    "line": 4962,
-    "description": "recovered function body"
+    "line": 2435,
+    "description": "reconstructed function"
   },
   {
     "id": 251,
-    "line": 4981,
-    "description": "recovered function body"
+    "line": 2443,
+    "description": "reconstructed function"
   },
   {
     "id": 252,
-    "line": 6577,
-    "description": "recovered function body"
+    "line": 3325,
+    "description": "reconstructed function"
   },
   {
     "id": 253,
-    "line": 5094,
-    "description": "recovered function body"
+    "line": 2520,
+    "description": "reconstructed function"
   },
   {
     "id": 254,
-    "line": 10435,
-    "description": "recovered function body"
+    "line": 6256,
+    "description": "reconstructed function"
   },
   {
     "id": 255,
-    "line": 5206,
-    "description": "recovered function body"
+    "line": 2588,
+    "description": "reconstructed function"
   },
   {
     "id": 256,
-    "line": 8814,
-    "description": "recovered function body"
+    "line": 5108,
+    "description": "reconstructed function"
   },
   {
     "id": 257,
-    "line": 10516,
-    "description": "recovered function body"
+    "line": 6290,
+    "description": "reconstructed function"
   },
   {
     "id": 258,
-    "line": 5934,
-    "description": "recovered function body"
+    "line": 2956,
+    "description": "reconstructed function"
   },
   {
     "id": 259,
-    "line": 8696,
-    "description": "recovered function body"
+    "line": 5016,
+    "description": "reconstructed function"
   },
   {
     "id": 260,
-    "line": 6479,
-    "description": "recovered function body"
+    "line": 3257,
+    "description": "reconstructed function"
   },
   {
     "id": 261,
-    "line": 9559,
-    "description": "recovered function body"
+    "line": 5635,
+    "description": "reconstructed function"
   },
   {
     "id": 262,
-    "line": 8876,
-    "description": "recovered function body"
+    "line": 5155,
+    "description": "reconstructed function"
   },
   {
     "id": 263,
-    "line": 5513,
-    "description": "recovered function body"
+    "line": 2738,
+    "description": "reconstructed function"
   },
   {
     "id": 264,
-    "line": 7499,
-    "description": "recovered function body"
+    "line": 3980,
+    "description": "reconstructed function"
   },
   {
     "id": 265,
-    "line": 8970,
-    "description": "recovered function body"
+    "line": 5204,
+    "description": "reconstructed function"
   },
   {
     "id": 266,
-    "line": 9478,
-    "description": "recovered function body"
+    "line": 5584,
+    "description": "reconstructed function"
   },
   {
     "id": 267,
-    "line": 9919,
-    "description": "recovered function body"
+    "line": 5869,
+    "description": "reconstructed function"
   },
   {
     "id": 268,
-    "line": 8219,
-    "description": "recovered function body"
+    "line": 4621,
+    "description": "reconstructed function"
   },
   {
     "id": 269,
-    "line": 10542,
-    "description": "recovered function body"
+    "line": 6306,
+    "description": "reconstructed function"
   },
   {
     "id": 270,
-    "line": 8771,
-    "description": "recovered function body"
+    "line": 5075,
+    "description": "reconstructed function"
   },
   {
     "id": 271,
-    "line": 8502,
-    "description": "split string using the original iterator behavior"
+    "line": 4891,
+    "description": "reconstructed function"
   },
   {
     "id": 272,
-    "line": 6518,
-    "description": "recovered function body"
+    "line": 3282,
+    "description": "reconstructed function"
   },
   {
     "id": 273,
-    "line": 6670,
-    "description": "recovered function body"
+    "line": 3378,
+    "description": "reconstructed function"
   },
   {
     "id": 274,
-    "line": 5223,
-    "description": "recovered function body"
+    "line": 2597,
+    "description": "reconstructed function"
   },
   {
     "id": 275,
-    "line": 5241,
-    "description": "recovered function body"
+    "line": 2607,
+    "description": "reconstructed function"
   },
   {
     "id": 276,
-    "line": 5249,
-    "description": "recovered function body"
+    "line": 2613,
+    "description": "reconstructed function"
   },
   {
     "id": 277,
-    "line": 9726,
-    "description": "recovered function body"
+    "line": 5757,
+    "description": "reconstructed function"
   },
   {
     "id": 278,
-    "line": 8802,
-    "description": "recovered function body"
+    "line": 5098,
+    "description": "reconstructed function"
   },
   {
     "id": 279,
-    "line": 5322,
-    "description": "recovered function body"
+    "line": 2651,
+    "description": "reconstructed function"
   },
   {
     "id": 280,
-    "line": 8792,
-    "description": "recovered function body"
+    "line": 5090,
+    "description": "reconstructed function"
   },
   {
     "id": 281,
-    "line": 8747,
-    "description": "recovered function body"
+    "line": 5056,
+    "description": "reconstructed function"
   },
   {
     "id": 282,
-    "line": 10580,
-    "description": "recovered function body"
+    "line": 6323,
+    "description": "reconstructed function"
   },
   {
     "id": 283,
-    "line": 10157,
-    "description": "recovered function body"
+    "line": 6023,
+    "description": "reconstructed function"
   },
   {
     "id": 284,
-    "line": 5646,
-    "description": "recovered function body"
+    "line": 2789,
+    "description": "reconstructed function"
   },
   {
     "id": 285,
-    "line": 10642,
-    "description": "recovered function body"
+    "line": 6351,
+    "description": "reconstructed function"
   },
   {
     "id": 286,
-    "line": 8721,
-    "description": "recovered function body"
+    "line": 5037,
+    "description": "reconstructed function"
   },
   {
     "id": 287,
-    "line": 9025,
-    "description": "recovered function body"
+    "line": 5227,
+    "description": "reconstructed function"
   },
   {
     "id": 288,
-    "line": 5402,
-    "description": "recovered function body"
+    "line": 2681,
+    "description": "reconstructed function"
   },
   {
     "id": 289,
-    "line": 5330,
-    "description": "recovered function body"
+    "line": 2655,
+    "description": "reconstructed function"
   },
   {
     "id": 290,
-    "line": 5416,
-    "description": "recovered function body"
+    "line": 2688,
+    "description": "reconstructed function"
   },
   {
     "id": 291,
-    "line": 5141,
-    "description": "recovered function body"
+    "line": 2553,
+    "description": "reconstructed function"
   },
   {
     "id": 292,
-    "line": 6619,
-    "description": "recovered function body"
+    "line": 3358,
+    "description": "reconstructed function"
   },
   {
     "id": 293,
-    "line": 6645,
-    "description": "Experimental Predict visibility callback"
+    "line": 3369,
+    "description": "update_predict_visibility"
   },
   {
     "id": 294,
-    "line": 9861,
-    "description": "recovered function body"
+    "line": 5838,
+    "description": "reconstructed function"
   },
   {
     "id": 295,
-    "line": 9801,
-    "description": "recovered function body"
+    "line": 5808,
+    "description": "reconstructed function"
   },
   {
     "id": 296,
-    "line": 5163,
-    "description": "recovered function body"
+    "line": 2565,
+    "description": "reconstructed function"
   },
   {
     "id": 297,
-    "line": 5387,
-    "description": "recovered function body"
+    "line": 2676,
+    "description": "reconstructed function"
   },
   {
     "id": 298,
-    "line": 3774,
-    "description": "recovered function body"
+    "line": 1831,
+    "description": "ease_linear"
   },
   {
     "id": 299,
-    "line": 2678,
-    "description": "recovered function body"
+    "line": 1282,
+    "description": "reconstructed function"
   },
   {
     "id": 300,
-    "line": 3052,
-    "description": "recovered function body"
+    "line": 1449,
+    "description": "reconstructed function"
   },
   {
     "id": 301,
-    "line": 3078,
-    "description": "recovered function body"
+    "line": 1457,
+    "description": "reconstructed function"
   },
   {
     "id": 302,
-    "line": 2694,
-    "description": "recovered function body"
+    "line": 1294,
+    "description": "reconstructed function"
   },
   {
     "id": 303,
-    "line": 2704,
-    "description": "recovered function body"
+    "line": 1297,
+    "description": "reconstructed function"
   },
   {
     "id": 304,
-    "line": 2714,
-    "description": "recovered function body"
+    "line": 1300,
+    "description": "reconstructed function"
   },
   {
     "id": 305,
-    "line": 2724,
-    "description": "recovered function body"
+    "line": 1303,
+    "description": "reconstructed function"
   },
   {
     "id": 306,
-    "line": 3152,
-    "description": "recovered function body"
+    "line": 1483,
+    "description": "reconstructed function"
   },
   {
     "id": 307,
-    "line": 2786,
-    "description": "recovered function body"
+    "line": 1341,
+    "description": "reconstructed function"
   },
   {
     "id": 308,
-    "line": 2911,
-    "description": "recovered function body"
+    "line": 1406,
+    "description": "reconstructed function"
   },
   {
     "id": 309,
-    "line": 2937,
-    "description": "recovered function body"
+    "line": 1414,
+    "description": "reconstructed function"
   },
   {
     "id": 310,
-    "line": 3190,
-    "description": "recovered function body"
+    "line": 1513,
+    "description": "reconstructed function"
   },
   {
     "id": 311,
-    "line": 3104,
-    "description": "recovered function body"
+    "line": 1465,
+    "description": "reconstructed function"
   },
   {
     "id": 312,
-    "line": 2743,
-    "description": "recovered function body"
+    "line": 1315,
+    "description": "reconstructed function"
   },
   {
     "id": 313,
-    "line": 2763,
-    "description": "recovered function body"
+    "line": 1328,
+    "description": "reconstructed function"
   },
   {
     "id": 314,
-    "line": 2748,
-    "description": "recovered function body"
+    "line": 1317,
+    "description": "reconstructed function"
   },
   {
     "id": 315,
-    "line": 2797,
-    "description": "recovered function body"
+    "line": 1345,
+    "description": "reconstructed function"
   },
   {
     "id": 316,
-    "line": 3129,
-    "description": "recovered function body"
+    "line": 1473,
+    "description": "reconstructed function"
   },
   {
     "id": 317,
-    "line": 2808,
-    "description": "recovered function body"
+    "line": 1349,
+    "description": "reconstructed function"
   },
   {
     "id": 318,
-    "line": 2987,
-    "description": "recovered function body"
+    "line": 1430,
+    "description": "reconstructed function"
   },
   {
     "id": 319,
-    "line": 3143,
-    "description": "recovered function body"
+    "line": 1480,
+    "description": "reconstructed function"
   },
   {
     "id": 320,
-    "line": 2857,
-    "description": "recovered function body"
+    "line": 1395,
+    "description": "reconstructed function"
   },
   {
     "id": 321,
-    "line": 2864,
-    "description": "recovered function body"
+    "line": 1391,
+    "description": "reconstructed function"
   },
   {
     "id": 322,
-    "line": 2885,
-    "description": "recovered function body"
+    "line": 1398,
+    "description": "reconstructed function"
   },
   {
     "id": 323,
-    "line": 2963,
-    "description": "recovered function body"
+    "line": 1422,
+    "description": "reconstructed function"
   },
   {
     "id": 324,
-    "line": 3000,
-    "description": "recovered function body"
+    "line": 1433,
+    "description": "reconstructed function"
   },
   {
     "id": 325,
-    "line": 3026,
-    "description": "recovered function body"
+    "line": 1441,
+    "description": "reconstructed function"
   },
   {
     "id": 326,
-    "line": 2397,
-    "description": "recovered function body"
+    "line": 1216,
+    "description": "reconstructed function"
   },
   {
     "id": 327,
-    "line": 3226,
-    "description": "recovered function body"
+    "line": 1532,
+    "description": "clamp"
   },
   {
     "id": 328,
-    "line": 3235,
-    "description": "recovered function body"
+    "line": 1541,
+    "description": "normalize_yaw"
   },
   {
     "id": 329,
-    "line": 15953,
-    "description": "recovered function body"
+    "line": 9844,
+    "description": "reconstructed function"
   },
   {
     "id": 330,
-    "line": 15956,
-    "description": "recovered function body"
+    "line": 9845,
+    "description": "reconstructed function"
   },
   {
     "id": 331,
-    "line": 16813,
-    "description": "recovered function body"
+    "line": 10400,
+    "description": "reconstructed function"
   },
   {
     "id": 332,
-    "line": 18116,
-    "description": "recovered function body"
+    "line": 11178,
+    "description": "reconstructed function"
   },
   {
     "id": 333,
-    "line": 16183,
-    "description": "recovered function body"
+    "line": 10010,
+    "description": "reconstructed function"
   },
   {
     "id": 334,
-    "line": 17032,
-    "description": "recovered function body"
+    "line": 10583,
+    "description": "reconstructed function"
   },
   {
     "id": 335,
-    "line": 17737,
-    "description": "recovered function body"
+    "line": 10999,
+    "description": "reconstructed function"
   },
   {
     "id": 336,
-    "line": 17125,
-    "description": "recovered function body"
+    "line": 10642,
+    "description": "reconstructed function"
   },
   {
     "id": 337,
-    "line": 17764,
-    "description": "recovered function body"
+    "line": 11021,
+    "description": "reconstructed function"
   },
   {
     "id": 338,
-    "line": 17198,
-    "description": "recovered function body"
+    "line": 10668,
+    "description": "reconstructed function"
   },
   {
     "id": 339,
-    "line": 18170,
-    "description": "recovered function body"
+    "line": 11216,
+    "description": "reconstructed function"
   },
   {
     "id": 340,
-    "line": 16028,
-    "description": "recovered function body"
+    "line": 9892,
+    "description": "reconstructed function"
   },
   {
     "id": 341,
-    "line": 17407,
-    "description": "recovered function body"
+    "line": 10805,
+    "description": "reconstructed function"
   },
   {
     "id": 342,
-    "line": 18139,
-    "description": "recovered function body"
+    "line": 11195,
+    "description": "reconstructed function"
   },
   {
     "id": 343,
-    "line": 17778,
-    "description": "recovered function body"
+    "line": 11029,
+    "description": "reconstructed function"
   },
   {
     "id": 344,
-    "line": 16038,
-    "description": "recovered function body"
+    "line": 9902,
+    "description": "reconstructed function"
   },
   {
     "id": 345,
-    "line": 17796,
-    "description": "recovered function body"
+    "line": 11041,
+    "description": "reconstructed function"
   },
   {
     "id": 346,
-    "line": 17863,
-    "description": "recovered function body"
+    "line": 11087,
+    "description": "reconstructed function"
   },
   {
     "id": 347,
-    "line": 18202,
-    "description": "recovered function body"
+    "line": 11225,
+    "description": "reconstructed function"
   },
   {
     "id": 348,
-    "line": 17923,
-    "description": "recovered function body"
+    "line": 11121,
+    "description": "reconstructed function"
   },
   {
     "id": 349,
-    "line": 17608,
-    "description": "recovered function body"
+    "line": 10930,
+    "description": "reconstructed function"
   },
   {
     "id": 350,
-    "line": 17629,
-    "description": "recovered function body"
+    "line": 10945,
+    "description": "reconstructed function"
   },
   {
     "id": 351,
-    "line": 17659,
-    "description": "recovered function body"
+    "line": 10965,
+    "description": "reconstructed function"
   },
   {
     "id": 352,
-    "line": 17390,
-    "description": "recovered function body"
+    "line": 10794,
+    "description": "reconstructed function"
   },
   {
     "id": 353,
-    "line": 18164,
-    "description": "recovered function body"
+    "line": 11212,
+    "description": "reconstructed function"
   },
   {
     "id": 354,
-    "line": 17314,
-    "description": "recovered function body"
+    "line": 10750,
+    "description": "reconstructed function"
   },
   {
     "id": 355,
-    "line": 16156,
-    "description": "recovered function body"
+    "line": 9996,
+    "description": "reconstructed function"
   },
   {
     "id": 356,
-    "line": 17435,
-    "description": "recovered function body"
+    "line": 10824,
+    "description": "reconstructed function"
   },
   {
     "id": 357,
-    "line": 18312,
-    "description": "recovered function body"
+    "line": 11287,
+    "description": "reconstructed function"
   },
   {
     "id": 358,
-    "line": 18340,
-    "description": "recovered function body"
+    "line": 11312,
+    "description": "reconstructed function"
   },
   {
     "id": 359,
-    "line": 17139,
-    "description": "recovered function body"
+    "line": 10652,
+    "description": "reconstructed function"
   },
   {
     "id": 360,
-    "line": 16123,
-    "description": "recovered function body"
+    "line": 9970,
+    "description": "reconstructed function"
   },
   {
     "id": 361,
-    "line": 16832,
-    "description": "recovered function body"
+    "line": 10407,
+    "description": "reconstructed function"
   },
   {
     "id": 362,
-    "line": 16213,
-    "description": "recovered function body"
+    "line": 10030,
+    "description": "reconstructed function"
   },
   {
     "id": 363,
-    "line": 16716,
-    "description": "recovered function body"
+    "line": 10340,
+    "description": "reconstructed function"
   },
   {
     "id": 364,
-    "line": 15981,
-    "description": "recovered function body"
+    "line": 9877,
+    "description": "reconstructed function"
   },
   {
     "id": 365,
-    "line": 15989,
-    "description": "recovered function body"
+    "line": 9861,
+    "description": "reconstructed function"
   },
   {
     "id": 366,
-    "line": 16052,
-    "description": "recovered function body"
+    "line": 9916,
+    "description": "reconstructed function"
   },
   {
     "id": 367,
-    "line": 16788,
-    "description": "recovered function body"
+    "line": 10382,
+    "description": "reconstructed function"
   },
   {
     "id": 368,
-    "line": 17968,
-    "description": "recovered function body"
+    "line": 11144,
+    "description": "reconstructed function"
   },
   {
     "id": 369,
-    "line": 18009,
-    "description": "recovered function body"
+    "line": 11162,
+    "description": "reconstructed function"
   },
   {
     "id": 370,
-    "line": 17423,
-    "description": "recovered function body"
+    "line": 10818,
+    "description": "reconstructed function"
   },
   {
     "id": 371,
-    "line": 17167,
-    "description": "recovered function body"
+    "line": 10659,
+    "description": "reconstructed function"
   },
   {
     "id": 372,
-    "line": 16799,
-    "description": "recovered function body"
+    "line": 10389,
+    "description": "reconstructed function"
   },
   {
     "id": 373,
-    "line": 17111,
-    "description": "recovered function body"
+    "line": 10631,
+    "description": "reconstructed function"
   },
   {
     "id": 374,
-    "line": 17670,
-    "description": "recovered function body"
+    "line": 10972,
+    "description": "reconstructed function"
   },
   {
     "id": 375,
-    "line": 18402,
-    "description": "recovered function body"
+    "line": 11332,
+    "description": "reconstructed function"
   },
   {
     "id": 376,
-    "line": 4539,
-    "description": "recovered function body"
+    "line": 2214,
+    "description": "reconstructed function"
   },
   {
     "id": 377,
-    "line": 4548,
-    "description": "recovered function body"
+    "line": 2219,
+    "description": "reconstructed function"
   },
   {
     "id": 378,
-    "line": 4553,
-    "description": "restore cached player controls"
+    "line": 2220,
+    "description": "restore_player_controls"
   },
   {
     "id": 379,
-    "line": 4605,
-    "description": "reset player control caches"
+    "line": 2248,
+    "description": "reset_player_controls"
   },
   {
     "id": 380,
-    "line": 4639,
-    "description": "recovered function body"
+    "line": 2266,
+    "description": "reconstructed function"
   },
   {
     "id": 381,
-    "line": 4698,
-    "description": "recovered function body"
+    "line": 2296,
+    "description": "reconstructed function"
   },
   {
     "id": 382,
-    "line": 4650,
-    "description": "recovered function body"
+    "line": 2272,
+    "description": "reconstructed function"
   },
   {
     "id": 383,
-    "line": 4735,
-    "description": "recovered function body"
+    "line": 2319,
+    "description": "reconstructed function"
   },
   {
     "id": 384,
-    "line": 18470,
-    "description": "recovered function body"
+    "line": 11350,
+    "description": "reconstructed function"
   },
   {
     "id": 385,
-    "line": 1963,
-    "description": "recovered function body"
+    "line": 932,
+    "description": "reconstructed function"
   },
   {
     "id": 386,
-    "line": 1134,
-    "description": "recovered function body"
+    "line": 568,
+    "description": "reconstructed function"
   }
 ]

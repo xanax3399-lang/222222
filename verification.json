@@ -1,9 +1,9 @@
 {
-  "status": "complete_static_reconstruction_of_supplied_application",
+  "status": "refactored_reconstruction_of_supplied_application",
   "original_file": "output_outlaw_beta (1).lua",
   "original_sha256": "b02aee528f19bc85f6c02f61530372798e164465fa6f0bf94d1ca8e812400be2",
-  "recovered_file": "outlaw_deobfuscated.lua",
-  "recovered_sha256": "8da3eb20c068951f79937be1b6ed8fecbec156b0f76800c17c35071b3fc76b5c",
+  "recovered_file": "outlaw_source.lua",
+  "recovered_sha256": "492f15347bd1c954f83d627575a7d99a68b2794f5e0b5f0726250ac59a3be8ff",
   "original_application_functions": 386,
   "recovered_function_ids": [
     1,
@@ -422,11 +422,14 @@
     "closure_lifetime_and_table_hook_checks": 39,
     "additional_real_loop_variadic_and_iterator_checks": 9,
     "predict_extraction_and_related_regression_checks": 11,
-    "total_checks_passed": 132,
-    "syntax_lua51": "passed on final source and both standalone files",
-    "syntax_lua53": "passed on final source and both standalone files",
+    "total_checks_passed": 160,
+    "syntax_lua51": "passed on the final packaged source and both extracted UI files",
+    "syntax_lua53": "passed on the final packaged source and both extracted UI files",
     "whole_gamesense_execution": "not tested; gamesense/LuaJIT and external modules unavailable",
-    "full_behavioral_equivalence": "not proven by selected-function tests"
+    "full_behavioral_equivalence": "not proven by selected-function tests",
+    "alphabet_original_vm_comparisons": 28,
+    "function_string_constant_audits": 385,
+    "function_global_binding_audits": 385
   },
   "experimental_predict": {
     "creation_function": 242,
@@ -441,5 +444,38 @@
   "unrecoverable_original_metadata": [
     "author local variable names",
     "author comments"
-  ]
+  ],
+  "source_lines": 13362,
+  "readability_comparison": {
+    "previous": {
+      "assignments": 13159,
+      "reference_value_accesses": 9229,
+      "capture_factories": 602,
+      "gotos": 0
+    },
+    "current": {
+      "assignments": 7451,
+      "reference_value_accesses": 1286,
+      "capture_factories": 159,
+      "gotos": 0
+    }
+  },
+  "lexical_lifetime_recovery": {
+    "lift": {
+      "separate_cell_lifetimes": 773,
+      "unused_close_initial_copies_removed": 479,
+      "lexical_scope_regions": 239,
+      "largest_region_cell_declarations": 28
+    },
+    "scalar": {
+      "reference_cells_replaced_with_locals": 811,
+      "reference_aliases_replaced": 704,
+      "unnecessary_closure_factories_removed": 253
+    }
+  },
+  "immutable_capture_simplification": {
+    "immutable_capture_aliases_removed": 441,
+    "capture_factories_removed": 102
+  },
+  "embedded_source_files": 12
 }
