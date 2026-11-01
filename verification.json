@@ -3,7 +3,7 @@
   "original_file": "output_outlaw_beta (1).lua",
   "original_sha256": "b02aee528f19bc85f6c02f61530372798e164465fa6f0bf94d1ca8e812400be2",
   "recovered_file": "outlaw_source.lua",
-  "recovered_sha256": "ec375342233a53a8317ff379b11b2d99bdf27d856703d675cd475e701758eefd",
+  "recovered_sha256": "dcff698ea9eba931fa6223789ef6269c6f0835e6d366edb08b3149b83cf2c08a",
   "original_application_functions": 386,
   "recovered_function_ids": [
     1,
@@ -422,10 +422,10 @@
     "closure_lifetime_and_table_hook_checks": 39,
     "additional_real_loop_variadic_and_iterator_checks": 9,
     "predict_extraction_and_related_regression_checks": 11,
-    "total_checks_passed": 176,
+    "total_checks_passed": 2530,
     "syntax_lua51": "passed on the final packaged source and both extracted UI files",
     "syntax_lua53": "passed on the final packaged source and both extracted UI files",
-    "whole_gamesense_execution": "not tested; gamesense/LuaJIT and external modules unavailable",
+    "whole_gamesense_execution": "Not tested: Windows GameSense engine APIs and external modules unavailable; LuaJIT compilation and mocked startup were tested",
     "full_behavioral_equivalence": "not proven by selected-function tests",
     "alphabet_original_vm_comparisons": 28,
     "function_string_constant_audits": 385,
@@ -437,7 +437,12 @@
       "Function 64: one-time initialization and protected optional WebSocket import",
       "Function 126: optional WebSocket presence and connection-error handling"
     ],
-    "write_only_capture_naming_regression": 1
+    "write_only_capture_naming_regression": 1,
+    "codec_alphabet_and_conditional_original_vm_comparisons": 1153,
+    "independent_codec_alphabet_and_conditional_luajit_checks": 1153,
+    "embedded_presets_decoded_and_checked": 40,
+    "section_visibility_original_vm_comparisons": 42,
+    "optimizer_branch_loop_and_captured_call_regressions": 6
   },
   "experimental_predict": {
     "creation_function": 242,
@@ -453,7 +458,7 @@
     "author local variable names",
     "author comments"
   ],
-  "source_lines": 13384,
+  "source_lines": 13966,
   "readability_comparison": {
     "previous": {
       "assignments": 13159,
@@ -462,18 +467,18 @@
       "gotos": 0
     },
     "current": {
-      "assignments": 7455,
-      "reference_value_accesses": 1286,
-      "capture_factories": 159,
+      "assignments": 7916,
+      "reference_value_accesses": 1284,
+      "capture_factories": 168,
       "gotos": 0
     }
   },
   "lexical_lifetime_recovery": {
     "lift": {
       "separate_cell_lifetimes": 773,
-      "unused_close_initial_copies_removed": 479,
-      "lexical_scope_regions": 239,
-      "largest_region_cell_declarations": 28
+      "unused_close_initial_copies_removed": 477,
+      "lexical_scope_regions": 280,
+      "largest_region_cell_declarations": 36
     },
     "scalar": {
       "reference_cells_replaced_with_locals": 811,
@@ -482,8 +487,8 @@
     }
   },
   "immutable_capture_simplification": {
-    "immutable_capture_aliases_removed": 441,
-    "capture_factories_removed": 102
+    "immutable_capture_aliases_removed": 411,
+    "capture_factories_removed": 93
   },
   "embedded_source_files": 12,
   "runtime_adaptation": {
@@ -494,5 +499,19 @@
     "websockets_optional": true,
     "optional_feature": "online indicator",
     "module_name": "gamesense/websockets"
+  },
+  "control_flow_repair": {
+    "reported_error": "493: attempt to compare number with function",
+    "cause": "An expression inliner deleted a conditional register assignment still live after the branch, and could replace reads after nested writes.",
+    "repair": "Rebuilt every function using control-flow liveness and only safe statement-head substitutions; retained single-evaluation loop tests and captured lookup order.",
+    "directly_verified_functions": [
+      3,
+      11,
+      12,
+      13,
+      49,
+      293
+    ],
+    "full_windows_gamesense_execution_tested": false
   }
 }
