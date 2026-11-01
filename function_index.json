@@ -1,0 +1,1932 @@
+[
+  {
+    "id": 1,
+    "line": 51,
+    "description": "application root chunk"
+  },
+  {
+    "id": 2,
+    "line": 53,
+    "description": "application entry"
+  },
+  {
+    "id": 3,
+    "line": 490,
+    "description": "recovered function body"
+  },
+  {
+    "id": 4,
+    "line": 21851,
+    "description": "recovered function body"
+  },
+  {
+    "id": 5,
+    "line": 1775,
+    "description": "recovered function body"
+  },
+  {
+    "id": 6,
+    "line": 1668,
+    "description": "recovered function body"
+  },
+  {
+    "id": 7,
+    "line": 1671,
+    "description": "recovered function body"
+  },
+  {
+    "id": 8,
+    "line": 2167,
+    "description": "recovered function body"
+  },
+  {
+    "id": 9,
+    "line": 2186,
+    "description": "recovered function body"
+  },
+  {
+    "id": 10,
+    "line": 109,
+    "description": "recovered function body"
+  },
+  {
+    "id": 11,
+    "line": 770,
+    "description": "recovered function body"
+  },
+  {
+    "id": 12,
+    "line": 870,
+    "description": "recovered function body"
+  },
+  {
+    "id": 13,
+    "line": 2109,
+    "description": "recovered function body"
+  },
+  {
+    "id": 14,
+    "line": 21737,
+    "description": "recovered function body"
+  },
+  {
+    "id": 15,
+    "line": 2147,
+    "description": "recovered function body"
+  },
+  {
+    "id": 16,
+    "line": 1118,
+    "description": "recovered function body"
+  },
+  {
+    "id": 17,
+    "line": 1126,
+    "description": "recovered function body"
+  },
+  {
+    "id": 18,
+    "line": 1191,
+    "description": "recovered function body"
+  },
+  {
+    "id": 19,
+    "line": 1199,
+    "description": "recovered function body"
+  },
+  {
+    "id": 20,
+    "line": 1142,
+    "description": "recovered function body"
+  },
+  {
+    "id": 21,
+    "line": 1209,
+    "description": "recovered function body"
+  },
+  {
+    "id": 22,
+    "line": 1221,
+    "description": "recovered function body"
+  },
+  {
+    "id": 23,
+    "line": 1885,
+    "description": "recovered function body"
+  },
+  {
+    "id": 24,
+    "line": 21820,
+    "description": "recovered function body"
+  },
+  {
+    "id": 25,
+    "line": 1489,
+    "description": "recovered function body"
+  },
+  {
+    "id": 26,
+    "line": 1249,
+    "description": "recovered function body"
+  },
+  {
+    "id": 27,
+    "line": 68,
+    "description": "recovered function body"
+  },
+  {
+    "id": 28,
+    "line": 73,
+    "description": "recovered function body"
+  },
+  {
+    "id": 29,
+    "line": 22027,
+    "description": "recovered function body"
+  },
+  {
+    "id": 30,
+    "line": 22045,
+    "description": "recovered function body"
+  },
+  {
+    "id": 31,
+    "line": 22070,
+    "description": "recovered function body"
+  },
+  {
+    "id": 32,
+    "line": 22107,
+    "description": "recovered function body"
+  },
+  {
+    "id": 33,
+    "line": 22130,
+    "description": "recovered function body"
+  },
+  {
+    "id": 34,
+    "line": 22076,
+    "description": "loader data reset console handler"
+  },
+  {
+    "id": 35,
+    "line": 22086,
+    "description": "loader paint callback"
+  },
+  {
+    "id": 36,
+    "line": 1685,
+    "description": "recovered function body"
+  },
+  {
+    "id": 37,
+    "line": 1447,
+    "description": "recovered function body"
+  },
+  {
+    "id": 38,
+    "line": 1517,
+    "description": "recovered function body"
+  },
+  {
+    "id": 39,
+    "line": 81,
+    "description": "variadic console output wrapper"
+  },
+  {
+    "id": 40,
+    "line": 1557,
+    "description": "recovered function body"
+  },
+  {
+    "id": 41,
+    "line": 1111,
+    "description": "recovered function body"
+  },
+  {
+    "id": 42,
+    "line": 21757,
+    "description": "recovered function body"
+  },
+  {
+    "id": 43,
+    "line": 1464,
+    "description": "recovered function body"
+  },
+  {
+    "id": 44,
+    "line": 1287,
+    "description": "recovered function body"
+  },
+  {
+    "id": 45,
+    "line": 397,
+    "description": "add notification"
+  },
+  {
+    "id": 46,
+    "line": 459,
+    "description": "recovered function body"
+  },
+  {
+    "id": 47,
+    "line": 1149,
+    "description": "recovered function body"
+  },
+  {
+    "id": 48,
+    "line": 1280,
+    "description": "recovered function body"
+  },
+  {
+    "id": 49,
+    "line": 468,
+    "description": "recovered function body"
+  },
+  {
+    "id": 50,
+    "line": 21878,
+    "description": "recovered function body"
+  },
+  {
+    "id": 51,
+    "line": 21941,
+    "description": "recovered function body"
+  },
+  {
+    "id": 52,
+    "line": 410,
+    "description": "draw notifications"
+  },
+  {
+    "id": 53,
+    "line": 1310,
+    "description": "recovered function body"
+  },
+  {
+    "id": 54,
+    "line": 1643,
+    "description": "recovered function body"
+  },
+  {
+    "id": 55,
+    "line": 1535,
+    "description": "recovered function body"
+  },
+  {
+    "id": 56,
+    "line": 1805,
+    "description": "recovered function body"
+  },
+  {
+    "id": 57,
+    "line": 1267,
+    "description": "recovered function body"
+  },
+  {
+    "id": 58,
+    "line": 1183,
+    "description": "recovered function body"
+  },
+  {
+    "id": 59,
+    "line": 1176,
+    "description": "recovered function body"
+  },
+  {
+    "id": 60,
+    "line": 1873,
+    "description": "recovered function body"
+  },
+  {
+    "id": 61,
+    "line": 1232,
+    "description": "recovered function body"
+  },
+  {
+    "id": 62,
+    "line": 1914,
+    "description": "recovered function body"
+  },
+  {
+    "id": 63,
+    "line": 1163,
+    "description": "recovered function body"
+  },
+  {
+    "id": 64,
+    "line": 2192,
+    "description": "module imports and initialization"
+  },
+  {
+    "id": 65,
+    "line": 2221,
+    "description": "recovered function body"
+  },
+  {
+    "id": 66,
+    "line": 2361,
+    "description": "recovered function body"
+  },
+  {
+    "id": 67,
+    "line": 2367,
+    "description": "recovered function body"
+  },
+  {
+    "id": 68,
+    "line": 13436,
+    "description": "recovered function body"
+  },
+  {
+    "id": 69,
+    "line": 14558,
+    "description": "recovered function body"
+  },
+  {
+    "id": 70,
+    "line": 15387,
+    "description": "recovered function body"
+  },
+  {
+    "id": 71,
+    "line": 15322,
+    "description": "recovered function body"
+  },
+  {
+    "id": 72,
+    "line": 14987,
+    "description": "recovered function body"
+  },
+  {
+    "id": 73,
+    "line": 14941,
+    "description": "recovered function body"
+  },
+  {
+    "id": 74,
+    "line": 14999,
+    "description": "recovered function body"
+  },
+  {
+    "id": 75,
+    "line": 15069,
+    "description": "recovered function body"
+  },
+  {
+    "id": 76,
+    "line": 15123,
+    "description": "recovered function body"
+  },
+  {
+    "id": 77,
+    "line": 15086,
+    "description": "recovered function body"
+  },
+  {
+    "id": 78,
+    "line": 14837,
+    "description": "recovered function body"
+  },
+  {
+    "id": 79,
+    "line": 14823,
+    "description": "recovered function body"
+  },
+  {
+    "id": 80,
+    "line": 14763,
+    "description": "recovered function body"
+  },
+  {
+    "id": 81,
+    "line": 15238,
+    "description": "recovered function body"
+  },
+  {
+    "id": 82,
+    "line": 15194,
+    "description": "recovered function body"
+  },
+  {
+    "id": 83,
+    "line": 15448,
+    "description": "recovered function body"
+  },
+  {
+    "id": 84,
+    "line": 15807,
+    "description": "recovered function body"
+  },
+  {
+    "id": 85,
+    "line": 15885,
+    "description": "recovered function body"
+  },
+  {
+    "id": 86,
+    "line": 15457,
+    "description": "recovered function body"
+  },
+  {
+    "id": 87,
+    "line": 15049,
+    "description": "recovered function body"
+  },
+  {
+    "id": 88,
+    "line": 15546,
+    "description": "recovered function body"
+  },
+  {
+    "id": 89,
+    "line": 15673,
+    "description": "recovered function body"
+  },
+  {
+    "id": 90,
+    "line": 14598,
+    "description": "recovered function body"
+  },
+  {
+    "id": 91,
+    "line": 15039,
+    "description": "recovered function body"
+  },
+  {
+    "id": 92,
+    "line": 14611,
+    "description": "recovered function body"
+  },
+  {
+    "id": 93,
+    "line": 15494,
+    "description": "recovered function body"
+  },
+  {
+    "id": 94,
+    "line": 15608,
+    "description": "recovered function body"
+  },
+  {
+    "id": 95,
+    "line": 14703,
+    "description": "recovered function body"
+  },
+  {
+    "id": 96,
+    "line": 15334,
+    "description": "recovered function body"
+  },
+  {
+    "id": 97,
+    "line": 15106,
+    "description": "recovered function body"
+  },
+  {
+    "id": 98,
+    "line": 15728,
+    "description": "recovered function body"
+  },
+  {
+    "id": 99,
+    "line": 13497,
+    "description": "recovered function body"
+  },
+  {
+    "id": 100,
+    "line": 13503,
+    "description": "recovered function body"
+  },
+  {
+    "id": 101,
+    "line": 13512,
+    "description": "recovered function body"
+  },
+  {
+    "id": 102,
+    "line": 13890,
+    "description": "recovered function body"
+  },
+  {
+    "id": 103,
+    "line": 13479,
+    "description": "recovered function body"
+  },
+  {
+    "id": 104,
+    "line": 14426,
+    "description": "recovered function body"
+  },
+  {
+    "id": 105,
+    "line": 14312,
+    "description": "recovered function body"
+  },
+  {
+    "id": 106,
+    "line": 14329,
+    "description": "recovered function body"
+  },
+  {
+    "id": 107,
+    "line": 14460,
+    "description": "recovered function body"
+  },
+  {
+    "id": 108,
+    "line": 14475,
+    "description": "recovered function body"
+  },
+  {
+    "id": 109,
+    "line": 14492,
+    "description": "recovered function body"
+  },
+  {
+    "id": 110,
+    "line": 13463,
+    "description": "recovered function body"
+  },
+  {
+    "id": 111,
+    "line": 13594,
+    "description": "recovered function body"
+  },
+  {
+    "id": 112,
+    "line": 13653,
+    "description": "recovered function body"
+  },
+  {
+    "id": 113,
+    "line": 13662,
+    "description": "recovered function body"
+  },
+  {
+    "id": 114,
+    "line": 13667,
+    "description": "recovered function body"
+  },
+  {
+    "id": 115,
+    "line": 13672,
+    "description": "recovered function body"
+  },
+  {
+    "id": 116,
+    "line": 13692,
+    "description": "recovered function body"
+  },
+  {
+    "id": 117,
+    "line": 13706,
+    "description": "recovered function body"
+  },
+  {
+    "id": 118,
+    "line": 13614,
+    "description": "recovered function body"
+  },
+  {
+    "id": 119,
+    "line": 14514,
+    "description": "recovered function body"
+  },
+  {
+    "id": 120,
+    "line": 13806,
+    "description": "recovered function body"
+  },
+  {
+    "id": 121,
+    "line": 13966,
+    "description": "recovered function body"
+  },
+  {
+    "id": 122,
+    "line": 13488,
+    "description": "recovered function body"
+  },
+  {
+    "id": 123,
+    "line": 13936,
+    "description": "recovered function body"
+  },
+  {
+    "id": 124,
+    "line": 13743,
+    "description": "recovered function body"
+  },
+  {
+    "id": 125,
+    "line": 18627,
+    "description": "recovered function body"
+  },
+  {
+    "id": 126,
+    "line": 18630,
+    "description": "recovered function body"
+  },
+  {
+    "id": 127,
+    "line": 18769,
+    "description": "recovered function body"
+  },
+  {
+    "id": 128,
+    "line": 20042,
+    "description": "recovered function body"
+  },
+  {
+    "id": 129,
+    "line": 20599,
+    "description": "recovered function body"
+  },
+  {
+    "id": 130,
+    "line": 20075,
+    "description": "recovered function body"
+  },
+  {
+    "id": 131,
+    "line": 18800,
+    "description": "recovered function body"
+  },
+  {
+    "id": 132,
+    "line": 20084,
+    "description": "recovered function body"
+  },
+  {
+    "id": 133,
+    "line": 20094,
+    "description": "recovered function body"
+  },
+  {
+    "id": 134,
+    "line": 20017,
+    "description": "recovered function body"
+  },
+  {
+    "id": 135,
+    "line": 20051,
+    "description": "recovered function body"
+  },
+  {
+    "id": 136,
+    "line": 20832,
+    "description": "recovered function body"
+  },
+  {
+    "id": 137,
+    "line": 19528,
+    "description": "recovered function body"
+  },
+  {
+    "id": 138,
+    "line": 20550,
+    "description": "recovered function body"
+  },
+  {
+    "id": 139,
+    "line": 20579,
+    "description": "recovered function body"
+  },
+  {
+    "id": 140,
+    "line": 18952,
+    "description": "recovered function body"
+  },
+  {
+    "id": 141,
+    "line": 20446,
+    "description": "recovered function body"
+  },
+  {
+    "id": 142,
+    "line": 18880,
+    "description": "recovered function body"
+  },
+  {
+    "id": 143,
+    "line": 18993,
+    "description": "recovered function body"
+  },
+  {
+    "id": 144,
+    "line": 20665,
+    "description": "recovered function body"
+  },
+  {
+    "id": 145,
+    "line": 19999,
+    "description": "recovered function body"
+  },
+  {
+    "id": 146,
+    "line": 19089,
+    "description": "recovered function body"
+  },
+  {
+    "id": 147,
+    "line": 20484,
+    "description": "recovered function body"
+  },
+  {
+    "id": 148,
+    "line": 20026,
+    "description": "recovered function body"
+  },
+  {
+    "id": 149,
+    "line": 20532,
+    "description": "recovered function body"
+  },
+  {
+    "id": 150,
+    "line": 19656,
+    "description": "recovered function body"
+  },
+  {
+    "id": 151,
+    "line": 20539,
+    "description": "recovered function body"
+  },
+  {
+    "id": 152,
+    "line": 20034,
+    "description": "recovered function body"
+  },
+  {
+    "id": 153,
+    "line": 20408,
+    "description": "recovered function body"
+  },
+  {
+    "id": 154,
+    "line": 21505,
+    "description": "recovered function body"
+  },
+  {
+    "id": 155,
+    "line": 19310,
+    "description": "recovered function body"
+  },
+  {
+    "id": 156,
+    "line": 20701,
+    "description": "recovered function body"
+  },
+  {
+    "id": 157,
+    "line": 20722,
+    "description": "recovered function body"
+  },
+  {
+    "id": 158,
+    "line": 19289,
+    "description": "recovered function body"
+  },
+  {
+    "id": 159,
+    "line": 20008,
+    "description": "recovered function body"
+  },
+  {
+    "id": 160,
+    "line": 18712,
+    "description": "recovered function body"
+  },
+  {
+    "id": 161,
+    "line": 19886,
+    "description": "recovered function body"
+  },
+  {
+    "id": 162,
+    "line": 20904,
+    "description": "recovered function body"
+  },
+  {
+    "id": 163,
+    "line": 19136,
+    "description": "recovered function body"
+  },
+  {
+    "id": 164,
+    "line": 21628,
+    "description": "recovered function body"
+  },
+  {
+    "id": 165,
+    "line": 21339,
+    "description": "recovered function body"
+  },
+  {
+    "id": 166,
+    "line": 21394,
+    "description": "recovered function body"
+  },
+  {
+    "id": 167,
+    "line": 20960,
+    "description": "recovered function body"
+  },
+  {
+    "id": 168,
+    "line": 19897,
+    "description": "recovered function body"
+  },
+  {
+    "id": 169,
+    "line": 21473,
+    "description": "recovered function body"
+  },
+  {
+    "id": 170,
+    "line": 19169,
+    "description": "recovered function body"
+  },
+  {
+    "id": 171,
+    "line": 20066,
+    "description": "recovered function body"
+  },
+  {
+    "id": 172,
+    "line": 19733,
+    "description": "recovered function body"
+  },
+  {
+    "id": 173,
+    "line": 20920,
+    "description": "recovered function body"
+  },
+  {
+    "id": 174,
+    "line": 21178,
+    "description": "recovered function body"
+  },
+  {
+    "id": 175,
+    "line": 20932,
+    "description": "recovered function body"
+  },
+  {
+    "id": 176,
+    "line": 19373,
+    "description": "recovered function body"
+  },
+  {
+    "id": 177,
+    "line": 19398,
+    "description": "recovered function body"
+  },
+  {
+    "id": 178,
+    "line": 19097,
+    "description": "recovered function body"
+  },
+  {
+    "id": 179,
+    "line": 20471,
+    "description": "recovered function body"
+  },
+  {
+    "id": 180,
+    "line": 18686,
+    "description": "recovered function body"
+  },
+  {
+    "id": 181,
+    "line": 3250,
+    "description": "recovered function body"
+  },
+  {
+    "id": 182,
+    "line": 3253,
+    "description": "recovered function body"
+  },
+  {
+    "id": 183,
+    "line": 3260,
+    "description": "recovered function body"
+  },
+  {
+    "id": 184,
+    "line": 3391,
+    "description": "recovered function body"
+  },
+  {
+    "id": 185,
+    "line": 3299,
+    "description": "recovered function body"
+  },
+  {
+    "id": 186,
+    "line": 3281,
+    "description": "recovered function body"
+  },
+  {
+    "id": 187,
+    "line": 3541,
+    "description": "recovered function body"
+  },
+  {
+    "id": 188,
+    "line": 3744,
+    "description": "recovered function body"
+  },
+  {
+    "id": 189,
+    "line": 3577,
+    "description": "recovered function body"
+  },
+  {
+    "id": 190,
+    "line": 3608,
+    "description": "recovered function body"
+  },
+  {
+    "id": 191,
+    "line": 3624,
+    "description": "recovered function body"
+  },
+  {
+    "id": 192,
+    "line": 3547,
+    "description": "recovered function body"
+  },
+  {
+    "id": 193,
+    "line": 3778,
+    "description": "recovered function body"
+  },
+  {
+    "id": 194,
+    "line": 3796,
+    "description": "recovered function body"
+  },
+  {
+    "id": 195,
+    "line": 4448,
+    "description": "recovered function body"
+  },
+  {
+    "id": 196,
+    "line": 10768,
+    "description": "recovered function body"
+  },
+  {
+    "id": 197,
+    "line": 10771,
+    "description": "recovered function body"
+  },
+  {
+    "id": 198,
+    "line": 11617,
+    "description": "recovered function body"
+  },
+  {
+    "id": 199,
+    "line": 11634,
+    "description": "recovered function body"
+  },
+  {
+    "id": 200,
+    "line": 11649,
+    "description": "recovered function body"
+  },
+  {
+    "id": 201,
+    "line": 11675,
+    "description": "recovered function body"
+  },
+  {
+    "id": 202,
+    "line": 10870,
+    "description": "recovered function body"
+  },
+  {
+    "id": 203,
+    "line": 11456,
+    "description": "recovered function body"
+  },
+  {
+    "id": 204,
+    "line": 12051,
+    "description": "recovered function body"
+  },
+  {
+    "id": 205,
+    "line": 13288,
+    "description": "recovered function body"
+  },
+  {
+    "id": 206,
+    "line": 13323,
+    "description": "recovered function body"
+  },
+  {
+    "id": 207,
+    "line": 11839,
+    "description": "recovered function body"
+  },
+  {
+    "id": 208,
+    "line": 11092,
+    "description": "recovered function body"
+  },
+  {
+    "id": 209,
+    "line": 10903,
+    "description": "recovered function body"
+  },
+  {
+    "id": 210,
+    "line": 11828,
+    "description": "recovered function body"
+  },
+  {
+    "id": 211,
+    "line": 12056,
+    "description": "recovered function body"
+  },
+  {
+    "id": 212,
+    "line": 12066,
+    "description": "recovered function body"
+  },
+  {
+    "id": 213,
+    "line": 10921,
+    "description": "recovered function body"
+  },
+  {
+    "id": 214,
+    "line": 12084,
+    "description": "recovered function body"
+  },
+  {
+    "id": 215,
+    "line": 13374,
+    "description": "recovered function body"
+  },
+  {
+    "id": 216,
+    "line": 12105,
+    "description": "recovered function body"
+  },
+  {
+    "id": 217,
+    "line": 12126,
+    "description": "recovered function body"
+  },
+  {
+    "id": 218,
+    "line": 11118,
+    "description": "recovered function body"
+  },
+  {
+    "id": 219,
+    "line": 10892,
+    "description": "recovered function body"
+  },
+  {
+    "id": 220,
+    "line": 11276,
+    "description": "recovered function body"
+  },
+  {
+    "id": 221,
+    "line": 12024,
+    "description": "recovered function body"
+  },
+  {
+    "id": 222,
+    "line": 10934,
+    "description": "recovered function body"
+  },
+  {
+    "id": 223,
+    "line": 10881,
+    "description": "recovered function body"
+  },
+  {
+    "id": 224,
+    "line": 11286,
+    "description": "recovered function body"
+  },
+  {
+    "id": 225,
+    "line": 12003,
+    "description": "recovered function body"
+  },
+  {
+    "id": 226,
+    "line": 11546,
+    "description": "recovered function body"
+  },
+  {
+    "id": 227,
+    "line": 12216,
+    "description": "recovered function body"
+  },
+  {
+    "id": 228,
+    "line": 11102,
+    "description": "recovered function body"
+  },
+  {
+    "id": 229,
+    "line": 13277,
+    "description": "recovered function body"
+  },
+  {
+    "id": 230,
+    "line": 11744,
+    "description": "recovered function body"
+  },
+  {
+    "id": 231,
+    "line": 11300,
+    "description": "recovered function body"
+  },
+  {
+    "id": 232,
+    "line": 11536,
+    "description": "recovered function body"
+  },
+  {
+    "id": 233,
+    "line": 10944,
+    "description": "recovered function body"
+  },
+  {
+    "id": 234,
+    "line": 11045,
+    "description": "recovered function body"
+  },
+  {
+    "id": 235,
+    "line": 11432,
+    "description": "recovered function body"
+  },
+  {
+    "id": 236,
+    "line": 11249,
+    "description": "recovered function body"
+  },
+  {
+    "id": 237,
+    "line": 11442,
+    "description": "recovered function body"
+  },
+  {
+    "id": 238,
+    "line": 3768,
+    "description": "recovered function body"
+  },
+  {
+    "id": 239,
+    "line": 18507,
+    "description": "recovered function body"
+  },
+  {
+    "id": 240,
+    "line": 18564,
+    "description": "recovered function body"
+  },
+  {
+    "id": 241,
+    "line": 4766,
+    "description": "recovered function body"
+  },
+  {
+    "id": 242,
+    "line": 4787,
+    "description": "create application UI, including Experimental Predict"
+  },
+  {
+    "id": 243,
+    "line": 8908,
+    "description": "recovered function body"
+  },
+  {
+    "id": 244,
+    "line": 4841,
+    "description": "recovered function body"
+  },
+  {
+    "id": 245,
+    "line": 4869,
+    "description": "recovered function body"
+  },
+  {
+    "id": 246,
+    "line": 8525,
+    "description": "recovered function body"
+  },
+  {
+    "id": 247,
+    "line": 6233,
+    "description": "recovered function body"
+  },
+  {
+    "id": 248,
+    "line": 9646,
+    "description": "recovered function body"
+  },
+  {
+    "id": 249,
+    "line": 5018,
+    "description": "recovered function body"
+  },
+  {
+    "id": 250,
+    "line": 4962,
+    "description": "recovered function body"
+  },
+  {
+    "id": 251,
+    "line": 4981,
+    "description": "recovered function body"
+  },
+  {
+    "id": 252,
+    "line": 6577,
+    "description": "recovered function body"
+  },
+  {
+    "id": 253,
+    "line": 5094,
+    "description": "recovered function body"
+  },
+  {
+    "id": 254,
+    "line": 10435,
+    "description": "recovered function body"
+  },
+  {
+    "id": 255,
+    "line": 5206,
+    "description": "recovered function body"
+  },
+  {
+    "id": 256,
+    "line": 8814,
+    "description": "recovered function body"
+  },
+  {
+    "id": 257,
+    "line": 10516,
+    "description": "recovered function body"
+  },
+  {
+    "id": 258,
+    "line": 5934,
+    "description": "recovered function body"
+  },
+  {
+    "id": 259,
+    "line": 8696,
+    "description": "recovered function body"
+  },
+  {
+    "id": 260,
+    "line": 6479,
+    "description": "recovered function body"
+  },
+  {
+    "id": 261,
+    "line": 9559,
+    "description": "recovered function body"
+  },
+  {
+    "id": 262,
+    "line": 8876,
+    "description": "recovered function body"
+  },
+  {
+    "id": 263,
+    "line": 5513,
+    "description": "recovered function body"
+  },
+  {
+    "id": 264,
+    "line": 7499,
+    "description": "recovered function body"
+  },
+  {
+    "id": 265,
+    "line": 8970,
+    "description": "recovered function body"
+  },
+  {
+    "id": 266,
+    "line": 9478,
+    "description": "recovered function body"
+  },
+  {
+    "id": 267,
+    "line": 9919,
+    "description": "recovered function body"
+  },
+  {
+    "id": 268,
+    "line": 8219,
+    "description": "recovered function body"
+  },
+  {
+    "id": 269,
+    "line": 10542,
+    "description": "recovered function body"
+  },
+  {
+    "id": 270,
+    "line": 8771,
+    "description": "recovered function body"
+  },
+  {
+    "id": 271,
+    "line": 8502,
+    "description": "split string using the original iterator behavior"
+  },
+  {
+    "id": 272,
+    "line": 6518,
+    "description": "recovered function body"
+  },
+  {
+    "id": 273,
+    "line": 6670,
+    "description": "recovered function body"
+  },
+  {
+    "id": 274,
+    "line": 5223,
+    "description": "recovered function body"
+  },
+  {
+    "id": 275,
+    "line": 5241,
+    "description": "recovered function body"
+  },
+  {
+    "id": 276,
+    "line": 5249,
+    "description": "recovered function body"
+  },
+  {
+    "id": 277,
+    "line": 9726,
+    "description": "recovered function body"
+  },
+  {
+    "id": 278,
+    "line": 8802,
+    "description": "recovered function body"
+  },
+  {
+    "id": 279,
+    "line": 5322,
+    "description": "recovered function body"
+  },
+  {
+    "id": 280,
+    "line": 8792,
+    "description": "recovered function body"
+  },
+  {
+    "id": 281,
+    "line": 8747,
+    "description": "recovered function body"
+  },
+  {
+    "id": 282,
+    "line": 10580,
+    "description": "recovered function body"
+  },
+  {
+    "id": 283,
+    "line": 10157,
+    "description": "recovered function body"
+  },
+  {
+    "id": 284,
+    "line": 5646,
+    "description": "recovered function body"
+  },
+  {
+    "id": 285,
+    "line": 10642,
+    "description": "recovered function body"
+  },
+  {
+    "id": 286,
+    "line": 8721,
+    "description": "recovered function body"
+  },
+  {
+    "id": 287,
+    "line": 9025,
+    "description": "recovered function body"
+  },
+  {
+    "id": 288,
+    "line": 5402,
+    "description": "recovered function body"
+  },
+  {
+    "id": 289,
+    "line": 5330,
+    "description": "recovered function body"
+  },
+  {
+    "id": 290,
+    "line": 5416,
+    "description": "recovered function body"
+  },
+  {
+    "id": 291,
+    "line": 5141,
+    "description": "recovered function body"
+  },
+  {
+    "id": 292,
+    "line": 6619,
+    "description": "recovered function body"
+  },
+  {
+    "id": 293,
+    "line": 6645,
+    "description": "Experimental Predict visibility callback"
+  },
+  {
+    "id": 294,
+    "line": 9861,
+    "description": "recovered function body"
+  },
+  {
+    "id": 295,
+    "line": 9801,
+    "description": "recovered function body"
+  },
+  {
+    "id": 296,
+    "line": 5163,
+    "description": "recovered function body"
+  },
+  {
+    "id": 297,
+    "line": 5387,
+    "description": "recovered function body"
+  },
+  {
+    "id": 298,
+    "line": 3774,
+    "description": "recovered function body"
+  },
+  {
+    "id": 299,
+    "line": 2678,
+    "description": "recovered function body"
+  },
+  {
+    "id": 300,
+    "line": 3052,
+    "description": "recovered function body"
+  },
+  {
+    "id": 301,
+    "line": 3078,
+    "description": "recovered function body"
+  },
+  {
+    "id": 302,
+    "line": 2694,
+    "description": "recovered function body"
+  },
+  {
+    "id": 303,
+    "line": 2704,
+    "description": "recovered function body"
+  },
+  {
+    "id": 304,
+    "line": 2714,
+    "description": "recovered function body"
+  },
+  {
+    "id": 305,
+    "line": 2724,
+    "description": "recovered function body"
+  },
+  {
+    "id": 306,
+    "line": 3152,
+    "description": "recovered function body"
+  },
+  {
+    "id": 307,
+    "line": 2786,
+    "description": "recovered function body"
+  },
+  {
+    "id": 308,
+    "line": 2911,
+    "description": "recovered function body"
+  },
+  {
+    "id": 309,
+    "line": 2937,
+    "description": "recovered function body"
+  },
+  {
+    "id": 310,
+    "line": 3190,
+    "description": "recovered function body"
+  },
+  {
+    "id": 311,
+    "line": 3104,
+    "description": "recovered function body"
+  },
+  {
+    "id": 312,
+    "line": 2743,
+    "description": "recovered function body"
+  },
+  {
+    "id": 313,
+    "line": 2763,
+    "description": "recovered function body"
+  },
+  {
+    "id": 314,
+    "line": 2748,
+    "description": "recovered function body"
+  },
+  {
+    "id": 315,
+    "line": 2797,
+    "description": "recovered function body"
+  },
+  {
+    "id": 316,
+    "line": 3129,
+    "description": "recovered function body"
+  },
+  {
+    "id": 317,
+    "line": 2808,
+    "description": "recovered function body"
+  },
+  {
+    "id": 318,
+    "line": 2987,
+    "description": "recovered function body"
+  },
+  {
+    "id": 319,
+    "line": 3143,
+    "description": "recovered function body"
+  },
+  {
+    "id": 320,
+    "line": 2857,
+    "description": "recovered function body"
+  },
+  {
+    "id": 321,
+    "line": 2864,
+    "description": "recovered function body"
+  },
+  {
+    "id": 322,
+    "line": 2885,
+    "description": "recovered function body"
+  },
+  {
+    "id": 323,
+    "line": 2963,
+    "description": "recovered function body"
+  },
+  {
+    "id": 324,
+    "line": 3000,
+    "description": "recovered function body"
+  },
+  {
+    "id": 325,
+    "line": 3026,
+    "description": "recovered function body"
+  },
+  {
+    "id": 326,
+    "line": 2397,
+    "description": "recovered function body"
+  },
+  {
+    "id": 327,
+    "line": 3226,
+    "description": "recovered function body"
+  },
+  {
+    "id": 328,
+    "line": 3235,
+    "description": "recovered function body"
+  },
+  {
+    "id": 329,
+    "line": 15953,
+    "description": "recovered function body"
+  },
+  {
+    "id": 330,
+    "line": 15956,
+    "description": "recovered function body"
+  },
+  {
+    "id": 331,
+    "line": 16813,
+    "description": "recovered function body"
+  },
+  {
+    "id": 332,
+    "line": 18116,
+    "description": "recovered function body"
+  },
+  {
+    "id": 333,
+    "line": 16183,
+    "description": "recovered function body"
+  },
+  {
+    "id": 334,
+    "line": 17032,
+    "description": "recovered function body"
+  },
+  {
+    "id": 335,
+    "line": 17737,
+    "description": "recovered function body"
+  },
+  {
+    "id": 336,
+    "line": 17125,
+    "description": "recovered function body"
+  },
+  {
+    "id": 337,
+    "line": 17764,
+    "description": "recovered function body"
+  },
+  {
+    "id": 338,
+    "line": 17198,
+    "description": "recovered function body"
+  },
+  {
+    "id": 339,
+    "line": 18170,
+    "description": "recovered function body"
+  },
+  {
+    "id": 340,
+    "line": 16028,
+    "description": "recovered function body"
+  },
+  {
+    "id": 341,
+    "line": 17407,
+    "description": "recovered function body"
+  },
+  {
+    "id": 342,
+    "line": 18139,
+    "description": "recovered function body"
+  },
+  {
+    "id": 343,
+    "line": 17778,
+    "description": "recovered function body"
+  },
+  {
+    "id": 344,
+    "line": 16038,
+    "description": "recovered function body"
+  },
+  {
+    "id": 345,
+    "line": 17796,
+    "description": "recovered function body"
+  },
+  {
+    "id": 346,
+    "line": 17863,
+    "description": "recovered function body"
+  },
+  {
+    "id": 347,
+    "line": 18202,
+    "description": "recovered function body"
+  },
+  {
+    "id": 348,
+    "line": 17923,
+    "description": "recovered function body"
+  },
+  {
+    "id": 349,
+    "line": 17608,
+    "description": "recovered function body"
+  },
+  {
+    "id": 350,
+    "line": 17629,
+    "description": "recovered function body"
+  },
+  {
+    "id": 351,
+    "line": 17659,
+    "description": "recovered function body"
+  },
+  {
+    "id": 352,
+    "line": 17390,
+    "description": "recovered function body"
+  },
+  {
+    "id": 353,
+    "line": 18164,
+    "description": "recovered function body"
+  },
+  {
+    "id": 354,
+    "line": 17314,
+    "description": "recovered function body"
+  },
+  {
+    "id": 355,
+    "line": 16156,
+    "description": "recovered function body"
+  },
+  {
+    "id": 356,
+    "line": 17435,
+    "description": "recovered function body"
+  },
+  {
+    "id": 357,
+    "line": 18312,
+    "description": "recovered function body"
+  },
+  {
+    "id": 358,
+    "line": 18340,
+    "description": "recovered function body"
+  },
+  {
+    "id": 359,
+    "line": 17139,
+    "description": "recovered function body"
+  },
+  {
+    "id": 360,
+    "line": 16123,
+    "description": "recovered function body"
+  },
+  {
+    "id": 361,
+    "line": 16832,
+    "description": "recovered function body"
+  },
+  {
+    "id": 362,
+    "line": 16213,
+    "description": "recovered function body"
+  },
+  {
+    "id": 363,
+    "line": 16716,
+    "description": "recovered function body"
+  },
+  {
+    "id": 364,
+    "line": 15981,
+    "description": "recovered function body"
+  },
+  {
+    "id": 365,
+    "line": 15989,
+    "description": "recovered function body"
+  },
+  {
+    "id": 366,
+    "line": 16052,
+    "description": "recovered function body"
+  },
+  {
+    "id": 367,
+    "line": 16788,
+    "description": "recovered function body"
+  },
+  {
+    "id": 368,
+    "line": 17968,
+    "description": "recovered function body"
+  },
+  {
+    "id": 369,
+    "line": 18009,
+    "description": "recovered function body"
+  },
+  {
+    "id": 370,
+    "line": 17423,
+    "description": "recovered function body"
+  },
+  {
+    "id": 371,
+    "line": 17167,
+    "description": "recovered function body"
+  },
+  {
+    "id": 372,
+    "line": 16799,
+    "description": "recovered function body"
+  },
+  {
+    "id": 373,
+    "line": 17111,
+    "description": "recovered function body"
+  },
+  {
+    "id": 374,
+    "line": 17670,
+    "description": "recovered function body"
+  },
+  {
+    "id": 375,
+    "line": 18402,
+    "description": "recovered function body"
+  },
+  {
+    "id": 376,
+    "line": 4539,
+    "description": "recovered function body"
+  },
+  {
+    "id": 377,
+    "line": 4548,
+    "description": "recovered function body"
+  },
+  {
+    "id": 378,
+    "line": 4553,
+    "description": "restore cached player controls"
+  },
+  {
+    "id": 379,
+    "line": 4605,
+    "description": "reset player control caches"
+  },
+  {
+    "id": 380,
+    "line": 4639,
+    "description": "recovered function body"
+  },
+  {
+    "id": 381,
+    "line": 4698,
+    "description": "recovered function body"
+  },
+  {
+    "id": 382,
+    "line": 4650,
+    "description": "recovered function body"
+  },
+  {
+    "id": 383,
+    "line": 4735,
+    "description": "recovered function body"
+  },
+  {
+    "id": 384,
+    "line": 18470,
+    "description": "recovered function body"
+  },
+  {
+    "id": 385,
+    "line": 1963,
+    "description": "recovered function body"
+  },
+  {
+    "id": 386,
+    "line": 1134,
+    "description": "recovered function body"
+  }
+]
