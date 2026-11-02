@@ -3,7 +3,7 @@
   "original_file": "output_outlaw_beta (1).lua",
   "original_sha256": "b02aee528f19bc85f6c02f61530372798e164465fa6f0bf94d1ca8e812400be2",
   "recovered_file": "outlaw_source.lua",
-  "recovered_sha256": "dcff698ea9eba931fa6223789ef6269c6f0835e6d366edb08b3149b83cf2c08a",
+  "recovered_sha256": "68529fd0e170591dd7c2f7bd060905b75bf6bde273eb0ebfe41d593d3254b041",
   "original_application_functions": 386,
   "recovered_function_ids": [
     1,
@@ -512,6 +512,13 @@
       49,
       293
     ],
+    "full_windows_gamesense_execution_tested": false
+  },
+  "ui_wrapper_repair": {
+    "reported_error": "1520: attempt to call upvalue value (a nil value)",
+    "cause": "Constructor wrapper overwritten with nil and hotkey method assigned nil",
+    "repair": "Bind the constructor wrapper to Function 317 and hotkey to Function 323",
+    "validation": "Baseline failure reproduced; 13 UI checks passed with mocked GameSense UI; both Lua files compile with LuaJIT",
     "full_windows_gamesense_execution_tested": false
   }
 }

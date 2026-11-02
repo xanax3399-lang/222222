@@ -1422,8 +1422,8 @@ end
                                         end
                                         return state_3
                                     end
-                                    local hotkey
-                                    value = hotkey
+                                    -- Keep the UI constructor wrapper for all control methods.
+                                    value = callback
                                     local state_3 = {}
                                     state_3.button = ((function(argument_2)
                                         return --[[ Function 321 ]] function(self, argument_3, argument_4)
@@ -1465,7 +1465,7 @@ end
                                         end
                                         return state_2[argument_2]
                                     end
-                                    state_3.hotkey = hotkey
+                                    state_3.hotkey = callback_2
                                     --[[ Function 318 ]] function state_3.label(self, argument_2)
                                         return value(argument.new_label, self.tab, self.container, argument_2)
                                     end
