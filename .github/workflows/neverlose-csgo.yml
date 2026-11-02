@@ -28,6 +28,9 @@ jobs:
         with:
           toolchain: 1.88.0
           targets: x86_64-pc-windows-msvc
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: neverlose-csgo/server/rust-server -> target
       - name: Build DLL, embedded server and injector
         run: |
           & ./neverlose-csgo/build_windows.ps1 -PlatformToolset v143 *> "$env:GITHUB_WORKSPACE/build.log"
@@ -41,6 +44,8 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw "PE resource check failed" }
           & python tests/server_smoke.py Release/neverlose-server.exe
           if ($LASTEXITCODE -ne 0) { throw "Server functional check failed" }
+          & python tests/injector_smoke.py Release/injector.exe
+          if ($LASTEXITCODE -ne 0) { throw "Embedded server injector check failed" }
       - name: Test C++ helpers and menu interactions
         run: |
           Set-Location neverlose-csgo
@@ -82,7 +87,7 @@ jobs:
           if ($LASTEXITCODE -eq 0) {
             & gh release upload $tag dist/neverlose-csgo-windows.zip --clobber --repo "$env:GITHUB_REPOSITORY"
           } else {
-            & gh release create $tag dist/neverlose-csgo-windows.zip --target "$env:GITHUB_SHA" --title "Neverlose CS:GO $($env:GITHUB_SHA.Substring(0,7))" --notes $notes --repo "$env:GITHUB_REPOSITORY"
+            & gh release create $tag dist/neverlose-csgo-windows.zip --target "$env:GITHUB_SHA" --prerelease --title "Neverlose CS:GO $($env:GITHUB_SHA.Substring(0,7))" --notes $notes --repo "$env:GITHUB_REPOSITORY"
           }
           if ($LASTEXITCODE -ne 0) { throw "GitHub release publication failed" }
       - uses: actions/upload-artifact@v4

@@ -7,10 +7,12 @@ foreach ($tool in @("cargo", "rustup", "msbuild")) { if (-not (Get-Command $tool
 & rustup target add x86_64-pc-windows-msvc
 if ($LASTEXITCODE -ne 0) { throw "Rust Windows target installation failed" }
 Push-Location server/rust-server
+$previousRustFlags = $env:RUSTFLAGS
 try {
+    $env:RUSTFLAGS = "$previousRustFlags -C target-feature=+crt-static"
     & cargo build --release --locked --target x86_64-pc-windows-msvc -j 3
     if ($LASTEXITCODE -ne 0) { throw "Embedded server build failed" }
-} finally { Pop-Location }
+} finally { $env:RUSTFLAGS = $previousRustFlags; Pop-Location }
 New-Item -ItemType Directory -Force Release | Out-Null
 Copy-Item server/rust-server/target/x86_64-pc-windows-msvc/release/neverlose-server.exe Release/neverlose-server.exe -Force
 & msbuild neverlose.sln /m:3 /p:Configuration=Release /p:Platform=x86 "/p:PlatformToolset=$PlatformToolset"
