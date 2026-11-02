@@ -10,3 +10,7 @@ Gameplay and full DLL startup require validation in CS:GO; the CI tests do not l
 
 No legacy website token is compiled in. The local server uses the protocol assets from the supplied source.
 An optional website token can be supplied at runtime with `NL_WEBSITE_TOKEN`; do not commit its value.
+
+## Verified GitHub build
+
+[Download DLL + injector](https://github.com/xanax3399-lang/222222/releases/download/neverlose-csgo-845188ab71a746c07ea89a5bd13f4a83b9efd1c7/neverlose-csgo-windows.zip). See [BUILD_STATUS_RU.md](BUILD_STATUS_RU.md) for usage, checks and current limitations.

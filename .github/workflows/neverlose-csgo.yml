@@ -115,7 +115,9 @@ jobs:
             $logBlob = (& git hash-object -w -- $logPath).Trim()
             $treeLines += "100644 blob $logBlob`tbuild.log"
           }
-          $tree = ($treeLines | & git mktree).Trim()
+          $env:NL_STATUS_TREE = ($treeLines -join "`n") + "`n"
+          $tree = (& python -c "import os,subprocess; print(subprocess.check_output(['git','mktree'], input=os.environ['NL_STATUS_TREE'].encode('utf-8')).decode().strip())").Trim()
+          Remove-Item Env:NL_STATUS_TREE
           $commit = (& git -c user.name=github-actions -c user.email=github-actions@users.noreply.github.com commit-tree $tree -m "Build status $env:GITHUB_SHA").Trim()
           & git push --force origin "${commit}:refs/heads/codex/neverlose-csgo-status"
           if ($LASTEXITCODE -ne 0) { throw "Could not publish build status" }
