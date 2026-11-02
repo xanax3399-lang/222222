@@ -3,7 +3,7 @@
   "original_file": "output_outlaw_beta (1).lua",
   "original_sha256": "b02aee528f19bc85f6c02f61530372798e164465fa6f0bf94d1ca8e812400be2",
   "recovered_file": "outlaw_source.lua",
-  "recovered_sha256": "d0920a70e34a18365f40d4e299d20f0e975db9f3c733fd4274f4df79cbe682fb",
+  "recovered_sha256": "3690921adef52bf75bf41a7fc72784706fcc53914a358aa2e9d882047665b091",
   "original_application_functions": 386,
   "recovered_function_ids": [
     1,
@@ -458,7 +458,7 @@
     "author local variable names",
     "author comments"
   ],
-  "source_lines": 13966,
+  "source_lines": 13964,
   "readability_comparison": {
     "previous": {
       "assignments": 13159,
@@ -532,5 +532,34 @@
     },
     "validation": "Baseline registration failure reproduced; UI hide/restore, config list initialization/refresh, import and delete bindings executed with mocked APIs; LuaJIT compilation passed",
     "full_windows_gamesense_execution_tested": false
+  },
+  "startup_ui_audit": {
+    "structural_function_ids": 386,
+    "original_application_available_for_equivalence_check": false,
+    "controls_created": 909,
+    "delayed_initializers": 4,
+    "default_ui_callbacks": 265,
+    "ui_setting_variants": 810,
+    "menu_render_shutdown_callbacks_after_variants": 50,
+    "http_request_outcomes": 7,
+    "runtime": "Lupa 2.6 / LuaJIT 2.1, offline GameSense fixture",
+    "fixes": [
+      "UI membership helper binding",
+      "Animation helper binding",
+      "Force Defensive control captured separately for each condition",
+      "pre_render and pre_config_save callback bindings",
+      "Feature settings read from the correct UI objects",
+      "Cheat revealer callbacks bound to their control",
+      "Visibility flags normalized to booleans",
+      "HTTP header reader binding and request handle lifetime",
+      "HTTP completion removes each request once and does not skip adjacent requests"
+    ],
+    "limitations": [
+      "Function 65 initialization and menu callbacks tested with mocked APIs",
+      "Game entity/command handling, native FFI and Windows execution untested",
+      "Root loader and remote server protocol untested",
+      "All 386 function IDs present; this alone does not prove behavioral equivalence",
+      "Original author names/comments and external GameSense modules are not supplied"
+    ]
   }
 }

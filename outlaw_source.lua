@@ -762,39 +762,37 @@ end
     index_3._process_tasks = ((function(argument, argument_2)
         return --[[ Function 40 ]] function(self)
             local requests = self.requests
-            for index = 1, #requests, 1 do
-                local value_3 = requests[index]
-                local value_4 = argument.new("uint32_t[1]")
-                if (value_57(argument_2, value_3.handle, value_4)) == true then
-                    local value_2 = value_4[0]
-                    if 0 < value_2 then
-                        local value_5 = argument.new("char[?]", value_2)
-                        if (value_58(argument_2, value_3.handle, value_5, value_2)) == true then
-                            table.remove(self.requests, index)
-                            value_60(argument_2, value_3.handle)
-                            local callback = value_3.callback
-                            local new = index_2.new
-                            local ok = index_3.state.ok
-                            local value = argument.string(value_5, value_2)
-                            local state_3 = {}
-                            state_3.content_type = (index_3._get_header(value_3, "Content-Type"))
-                            callback(new(ok, value, state_3))
+            local count = #requests
+            local cursor = 1
+            -- Process only requests present at entry; callbacks may enqueue more.
+            for pending = 1, count do
+                local request = requests[cursor]
+                local size = argument.new("uint32_t[1]")
+                local response
+                if value_57(argument_2, request.handle, size) then
+                    if size[0] > 0 then
+                        local buffer = argument.new("char[?]", size[0])
+                        if value_58(argument_2, request.handle, buffer, size[0]) then
+                            -- Headers must be read while the native handle is alive.
+                            local headers = { content_type = index_3._get_header(request, "Content-Type") }
+                            response = index_2.new(index_3.state.ok, argument.string(buffer, size[0]), headers)
                         end
                     else
-                        table.remove(self.requests, index)
-                        value_60(argument_2, value_3.handle)
-                        local state_2 = {}
-                        value_3.callback(index_2.new(index_3.state.no_response, nil, state_2))
+                        response = index_2.new(index_3.state.no_response, nil, {})
                     end
                 end
-                local ticks = value_3.ticks + 1
-                if ticks >= self.timeout then
-                    table.remove(self.requests, index)
-                    value_60(argument_2, value_3.handle)
-                    local state = {}
-                    value_3.callback(index_2.new(index_3.state.timed_out, nil, state))
+                if response == nil then
+                    request.ticks = request.ticks + 1
+                    if request.ticks >= self.timeout then
+                        response = index_2.new(index_3.state.timed_out, nil, {})
+                    end
+                end
+                if response ~= nil then
+                    table.remove(requests, cursor)
+                    value_60(argument_2, request.handle)
+                    request.callback(response)
                 else
-                    value_3.ticks = ticks
+                    cursor = cursor + 1
                 end
             end
             client.delay_call(self.task_interval, index_3._bind(self, "_process_tasks"))
@@ -814,7 +812,7 @@ end
             return nil
         end
     end)(ffi, value_50))
-    local get_header
+    local get_header = http_options
     index_3._get_header = get_header
     index_3._bind = --[[ Function 6 ]] function(argument, argument_2)
         return --[[ Function 7 ]] function(...)
@@ -1911,7 +1909,7 @@ end
                                 value_36[argument] = value
                                 return value
                             end
-                            local value_31
+                            local value_31 = lerp
                             callback_8 = value_31
                             value_39 = new_table
                             value_39 = value_39()
@@ -2398,7 +2396,7 @@ end
                                                     end
                                                     return false
                                                 end
-                                                value_11 = value_31
+                                                value_11 = callback_4
                                                 value_17 = ((function(argument)
                                                     return --[[ Function 242 ]] function()
                                                         local temporary_27
@@ -4140,7 +4138,7 @@ end
                                                                                 value_158.defensive_detect_type = shared_state_25.value
                                                                                 value_196 = shared_state_17.value
                                                                                 local value_42 = ((function(shared_state, shared_state_2, shared_state_3, shared_state_4, shared_state_5, shared_state_6, shared_state_7, shared_state_8, shared_state_9)
-                                                                                    return function(argument, argument_2, argument_3, argument_4)
+                                                                                    return function(argument, argument_2, argument_3, argument_4, force_defensive_control)
                                                                                         return --[[ Function 264 ]] function()
                                                                                             local value_57 = argument
                                                                                             value_57 = value_57.get(value_57) == "Anti Aim"
@@ -4728,8 +4726,8 @@ end
                                                                                                 end
                                                                                                 visibility_35(value_79, value_80)
                                                                                             end
-                                                                                            local control_2 = temporary_27
-                                                                                            local value_15 = temporary_27
+                                                                                            local control_2 = force_defensive_control
+                                                                                            local value_15 = force_defensive_control
                                                                                             local visibility_4 = control_2.visibility
                                                                                             local value_78 = control_34
                                                                                             if value_78 then
@@ -4747,7 +4745,7 @@ end
                                                                                             return
                                                                                         end
                                                                                     end
-                                                                                end)(shared_state_25, shared_state_18, shared_state_20, shared_state_23, shared_state_22, shared_state, shared_state_24, shared_state_19, shared_state_21))(outlaw_group_control, antiaim_group_control, selection_2, value_196)
+                                                                                end)(shared_state_25, shared_state_18, shared_state_20, shared_state_23, shared_state_22, shared_state, shared_state_24, shared_state_19, shared_state_21))(outlaw_group_control, antiaim_group_control, selection_2, value_196, value_158.force_defensive)
                                                                                 value_159 = temporary_8
                                                                                 temporary_8.callback(value_159, value_42, true)
                                                                                 antiaim_group_control.callback(antiaim_group_control, value_42, true)
@@ -6594,7 +6592,7 @@ end
                                                                     if not weapon_selection_grenades then
                                                                         weapon_selection_grenades = value_2["Weapon Selection ~ Zeus"]
                                                                     end
-                                                                    is_hide_weapons_selection = weapon_selection_grenades
+                                                                    is_hide_weapons_selection = not not weapon_selection_grenades
                                                                     local control = selection_4.on_active
                                                                     local value_3 = control
                                                                     local visibility = control.visibility
@@ -6821,7 +6819,7 @@ end
                                                                                 return
                                                                             end
                                                                             temporary_5 = nil
-                                                                            set_event_callback_2 = ((function(argument)
+                                                                            value_84 = ((function(argument)
                                                                                 return --[[ Function 234 ]] function()
                                                                                     local value = get_local_player()
                                                                                     if value ~= nil then
@@ -9383,7 +9381,7 @@ end
                                                         shared_state_2.value = value_18
                                                         client.set_event_callback(shared_state_5.value, shared_state_2.value)
                                                         shared_state_5.value = "pre_config_save"
-                                                        local callback_10
+                                                        local callback_10 = value_55
                                                         shared_state_2.value = callback_10
                                                         client.set_event_callback(shared_state_5.value, shared_state_2.value)
                                                         shared_state_5.value = "shutdown"
@@ -10074,7 +10072,7 @@ end
                                                                             local state_11
                                                                             do
                                                                                 local remove_delay_after_doubletap_uncharge = callback_4.remove_delay_after_doubletap_uncharge
-                                                                                local enabled_2 = (nil).enabled
+                                                                                local enabled_2 = remove_delay_after_doubletap_uncharge.enabled
                                                                                 weapons = remove_delay_after_doubletap_uncharge.weapons
                                                                                 value_2 = screen_size.find("RAGE", "Aimbot", "Double tap")
                                                                                 value_31 = screen_size.find("Rage", "Weapon type", "Weapon type")
@@ -10370,7 +10368,7 @@ end
                                                                 return
                                                             end
                                                         end)(shared_state_11))
-                                                        local value_73
+                                                        local value_73 = shared_state_10.value
                                                         client.set_event_callback("pre_render", value_73)
                                                         value_29 = shared_state_5.value
                                                         value_28 = shared_state.value
@@ -11458,7 +11456,7 @@ end
                                                                                 end
                                                                             end
                                                                             zeus_warning = callback_4.zeus_warning
-                                                                            enabled_2 = enabled_2.enabled
+                                                                            enabled_2 = zeus_warning.enabled
                                                                             color_3 = zeus_warning.color
                                                                         end
                                                                         value_43 = nil
@@ -13288,8 +13286,8 @@ end
                                                             local cheat_revealer
                                                             cheat_revealer = callback_4.cheat_revealer
                                                             value_88 = nil
-                                                            register_esp_flag = nil
-                                                            callback_3 = (nil).callback
+                                                            register_esp_flag = cheat_revealer
+                                                            callback_3 = cheat_revealer.callback
                                                             callback_3(register_esp_flag, --[[ Function 162 ]] function(self)
                                                                 value_88 = self.get(self)
                                                                 local value_2 = value_88
@@ -13303,7 +13301,7 @@ end
                                                             callback_3 = cheat_revealer.callback
                                                         end
                                                         callback_3(register_esp_flag, --[[ Function 173 ]] function(argument_2)
-                                                            argument.set_visible(callback_4.player_list_cheat, value_88["Player List"])
+                                                            argument.set_visible(callback_4.player_list_cheat, not not value_88["Player List"])
                                                             return
                                                         end, true)
                                                         --[[ Function 175 ]] function callback_3(argument)

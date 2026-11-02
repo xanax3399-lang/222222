@@ -1,5 +1,10 @@
 # Outlaw: восстановленный Lua
 
+Текущий состав исходника, исправления и границы проверки описаны в
+[FULL_SOURCE_STATUS_RU.md](FULL_SOURCE_STATUS_RU.md). Восстановлены привязки
+UI и отложенной инициализации; добавлены воспроизводимые офлайн-тесты в
+`tests/`. Проверка в самом Windows/GameSense ещё требуется.
+
 [Скачать Lua](https://github.com/xanax3399-lang/222222/raw/refs/heads/outlaw-deobfuscated/outlaw_source.lua) · [Скачать весь архив](https://github.com/xanax3399-lang/222222/raw/refs/heads/outlaw-deobfuscated/outlaw_source.zip)
 
 Основной файл — [outlaw_source.lua](outlaw_source.lua). Он содержит все 386
