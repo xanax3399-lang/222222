@@ -46,6 +46,8 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw "Server functional check failed" }
           & python tests/injector_smoke.py Release/injector.exe
           if ($LASTEXITCODE -ne 0) { throw "Embedded server injector check failed" }
+          & python tests/injector_startup_test.py Release
+          if ($LASTEXITCODE -ne 0) { throw "Injector startup diagnostics regression failed" }
       - name: Test C++ helpers and menu interactions
         run: |
           Set-Location neverlose-csgo
@@ -69,7 +71,8 @@ jobs:
           Copy-Item neverlose-csgo/Release/injector.exe dist/package/
           @'
           Windows 10/11 x64. CS:GO Legacy, windowed/borderless.
-          Keep neverlose.dll next to injector.exe. Start CS:GO, then injector.
+          Keep neverlose.dll next to injector.exe. Injector waits for CS:GO Legacy if it is not running.
+          Startup errors stay visible and are saved to injector.log beside the EXE (or LocalAppData/NeverloseCSGO/logs).
           The local server is embedded. Keep injector open while playing.
           Insert/Home opens the new UI. Existing Ragebot settings use the native game editor.
           CI validates server, packaging and UI interactions; actual gameplay is untested.
