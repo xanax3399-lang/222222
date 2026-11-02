@@ -1,0 +1,178 @@
+info: component rust-std is up to date
+    Updating crates.io index
+   Compiling neverlose-server v0.1.0 (D:\a\222222\222222\neverlose-csgo\server\rust-server)
+   Compiling nl_parser v0.1.0 (D:\a\222222\222222\neverlose-csgo\server\rust-server\nl_parser)
+    Finished `release` profile [optimized] target(s) in 1m 41s
+MSBuild version 18.11.1-1.26513.3+940033be3 for .NET Framework
+Build started 11/2/2026 12:04:03 PM.
+
+     1>Project "D:\a\222222\222222\neverlose-csgo\neverlose.sln" on node 1 (default targets).
+     1>ValidateSolutionConfiguration:
+         Building solution configuration "Release|x86".
+     1>Project "D:\a\222222\222222\neverlose-csgo\neverlose.sln" (1) is building "D:\a\222222\222222\neverlose-csgo\neverlose\neverlose.vcxproj" (2) on node 1 (default targets).
+     2>PrepareForBuild:
+         Creating directory "Release\".
+     1>Project "D:\a\222222\222222\neverlose-csgo\neverlose.sln" (1) is building "D:\a\222222\222222\neverlose-csgo\injector\injector.vcxproj" (3) on node 2 (default targets).
+     3>PrepareForBuild:
+         Creating directory "Release\".
+     2>PrepareForBuild:
+         Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+     3>PrepareForBuild:
+         Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+     2>PrepareForBuild:
+         Creating directory "Release\neverlose.tlog\".
+     3>PrepareForBuild:
+         Creating directory "Release\injector.tlog\".
+     2>InitializeBuildStatus:
+         Creating "Release\neverlose.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+     3>InitializeBuildStatus:
+         Creating "Release\injector.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+     2>InitializeBuildStatus:
+         Touching "Release\neverlose.tlog\unsuccessfulbuild".
+     3>InitializeBuildStatus:
+         Touching "Release\injector.tlog\unsuccessfulbuild".
+     2>ClCompile:
+         C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I"D:\a\222222\222222\neverlose-csgo\vendor\imgui" /I"D:\a\222222\222222\neverlose-csgo\phnt\include" /I"D:\a\222222\222222\neverlose-csgo\vendor\phnt" /I"D:\a\222222\222222\neverlose-csgo\detours\include" /nologo /W3 /WX- /diagnostics:column /sdl- /O2 /Oi /Ot /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _WINDLL /D _UNICODE /D UNICODE /GF /Gm- /MT /GS- /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++20 /permissive- /Fo"Release\\" /Fd"Release\vc143.pdb" /external:W3 /Gd /TP /wd6262 /wd4996 /wd4530 /analyze- /FC /errorReport:queue ui\menu_view.cpp ..\vendor\imgui\imgui.cpp ..\vendor\imgui\imgui_draw.cpp ..\vendor\imgui\imgui_widgets.cpp ..\vendor\imgui\imgui_tables.cpp ..\vendor\imgui\backends\imgui_impl_win32.cpp ..\vendor\imgui\backends\imgui_impl_dx9.cpp crypto_capture.cpp main.cpp neverlose.cpp fix_dump.cpp setup_hooks.cpp HookFn.cpp entry.cpp fix_interfaces.cpp fix_cvars.cpp fix_signatures.cpp FindPattern.cpp mem_dispatcher.cpp sha256.cpp fix_imports.cpp Requestor.cpp spoof.cpp spoof_cpuid.cpp spoof_kusd.cpp spoof_peb.cpp VEH.cpp nadewarn.cpp fix_records_size.cpp fix_lerp_disable.cpp fix_extrap_ticks.cpp fix_hitscan.cpp fix_backtrack_lerp.cpp fix_anim_layers_preserve.cpp fix_crouch_hitscan.cpp nl_anim_hook.cpp fix_persist.cpp fix_rage_records.cpp fix_quit_shutdown.cpp fix_menu_extra.cpp Hide.cpp HideLegit.cpp
+     3>ComputeStdModulesCompileInputs:
+         Reading library manifest file 'C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.44.35207\modules\modules.json' which provides data for library 'microsoft/STL'.
+         Adding module source 'C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx' from library 'microsoft/STL' to be built with this project.
+         Adding module source 'C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx' from library 'microsoft/STL' to be built with this project.
+       MakeDirsForCl:
+         Creating directory "D:\a\222222\222222\neverlose-csgo\injector\Release\microsoft\STL".
+       SetModuleDependencies:
+         Creating directory "Release\injector_MD.tlog\".
+       ClCompile:
+         C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /Zi /nologo /W3 /WX- /diagnostics:column /sdl- /O2 /Oi /Ot /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /GF /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++23preview /permissive- /Fo"Release\\" /Fd"Release\vc143.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue main.cpp
+     2>ClCompile:
+         menu_view.cpp
+     3>ClCompile:
+         main.cpp
+     2>ClCompile:
+         imgui.cpp
+         imgui_draw.cpp
+         imgui_widgets.cpp
+         imgui_tables.cpp
+         imgui_impl_win32.cpp
+         imgui_impl_dx9.cpp
+         crypto_capture.cpp
+         main.cpp
+     3>ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"Release\injector.res" injector.rc 
+       Link:
+         C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"D:\a\222222\222222\neverlose-csgo\Release\injector.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='requireAdministrator' uiAccess='false'" /manifest:embed /PDB:"D:\a\222222\222222\neverlose-csgo\Release\injector.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /LTCGOUT:"Release\injector.iobj" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\a\222222\222222\neverlose-csgo\Release\injector.lib" /MACHINE:X86 /SAFESEH Release\injector.res
+         Release\main.obj
+     2>ClCompile:
+         neverlose.cpp
+         fix_dump.cpp
+     3>Link:
+         Generating code
+         Previous IPDB not found, fall back to full compilation.
+     2>ClCompile:
+         setup_hooks.cpp
+     3>Link:
+         All 900 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+         Finished generating code
+         injector.vcxproj -> D:\a\222222\222222\neverlose-csgo\Release\injector.exe
+       FinalizeBuildStatus:
+         Deleting file "Release\injector.tlog\unsuccessfulbuild".
+         Touching "Release\injector.tlog\injector.lastbuildstate".
+     3>Done Building Project "D:\a\222222\222222\neverlose-csgo\injector\injector.vcxproj" (default targets).
+     2>ClCompile:
+         HookFn.cpp
+         entry.cpp
+         fix_interfaces.cpp
+         fix_cvars.cpp
+         fix_signatures.cpp
+         FindPattern.cpp
+         mem_dispatcher.cpp
+         sha256.cpp
+         Compiling...
+         fix_imports.cpp
+         Requestor.cpp
+         spoof.cpp
+         spoof_cpuid.cpp
+         spoof_kusd.cpp
+         spoof_peb.cpp
+         VEH.cpp
+         nadewarn.cpp
+         fix_records_size.cpp
+         fix_lerp_disable.cpp
+         fix_extrap_ticks.cpp
+         fix_hitscan.cpp
+         fix_backtrack_lerp.cpp
+         fix_anim_layers_preserve.cpp
+         fix_crouch_hitscan.cpp
+         nl_anim_hook.cpp
+         fix_persist.cpp
+         fix_rage_records.cpp
+         fix_quit_shutdown.cpp
+         fix_menu_extra.cpp
+         Compiling...
+         Hide.cpp
+         HideLegit.cpp
+         C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I"D:\a\222222\222222\neverlose-csgo\vendor\imgui" /I"D:\a\222222\222222\neverlose-csgo\phnt\include" /I"D:\a\222222\222222\neverlose-csgo\vendor\phnt" /I"D:\a\222222\222222\neverlose-csgo\detours\include" /nologo /W3 /WX- /diagnostics:column /sdl- /O2 /Oi /Ot /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _WINDLL /D _UNICODE /D UNICODE /GF /Gm- /EHsc /MT /GS- /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++20 /permissive- /Fo"Release\\" /Fd"Release\vc143.pdb" /external:W3 /Gd /TP /wd6262 /wd4996 /wd4530 /analyze- /FC /errorReport:queue ui\cs2_menu.cpp
+         cs2_menu.cpp
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"Release\neverlose.res" neverlose.rc 
+       Link:
+         C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"D:\a\222222\222222\neverlose-csgo\Release\neverlose.dll" /NOLOGO /LIBPATH:"D:\a\222222\222222\neverlose-csgo\detours\x86" d3d9.lib dwmapi.lib shell32.lib imm32.lib gdi32.lib ntdll.lib detours.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:"D:\a\222222\222222\neverlose-csgo\Release\neverlose.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /LTCGOUT:"Release\neverlose.iobj" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\a\222222\222222\neverlose-csgo\Release\neverlose.lib" /MACHINE:X86 /SAFESEH /DLL Release\neverlose.res
+         Release\menu_view.obj
+         Release\cs2_menu.obj
+         Release\imgui.obj
+         Release\imgui_draw.obj
+         Release\imgui_widgets.obj
+         Release\imgui_tables.obj
+         Release\imgui_impl_win32.obj
+         Release\imgui_impl_dx9.obj
+         Release\crypto_capture.obj
+         Release\main.obj
+         Release\neverlose.obj
+         Release\fix_dump.obj
+         Release\setup_hooks.obj
+         Release\HookFn.obj
+         Release\entry.obj
+         Release\fix_interfaces.obj
+         Release\fix_cvars.obj
+         Release\fix_signatures.obj
+         Release\FindPattern.obj
+         Release\mem_dispatcher.obj
+         Release\sha256.obj
+         Release\fix_imports.obj
+         Release\Requestor.obj
+         Release\spoof.obj
+         Release\spoof_cpuid.obj
+         Release\spoof_kusd.obj
+         Release\spoof_peb.obj
+         Release\VEH.obj
+         Release\nadewarn.obj
+         Release\fix_records_size.obj
+         Release\fix_lerp_disable.obj
+         Release\fix_extrap_ticks.obj
+         Release\fix_hitscan.obj
+         Release\fix_backtrack_lerp.obj
+         Release\fix_anim_layers_preserve.obj
+         Release\fix_crouch_hitscan.obj
+         Release\nl_anim_hook.obj
+         Release\fix_persist.obj
+         Release\fix_rage_records.obj
+         Release\fix_quit_shutdown.obj
+         Release\fix_menu_extra.obj
+         Release\Hide.obj
+         Release\HideLegit.obj
+         Generating code
+         Previous IPDB not found, fall back to full compilation.
+         All 4399 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+         Finished generating code
+         neverlose.vcxproj -> D:\a\222222\222222\neverlose-csgo\Release\neverlose.dll
+       FinalizeBuildStatus:
+         Deleting file "Release\neverlose.tlog\unsuccessfulbuild".
+         Touching "Release\neverlose.tlog\neverlose.lastbuildstate".
+     2>Done Building Project "D:\a\222222\222222\neverlose-csgo\neverlose\neverlose.vcxproj" (default targets).
+     1>Done Building Project "D:\a\222222\222222\neverlose-csgo\neverlose.sln" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:01:10.68
+Ready: Release/neverlose.dll + Release/injector.exe. Server is embedded in injector.exe.
