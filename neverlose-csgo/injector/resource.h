@@ -1,0 +1,5 @@
+#pragma once
+
+#define IDR_NEVERLOSE_SERVER 201
+
+#define IDR_UNWIND_RUNTIME 202

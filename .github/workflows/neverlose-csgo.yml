@@ -1,0 +1,116 @@
+name: Neverlose CS GO Windows
+on:
+  push:
+    branches: [codex/neverlose-csgo-build]
+    paths: ['neverlose-csgo/**', '.github/workflows/neverlose-csgo.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: neverlose-csgo-windows
+  cancel-in-progress: false
+jobs:
+  windows:
+    runs-on: windows-2025
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - uses: microsoft/setup-msbuild@v2
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.88.0
+          targets: x86_64-pc-windows-msvc
+      - name: Build DLL, embedded server and injector
+        run: |
+          & ./neverlose-csgo/build_windows.ps1 -PlatformToolset v143 *> "$env:GITHUB_WORKSPACE/build.log"
+          if ($LASTEXITCODE -ne 0) { throw "Build failed; see build.log" }
+      - name: Test embedded server and exact PE resources
+        run: |
+          Set-Location neverlose-csgo
+          & cargo test --locked --manifest-path server/rust-server/Cargo.toml
+          if ($LASTEXITCODE -ne 0) { throw "Server tests failed" }
+          & python tests/check_release.py Release
+          if ($LASTEXITCODE -ne 0) { throw "PE resource check failed" }
+          & python tests/server_smoke.py Release/neverlose-server.exe
+          if ($LASTEXITCODE -ne 0) { throw "Server functional check failed" }
+      - name: Test C++ helpers and menu interactions
+        run: |
+          Set-Location neverlose-csgo
+          New-Item -ItemType Directory -Force ci-tests | Out-Null
+          & cl /nologo /std:c++20 /EHsc tests/rage_record_logic_test/rage_record_logic_test.cpp /Fe:ci-tests/rage-records.exe
+          if ($LASTEXITCODE -ne 0) { throw "Rage record test compilation failed" }
+          & ./ci-tests/rage-records.exe
+          if ($LASTEXITCODE -ne 0) { throw "Rage record test failed" }
+          & cl /nologo /std:c++20 /EHsc tests/crouch_hitscan_logic_test.cpp /Fe:ci-tests/crouch-points.exe
+          if ($LASTEXITCODE -ne 0) { throw "Crouch point test compilation failed" }
+          & ./ci-tests/crouch-points.exe
+          if ($LASTEXITCODE -ne 0) { throw "Crouch point test failed" }
+          & cl /nologo /std:c++20 /EHsc /Ivendor/imgui tests/menu_render_test.cpp neverlose/ui/menu_view.cpp vendor/imgui/imgui.cpp vendor/imgui/imgui_draw.cpp vendor/imgui/imgui_widgets.cpp vendor/imgui/imgui_tables.cpp /Fe:ci-tests/menu.exe
+          if ($LASTEXITCODE -ne 0) { throw "Menu test compilation failed" }
+          & ./ci-tests/menu.exe preview
+          if ($LASTEXITCODE -ne 0) { throw "Menu interaction test failed" }
+      - name: Package two-file distribution
+        run: |
+          New-Item -ItemType Directory -Force dist/package | Out-Null
+          Copy-Item neverlose-csgo/Release/neverlose.dll dist/package/
+          Copy-Item neverlose-csgo/Release/injector.exe dist/package/
+          @'
+          Windows 10/11 x64. CS:GO Legacy, windowed/borderless.
+          Keep neverlose.dll next to injector.exe. Start CS:GO, then injector.
+          The local server is embedded. Keep injector open while playing.
+          Insert/Home opens the new UI. Existing Ragebot settings use the native game editor.
+          CI validates server, packaging and UI interactions; actual gameplay is untested.
+          '@ | Set-Content -Encoding utf8 dist/package/README.txt
+          Copy-Item neverlose-csgo/vendor/imgui/LICENSE.txt dist/package/ImGui-LICENSE.txt
+          Copy-Item neverlose-csgo/Release/build_receipt.json dist/package/
+          Compress-Archive -Path dist/package/* -DestinationPath dist/neverlose-csgo-windows.zip -Force
+      - name: Publish GitHub download
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tag = "neverlose-csgo-$env:GITHUB_SHA"
+          $notes = "CS:GO Legacy x86 DLL and injector with embedded local server. New UI requires windowed/borderless mode. Server and UI tests pass; gameplay was not exercised by CI."
+          & gh release view $tag --repo "$env:GITHUB_REPOSITORY" *> $null
+          if ($LASTEXITCODE -eq 0) {
+            & gh release upload $tag dist/neverlose-csgo-windows.zip --clobber --repo "$env:GITHUB_REPOSITORY"
+          } else {
+            & gh release create $tag dist/neverlose-csgo-windows.zip --target "$env:GITHUB_SHA" --title "Neverlose CS:GO $($env:GITHUB_SHA.Substring(0,7))" --notes $notes --repo "$env:GITHUB_REPOSITORY"
+          }
+          if ($LASTEXITCODE -ne 0) { throw "GitHub release publication failed" }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: neverlose-csgo-build-${{ github.run_number }}
+          path: |
+            build.log
+            dist/neverlose-csgo-windows.zip
+            neverlose-csgo/Release/build_receipt.json
+          if-no-files-found: warn
+      - name: Publish machine-readable build status through Git
+        if: always()
+        env:
+          BUILD_JOB_STATUS: ${{ job.status }}
+        run: |
+          $status = @{ source_sha=$env:GITHUB_SHA; outcome=$env:BUILD_JOB_STATUS; run_url="$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID"; download_url="$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/releases/download/neverlose-csgo-$env:GITHUB_SHA/neverlose-csgo-windows.zip" }
+          $statusPath = Join-Path $env:RUNNER_TEMP 'nl-status.json'
+          $status | ConvertTo-Json | Set-Content -Encoding utf8 $statusPath
+          $statusBlob = (& git hash-object -w -- $statusPath).Trim()
+          $treeLines = @("100644 blob $statusBlob`tstatus.json")
+          if (Test-Path build.log) {
+            $logPath = Join-Path $env:RUNNER_TEMP 'nl-build-tail.txt'
+            Get-Content build.log -Tail 600 | Set-Content -Encoding utf8 $logPath
+            $logBlob = (& git hash-object -w -- $logPath).Trim()
+            $treeLines += "100644 blob $logBlob`tbuild.log"
+          }
+          $tree = ($treeLines | & git mktree).Trim()
+          $commit = (& git -c user.name=github-actions -c user.email=github-actions@users.noreply.github.com commit-tree $tree -m "Build status $env:GITHUB_SHA").Trim()
+          & git push --force origin "${commit}:refs/heads/codex/neverlose-csgo-status"
+          if ($LASTEXITCODE -ne 0) { throw "Could not publish build status" }

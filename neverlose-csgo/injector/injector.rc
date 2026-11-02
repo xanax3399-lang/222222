@@ -1,0 +1,7 @@
+#include "resource.h"
+
+IDR_NEVERLOSE_SERVER BINARY "../Release/neverlose-server.exe"
+
+#ifdef BUNDLE_LLVM_UNWIND
+IDR_UNWIND_RUNTIME BINARY "../Release/libunwind.dll"
+#endif
