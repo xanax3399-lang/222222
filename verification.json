@@ -3,7 +3,7 @@
   "original_file": "output_outlaw_beta (1).lua",
   "original_sha256": "b02aee528f19bc85f6c02f61530372798e164465fa6f0bf94d1ca8e812400be2",
   "recovered_file": "outlaw_source.lua",
-  "recovered_sha256": "68529fd0e170591dd7c2f7bd060905b75bf6bde273eb0ebfe41d593d3254b041",
+  "recovered_sha256": "d0920a70e34a18365f40d4e299d20f0e975db9f3c733fd4274f4df79cbe682fb",
   "original_application_functions": 386,
   "recovered_function_ids": [
     1,
@@ -519,6 +519,18 @@
     "cause": "Constructor wrapper overwritten with nil and hotkey method assigned nil",
     "repair": "Bind the constructor wrapper to Function 317 and hotkey to Function 323",
     "validation": "Baseline failure reproduced; 13 UI checks passed with mocked GameSense UI; both Lua files compile with LuaJIT",
+    "full_windows_gamesense_execution_tested": false
+  },
+  "callback_binding_repair": {
+    "reported_error": "2461: bad argument #2 to set_event_callback (function expected, got nil)",
+    "cause": "Unassigned value_192 used instead of the reconstructed local functions",
+    "repair": {
+      "shutdown": "Function 245 (restore native UI visibility)",
+      "config_list": "Function 253 (refresh configuration names)",
+      "import": "Function 296 (decode and import config)",
+      "delete": "Function 289 (delete selected config)"
+    },
+    "validation": "Baseline registration failure reproduced; UI hide/restore, config list initialization/refresh, import and delete bindings executed with mocked APIs; LuaJIT compilation passed",
     "full_windows_gamesense_execution_tested": false
   }
 }

@@ -2458,7 +2458,7 @@ end
                                                                 return
                                                             end
                                                             client.set_event_callback("paint_ui", callback_3)
-                                                            client.set_event_callback("shutdown", value_192)
+                                                            client.set_event_callback("shutdown", callback_10)
                                                         end
                                                         do
                                                             local selectable, temporary_28, log_events, crosshair_indicators
@@ -2601,8 +2601,8 @@ end
                                                                                             return
                                                                                         end
                                                                                     end)(value_126))
-                                                                                    callback_6 = value_192
-                                                                                    value_192()
+                                                                                    callback_6 = value_125
+                                                                                    callback_6()
                                                                                     callback_15 = value_46
                                                                                     temporary_28 = "Config name"
                                                                                     value_125 = value_46.input(callback_15, temporary_28)
@@ -2645,7 +2645,7 @@ end
                                                                                         callback_11(false, "failed to import config")
                                                                                         return
                                                                                     end
-                                                                                    callback_15 = value_192
+                                                                                    callback_15 = load_control
                                                                                     --[[ Function 255 ]] function temporary_28()
                                                                                         local value_2 = screen_size.export()
                                                                                         local value = json.stringify(value_2)
@@ -2745,7 +2745,7 @@ end
                                                                                         return
                                                                                     end
                                                                                 end)(value_193, value_194, value_195))
-                                                                                callback_16(value_136, value_192)
+                                                                                callback_16(value_136, value_157)
                                                                             end
                                                                             local import_from_clipboard_control, export_to_clipboard_control, callback_14, enabled_16, value_117, value_121, value_119, value_116, value_124, value_122, value_120, value_123, value_118 = nil, nil, nil, nil, value_128, value_132, value_130, value_127, value_135, value_133, value_131, value_134, value_129
                                                                             import_from_clipboard_control = value_46.button(value_46, "Import from clipboard")
