@@ -1,0 +1,2262 @@
+{
+  "input_sha256": "79254d69a1bf743027c8d10fb8a8cd817043a31edd70a0c44e8226d797979e9a",
+  "output_sha256": "f5b14743778dfc58351a97d8c0130583bf1b559b0a41ac04e99a700a9004321c",
+  "luajit_compilation": "input and output passed",
+  "individual_factory_fragments_compiled": 564,
+  "flat_source_lua54_compilation": "passed",
+  "flat_source_luajit_compilation": "unsupported: control structure too long",
+  "functions_instantiated": 564,
+  "completed_matching_trials": 477,
+  "value_comparison_trials": 471,
+  "returned_function_structure_only_trials": 6,
+  "completed_matching_function_ids": [
+    3,
+    4,
+    5,
+    6,
+    9,
+    11,
+    12,
+    13,
+    14,
+    15,
+    26,
+    27,
+    28,
+    29,
+    31,
+    34,
+    44,
+    48,
+    49,
+    50,
+    51,
+    54,
+    55,
+    57,
+    58,
+    67,
+    68,
+    69,
+    71,
+    72,
+    79,
+    80,
+    82,
+    85,
+    87,
+    88,
+    90,
+    92,
+    95,
+    97,
+    105,
+    106,
+    108,
+    110,
+    112,
+    113,
+    114,
+    115,
+    117,
+    118,
+    119,
+    120,
+    122,
+    127,
+    136,
+    137,
+    138,
+    158,
+    160,
+    163,
+    164,
+    165,
+    166,
+    170,
+    175,
+    176,
+    181,
+    183,
+    184,
+    185,
+    195,
+    200,
+    202,
+    210,
+    212,
+    216,
+    218,
+    219,
+    232,
+    236,
+    242,
+    244,
+    248,
+    249,
+    250,
+    251,
+    252,
+    259,
+    263,
+    265,
+    268,
+    269,
+    270,
+    271,
+    274,
+    277,
+    278,
+    280,
+    281,
+    284,
+    286,
+    288,
+    290,
+    291,
+    297,
+    298,
+    304,
+    305,
+    306,
+    308,
+    309,
+    312,
+    324,
+    326,
+    328,
+    329,
+    330,
+    335,
+    341,
+    343,
+    345,
+    347,
+    348,
+    352,
+    359,
+    365,
+    368,
+    374,
+    377,
+    379,
+    382,
+    383,
+    386,
+    390,
+    395,
+    400,
+    402,
+    403,
+    404,
+    405,
+    414,
+    416,
+    419,
+    420,
+    421,
+    422,
+    428,
+    429,
+    431,
+    433,
+    434,
+    435,
+    437,
+    440,
+    441,
+    445,
+    448,
+    455,
+    460,
+    461,
+    463,
+    465,
+    470,
+    471,
+    477,
+    478,
+    479,
+    480,
+    497,
+    501,
+    505,
+    509,
+    516,
+    517,
+    526,
+    528,
+    529,
+    531,
+    537,
+    538,
+    540,
+    543,
+    545,
+    546,
+    547,
+    550,
+    551,
+    553,
+    554
+  ],
+  "both_errored_trials_not_validation": 2331,
+  "mismatches": [],
+  "error_message_differences": [
+    [
+      4,
+      2,
+      "b'attempt to perform arithmetic on a string value'",
+      "b\"attempt to perform arithmetic on local 'slot_2' (a string value)\""
+    ],
+    [
+      4,
+      3,
+      "b'attempt to perform arithmetic on a table value'",
+      "b\"attempt to perform arithmetic on local 'slot_2' (a table value)\""
+    ],
+    [
+      4,
+      5,
+      "b'attempt to perform arithmetic on a nil value'",
+      "b\"attempt to perform arithmetic on local 'slot_2' (a nil value)\""
+    ],
+    [
+      18,
+      1,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_2' (a nil value)\""
+    ],
+    [
+      18,
+      2,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_2' (a nil value)\""
+    ],
+    [
+      18,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_2' (a nil value)\""
+    ],
+    [
+      18,
+      4,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_2' (a nil value)\""
+    ],
+    [
+      18,
+      5,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_2' (a nil value)\""
+    ],
+    [
+      19,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      27,
+      1,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      27,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_2' (a table value)\""
+    ],
+    [
+      27,
+      4,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      27,
+      5,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      31,
+      1,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      31,
+      2,
+      "b'attempt to index a string value'",
+      "b\"attempt to index local 'slot_1' (a string value)\""
+    ],
+    [
+      31,
+      4,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      31,
+      5,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      34,
+      2,
+      "b'attempt to perform arithmetic on a string value'",
+      "b\"attempt to perform arithmetic on local 'slot_5' (a string value)\""
+    ],
+    [
+      34,
+      3,
+      "b'attempt to perform arithmetic on a table value'",
+      "b\"attempt to perform arithmetic on local 'slot_5' (a table value)\""
+    ],
+    [
+      34,
+      5,
+      "b'attempt to perform arithmetic on a nil value'",
+      "b\"attempt to perform arithmetic on local 'slot_5' (a nil value)\""
+    ],
+    [
+      35,
+      1,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_9' (a number value)\""
+    ],
+    [
+      35,
+      2,
+      "b'attempt to perform arithmetic on a string value'",
+      "b\"attempt to perform arithmetic on local 'slot_2' (a string value)\""
+    ],
+    [
+      35,
+      3,
+      "b'attempt to perform arithmetic on a table value'",
+      "b\"attempt to perform arithmetic on local 'slot_2' (a table value)\""
+    ],
+    [
+      35,
+      4,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_9' (a number value)\""
+    ],
+    [
+      35,
+      5,
+      "b'attempt to perform arithmetic on a nil value'",
+      "b\"attempt to perform arithmetic on local 'slot_2' (a nil value)\""
+    ],
+    [
+      59,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      63,
+      1,
+      "b'attempt to get length of a number value'",
+      "b\"attempt to get length of local 'slot_2' (a number value)\""
+    ],
+    [
+      63,
+      2,
+      "b'attempt to get length of a function value'",
+      "b\"attempt to get length of local 'slot_2' (a function value)\""
+    ],
+    [
+      63,
+      3,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_6' (a number value)\""
+    ],
+    [
+      63,
+      4,
+      "b'attempt to get length of a number value'",
+      "b\"attempt to get length of local 'slot_2' (a number value)\""
+    ],
+    [
+      63,
+      5,
+      "b'attempt to get length of a number value'",
+      "b\"attempt to get length of local 'slot_2' (a number value)\""
+    ],
+    [
+      64,
+      1,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_8' (a number value)\""
+    ],
+    [
+      64,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_8' (a table value)\""
+    ],
+    [
+      64,
+      4,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_8' (a number value)\""
+    ],
+    [
+      64,
+      5,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_8' (a number value)\""
+    ],
+    [
+      73,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_2' (a nil value)\""
+    ],
+    [
+      75,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_2' (a nil value)\""
+    ],
+    [
+      77,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_3' (a nil value)\""
+    ],
+    [
+      84,
+      3,
+      "b'attempt to perform arithmetic on a nil value'",
+      "b\"attempt to perform arithmetic on local 'slot_2' (a nil value)\""
+    ],
+    [
+      88,
+      2,
+      "b'attempt to perform arithmetic on a string value'",
+      "b\"attempt to perform arithmetic on local 'slot_1' (a string value)\""
+    ],
+    [
+      88,
+      3,
+      "b'attempt to perform arithmetic on a table value'",
+      "b\"attempt to perform arithmetic on local 'slot_1' (a table value)\""
+    ],
+    [
+      88,
+      5,
+      "b'attempt to perform arithmetic on a nil value'",
+      "b\"attempt to perform arithmetic on local 'slot_1' (a nil value)\""
+    ],
+    [
+      89,
+      1,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_4' (a number value)\""
+    ],
+    [
+      89,
+      2,
+      "b'attempt to perform arithmetic on a string value'",
+      "b\"attempt to perform arithmetic on local 'slot_1' (a string value)\""
+    ],
+    [
+      89,
+      3,
+      "b'attempt to perform arithmetic on a table value'",
+      "b\"attempt to perform arithmetic on local 'slot_1' (a table value)\""
+    ],
+    [
+      89,
+      4,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_4' (a number value)\""
+    ],
+    [
+      89,
+      5,
+      "b'attempt to perform arithmetic on a nil value'",
+      "b\"attempt to perform arithmetic on local 'slot_1' (a nil value)\""
+    ],
+    [
+      90,
+      2,
+      "b'attempt to perform arithmetic on a string value'",
+      "b\"attempt to perform arithmetic on local 'slot_1' (a string value)\""
+    ],
+    [
+      90,
+      3,
+      "b'attempt to perform arithmetic on a table value'",
+      "b\"attempt to perform arithmetic on local 'slot_1' (a table value)\""
+    ],
+    [
+      90,
+      5,
+      "b'attempt to perform arithmetic on a nil value'",
+      "b\"attempt to perform arithmetic on local 'slot_1' (a nil value)\""
+    ],
+    [
+      92,
+      1,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_1' (a number value)\""
+    ],
+    [
+      92,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_1' (a table value)\""
+    ],
+    [
+      92,
+      4,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_1' (a number value)\""
+    ],
+    [
+      92,
+      5,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_1' (a number value)\""
+    ],
+    [
+      95,
+      1,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_1' (a number value)\""
+    ],
+    [
+      95,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_1' (a table value)\""
+    ],
+    [
+      95,
+      4,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_1' (a number value)\""
+    ],
+    [
+      95,
+      5,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_1' (a number value)\""
+    ],
+    [
+      118,
+      2,
+      "b'attempt to perform arithmetic on a string value'",
+      "b\"attempt to perform arithmetic on local 'slot_2' (a string value)\""
+    ],
+    [
+      118,
+      3,
+      "b'attempt to perform arithmetic on a table value'",
+      "b\"attempt to perform arithmetic on local 'slot_2' (a table value)\""
+    ],
+    [
+      118,
+      5,
+      "b'attempt to perform arithmetic on a nil value'",
+      "b\"attempt to perform arithmetic on local 'slot_2' (a nil value)\""
+    ],
+    [
+      126,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      130,
+      1,
+      "b'attempt to get length of a number value'",
+      "b\"attempt to get length of local 'slot_3' (a number value)\""
+    ],
+    [
+      130,
+      2,
+      "b'attempt to get length of a function value'",
+      "b\"attempt to get length of local 'slot_3' (a function value)\""
+    ],
+    [
+      130,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_5' (a table value)\""
+    ],
+    [
+      130,
+      4,
+      "b'attempt to get length of a number value'",
+      "b\"attempt to get length of local 'slot_3' (a number value)\""
+    ],
+    [
+      130,
+      5,
+      "b'attempt to get length of a number value'",
+      "b\"attempt to get length of local 'slot_3' (a number value)\""
+    ],
+    [
+      131,
+      3,
+      "b'attempt to perform arithmetic on a table value'",
+      "b\"attempt to perform arithmetic on local 'slot_1' (a table value)\""
+    ],
+    [
+      134,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      136,
+      1,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      136,
+      4,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      141,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      143,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_2' (a nil value)\""
+    ],
+    [
+      144,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_2' (a nil value)\""
+    ],
+    [
+      145,
+      2,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_4' (a nil value)\""
+    ],
+    [
+      145,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_4' (a nil value)\""
+    ],
+    [
+      151,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_5' (a nil value)\""
+    ],
+    [
+      152,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      157,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      169,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      173,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      180,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_1' (a table value)\""
+    ],
+    [
+      186,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      193,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      194,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      197,
+      1,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      197,
+      2,
+      "b'attempt to index a string value'",
+      "b\"attempt to index local 'slot_1' (a string value)\""
+    ],
+    [
+      197,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_3' (a nil value)\""
+    ],
+    [
+      197,
+      4,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      197,
+      5,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      198,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      202,
+      2,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      202,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      203,
+      2,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      203,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      204,
+      2,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      204,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      205,
+      2,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      205,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      206,
+      2,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      206,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      207,
+      2,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      207,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      208,
+      2,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      208,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      210,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      211,
+      1,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      211,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_2' (a table value)\""
+    ],
+    [
+      211,
+      4,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      211,
+      5,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      212,
+      1,
+      "b'attempt to get length of a number value'",
+      "b\"attempt to get length of local 'slot_1' (a number value)\""
+    ],
+    [
+      212,
+      2,
+      "b'attempt to index a string value'",
+      "b\"attempt to index local 'slot_1' (a string value)\""
+    ],
+    [
+      212,
+      4,
+      "b'attempt to get length of a number value'",
+      "b\"attempt to get length of local 'slot_1' (a number value)\""
+    ],
+    [
+      212,
+      5,
+      "b'attempt to get length of a nil value'",
+      "b\"attempt to get length of local 'slot_1' (a nil value)\""
+    ],
+    [
+      213,
+      3,
+      "b'attempt to perform arithmetic on a table value'",
+      "b\"attempt to perform arithmetic on local 'slot_1' (a table value)\""
+    ],
+    [
+      214,
+      3,
+      "b'attempt to perform arithmetic on a table value'",
+      "b\"attempt to perform arithmetic on local 'slot_2' (a table value)\""
+    ],
+    [
+      216,
+      1,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      216,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_2' (a table value)\""
+    ],
+    [
+      216,
+      4,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      216,
+      5,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      218,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      220,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_3' (a nil value)\""
+    ],
+    [
+      221,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      222,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      228,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_6' (a nil value)\""
+    ],
+    [
+      230,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      233,
+      1,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      233,
+      2,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_2' (a number value)\""
+    ],
+    [
+      233,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_2' (a table value)\""
+    ],
+    [
+      233,
+      4,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      233,
+      5,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      234,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      237,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      238,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_2' (a nil value)\""
+    ],
+    [
+      239,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      240,
+      1,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      240,
+      2,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_3' (a nil value)\""
+    ],
+    [
+      240,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_3' (a nil value)\""
+    ],
+    [
+      240,
+      4,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      240,
+      5,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      243,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      244,
+      1,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_2' (a number value)\""
+    ],
+    [
+      244,
+      4,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_2' (a number value)\""
+    ],
+    [
+      246,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      248,
+      2,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_3' (a nil value)\""
+    ],
+    [
+      248,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_3' (a nil value)\""
+    ],
+    [
+      254,
+      3,
+      "b'attempt to perform arithmetic on a nil value'",
+      "b\"attempt to perform arithmetic on local 'slot_1' (a nil value)\""
+    ],
+    [
+      257,
+      1,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      257,
+      2,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_3' (a nil value)\""
+    ],
+    [
+      257,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_3' (a nil value)\""
+    ],
+    [
+      257,
+      4,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      257,
+      5,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      258,
+      1,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_3' (a number value)\""
+    ],
+    [
+      258,
+      2,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_4' (a nil value)\""
+    ],
+    [
+      258,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_3' (a table value)\""
+    ],
+    [
+      258,
+      4,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_3' (a number value)\""
+    ],
+    [
+      258,
+      5,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_3' (a number value)\""
+    ],
+    [
+      266,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      273,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      275,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      284,
+      1,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_5' (a number value)\""
+    ],
+    [
+      284,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_5' (a table value)\""
+    ],
+    [
+      284,
+      4,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_5' (a number value)\""
+    ],
+    [
+      284,
+      5,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_5' (a number value)\""
+    ],
+    [
+      285,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      286,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_6' (a nil value)\""
+    ],
+    [
+      289,
+      2,
+      "b'attempt to perform arithmetic on a string value'",
+      "b\"attempt to perform arithmetic on local 'slot_2' (a string value)\""
+    ],
+    [
+      289,
+      3,
+      "b'attempt to perform arithmetic on a table value'",
+      "b\"attempt to perform arithmetic on local 'slot_2' (a table value)\""
+    ],
+    [
+      289,
+      5,
+      "b'attempt to perform arithmetic on a nil value'",
+      "b\"attempt to perform arithmetic on local 'slot_2' (a nil value)\""
+    ],
+    [
+      290,
+      1,
+      "b'attempt to get length of a number value'",
+      "b\"attempt to get length of local 'slot_1' (a number value)\""
+    ],
+    [
+      290,
+      3,
+      "b'attempt to perform arithmetic on a table value'",
+      "b\"attempt to perform arithmetic on local 'slot_2' (a table value)\""
+    ],
+    [
+      290,
+      4,
+      "b'attempt to get length of a number value'",
+      "b\"attempt to get length of local 'slot_1' (a number value)\""
+    ],
+    [
+      295,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_2' (a nil value)\""
+    ],
+    [
+      298,
+      2,
+      "b'attempt to get length of a function value'",
+      "b\"attempt to get length of local 'slot_3' (a function value)\""
+    ],
+    [
+      299,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      306,
+      3,
+      "b'attempt to concatenate a table value'",
+      "b\"attempt to concatenate local 'slot_1' (a table value)\""
+    ],
+    [
+      313,
+      2,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      313,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      315,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      316,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      323,
+      1,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      323,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_2' (a table value)\""
+    ],
+    [
+      323,
+      4,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      323,
+      5,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      325,
+      1,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      325,
+      2,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_2' (a nil value)\""
+    ],
+    [
+      325,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_2' (a nil value)\""
+    ],
+    [
+      325,
+      4,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      325,
+      5,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      326,
+      1,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      326,
+      4,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      326,
+      5,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      327,
+      2,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      327,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      328,
+      1,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      328,
+      4,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      330,
+      1,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      330,
+      4,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      332,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      338,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      339,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      340,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_5' (a nil value)\""
+    ],
+    [
+      342,
+      1,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_2' (a number value)\""
+    ],
+    [
+      342,
+      2,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_3' (a nil value)\""
+    ],
+    [
+      342,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_3' (a nil value)\""
+    ],
+    [
+      342,
+      4,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_2' (a number value)\""
+    ],
+    [
+      342,
+      5,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_2' (a nil value)\""
+    ],
+    [
+      346,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      349,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      350,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      351,
+      3,
+      "b'attempt to perform arithmetic on a table value'",
+      "b\"attempt to perform arithmetic on local 'slot_1' (a table value)\""
+    ],
+    [
+      363,
+      1,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_3' (a number value)\""
+    ],
+    [
+      363,
+      3,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_3' (a number value)\""
+    ],
+    [
+      363,
+      4,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_3' (a number value)\""
+    ],
+    [
+      363,
+      5,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_3' (a nil value)\""
+    ],
+    [
+      368,
+      1,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      368,
+      4,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      370,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      371,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      373,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_2' (a nil value)\""
+    ],
+    [
+      374,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      375,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      376,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      379,
+      1,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      379,
+      4,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      384,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      386,
+      1,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      386,
+      4,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      388,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      398,
+      1,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      398,
+      2,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_3' (a nil value)\""
+    ],
+    [
+      398,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_2' (a table value)\""
+    ],
+    [
+      398,
+      4,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      398,
+      5,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      400,
+      1,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      400,
+      4,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      401,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      406,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      417,
+      1,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      417,
+      2,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      417,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      417,
+      4,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      417,
+      5,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      425,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_3' (a table value)\""
+    ],
+    [
+      427,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      433,
+      1,
+      "b'attempt to get length of a number value'",
+      "b\"attempt to get length of local 'slot_1' (a number value)\""
+    ],
+    [
+      433,
+      4,
+      "b'attempt to get length of a number value'",
+      "b\"attempt to get length of local 'slot_1' (a number value)\""
+    ],
+    [
+      433,
+      5,
+      "b'attempt to get length of a nil value'",
+      "b\"attempt to get length of local 'slot_1' (a nil value)\""
+    ],
+    [
+      443,
+      1,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      443,
+      2,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_2' (a nil value)\""
+    ],
+    [
+      443,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_2' (a nil value)\""
+    ],
+    [
+      443,
+      4,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      443,
+      5,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      445,
+      1,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      445,
+      4,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      445,
+      5,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      446,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_2' (a nil value)\""
+    ],
+    [
+      449,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_6' (a nil value)\""
+    ],
+    [
+      450,
+      2,
+      "b'attempt to perform arithmetic on a string value'",
+      "b\"attempt to perform arithmetic on local 'slot_4' (a string value)\""
+    ],
+    [
+      450,
+      3,
+      "b'attempt to perform arithmetic on a table value'",
+      "b\"attempt to perform arithmetic on local 'slot_4' (a table value)\""
+    ],
+    [
+      454,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_6' (a nil value)\""
+    ],
+    [
+      455,
+      1,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      455,
+      4,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      459,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_1' (a table value)\""
+    ],
+    [
+      461,
+      1,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      461,
+      4,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      462,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      464,
+      1,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      464,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_2' (a table value)\""
+    ],
+    [
+      464,
+      4,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      464,
+      5,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      466,
+      3,
+      "b'attempt to perform arithmetic on a nil value'",
+      "b\"attempt to perform arithmetic on local 'slot_3' (a nil value)\""
+    ],
+    [
+      469,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      470,
+      1,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      470,
+      4,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      473,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      474,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      475,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      476,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      481,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_3' (a nil value)\""
+    ],
+    [
+      482,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      487,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_1' (a table value)\""
+    ],
+    [
+      488,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_1' (a table value)\""
+    ],
+    [
+      489,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_1' (a table value)\""
+    ],
+    [
+      490,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_1' (a table value)\""
+    ],
+    [
+      491,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      492,
+      2,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      492,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      497,
+      1,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      497,
+      4,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      504,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_3' (a nil value)\""
+    ],
+    [
+      505,
+      2,
+      "b'attempt to perform arithmetic on a string value'",
+      "b\"attempt to perform arithmetic on local 'slot_2' (a string value)\""
+    ],
+    [
+      508,
+      2,
+      "b'attempt to perform arithmetic on a string value'",
+      "b\"attempt to perform arithmetic on local 'slot_1' (a string value)\""
+    ],
+    [
+      508,
+      3,
+      "b'attempt to perform arithmetic on a table value'",
+      "b\"attempt to perform arithmetic on local 'slot_1' (a table value)\""
+    ],
+    [
+      508,
+      5,
+      "b'attempt to perform arithmetic on a nil value'",
+      "b\"attempt to perform arithmetic on local 'slot_1' (a nil value)\""
+    ],
+    [
+      509,
+      2,
+      "b'attempt to perform arithmetic on a string value'",
+      "b\"attempt to perform arithmetic on local 'slot_3' (a string value)\""
+    ],
+    [
+      509,
+      3,
+      "b'attempt to perform arithmetic on a table value'",
+      "b\"attempt to perform arithmetic on local 'slot_2' (a table value)\""
+    ],
+    [
+      515,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      520,
+      1,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_3' (a number value)\""
+    ],
+    [
+      520,
+      2,
+      "b'attempt to get length of a number value'",
+      "b\"attempt to get length of local 'slot_3' (a number value)\""
+    ],
+    [
+      520,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_3' (a table value)\""
+    ],
+    [
+      520,
+      4,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_3' (a number value)\""
+    ],
+    [
+      520,
+      5,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_3' (a number value)\""
+    ],
+    [
+      521,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_2' (a nil value)\""
+    ],
+    [
+      524,
+      2,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      524,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_2' (a nil value)\""
+    ],
+    [
+      525,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      526,
+      1,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      526,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_2' (a table value)\""
+    ],
+    [
+      526,
+      4,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      527,
+      3,
+      "b'attempt to call a nil value'",
+      "b\"attempt to call local 'slot_1' (a nil value)\""
+    ],
+    [
+      534,
+      1,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      534,
+      4,
+      "b'attempt to index a number value'",
+      "b\"attempt to index local 'slot_1' (a number value)\""
+    ],
+    [
+      535,
+      1,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      535,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_2' (a table value)\""
+    ],
+    [
+      535,
+      4,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      535,
+      5,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_2' (a number value)\""
+    ],
+    [
+      536,
+      3,
+      "b'attempt to index a nil value'",
+      "b\"attempt to index local 'slot_1' (a nil value)\""
+    ],
+    [
+      539,
+      1,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_3' (a number value)\""
+    ],
+    [
+      539,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_3' (a table value)\""
+    ],
+    [
+      539,
+      4,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_3' (a number value)\""
+    ],
+    [
+      539,
+      5,
+      "b'attempt to call a number value'",
+      "b\"attempt to call local 'slot_3' (a number value)\""
+    ],
+    [
+      548,
+      3,
+      "b'attempt to call a table value'",
+      "b\"attempt to call local 'slot_1' (a table value)\""
+    ]
+  ],
+  "nondeterministic_trials_not_validation": [
+    [
+      329,
+      3,
+      "b'1:string:\"table: 0x444dca90\"'",
+      "b'1:string:\"table: 0x444e1170\"'",
+      "b'1:string:\"table: 0x444e3540\"'"
+    ],
+    [
+      395,
+      3,
+      "b'1:string:\"table: 0x446d7b50\"'",
+      "b'1:string:\"table: 0x446dc2d0\"'",
+      "b'1:string:\"table: 0x446de700\"'"
+    ],
+    [
+      549,
+      1,
+      "b'1:number:5320'",
+      "b'1:number:3112'",
+      "b'1:number:7534246'"
+    ],
+    [
+      549,
+      2,
+      "b'1:number:5120'",
+      "b'1:number:2464869'",
+      "b'1:number:4336317'"
+    ],
+    [
+      549,
+      3,
+      "b'1:number:4496503'",
+      "b'1:number:5093840'",
+      "b'1:number:5728'"
+    ],
+    [
+      549,
+      4,
+      "b'1:number:1129398'",
+      "b'1:number:12983471'",
+      "b'1:number:5741135'"
+    ],
+    [
+      549,
+      5,
+      "b'1:number:4606'",
+      "b'1:number:4278'",
+      "b'1:number:3348'"
+    ],
+    [
+      552,
+      1,
+      "b'1:number:7002'",
+      "b'1:number:4542'",
+      "b'1:number:5186'"
+    ],
+    [
+      552,
+      2,
+      "b'1:number:4692'",
+      "b'1:number:4696'",
+      "b'1:number:5618'"
+    ],
+    [
+      552,
+      3,
+      "b'1:number:5902'",
+      "b'1:number:5426'",
+      "b'1:number:6150'"
+    ],
+    [
+      552,
+      4,
+      "b'1:number:3156'",
+      "b'1:number:3636'",
+      "b'1:number:4374'"
+    ],
+    [
+      552,
+      5,
+      "b'1:number:3756'",
+      "b'1:number:2692'",
+      "b'1:number:3382'"
+    ]
+  ],
+  "unsigned_xor_vectors": 30,
+  "arithmetic_xor_body_vectors": 30,
+  "sha256_reconstruction_vectors": 14,
+  "sha256_standard_passes": 24,
+  "sha256_standard_failures_inherited_from_input": [
+    {
+      "version": "input",
+      "method": "sha256",
+      "input_length": 55,
+      "matches_supplied_input": false
+    },
+    {
+      "version": "input",
+      "method": "sha256_binary",
+      "input_length": 55,
+      "matches_supplied_input": false
+    },
+    {
+      "version": "output",
+      "method": "sha256",
+      "input_length": 55,
+      "matches_supplied_input": true
+    },
+    {
+      "version": "output",
+      "method": "sha256_binary",
+      "input_length": 55,
+      "matches_supplied_input": true
+    }
+  ],
+  "hmac_standard_vectors_input_and_output": 6
+}
