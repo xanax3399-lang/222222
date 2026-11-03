@@ -1,0 +1,285 @@
+core-probe.log
+
+
+dll.log
+In file included from /home/runner/work/222222/222222/gamesense-csgo/source/skeet/saver.cpp:2:
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/SkeetSDK/skeetsdk.h:12:11: warning: extra tokens at end of #undef directive [-Wextra-tokens]
+   12 | #undef max;
+      |           ^
+      |           //
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/SkeetSDK/skeetsdk.h:36:8: warning: extra tokens at end of #endif directive [-Wextra-tokens]
+   36 | #endif _MSC_VER
+      |        ^
+      |        //
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/SkeetSDK/skeetsdk.h:723:2: warning: typedef requires a name [-Wmissing-declarations]
+  723 |         typedef struct XorW
+      |         ^~~~~~~
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/SkeetSDK/skeetsdk.h:730:2: warning: typedef requires a name [-Wmissing-declarations]
+  730 |         typedef struct Call
+      |         ^~~~~~~
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/SkeetSDK/skeetsdk.h:767:19: warning: __declspec attribute 'novtable' is not supported [-Wignored-attributes]
+  767 |         class __declspec(novtable) IElement
+      |                          ^~~~~~~~
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/SkeetSDK/skeetsdk.h:1109:19: warning: __declspec attribute 'novtable' is not supported [-Wignored-attributes]
+ 1109 |         class __declspec(novtable) IChild
+      |                          ^~~~~~~~
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/SkeetSDK/skeetsdk.h:1163:19: warning: __declspec attribute 'novtable' is not supported [-Wignored-attributes]
+ 1163 |         class __declspec(novtable) ITab : public IElement
+      |                          ^~~~~~~~
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/SkeetSDK/skeetsdk.h:1170:2: warning: typedef requires a name [-Wmissing-declarations]
+ 1170 |         typedef struct TabActivies
+      |         ^~~~~~~
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/saver.cpp:11:15: warning: offset of on non-standard-layout type 'CTab' [-Winvalid-offsetof]
+   11 | static_assert(offsetof(CTab, Childs) == 0x70);
+      |               ^              ~~~~~~
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/include/__stddef_offsetof.h:16:24: note: expanded from macro 'offsetof'
+   16 | #define offsetof(t, d) __builtin_offsetof(t, d)
+      |                        ^                     ~
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/saver.cpp:12:15: warning: offset of on non-standard-layout type 'Child' [-Winvalid-offsetof]
+   12 | static_assert(offsetof(Child, Elements) == 0x80);
+      |               ^               ~~~~~~~~
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/include/__stddef_offsetof.h:16:24: note: expanded from macro 'offsetof'
+   16 | #define offsetof(t, d) __builtin_offsetof(t, d)
+      |                        ^                     ~
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/saver.cpp:13:15: warning: offset of on non-standard-layout type 'Multiselect' [-Winvalid-offsetof]
+   13 | static_assert(offsetof(Multiselect, Varsi) == 0x90);
+      |               ^                     ~~~~~
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/include/__stddef_offsetof.h:16:24: note: expanded from macro 'offsetof'
+   16 | #define offsetof(t, d) __builtin_offsetof(t, d)
+      |                        ^                     ~
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/skeet.cpp:86:13: warning: enumeration values 'none' and 'eip' not handled in switch [-Wswitch]
+   86 |     switch (reg) {
+      |             ^~~
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/skeet.cpp:104:1: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+  104 | }
+      | ^
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/skeet.cpp:867:1: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+  867 | }
+      | ^
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/skeet.cpp:936:5: warning: implicitly declaring library function '__cpuidex' with type 'void (int *, int, int) noexcept' [-Wimplicit-function-declaration]
+  936 |     __cpuidex(cpu_info, 1, 0);
+      |     ^
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/skeet.cpp:936:5: note: include the header <intrin.h> or explicitly provide a declaration for '__cpuidex'
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/libunwind.cpp:38:36: warning: redeclaration of 'unw_local_addr_space' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+   38 | _LIBUNWIND_EXPORT unw_addr_space_t unw_local_addr_space =
+      |                                    ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/libunwind.h:134:25: note: previous declaration is here
+  134 | extern unw_addr_space_t unw_local_addr_space;
+      |                         ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/libunwind.cpp:95:41: warning: redeclaration of 'unw_init_local' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+   95 | _LIBUNWIND_WEAK_ALIAS(__unw_init_local, unw_init_local)
+      |                                         ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/libunwind.h:110:12: note: previous declaration is here
+  110 | extern int unw_init_local(unw_cursor_t *, unw_context_t *) LIBUNWIND_AVAIL;
+      |            ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/libunwind.cpp:110:38: warning: redeclaration of 'unw_get_reg' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  110 | _LIBUNWIND_WEAK_ALIAS(__unw_get_reg, unw_get_reg)
+      |                                      ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/libunwind.h:112:12: note: previous declaration is here
+  112 | extern int unw_get_reg(unw_cursor_t *, unw_regnum_t, unw_word_t *) LIBUNWIND_AVAIL;
+      |            ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/libunwind.cpp:142:38: warning: redeclaration of 'unw_set_reg' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  142 | _LIBUNWIND_WEAK_ALIAS(__unw_set_reg, unw_set_reg)
+      |                                      ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/libunwind.h:114:12: note: previous declaration is here
+  114 | extern int unw_set_reg(unw_cursor_t *, unw_regnum_t, unw_word_t) LIBUNWIND_AVAIL;
+      |            ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/libunwind.cpp:157:40: warning: redeclaration of 'unw_get_fpreg' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  157 | _LIBUNWIND_WEAK_ALIAS(__unw_get_fpreg, unw_get_fpreg)
+      |                                        ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/libunwind.h:113:12: note: previous declaration is here
+  113 | extern int unw_get_fpreg(unw_cursor_t *, unw_regnum_t, unw_fpreg_t *) LIBUNWIND_AVAIL;
+      |            ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/libunwind.cpp:176:40: warning: redeclaration of 'unw_set_fpreg' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  176 | _LIBUNWIND_WEAK_ALIAS(__unw_set_fpreg, unw_set_fpreg)
+      |                                        ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/libunwind.h:115:12: note: previous declaration is here
+  115 | extern int unw_set_fpreg(unw_cursor_t *, unw_regnum_t, unw_fpreg_t)  LIBUNWIND_AVAIL;
+      |            ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/libunwind.cpp:184:35: warning: redeclaration of 'unw_step' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  184 | _LIBUNWIND_WEAK_ALIAS(__unw_step, unw_step)
+      |                                   ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/libunwind.h:111:12: note: previous declaration is here
+  111 | extern int unw_step(unw_cursor_t *) LIBUNWIND_AVAIL;
+      |            ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/libunwind.cpp:206:44: warning: redeclaration of 'unw_get_proc_info' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  206 | _LIBUNWIND_WEAK_ALIAS(__unw_get_proc_info, unw_get_proc_info)
+      |                                            ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/libunwind.h:128:12: note: previous declaration is here
+  128 | extern int unw_get_proc_info(unw_cursor_t *, unw_proc_info_t *) LIBUNWIND_AVAIL;
+      |            ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/libunwind.cpp:219:37: warning: redeclaration of 'unw_resume' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  219 | _LIBUNWIND_WEAK_ALIAS(__unw_resume, unw_resume)
+      |                                     ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/libunwind.h:116:12: note: previous declaration is here
+  116 | extern int unw_resume(unw_cursor_t *) LIBUNWIND_AVAIL;
+      |            ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/libunwind.cpp:232:44: warning: redeclaration of 'unw_get_proc_name' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  232 | _LIBUNWIND_WEAK_ALIAS(__unw_get_proc_name, unw_get_proc_name)
+      |                                            ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/libunwind.h:131:12: note: previous declaration is here
+  131 | extern int unw_get_proc_name(unw_cursor_t *, char *, size_t, unw_word_t *) LIBUNWIND_AVAIL;
+      |            ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/libunwind.cpp:242:39: warning: redeclaration of 'unw_is_fpreg' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  242 | _LIBUNWIND_WEAK_ALIAS(__unw_is_fpreg, unw_is_fpreg)
+      |                                       ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/libunwind.h:129:12: note: previous declaration is here
+  129 | extern int unw_is_fpreg(unw_cursor_t *, unw_regnum_t) LIBUNWIND_AVAIL;
+      |            ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/libunwind.cpp:252:38: warning: redeclaration of 'unw_regname' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  252 | _LIBUNWIND_WEAK_ALIAS(__unw_regname, unw_regname)
+      |                                      ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/libunwind.h:127:20: note: previous declaration is here
+  127 | extern const char *unw_regname(unw_cursor_t *, unw_regnum_t) LIBUNWIND_AVAIL;
+      |                    ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/libunwind.cpp:261:46: warning: redeclaration of 'unw_is_signal_frame' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  261 | _LIBUNWIND_WEAK_ALIAS(__unw_is_signal_frame, unw_is_signal_frame)
+      |                                              ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/libunwind.h:130:12: note: previous declaration is here
+  130 | extern int unw_is_signal_frame(unw_cursor_t *) LIBUNWIND_AVAIL;
+      |            ^
+13 warnings generated.
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/UnwindLevel1-gcc-ext.c:41:1: warning: redeclaration of '_Unwind_Resume_or_Rethrow' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+   41 | _Unwind_Resume_or_Rethrow(_Unwind_Exception *exception_object) {
+      | ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/unwind.h:107:5: note: previous declaration is here
+  107 |     _Unwind_Resume_or_Rethrow(_Unwind_Exception *exception_object);
+      |     ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/UnwindLevel1-gcc-ext.c:65:1: warning: redeclaration of '_Unwind_GetDataRelBase' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+   65 | _Unwind_GetDataRelBase(struct _Unwind_Context *context) {
+      | ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/unwind.h:164:18: note: previous declaration is here
+  164 | extern uintptr_t _Unwind_GetDataRelBase(struct _Unwind_Context *context)
+      |                  ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/UnwindLevel1-gcc-ext.c:78:1: warning: redeclaration of '_Unwind_GetTextRelBase' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+   78 | _Unwind_GetTextRelBase(struct _Unwind_Context *context) {
+      | ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/unwind.h:166:18: note: previous declaration is here
+  166 | extern uintptr_t _Unwind_GetTextRelBase(struct _Unwind_Context *context)
+      |                  ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/UnwindLevel1-gcc-ext.c:87:25: warning: redeclaration of '_Unwind_FindEnclosingFunction' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+   87 | _LIBUNWIND_EXPORT void *_Unwind_FindEnclosingFunction(void *pc) {
+      |                         ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/unwind.h:160:14: note: previous declaration is here
+  160 | extern void *_Unwind_FindEnclosingFunction(void *pc);
+      |              ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/UnwindLevel1-gcc-ext.c:133:1: warning: redeclaration of '_Unwind_Backtrace' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  133 | _Unwind_Backtrace(_Unwind_Trace_Fn callback, void *ref) {
+      | ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/unwind.h:115:28: note: previous declaration is here
+  115 | extern _Unwind_Reason_Code _Unwind_Backtrace(_Unwind_Trace_Fn, void *);
+      |                            ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/UnwindLevel1-gcc-ext.c:212:31: warning: redeclaration of '_Unwind_Find_FDE' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  212 | _LIBUNWIND_EXPORT const void *_Unwind_Find_FDE(const void *pc,
+      |                               ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/unwind.h:152:20: note: previous declaration is here
+  152 | extern const void *_Unwind_Find_FDE(const void *pc, struct dwarf_eh_bases *);
+      |                    ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/UnwindLevel1-gcc-ext.c:233:29: warning: redeclaration of '_Unwind_GetCFA' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  233 | _LIBUNWIND_EXPORT uintptr_t _Unwind_GetCFA(struct _Unwind_Context *context) {
+      |                             ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/unwind.h:120:18: note: previous declaration is here
+  120 | extern uintptr_t _Unwind_GetCFA(struct _Unwind_Context *);
+      |                  ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/UnwindLevel1-gcc-ext.c:246:29: warning: redeclaration of '_Unwind_GetIPInfo' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  246 | _LIBUNWIND_EXPORT uintptr_t _Unwind_GetIPInfo(struct _Unwind_Context *context,
+      |                             ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/unwind.h:129:18: note: previous declaration is here
+  129 | extern uintptr_t _Unwind_GetIPInfo(struct _Unwind_Context *context,
+      |                  ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/UnwindLevel1-gcc-ext.c:266:24: warning: redeclaration of '__register_frame' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  266 | _LIBUNWIND_EXPORT void __register_frame(const void *fde) {
+      |                        ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/unwind.h:139:13: note: previous declaration is here
+  139 | extern void __register_frame(const void *fde);
+      |             ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/UnwindLevel1-gcc-ext.c:276:24: warning: redeclaration of '__deregister_frame' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  276 | _LIBUNWIND_EXPORT void __deregister_frame(const void *fde) {
+      |                        ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/unwind.h:140:13: note: previous declaration is here
+  140 | extern void __deregister_frame(const void *fde);
+      |             ^
+10 warnings generated.
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/UnwindLevel1.c:420:1: warning: redeclaration of '_Unwind_RaiseException' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  420 | _Unwind_RaiseException(_Unwind_Exception *exception_object) {
+      | ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/unwind_itanium.h:60:5: note: previous declaration is here
+   60 |     _Unwind_RaiseException(_Unwind_Exception *exception_object);
+      |     ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/UnwindLevel1.c:455:1: warning: redeclaration of '_Unwind_Resume' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  455 | _Unwind_Resume(_Unwind_Exception *exception_object) {
+      | ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/unwind_itanium.h:61:13: note: previous declaration is here
+   61 | extern void _Unwind_Resume(_Unwind_Exception *exception_object);
+      |             ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/UnwindLevel1.c:478:1: warning: redeclaration of '_Unwind_ForcedUnwind' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  478 | _Unwind_ForcedUnwind(_Unwind_Exception *exception_object,
+      | ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/unwind.h:85:5: note: previous declaration is here
+   85 |     _Unwind_ForcedUnwind(_Unwind_Exception *exception_object,
+      |     ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/UnwindLevel1.c:498:1: warning: redeclaration of '_Unwind_GetLanguageSpecificData' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  498 | _Unwind_GetLanguageSpecificData(struct _Unwind_Context *context) {
+      | ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/unwind.h:78:5: note: previous declaration is here
+   78 |     _Unwind_GetLanguageSpecificData(struct _Unwind_Context *context);
+      |     ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/UnwindLevel1.c:521:1: warning: redeclaration of '_Unwind_GetRegionStart' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  521 | _Unwind_GetRegionStart(struct _Unwind_Context *context) {
+      | ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/unwind.h:76:18: note: previous declaration is here
+   76 | extern uintptr_t _Unwind_GetRegionStart(struct _Unwind_Context *context);
+      |                  ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/UnwindLevel1.c:537:1: warning: redeclaration of '_Unwind_DeleteException' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  537 | _Unwind_DeleteException(_Unwind_Exception *exception_object) {
+      | ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/unwind_itanium.h:63:13: note: previous declaration is here
+   63 | extern void _Unwind_DeleteException(_Unwind_Exception *exception_object);
+      |             ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/UnwindLevel1.c:547:1: warning: redeclaration of '_Unwind_GetGR' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  547 | _Unwind_GetGR(struct _Unwind_Context *context, int index) {
+      | ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/unwind_itanium.h:66:18: note: previous declaration is here
+   66 | extern uintptr_t _Unwind_GetGR(struct _Unwind_Context *context, int index);
+      |                  ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/UnwindLevel1.c:557:24: warning: redeclaration of '_Unwind_SetGR' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  557 | _LIBUNWIND_EXPORT void _Unwind_SetGR(struct _Unwind_Context *context, int index,
+      |                        ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/unwind_itanium.h:67:13: note: previous declaration is here
+   67 | extern void _Unwind_SetGR(struct _Unwind_Context *context, int index,
+      |             ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/UnwindLevel1.c:567:29: warning: redeclaration of '_Unwind_GetIP' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  567 | _LIBUNWIND_EXPORT uintptr_t _Unwind_GetIP(struct _Unwind_Context *context) {
+      |                             ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/unwind_itanium.h:69:18: note: previous declaration is here
+   69 | extern uintptr_t _Unwind_GetIP(struct _Unwind_Context *context);
+      |                  ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/src/UnwindLevel1.c:579:24: warning: redeclaration of '_Unwind_SetIP' should not add 'dllexport' attribute [-Wdll-attribute-on-redeclaration]
+  579 | _LIBUNWIND_EXPORT void _Unwind_SetIP(struct _Unwind_Context *context,
+      |                        ^
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/libunwind/include/unwind_itanium.h:70:13: note: previous declaration is here
+   70 | extern void _Unwind_SetIP(struct _Unwind_Context *, uintptr_t new_value);
+      |             ^
+10 warnings generated.
+11 warnings generated.
+4 warnings generated.
+
+hypotheses-host-probe.log
+
+
+hypotheses-probe.log
+
+
+injector.log
+
+
+points-bridge-probe.log
+
+
+probe.log
+
+
+resources.log
+
+
+stop-bridge-probe.log
