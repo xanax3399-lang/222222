@@ -12,6 +12,7 @@
 #include "../skeet/nl_points_status.h"
 #include "../skeet/nl_stop_status.h"
 #include "../skeet/v3_status.h"
+#include "../skeet/v3_fire_status.h"
 
 static FILE* run_log=nullptr;
 static void log_line(const char* message,DWORD code=0) {
@@ -161,7 +162,7 @@ static int diagnostics(const wchar_t* path) {
         float input=0,output=0;std::int32_t in_bits=status.last_input_bits,out_bits=status.last_output_bits;
         std::memcpy(&input,&in_bits,4);std::memcpy(&output,&out_bits,4);
         diagnostic_printf("Mode: %s\nInstalled: %ld\nBuilder calls: %ld\nHypotheses supplied: %ld\nRejected inputs: %ld\n",
-            status.mode==0?"GameSense":status.mode==1?"NL animation hypotheses":status.mode==2?"v2 NL points":status.mode==6?"v3 head crown":"NL points + animation",long(status.installed),
+            status.mode==0?"GameSense":status.mode==1?"NL animation hypotheses":status.mode==2?"v2 NL points":status.mode==6?"v3 head crown + fire/recharge":"NL points + animation",long(status.installed),
             long(status.calls),long(status.changed),long(status.rejected));
         if(status.changed)diagnostic_printf("Last sample: GS variant %ld, record tick %ld, base %.3f -> goal %.3f\n",
             long(status.last_variant),long(status.last_tick),input,output);
@@ -188,7 +189,17 @@ static int diagnostics(const wchar_t* path) {
             return error("Cannot read v3 diagnostics");
         diagnostic_printf("V3 head crown installed: %ld; scale %u%%\nHead calls: %ld; crown candidates: %ld; committed: %ld; matrix rejected: %ld; duplicates: %ld; geometry fallback: %ld\n",
             v3.installed,v3.crown_percent,v3.head_calls,v3.considered,v3.added,v3.filtered,v3.duplicates,v3.geometry_fallback);
-        diagnostic_printf("GS still decides when to stop and fire. Counters do not measure aiming accuracy or time to fire.\n");return 0;
+        const DWORD fire_rva=exported_rva(path,"skeet_v3_fire_status",sizeof(v3_fire::Status));
+        v3_fire::Status fire{};
+        if(!fire_rva||!ReadProcessMemory(process.value,item.modBaseAddr+fire_rva,&fire,sizeof(fire),&got)||got!=sizeof(fire)||fire.version!=1)
+            return error("Cannot read v3 firing/recharge diagnostics");
+        diagnostic_printf("V3 firing/recharge installed: %ld; late eye guard: %u; unsafe DT recharge: %u\nCommands: %ld; DT key releases: %ld; last command: %ld; DT mode: %ld; charge: %ld/%ld\n",
+            fire.installed,fire.guard_enabled,fire.recharge_enabled,fire.commands,fire.dt_releases,
+            fire.last_command,fire.last_dt_mode,fire.last_charge,fire.last_desired);
+        diagnostic_printf("Fire guard calls: %ld; unchanged: %ld; rechecks: %ld; canceled: %ld; DT bypass: %ld; manual attack bypass: %ld; fallback: %ld; last probability: %.3f\nRecharge gate visits: %ld; unsafe overrides: %ld\n",
+            fire.guard_calls,fire.unchanged,fire.rechecks,fire.canceled,fire.dt_bypass,fire.manual_bypass,
+            fire.fallback,fire.last_probability,fire.recharge_checks,fire.recharge_overrides);
+        diagnostic_printf("GS chooses stop timing. V3 may veto automatic fire after eye correction and bypass recharge waiting gates. Counters do not measure aiming accuracy.\n");return 0;
     }while(Module32NextW(modules.value,&item));
     diagnostic_printf("skeet.dll is not loaded in this game.\n");return 1;
 }
@@ -238,7 +249,7 @@ int wmain(int argc,wchar_t** argv) {
     }
     if(show_diagnostics)return run_diagnostics(path,false);
     if(mode<0) {
-        std::puts("1 - GameSense (original gameplay)\n2 - v2 NL points + braking math\n3 - v3 head crown patch\n4 - NL points + braking math + animation hypotheses\n5 - Read active module diagnostics\n6 - Old animation hypotheses (experimental)\n0 - Exit");
+        std::puts("1 - GameSense (original gameplay)\n2 - v2 NL points + braking math\n3 - v3 head crown + fire guard + unsafe DT recharge\n4 - NL points + braking math + animation hypotheses\n5 - Read active module diagnostics\n6 - Old animation hypotheses (experimental)\n0 - Exit");
         std::printf("Choice [Enter = 2]: ");char choice[32]{};
         if(!std::fgets(choice,sizeof(choice),stdin))choice[0]='2';
         if(choice[0]=='0')return 0;
@@ -251,7 +262,7 @@ int wmain(int argc,wchar_t** argv) {
         else {std::fprintf(stderr,"Unknown choice.\n");return 1;}
     }
     RunLog startup_log(path);
-    const char* mode_message=mode==0?"Selected: original GameSense gameplay.":mode==1?"Selected: NL animation hypotheses.":mode==2?"Selected: v2 NL points; native GS aim selection.":mode==6?"Selected: v3 record-based head crown scan.":"Selected: NL points + animation hypotheses.";
+    const char* mode_message=mode==0?"Selected: original GameSense gameplay.":mode==1?"Selected: NL animation hypotheses.":mode==2?"Selected: v2 NL points; native GS aim selection.":mode==6?"Selected: v3 record-based head crown scan + late eye guard + unsafe DT recharge.":"Selected: NL points + animation hypotheses.";
     std::puts(mode_message);log_line(mode_message);
     DWORD pid=game_pid();Handle process;legacy_launch::Suspended suspended;
     if(!pid) {

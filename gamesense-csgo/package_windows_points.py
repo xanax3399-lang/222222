@@ -42,8 +42,8 @@ config='[points]\nhead_scale_percent=80\nbody_scale_percent=80\nreduced_head=0\n
 if args.v3:
     readme='''Skeet v3 / CS:GO Legacy 8802
 
-Пункт 2 сохраняет поведение v2. Пункт 3 включает v3: до трёх дополнительных
-точек верхней части капсулы головы по выбранной записи анимации. Командный запуск:
+Пункт 2 сохраняет поведение v2. Пункт 3 включает v3: дополнительные точки головы,
+проверку после коррекции точки выстрела и unsafe DT recharge. Командный запуск:
     injector.exe --mode v3-patches
 Это собственный геометрический патч, а не полный перенос сканера NL.
 Проверки трёх матриц, урон и hitchance GS сохраняются. Реальная видимость и
@@ -51,21 +51,36 @@ if args.v3:
 Полные autostop/quick stop NL ещё не перенесены; сохраняется импульс NL из v2.
 
 [v3] head_crown=0 отключает патч; head_crown_percent=95 задаёт масштаб 50..99.
+late_eye_guard=1 повторяет HC GS перед автоматическим выстрелом только если
+после исходной проверки изменилась точка выстрела или выбранная точка цели.
+Если новая проверка не проходит HC или даёт 0, GS не выставляет атаку.
+Это оценка клиента, а не гарантия промаха/попадания на сервере. Отправленную
+пулю отменить нельзя. Ручная атака, отпускание DT и уже начатая очередь исключены.
+unsafe_dt_recharge=1 разрешает штатное пополнение заряда DT, обходя ожидание
+результата предыдущего выстрела, блокировку прицеливания/пика и задержку после
+выстрела. Сохраняются предел заряда, проверка choke, запрет recharge во время
+атаки, отпускание DT и очередь. Заряд увеличивает сам GS. Это собственный патч
+GS по запрошенному поведению, а не восстановленный полный алгоритм Neverlose.
+late_eye_guard=0 / unsafe_dt_recharge=0 независимо отключают новые изменения.
 После изменения INI полностью перезапустите CS:GO. Пункт 5 сохраняет счётчики
-V3 head crown в module_diagnostics.log. Старые гипотезы анимации теперь в пункте 6.
+V3 head crown, Fire guard и Recharge в module_diagnostics.log. Старые гипотезы анимации теперь в пункте 6.
 Используйте новую пару DLL + инжектор. Исходный архив v2 сохранён отдельно.
 
 ''' + readme
-    config+='\n[v3]\nhead_crown=1\nhead_crown_percent=95\n'
+    config+='\n[v3]\nhead_crown=1\nhead_crown_percent=95\nlate_eye_guard=1\nunsafe_dt_recharge=1\n'
 out=ROOT/('build/skeet-v3-patches-windows.zip' if args.v3 else 'build/skeet-v2-nl-points-windows.zip')
 files={n:(ROOT/'build'/n).read_bytes() for n in ['skeet.dll','injector.exe']}
 files.update({'README_RU.txt':readme.encode('utf-8-sig'),'skeet_nl_points.ini':config.encode()})
 for name in ['points_bridge_validation.json','points_validation.json','points_dll_validation.json',
              'stop_math_validation.json','stop_bridge_validation.json']:
     files['reports/'+name]=(ROOT/'reports'/name).read_bytes()
-if args.v3:files['reports/v3_head_validation.json']=(ROOT/'reports/v3_head_validation.json').read_bytes()
+if args.v3:
+    for name in ['v3_head_validation.json','v3_fire_validation.json']:
+        files['reports/'+name]=(ROOT/'reports'/name).read_bytes()
 if args.v3:files['BUILD_INFO.json']=(json.dumps({'series':'v3','source_commit':os.environ.get('GITHUB_SHA'),
-    'frozen_v2_base':'72aa34f0956c619ba5f24c9e5c19c6dabf7fd7ff','v3_patch':'record_head_crown',
+    'frozen_v2_base':'72aa34f0956c619ba5f24c9e5c19c6dabf7fd7ff',
+    'v3_patches':['record_head_crown','late_eye_hitchance_guard','native_unsafe_dt_recharge'],
+    'full_nl_recharge_port':False,
     'full_nl_stop_controller_ported':False,'interpolation_extrapolation_changed':False,
     'gameplay_tested':False},indent=2)+'\n').encode()
 files['SHA256SUMS.json']=(json.dumps({n:hashlib.sha256(v).hexdigest() for n,v in files.items()},indent=2)+'\n').encode()

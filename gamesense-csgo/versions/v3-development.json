@@ -6,10 +6,12 @@
   "base_version": "v2",
   "base_commit": "72aa34f0956c619ba5f24c9e5c19c6dabf7fd7ff",
   "implemented_patches": [
-    "record_head_crown_candidates"
+    "record_head_crown_candidates",
+    "late_eye_hitchance_guard",
+    "native_unsafe_dt_recharge"
   ],
   "published_archive": null,
-  "note": "Independent geometric head-cap extension. Native GS damage, hitchance, record selection and time settings remain.",
+  "note": "Independent GS patches: head-cap samples, late HC recheck after eye/point correction and unsafe native DT recharge. Not a full NL scanner/recharge port. DT key release and queued burst exempt. Native damage, charge budget and time settings retained.",
   "launcher_choice": 3,
   "internal_mode": 6,
   "v2_launcher_choice": 2,

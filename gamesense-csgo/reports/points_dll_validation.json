@@ -3,8 +3,8 @@
   "files": [
     {
       "name": "skeet.dll",
-      "bytes": 15332864,
-      "sha256": "537dee1a366a6fc2c557e076c2f927a0878d35e1908ffd90a3cdbf26e2f992db",
+      "bytes": 15337984,
+      "sha256": "c6dfacdddf05dd99795343c517c64b0b6b4a11cc1a4dcca83b0f073d0d6cc158",
       "imports": {
         "user32.dll": [
           "FindWindowA",
@@ -213,8 +213,8 @@
     },
     {
       "name": "injector.exe",
-      "bytes": 427520,
-      "sha256": "ac917bf10fed500abdb3f18f89cda2c35aec0f50680252253019f2a5883b3121",
+      "bytes": 428544,
+      "sha256": "fe54d27baa3a24f4e4e34baf24293448bf54a1c93f79b7b35dbee37758e2c51d",
       "imports": {
         "advapi32.dll": [
           "RegCloseKey",

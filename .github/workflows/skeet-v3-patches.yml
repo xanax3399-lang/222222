@@ -1,4 +1,4 @@
-name: Skeet v3 head crown patches DLL
+name: Skeet v3 CS:GO patches DLL
 on:
   push:
     branches: [codex/skeet-v3-patches]
@@ -41,6 +41,7 @@ jobs:
           python gamesense-csgo/tests/validate_points_bridge.py
           python gamesense-csgo/tests/validate_points_contract.py
           python gamesense-csgo/tests/validate_stop_bridge.py --donor donor/neverlose-csgo/neverlose/bins/nl.bin
+          python gamesense-csgo/tests/validate_fire_bridge.py
       - name: Check retained loader, resource, animation and crash paths
         working-directory: gamesense-csgo
         run: |
@@ -135,15 +136,19 @@ jobs:
 
           V3 adds up to three samples near the upper cap of the selected record's head capsule. This is an independently written geometric extension, not a full NL scanner port. Native candidates, primary center, three-matrix checks, GS damage and hitchance remain. Mode 2 is checked against captured v2 point fixtures.
 
+          New in menu 3: late_eye_guard=1 repeats native GS hitchance if the firing origin/selected point changes after initial HC and vetoes an automatic shot on a failed/zero result. DT key release, queued bursts and existing manual attacks are exempt. Unchanged geometry incurs no second HC. This is an estimate, not knowledge of a server outcome.
+
+          unsafe_dt_recharge=1 bypasses recent-shot, aim/peek and cooldown waiting gates in native DT mode. Native recharge bookkeeping, capacity, choke and attack gates remain. It does not manufacture charge or interrupt release/burst processing. This is an independently written GS policy, not a full NL recharge port. Both switches are in [v3], independent, and require a full restart.
+
           [v3] head_crown=1 enables the patch in menu 3 only; head_crown_percent=95 (50..99). Full restart after changing INI. Menu 5 saves V3 head crown counters. Old animation hypotheses moved to menu 6.
 
           Full NL autostop/quick stop controller is not ported. GS still supplies stop eligibility/friction/effective movement inputs. Interpolation/extrapolation have not changed. Real visibility, damage, head hits and performance on a CS:GO map are not tested here.
 
-          CI checks geometry, compiled x86 bridge/native GS intersection and consumer, v2 fixtures, existing tests, and actual DLL loading in Windows. Use the matching injector/DLL pair.
+          CI checks geometry, compiled x86 bridge/native GS intersection and consumer, v2 fixtures, native recharge/attack commit with controlled HC outcomes, existing tests, and actual DLL loading in Windows. Normal HC scene outcomes and hotkey selection are fixtures. Use the matching injector/DLL pair.
           EOF
           tag="skeet-v3-patches-dll-${SOURCE_SHA}"
           if gh release view "$tag" >/dev/null 2>&1; then
             gh release upload "$tag" dist/skeet-v3-patches-windows.zip dist/skeet.dll dist/injector.exe --clobber
           else
-            gh release create "$tag" dist/skeet-v3-patches-windows.zip dist/skeet.dll dist/injector.exe --target "$SOURCE_SHA" --prerelease --title 'Skeet v3 / CS:GO / head crown patch' --notes-file /tmp/points-release-notes.md
+            gh release create "$tag" dist/skeet-v3-patches-windows.zip dist/skeet.dll dist/injector.exe --target "$SOURCE_SHA" --prerelease --title 'Skeet v3 / CS:GO / fire guard and unsafe DT recharge' --notes-file /tmp/points-release-notes.md
           fi
