@@ -1,0 +1,7 @@
+build/
+.cache/
+__pycache__/
+recovery/projects/
+recovery/*decompiled/
+recovery/gs_parents/
+*.log

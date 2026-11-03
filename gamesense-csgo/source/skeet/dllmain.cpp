@@ -1,0 +1,61 @@
+#include "pch.h"
+#include "../loader_protocol.h"
+#include "nl_hypotheses.h"
+#include "crash_report.h"
+#include <exception>
+
+extern "C" {
+__declspec(dllexport) LoaderStatus skeet_loader_status = {1, LoaderWaiting, 0, "Waiting for game modules"};
+__declspec(dllexport) nl_hypotheses::Status skeet_nl_hypotheses_status = {1,0,0,0,0,0,-1,0,0,0};
+}
+
+static void status(LoaderState state, DWORD error, const char* message) {
+    skeet_loader_status.error = error;
+    lstrcpynA(skeet_loader_status.message, message, sizeof(skeet_loader_status.message));
+    InterlockedExchange(&skeet_loader_status.state, state);
+}
+static DWORD fail(const char* message) {
+    DWORD error = GetLastError();
+    status(LoaderFailed, error ? error : ERROR_INVALID_DATA, message);
+    OutputDebugStringA(message);
+    return 1;
+}
+static DWORD WINAPI initialize(LPVOID parameter) {
+    crash_report::initialize(static_cast<HMODULE>(parameter));
+    const auto start = GetTickCount64();
+    while (!GetModuleHandleW(L"serverbrowser.dll") || !GetModuleHandleW(L"client.dll") ||
+           !GetModuleHandleW(L"engine.dll") || !GetModuleHandleW(L"shaderapidx9.dll")) {
+        if (GetTickCount64() - start >= 120000) {
+            SetLastError(WAIT_TIMEOUT);
+            return fail("Timed out waiting for legacy CS:GO modules.");
+        }
+        Sleep(100);
+    }
+    status(LoaderInitializing, 0, "Initializing supplied core with Legacy 8802 loader compatibility");
+    try {
+        auto* skeet = skeet_t::getInstance(static_cast<HMODULE>(parameter));
+        if (!skeet->map()) return fail("Fixed image address is occupied, reservation is invalid, or resource size differs.");
+        if (!skeet->fix_imports()) return fail("An original image import could not be resolved.");
+        if (!skeet->extra()) return fail(skeet->last_error());
+        if (!FlushInstructionCache(GetCurrentProcess(), reinterpret_cast<void*>(kImageBase), kImageSize))
+            return fail("Could not flush the image instruction cache.");
+        if (!skeet->entry()) return fail("Could not start the original image entry thread.");
+        status(LoaderEntryStarted, 0, nl_hypotheses::selected_mode==nl_hypotheses::Stock
+            ? "GameSense mode: original entry resumed. Game runtime unverified."
+            : "NL animation hypotheses installed (partial module). Entry resumed; game runtime unverified.");
+        return 0;
+    } catch (const std::exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("Unexpected C++ initialization error.");
+    }
+}
+BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID) {
+    if (reason == DLL_PROCESS_ATTACH) {
+        DisableThreadLibraryCalls(module);
+        HANDLE worker = CreateThread(nullptr, 0, initialize, module, 0, nullptr);
+        if (!worker) return FALSE;
+        CloseHandle(worker);
+    }
+    return TRUE;
+}
