@@ -9,6 +9,8 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-24.04
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
@@ -58,6 +60,11 @@ jobs:
             gamesense-csgo/build/*.log
             gamesense-csgo/build/*validation.json
             gamesense-csgo/reports/*validation.json
+      - name: Publish bounded compiler evidence
+        if: always()
+        env:
+          CI_JOB_STATUS: ${{ job.status }}
+        run: python gamesense-csgo/publish_ci_status.py
   windows:
     needs: build
     runs-on: windows-2025
