@@ -100,10 +100,10 @@ inline bool apply(unsigned char* image,std::size_t size) {
     auto& status=skeet_nl_hypotheses_status;
     install_error="NL setup did not finish.";
     status.mode=selected_mode;
-    if(selected_mode==Stock)return true;
-    if(selected_mode!=NlAnimation) {
+    if(selected_mode>NlCombined) {
         install_error="NL setup: invalid selected mode.";SetLastError(ERROR_INVALID_PARAMETER);return false;
     }
+    if(!(selected_mode&NlAnimation))return true;
     if(reinterpret_cast<std::uintptr_t>(image)!=core_image::image_base) {
         install_error="NL setup: unexpected core image address.";SetLastError(ERROR_INVALID_ADDRESS);return false;
     }

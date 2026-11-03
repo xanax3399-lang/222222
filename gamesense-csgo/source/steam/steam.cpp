@@ -8,6 +8,7 @@
 #include <cstring>
 #include "../loader_protocol.h"
 #include "../skeet/nl_hypotheses.h"
+#include "../skeet/nl_points_status.h"
 
 static FILE* run_log=nullptr;
 static void log_line(const char* message,DWORD code=0) {
@@ -147,15 +148,21 @@ static int diagnostics(const wchar_t* path) {
         }
         nl_hypotheses::Status status{};
         if(!ReadProcessMemory(process.value,item.modBaseAddr+rva,&status,sizeof(status),&got)||
-           got!=sizeof(status)||status.version!=1||status.mode>1)return error("Cannot read hypothesis diagnostics");
+           got!=sizeof(status)||status.version!=1||status.mode>3)return error("Cannot read hypothesis diagnostics");
         float input=0,output=0;std::int32_t in_bits=status.last_input_bits,out_bits=status.last_output_bits;
         std::memcpy(&input,&in_bits,4);std::memcpy(&output,&out_bits,4);
         std::printf("Mode: %s\nInstalled: %ld\nBuilder calls: %ld\nHypotheses supplied: %ld\nRejected inputs: %ld\n",
-            status.mode?"NL animation hypotheses (partial)":"GameSense",long(status.installed),
+            status.mode==0?"GameSense":status.mode==1?"NL animation hypotheses":status.mode==2?"NL points":"NL points + animation",long(status.installed),
             long(status.calls),long(status.changed),long(status.rejected));
         if(status.changed)std::printf("Last sample: GS variant %ld, record tick %ld, base %.3f -> goal %.3f\n",
             long(status.last_variant),long(status.last_tick),input,output);
-        std::puts("Counters confirm the module was called; they do not measure resolver accuracy.");return 0;
+        const DWORD points_rva=exported_rva(path,"skeet_nl_points_status",sizeof(nl_points_patch::Status));
+        nl_points_patch::Status points{};
+        if(!points_rva||!ReadProcessMemory(process.value,item.modBaseAddr+points_rva,&points,sizeof(points),&got)||
+           got!=sizeof(points)||points.version!=1)return error("Cannot read NL points diagnostics");
+        std::printf("NL points installed: %ld\nCalls: %ld\nGenerated: %ld\nNative fallback: %ld\nFiltered by three matrices: %ld\nStorage fallback: %ld\nHead/body scale: %u/%u%%\n",
+            points.installed,points.calls,points.generated,points.fallback,points.filtered,points.pool_full,points.head_percent,points.body_percent);
+        std::puts("Counters confirm execution; they do not measure aiming accuracy.");return 0;
     }while(Module32NextW(modules.value,&item));
     std::puts("skeet.dll is not loaded in this game.");return 1;
 }
@@ -179,28 +186,32 @@ int wmain(int argc,wchar_t** argv) {
             const auto* value=argv[++i];
             if(!_wcsicmp(value,L"stock"))mode=0;
             else if(!_wcsicmp(value,L"nl-hypotheses"))mode=1;
-            else mode=2;
+            else if(!_wcsicmp(value,L"nl-points"))mode=2;
+            else if(!_wcsicmp(value,L"nl-combined"))mode=3;
+            else mode=4;
         } else if(!_wcsicmp(argv[i],L"--diagnostics")&&!show_diagnostics)show_diagnostics=true;
         else {
-            std::fprintf(stderr,"Usage: injector.exe [--game \"path to csgo.exe\"] [--mode stock|nl-hypotheses]\n       injector.exe --diagnostics\n");return 1;
+            std::fprintf(stderr,"Usage: injector.exe [--game \"path to csgo.exe\"] [--mode stock|nl-points|nl-hypotheses|nl-combined]\n       injector.exe --diagnostics\n");return 1;
         }
     }
-    if(mode>1||(show_diagnostics&&(mode>=0||explicit_game))) {
+    if(mode>3||(show_diagnostics&&(mode>=0||explicit_game))) {
         std::fprintf(stderr,"Invalid or conflicting mode arguments.\n");return 1;
     }
     if(show_diagnostics)return diagnostics(path);
     if(mode<0) {
-        std::puts("1 - GameSense (original gameplay)\n2 - NL animation hypotheses (experimental, partial module)\n3 - Read active module diagnostics\n0 - Exit");
-        std::printf("Choice [Enter = 1]: ");char choice[32]{};
-        if(!std::fgets(choice,sizeof(choice),stdin))choice[0]='1';
+        std::puts("1 - GameSense (original gameplay)\n2 - NL points\n3 - NL animation hypotheses (experimental)\n4 - NL points + animation hypotheses\n5 - Read active module diagnostics\n0 - Exit");
+        std::printf("Choice [Enter = 2]: ");char choice[32]{};
+        if(!std::fgets(choice,sizeof(choice),stdin))choice[0]='2';
         if(choice[0]=='0')return 0;
-        if(choice[0]=='3')return diagnostics(path);
-        if(choice[0]=='2')mode=1;
-        else if(choice[0]=='1'||choice[0]=='\n'||choice[0]=='\r')mode=0;
+        if(choice[0]=='5')return diagnostics(path);
+        if(choice[0]=='2'||choice[0]=='\n'||choice[0]=='\r')mode=2;
+        else if(choice[0]=='3')mode=1;
+        else if(choice[0]=='4')mode=3;
+        else if(choice[0]=='1')mode=0;
         else {std::fprintf(stderr,"Unknown choice.\n");return 1;}
     }
     RunLog startup_log(path);
-    const char* mode_message=mode?"Selected: NL animation hypotheses (partial module).":"Selected: original GameSense gameplay.";
+    const char* mode_message=mode==0?"Selected: original GameSense gameplay.":mode==1?"Selected: NL animation hypotheses.":mode==2?"Selected: NL points; native GS aim selection.":"Selected: NL points + animation hypotheses.";
     std::puts(mode_message);log_line(mode_message);
     DWORD pid=game_pid();Handle process;legacy_launch::Suspended suspended;
     if(!pid) {

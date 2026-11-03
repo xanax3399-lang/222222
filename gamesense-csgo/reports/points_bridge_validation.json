@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "compiled_x86_cases": 19,
+  "actual_gs_intersections_executed": 183,
+  "calls": 11,
+  "native_fallback_dispatch_tested": true,
+  "actual_fallback_generator_executed": false,
+  "native_consumer_processed_more_than_three_points": true,
+  "native_checksum_after_patching": true,
+  "stack_and_nonvolatile_registers_preserved": true,
+  "thread_and_nested_storage_separate": true,
+  "native_main_append_tested_points": 200,
+  "main_capacity": 256,
+  "patched_callers": [
+    "0x4335e9d0"
+  ],
+  "other_caller_left_native": true,
+  "gameplay_tested": false,
+  "scope": "Execute the compiled production x86 bridge, GS intersection and GS consumer.\n\nControlled Windows storage/CRT APIs; original GS generator is intercepted only\nfor fallback assertions. No game, injection, DllMain or VM initialization.\n"
+}

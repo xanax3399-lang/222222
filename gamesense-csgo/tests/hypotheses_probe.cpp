@@ -10,6 +10,7 @@
 #ifdef _WIN32
 #include "../source/skeet/crash_report.h"
 extern "C" __declspec(dllexport) nl_hypotheses::Status skeet_nl_hypotheses_status={1,0,0,0,0,0,-1,0,0,0};
+extern "C" __declspec(dllexport) nl_points_patch::Status skeet_nl_points_status={1,0,0,0,0,0,0,0,80,80,0};
 EXPORT void probe_crash_initialize(unsigned module){crash_report::initialize(reinterpret_cast<HMODULE>(module));}
 EXPORT bool probe_crash_snapshot(unsigned code,unsigned eip,unsigned ecx,unsigned esp,unsigned kind,unsigned target) {
     CONTEXT context{};context.Eip=eip;context.Ecx=ecx;context.Esp=esp;context.Ebp=esp+0x200;

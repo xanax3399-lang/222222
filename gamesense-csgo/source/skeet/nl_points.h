@@ -2,7 +2,7 @@
 // CS:GO geometry reconstruction from NL image 682ce73b...ad96e.
 // Head: 0x414ac630. Body: 0x41490fa0. Scale: 0x4149ed20.
 // Explicit inputs replace NL's global weapon/settings pointers.
-// Not installed in the GS image: see recovery/POINTS_STATUS_RU.md.
+// The GS adapter is in nl_points_patch.h; integration scope is in README_RU.md.
 #include <algorithm>
 #include <array>
 #include <cmath>

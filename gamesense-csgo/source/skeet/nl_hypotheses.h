@@ -7,7 +7,7 @@
 // Finite-angle branch recovered from donor nl.bin, 0x41339870 / EDX==0.
 // This is an animation-hypothesis addition, not a complete NL resolver.
 namespace nl_hypotheses {
-enum Mode : std::uint32_t { Stock = 0, NlAnimation = 1 };
+enum Mode : std::uint32_t { Stock = 0, NlAnimation = 1, NlPoints = 2, NlCombined = 3 };
 struct Status {
     std::uint32_t version, mode;
     volatile std::int32_t installed, calls, changed, rejected;

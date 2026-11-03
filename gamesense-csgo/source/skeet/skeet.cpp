@@ -13,6 +13,7 @@
 #include "overlay_loader.h"
 #include "core_image.h"
 #include "nl_hypotheses_patch.h"
+#include "nl_points_patch.h"
 #include "crash_report.h"
 #include "../loader_protocol.h"
 #include <intrin.h>
@@ -373,7 +374,7 @@ bool skeet_t::map()
         ImageReservation marker{};
         std::memcpy(&marker, desired, sizeof(marker));
         if (marker.magic != kReservationMagic || marker.version != kReservationVersion ||
-            marker.pid != GetCurrentProcessId() || marker.size != kImageSize || marker.hypothesis_mode>1) {
+            marker.pid != GetCurrentProcessId() || marker.size != kImageSize || marker.hypothesis_mode>3) {
             SetLastError(ERROR_INVALID_DATA); return false;
         }
         nl_hypotheses::selected_mode=marker.hypothesis_mode;
@@ -710,6 +711,9 @@ bool skeet_t::extra()
     // The separately selected native animation-hypothesis adapter is installed below.
     // The existing loader/Legacy 8802 compatibility setup above is retained.
     LPRINT(skCrypt("[INFO] recompiling vm...\n"));
+    if(!nl_points_patch::apply(reinterpret_cast<unsigned char*>(_base),_size)) {
+        _last_error=nl_points_patch::last_error();return false;
+    }
     if(!nl_hypotheses_patch::prepare(reinterpret_cast<unsigned char*>(_base),_size,[this] {recompile();})) {
         _last_error=nl_hypotheses_patch::last_error();
         return false;

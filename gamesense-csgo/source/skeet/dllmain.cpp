@@ -1,12 +1,14 @@
 #include "pch.h"
 #include "../loader_protocol.h"
 #include "nl_hypotheses.h"
+#include "nl_points_patch.h"
 #include "crash_report.h"
 #include <exception>
 
 extern "C" {
 __declspec(dllexport) LoaderStatus skeet_loader_status = {1, LoaderWaiting, 0, "Waiting for game modules"};
 __declspec(dllexport) nl_hypotheses::Status skeet_nl_hypotheses_status = {1,0,0,0,0,0,-1,0,0,0};
+__declspec(dllexport) nl_points_patch::Status skeet_nl_points_status = {1,0,0,0,0,0,0,0,80,80,0};
 }
 
 static void status(LoaderState state, DWORD error, const char* message) {
@@ -22,6 +24,17 @@ static DWORD fail(const char* message) {
 }
 static DWORD WINAPI initialize(LPVOID parameter) {
     crash_report::initialize(static_cast<HMODULE>(parameter));
+    wchar_t settings[32768]{};
+    if(!GetModuleFileNameW(static_cast<HMODULE>(parameter),settings,32768))return fail("Cannot locate NL points settings.");
+    auto* slash=std::wcsrchr(settings,L'\\');
+    if(!slash||slash-settings+22>=32768)return fail("NL points settings path is too long.");
+    std::wcscpy(slash+1,L"skeet_nl_points.ini");
+    auto& points=skeet_nl_points_status;
+    points.head_percent=GetPrivateProfileIntW(L"points",L"head_scale_percent",80,settings);
+    points.body_percent=GetPrivateProfileIntW(L"points",L"body_scale_percent",80,settings);
+    points.reduced_head=GetPrivateProfileIntW(L"points",L"reduced_head",0,settings);
+    if(points.head_percent>100||points.body_percent>100||points.reduced_head>1)
+        return fail("Invalid skeet_nl_points.ini: scale must be 0..100; reduced_head must be 0 or 1.");
     const auto start = GetTickCount64();
     while (!GetModuleHandleW(L"serverbrowser.dll") || !GetModuleHandleW(L"client.dll") ||
            !GetModuleHandleW(L"engine.dll") || !GetModuleHandleW(L"shaderapidx9.dll")) {

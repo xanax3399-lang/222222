@@ -13,7 +13,15 @@
   "nl_point_stride": 80,
   "nl_max_generated_points": 7,
   "direct_copy_compatible": false,
-  "runtime_hook_installed": false,
+  "runtime_hook_implemented": true,
+  "hook_callers": [
+    "0x4335e9d0"
+  ],
+  "other_caller_native": true,
+  "adapter_point_stride": 24,
+  "adapter_capacity": 7,
+  "main_capacity": 256,
+  "vm_writes_do_not_overlap_hook": true,
   "aim_selection_ported": false,
   "gameplay_tested": false
 }

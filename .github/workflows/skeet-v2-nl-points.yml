@@ -1,4 +1,4 @@
-name: Skeet v2 NL points source verification
+name: Skeet v2 NL points DLL
 on:
   push:
     branches: [codex/skeet-v2-nl-points]
@@ -7,12 +7,11 @@ on:
 permissions:
   contents: read
 jobs:
-  differential:
+  build:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - name: Check out pinned CS:GO donor used by the prior recovery
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           ref: 193bdb780b76402adb061cfb37b8eedcebba93cc
           path: donor
@@ -22,53 +21,75 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install x86 emulator
-        run: python -m pip install unicorn==2.1.4
-      - name: Compile actual C++ module
+      - name: Install pinned build and emulation tools
+        run: python -m pip install -r gamesense-csgo/requirements-build.txt
+      - name: Build Windows x86 DLL and matching injector
+        run: python gamesense-csgo/build_windows.py
+      - name: Compare NL math with original x86 donor
         working-directory: gamesense-csgo
         run: |
-          mkdir -p build reports
           g++ -std=c++17 -O2 -shared -fPIC -ffp-contract=off -fno-fast-math -Wall -Wextra -Werror tests/points_probe.cpp -o build/points_probe.so
-          g++ -std=c++17 -O2 -ffp-contract=off -Wall -Wextra -Werror tests/points_smoke.cpp -o build/points_smoke
-          ./build/points_smoke
-      - name: Compare geometry and scale with native NL x86
-        working-directory: gamesense-csgo
-        run: python tests/validate_points.py --donor ../donor/neverlose-csgo/neverlose/bins/nl.bin
-      - name: Verify GS contract and baseline integrity
+          python tests/validate_points.py --donor ../donor/neverlose-csgo/neverlose/bins/nl.bin
+      - name: Execute production bridge and actual GS consumer
+        run: |
+          python gamesense-csgo/tests/validate_points_bridge.py
+          python gamesense-csgo/tests/validate_points_contract.py
+      - name: Check retained loader, resource, animation and crash paths
         working-directory: gamesense-csgo
         run: |
-          python tests/validate_points_contract.py
-          python - <<'PY'
-          from pathlib import Path
-          import hashlib,json
-          for name,expected in json.loads(Path('archive_baseline.json').read_text())['files'].items():
-              assert hashlib.sha256(Path(name).read_bytes()).hexdigest()==expected,name
-          print('Imported v2 source unchanged; new module is separate and not installed.')
-          PY
-      - name: Package C++ source and evidence
-        working-directory: gamesense-csgo
-        run: python package_points_source.py
+          python tests/validate_core_image.py
+          python tests/validate_hypotheses.py --donor ../donor/neverlose-csgo/neverlose/bins/nl.bin
+          python tests/validate_hypotheses_startup.py
+          python tests/validate_crash_report.py
+          python tests/validate_launcher.py
+          python tests/validate_resolver.py
+          python tests/verify_points_release.py
+      - name: Package DLL and injector
+        run: python gamesense-csgo/package_windows_points.py
       - uses: actions/upload-artifact@v4
         with:
-          name: skeet-v2-nl-points-source
-          path: gamesense-csgo/build/skeet-v2-nl-points-source.zip
+          name: skeet-v2-nl-points-windows
+          path: gamesense-csgo/build/skeet-v2-nl-points-windows.zip
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: build-evidence
+          path: |
+            gamesense-csgo/build/*.log
+            gamesense-csgo/build/*validation.json
+            gamesense-csgo/reports/*validation.json
   windows:
+    needs: build
     runs-on: windows-2025
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: skeet-v2-nl-points-windows
+          path: dist
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: x86
-      - name: Compile and execute x86 C++ smoke check
+      - name: Extract actual compiled artifact
+        shell: pwsh
+        run: Expand-Archive dist/skeet-v2-nl-points-windows.zip -DestinationPath dist/runtime
+      - name: Compile native loader probe
         shell: cmd
-        working-directory: gamesense-csgo
+        run: cl /nologo /std:c++17 /EHsc /MT /W4 /WX gamesense-csgo\tests\dll_load_smoke.cpp /Fe:dist\dll_load_smoke.exe /Fo:dist\dll_load_smoke.obj
+      - name: Load actual x86 DLL and inspect exports
+        shell: cmd
+        run: dist\dll_load_smoke.exe "%CD%\dist\runtime\skeet.dll"
+      - name: Check injector argument handling
+        shell: pwsh
         run: |
-          if not exist build mkdir build
-          cl /nologo /std:c++17 /EHsc /O2 /fp:precise /W4 /WX tests\points_smoke.cpp /Fe:build\points_smoke.exe /Fo:build\points_smoke.obj
-          if errorlevel 1 exit /b 1
-          build\points_smoke.exe
+          $PSNativeCommandUseErrorActionPreference = $false
+          & dist/runtime/injector.exe --mode invalid
+          if ($LASTEXITCODE -ne 1) { throw 'Invalid mode was not rejected.' }
+          & dist/runtime/injector.exe --diagnostics
+          if ($LASTEXITCODE -ne 1) { throw 'Diagnostics should report that CS:GO is absent.' }
+          exit 0
   release:
-    needs: [differential, windows]
+    needs: [build, windows]
     runs-on: ubuntu-24.04
     permissions:
       contents: write
@@ -76,23 +97,24 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
-          name: skeet-v2-nl-points-source
+          name: skeet-v2-nl-points-windows
           path: dist
-      - name: Publish verified source package
+      - name: Publish tested Windows artifacts
         env:
           GH_TOKEN: ${{ github.token }}
           SOURCE_SHA: ${{ github.sha }}
         run: |
+          unzip -q dist/skeet-v2-nl-points-windows.zip skeet.dll injector.exe -d dist
           cat > /tmp/points-release-notes.md <<'EOF'
-          CS:GO only. Reconstructed C++ head/body point geometry and point scale, with native x86 differential tests.
+          CS:GO Legacy 8802 only. DLL and matching injector with NL-derived point geometry integrated into the verified GS scan path. Start injector.exe and select 2 (NL points), or use --mode nl-points.
 
-          This is a source and evidence package. The module is not installed in GS. Aim selection has not been ported. There is no new gameplay DLL or injector in this release.
+          Three-matrix capsule checks and GS damage/hitchance/aim selection remain active. Temporary storage holds seven points; the main candidate list has 256 slots. Other scan contexts use native fallback. The weapon-dependent automatic NL scale and full NL aim-selection logic are not ported.
 
-          Head tests execute NL's native capsule intersection. Body tests replace the unavailable client.dll intersection with NL's internal intersection. The weapon fallback helper's result is an explicit test input.
+          CI executes the compiled x86 bridge with real GS intersection/consumer functions and loads the actual DLL in Windows. Gameplay on a CS:GO map has not been tested.
           EOF
-          tag="skeet-v2-nl-points-${SOURCE_SHA}"
+          tag="skeet-v2-nl-points-dll-${SOURCE_SHA}"
           if gh release view "$tag" >/dev/null 2>&1; then
-            gh release upload "$tag" dist/skeet-v2-nl-points-source.zip --clobber
+            gh release upload "$tag" dist/skeet-v2-nl-points-windows.zip dist/skeet.dll dist/injector.exe --clobber
           else
-            gh release create "$tag" dist/skeet-v2-nl-points-source.zip --target "$SOURCE_SHA" --prerelease --title 'Skeet v2: NL CS:GO points C++ recovery (not integrated)' --notes-file /tmp/points-release-notes.md
+            gh release create "$tag" dist/skeet-v2-nl-points-windows.zip dist/skeet.dll dist/injector.exe --target "$SOURCE_SHA" --prerelease --title 'Skeet v2 / CS:GO / NL points DLL' --notes-file /tmp/points-release-notes.md
           fi

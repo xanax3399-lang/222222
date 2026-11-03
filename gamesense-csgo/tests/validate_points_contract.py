@@ -16,12 +16,20 @@ for i in range(len(raw)-5):
     if raw[i]==0xe8 and (base+i+5+struct.unpack_from('<i',raw,i+1)[0])&0xffffffff==0x433fd9b7:
         callers.append(base+i)
 assert callers==[0x433341ca,0x4335e9d0]
+handlers=json.loads((ROOT/'source/skeet/VM/bytecode.json').read_text())
+for group in handlers:
+    for entry in [group['main'],*group['others']]:
+        first=entry['vip'];last=first+entry['size']
+        assert last<=0x4335e9d0 or first>=0x4335e9d5,'VM preparation would overwrite the hook'
 report={'core_sha256':hashlib.sha256(raw).hexdigest(),
         'generator':'0x433fd9b7','direct_callers':[hex(x) for x in callers],
         'small_vector_initializer':hex(address),'initializer_bytes':initializer.hex(),
         'inline_capacity_bytes':0x48,'gs_point_stride':0x18,'inline_point_capacity':3,
         'nl_point_stride':0x50,'nl_max_generated_points':7,
-        'direct_copy_compatible':False,'runtime_hook_installed':False,
+        'direct_copy_compatible':False,'runtime_hook_implemented':True,
+        'hook_callers':['0x4335e9d0'],'other_caller_native':True,
+        'adapter_point_stride':24,'adapter_capacity':7,'main_capacity':256,
+        'vm_writes_do_not_overlap_hook':True,
         'aim_selection_ported':False,'gameplay_tested':False}
 (ROOT/'reports').mkdir(exist_ok=True)
 (ROOT/'reports/points_integration_contract.json').write_text(json.dumps(report,indent=2)+'\n')

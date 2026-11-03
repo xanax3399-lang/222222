@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <cwchar>
 #include "nl_hypotheses_patch.h"
+#include "nl_points_status.h"
 namespace crash_report {
 inline wchar_t path[32768]{};
 inline volatile LONG writing=0;
@@ -48,6 +49,9 @@ inline bool write(EXCEPTION_POINTERS* info) {
     line(file,"esi=%08lX edi=%08lX ebp=%08lX esp=%08lX flags=%08lX\r\n",c.Esi,c.Edi,c.Ebp,c.Esp,c.EFlags);
     line(file,"mode=%lu installed=%ld calls=%ld supplied=%ld rejected=%ld\r\n",
          s.mode,static_cast<LONG>(s.installed),static_cast<LONG>(s.calls),static_cast<LONG>(s.changed),static_cast<LONG>(s.rejected));
+    const auto& p=skeet_nl_points_status;
+    line(file,"nl_points: mode=%u installed=%ld calls=%ld generated=%ld fallback=%ld filtered=%ld pool_full=%ld head=%u body=%u reduced=%u\r\n",
+         p.mode,p.installed,p.calls,p.generated,p.fallback,p.filtered,p.pool_full,p.head_percent,p.body_percent,p.reduced_head);
     line(file,"last_bridge_best_effort: sequence=%lu phase=%ld sp=%08lX caller=%08lX variant=%lu\r\n",
          t.sequence,static_cast<LONG>(t.phase),t.native_stack,t.caller,t.variant);
     line(file,"last_bridge_registers EDI ESI EBP savedESP EBX EDX ECX EAX:\r\n");

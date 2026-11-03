@@ -77,7 +77,7 @@ def main():
     for mode,fault,pointer,size,accepted,error in [
         (0,None,BASE,SIZE,True,0),
         (1,None,BASE,SIZE,True,0),
-        (2,None,BASE,SIZE,False,87),
+        (4,None,BASE,SIZE,False,87),
         (1,None,BASE+1,SIZE,False,487),
         (1,None,BASE,SIZE-1,False,1306),
         (1,'signature',BASE,SIZE,False,1306),
