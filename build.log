@@ -1,0 +1,68 @@
+dll.log
+In file included from /home/runner/work/222222/222222/gamesense-csgo/source/skeet/saver.cpp:2:
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/SkeetSDK/skeetsdk.h:12:11: warning: extra tokens at end of #undef directive [-Wextra-tokens]
+   12 | #undef max;
+      |           ^
+      |           //
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/SkeetSDK/skeetsdk.h:36:8: warning: extra tokens at end of #endif directive [-Wextra-tokens]
+   36 | #endif _MSC_VER
+      |        ^
+      |        //
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/SkeetSDK/skeetsdk.h:723:2: warning: typedef requires a name [-Wmissing-declarations]
+  723 |         typedef struct XorW
+      |         ^~~~~~~
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/SkeetSDK/skeetsdk.h:730:2: warning: typedef requires a name [-Wmissing-declarations]
+  730 |         typedef struct Call
+      |         ^~~~~~~
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/SkeetSDK/skeetsdk.h:767:19: warning: __declspec attribute 'novtable' is not supported [-Wignored-attributes]
+  767 |         class __declspec(novtable) IElement
+      |                          ^~~~~~~~
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/SkeetSDK/skeetsdk.h:1109:19: warning: __declspec attribute 'novtable' is not supported [-Wignored-attributes]
+ 1109 |         class __declspec(novtable) IChild
+      |                          ^~~~~~~~
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/SkeetSDK/skeetsdk.h:1163:19: warning: __declspec attribute 'novtable' is not supported [-Wignored-attributes]
+ 1163 |         class __declspec(novtable) ITab : public IElement
+      |                          ^~~~~~~~
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/SkeetSDK/skeetsdk.h:1170:2: warning: typedef requires a name [-Wmissing-declarations]
+ 1170 |         typedef struct TabActivies
+      |         ^~~~~~~
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/saver.cpp:11:15: warning: offset of on non-standard-layout type 'CTab' [-Winvalid-offsetof]
+   11 | static_assert(offsetof(CTab, Childs) == 0x70);
+      |               ^              ~~~~~~
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/include/__stddef_offsetof.h:16:24: note: expanded from macro 'offsetof'
+   16 | #define offsetof(t, d) __builtin_offsetof(t, d)
+      |                        ^                     ~
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/saver.cpp:12:15: warning: offset of on non-standard-layout type 'Child' [-Winvalid-offsetof]
+   12 | static_assert(offsetof(Child, Elements) == 0x80);
+      |               ^               ~~~~~~~~
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/include/__stddef_offsetof.h:16:24: note: expanded from macro 'offsetof'
+   16 | #define offsetof(t, d) __builtin_offsetof(t, d)
+      |                        ^                     ~
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/saver.cpp:13:15: warning: offset of on non-standard-layout type 'Multiselect' [-Winvalid-offsetof]
+   13 | static_assert(offsetof(Multiselect, Varsi) == 0x90);
+      |               ^                     ~~~~~
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/ziglang/lib/include/__stddef_offsetof.h:16:24: note: expanded from macro 'offsetof'
+   16 | #define offsetof(t, d) __builtin_offsetof(t, d)
+      |                        ^                     ~
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/dllmain.cpp:11:47: error: redeclaration of 'skeet_nl_points_status' cannot add 'dllexport' attribute
+   11 | __declspec(dllexport) nl_points_patch::Status skeet_nl_points_status = {1,0,0,0,0,0,0,0,80,80,0};
+      |                                               ^
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/nl_points_status.h:11:36: note: previous declaration is here
+   11 | extern "C" nl_points_patch::Status skeet_nl_points_status;
+      |                                    ^
+1 error generated.
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/skeet.cpp:85:13: warning: enumeration values 'none' and 'eip' not handled in switch [-Wswitch]
+   85 |     switch (reg) {
+      |             ^~~
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/skeet.cpp:103:1: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+  103 | }
+      | ^
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/skeet.cpp:863:1: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+  863 | }
+      | ^
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/skeet.cpp:932:5: warning: implicitly declaring library function '__cpuidex' with type 'void (int *, int, int) noexcept' [-Wimplicit-function-declaration]
+  932 |     __cpuidex(cpu_info, 1, 0);
+      |     ^
+/home/runner/work/222222/222222/gamesense-csgo/source/skeet/skeet.cpp:932:5: note: include the header <intrin.h> or explicitly provide a declaration for '__cpuidex'
+
+resources.log
