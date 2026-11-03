@@ -12,7 +12,8 @@ for name,is_dll in [('skeet.dll',True),('injector.exe',False)]:
     assert not any(n.startswith(('libc++','libstdc++','libgcc','vcruntime','msvcp')) for n in imports)
     if is_dll:
         exports={i.name.decode():i.address for i in pe.DIRECTORY_ENTRY_EXPORT.symbols if i.name}
-        for symbol in ['skeet_loader_status','skeet_nl_hypotheses_status','skeet_nl_points_status']:assert symbol in exports
+        for symbol in ['skeet_loader_status','skeet_nl_hypotheses_status','skeet_nl_points_status','skeet_nl_stop_status']:assert symbol in exports
+        assert struct.unpack('<14I',pe.get_data(exports['skeet_nl_stop_status'],56))==(1,1,*([0]*12))
         assert struct.unpack('<20I',pe.get_data(exports['skeet_nl_points_status'],80))==(2,0,0,0,0,0,0,0,80,80,0,*([0]*9))
         symbols={s for entries in imports.values() for s in entries}
         assert {'FlsAlloc','FlsGetValue','FlsSetValue','FlsFree','HeapAlloc','HeapFree'}<=symbols

@@ -15,6 +15,13 @@ skeet_nl_points.ini: head_scale_percent и body_scale_percent — 0..100;
 reduced_head=1 оставляет пять точек головы вместо семи. Настройки читаются
 при загрузке DLL; для изменения нужно полностью перезапустить игру.
 
+[movement] nl_brake=1 подключает расчёт тормозного импульса NL к общей
+остановке GS в режимах 2 и 4. GS определяет момент остановки, выполняет трение
+и передаёт эффективные параметры движения/оружия. Полный контроллер autostop/
+quick stop NL не перенесён. Более ранний выстрел пока не подтверждён.
+nl_brake=0 возвращает прежнее торможение GS, сохраняя точки NL. После изменения
+полностью перезапустите CS:GO. Пункт 5 показывает GS brake samples и NL brake applied.
+
 NL-геометрия подключена к проверенному пути сканирования GS. Сохраняются
 проверки пересечения трёх матриц, метаданные, штатные урон/hitchance/выбор
 цели и точки GS. Другой путь сканирования и специальные позы остаются GS.
@@ -30,11 +37,12 @@ CS:GO и используйте новую пару injector.exe + skeet.dll и�
 переходник с родными функциями GS. Запуск на карте CS:GO не проверен.
 При сбое сохраняются skeet_crash.log и loader_last.log рядом с файлами.
 '''
-config='[points]\nhead_scale_percent=80\nbody_scale_percent=80\nreduced_head=0\n'
+config='[points]\nhead_scale_percent=80\nbody_scale_percent=80\nreduced_head=0\n\n[movement]\nnl_brake=1\n'
 out=ROOT/'build/skeet-v2-nl-points-windows.zip'
 files={n:(ROOT/'build'/n).read_bytes() for n in ['skeet.dll','injector.exe']}
 files.update({'README_RU.txt':readme.encode('utf-8-sig'),'skeet_nl_points.ini':config.encode()})
-for name in ['points_bridge_validation.json','points_validation.json','points_dll_validation.json']:
+for name in ['points_bridge_validation.json','points_validation.json','points_dll_validation.json',
+             'stop_math_validation.json','stop_bridge_validation.json']:
     files['reports/'+name]=(ROOT/'reports'/name).read_bytes()
 files['SHA256SUMS.json']=(json.dumps({n:hashlib.sha256(v).hexdigest() for n,v in files.items()},indent=2)+'\n').encode()
 with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED) as archive:

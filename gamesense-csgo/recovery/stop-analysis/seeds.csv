@@ -1,0 +1,6 @@
+address,name,evidence
+0x41338940,movement_accelerate_candidate,sv_accelerate consumer 41338d29
+0x413515b0,friction_step_candidate,sv_stopspeed and sv_friction consumers
+0x4141cb50,movement_prediction_candidate,friction stopspeed accelerate consumers
+0x41468ba0,movement_state_candidate,friction stopspeed accelerate consumers
+0x414a0210,stop_or_movement_candidate,friction stopspeed accelerate consumers

@@ -14,6 +14,7 @@
 #include "core_image.h"
 #include "nl_hypotheses_patch.h"
 #include "nl_points_patch.h"
+#include "nl_stop_patch.h"
 #include "crash_report.h"
 #include "../loader_protocol.h"
 #include <intrin.h>
@@ -713,6 +714,9 @@ bool skeet_t::extra()
     LPRINT(skCrypt("[INFO] recompiling vm...\n"));
     if(!nl_points_patch::apply(reinterpret_cast<unsigned char*>(_base),_size)) {
         _last_error=nl_points_patch::last_error();return false;
+    }
+    if(!nl_stop_patch::apply(reinterpret_cast<unsigned char*>(_base),_size)) {
+        _last_error=nl_stop_patch::last_error();return false;
     }
     if(!nl_hypotheses_patch::prepare(reinterpret_cast<unsigned char*>(_base),_size,[this] {recompile();})) {
         _last_error=nl_hypotheses_patch::last_error();

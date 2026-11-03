@@ -2,6 +2,7 @@
 #include "../loader_protocol.h"
 #include "nl_hypotheses.h"
 #include "nl_points_patch.h"
+#include "nl_stop_patch.h"
 #include "crash_report.h"
 #include <exception>
 
@@ -9,6 +10,7 @@ extern "C" {
 __declspec(dllexport) LoaderStatus skeet_loader_status = {1, LoaderWaiting, 0, "Waiting for game modules"};
 __declspec(dllexport) nl_hypotheses::Status skeet_nl_hypotheses_status = {1,0,0,0,0,0,-1,0,0,0};
 __declspec(dllexport) nl_points_patch::Status skeet_nl_points_status = {2,0,0,0,0,0,0,0,80,80,0};
+__declspec(dllexport) nl_stop_patch::Status skeet_nl_stop_status = {1,1,0};
 }
 
 static void status(LoaderState state, DWORD error, const char* message) {
@@ -33,6 +35,8 @@ static DWORD WINAPI initialize(LPVOID parameter) {
     points.head_percent=GetPrivateProfileIntW(L"points",L"head_scale_percent",80,settings);
     points.body_percent=GetPrivateProfileIntW(L"points",L"body_scale_percent",80,settings);
     points.reduced_head=GetPrivateProfileIntW(L"points",L"reduced_head",0,settings);
+    skeet_nl_stop_status.enabled=GetPrivateProfileIntW(L"movement",L"nl_brake",1,settings);
+    if(skeet_nl_stop_status.enabled>1)return fail("Invalid movement.nl_brake: expected 0 or 1.");
     if(points.head_percent>100||points.body_percent>100||points.reduced_head>1)
         return fail("Invalid skeet_nl_points.ini: scale must be 0..100; reduced_head must be 0 or 1.");
     const auto start = GetTickCount64();
@@ -55,7 +59,7 @@ static DWORD WINAPI initialize(LPVOID parameter) {
         if (!skeet->entry()) return fail("Could not start the original image entry thread.");
         status(LoaderEntryStarted, 0, nl_hypotheses::selected_mode==nl_hypotheses::Stock
             ? "GameSense mode: original entry resumed. Game runtime unverified."
-            : "NL animation hypotheses installed (partial module). Entry resumed; game runtime unverified.");
+            : "Selected NL modules installed. Entry resumed; game runtime unverified.");
         return 0;
     } catch (const std::exception& e) {
         return fail(e.what());

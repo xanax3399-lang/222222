@@ -10,6 +10,7 @@
 #include "../loader_protocol.h"
 #include "../skeet/nl_hypotheses.h"
 #include "../skeet/nl_points_status.h"
+#include "../skeet/nl_stop_status.h"
 
 static FILE* run_log=nullptr;
 static void log_line(const char* message,DWORD code=0) {
@@ -23,7 +24,7 @@ struct RunLog {
         std::wcscpy(path,dll_path);auto* last=std::wcsrchr(path,L'\\');
         if(!last||last-path+std::wcslen(filename)+2>=32768)return;
         std::wcscpy(last+1,filename);run_log=_wfopen(path,L"wb");
-        log_line("Legacy 8802 loader - NL points / native candidates preserved");
+        log_line("Legacy 8802 loader - NL points + NL braking math / GS stop requests");
     }
     ~RunLog(){if(run_log){std::fclose(run_log);run_log=nullptr;}}
 };
@@ -172,7 +173,15 @@ static int diagnostics(const wchar_t* path) {
         diagnostic_printf("Native generator calls: %ld\nNative points kept: %ld\nNo additional NL points: %ld\nNative primary center restored: %ld\nHead native points kept: %ld\nHead NL points added: %ld\nLast hitbox: %ld; original: %ld; added: %ld\n",
             points.native_calls,points.kept,points.empty_fallback,points.centroid_restores,points.head_kept,points.head_added,
             points.last_hitbox,points.last_original,points.last_added);
-        diagnostic_printf("Counters confirm execution; they do not measure aiming accuracy or damage.\n");return 0;
+        const DWORD stop_rva=exported_rva(path,"skeet_nl_stop_status",sizeof(nl_stop_patch::Status));
+        nl_stop_patch::Status stop{};
+        if(!stop_rva||!ReadProcessMemory(process.value,item.modBaseAddr+stop_rva,&stop,sizeof(stop),&got)||
+           got!=sizeof(stop)||stop.version!=1)return error("Cannot read NL brake diagnostics");
+        diagnostic_printf("NL brake enabled: %u; installed: %ld\nGS brake samples: %ld; NL brake applied: %ld; native fallback: %ld\n",
+            stop.enabled,stop.installed,stop.calls,stop.applied,stop.fallback);
+        if(stop.applied)diagnostic_printf("Last brake: speed after GS friction %.3f; effective wishspeed %.3f; accelerate %.3f; interval %.6f; grounded %ld; forward %.3f -> %.3f\n",
+            stop.speed,stop.max_speed,stop.accelerate,stop.interval,stop.last_grounded,stop.before,stop.after);
+        diagnostic_printf("GS still decides when to stop and fire. Counters do not measure aiming accuracy or time to fire.\n");return 0;
     }while(Module32NextW(modules.value,&item));
     diagnostic_printf("skeet.dll is not loaded in this game.\n");return 1;
 }
@@ -221,7 +230,7 @@ int wmain(int argc,wchar_t** argv) {
     }
     if(show_diagnostics)return run_diagnostics(path,false);
     if(mode<0) {
-        std::puts("1 - GameSense (original gameplay)\n2 - NL points\n3 - NL animation hypotheses (experimental)\n4 - NL points + animation hypotheses\n5 - Read active module diagnostics\n0 - Exit");
+        std::puts("1 - GameSense (original gameplay)\n2 - NL points + braking math (INI)\n3 - NL animation hypotheses (experimental)\n4 - NL points + braking math + animation hypotheses\n5 - Read active module diagnostics\n0 - Exit");
         std::printf("Choice [Enter = 2]: ");char choice[32]{};
         if(!std::fgets(choice,sizeof(choice),stdin))choice[0]='2';
         if(choice[0]=='0')return 0;

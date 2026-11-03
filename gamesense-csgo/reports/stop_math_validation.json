@@ -1,0 +1,15 @@
+{
+  "donor_sha256": "682ce73b371349f87da6fd9365f8550e240dcdb97951e80445e70286275ad96e",
+  "friction_cases": 1040,
+  "brake_cases": 1256,
+  "bitwise_equal_cases": 2296,
+  "maximum_error": 0.0,
+  "invalid_cases": 42,
+  "native_instruction_bytes_modified": false,
+  "scope": "arithmetic blocks with explicit inputs",
+  "convar_reads_and_tls_initialization_executed": false,
+  "direction_trigonometry_executed": false,
+  "stop_eligibility_or_timing_recovered": false,
+  "gs_adapter_installed": false,
+  "gameplay_tested": false
+}

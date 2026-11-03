@@ -16,11 +16,11 @@ def words(*v):return struct.pack('<'+'I'*len(v),*(x&0xffffffff for x in v))
 def floats(*v):return struct.pack('<'+'f'*len(v),*v)
 
 class Machine:
-    def __init__(self,fault=None):
+    def __init__(self,fault=None,probe='points_bridge_probe.dll'):
         self.image=(ROOT/'source/skeet/Binary/skeet.bin').read_bytes()
         assert hashlib.sha256(self.image).hexdigest()=='bbb5ee98d00db63dfc5c454b238d5edd3f809976686be226dbc5f6ae55018b07'
         self.u=u=Uc(UC_ARCH_X86,UC_MODE_32)
-        pe=pefile.PE(str(ROOT/'build/points_bridge_probe.dll'));pe.relocate_image(PE)
+        pe=pefile.PE(str(ROOT/'build'/probe));pe.relocate_image(PE)
         for base,size in [(BASE,len(self.image)),(PE,pe.OPTIONAL_HEADER.SizeOfImage),(DATA,0x100000),
                           (STACK,0x20000),(STOP,0x1000),(API,0x10000),(HEAP,0x100000),(SHIM,0x1000)]:
             u.mem_map(base,(size+4095)&-4096)

@@ -1,0 +1,12 @@
+{
+  "native_gs_stop_cases": 63,
+  "guards_modes_and_rollback_cases": 10,
+  "native_gs_friction_and_acceleration_executed": true,
+  "three_native_call_instructions_executed": true,
+  "expected_brake_from_original_nl_x86": true,
+  "native_counter_angles_and_attack_preserved": true,
+  "fxsave_gpr_and_flags_preserved_at_success": true,
+  "gs_eligibility_and_friction_retained": true,
+  "full_nl_stop_controller_ported": false,
+  "gameplay_tested": false
+}

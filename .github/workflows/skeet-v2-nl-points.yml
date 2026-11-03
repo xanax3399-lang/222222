@@ -32,10 +32,13 @@ jobs:
         run: |
           g++ -std=c++17 -O2 -shared -fPIC -ffp-contract=off -fno-fast-math -Wall -Wextra -Werror tests/points_probe.cpp -o build/points_probe.so
           python tests/validate_points.py --donor ../donor/neverlose-csgo/neverlose/bins/nl.bin
+          g++ -std=c++17 -O2 -shared -fPIC -ffp-contract=off -fno-fast-math -Wall -Wextra -Werror tests/stop_math_probe.cpp -o build/stop_math_probe.so
+          python tests/validate_stop_math.py --donor ../donor/neverlose-csgo/neverlose/bins/nl.bin
       - name: Execute production bridge and actual GS consumer
         run: |
           python gamesense-csgo/tests/validate_points_bridge.py
           python gamesense-csgo/tests/validate_points_contract.py
+          python gamesense-csgo/tests/validate_stop_bridge.py --donor donor/neverlose-csgo/neverlose/bins/nl.bin
       - name: Check retained loader, resource, animation and crash paths
         working-directory: gamesense-csgo
         run: |
@@ -123,6 +126,8 @@ jobs:
           Empty or rejected NL additions leave the original GS result intact. Minimum damage and hitchance are not lowered. Temporary storage holds up to 3 original + 7 NL points; the main list has 256 slots. Menu 5 saves module_diagnostics.log and waits for Enter in an interactive console.
 
           Three-matrix checks and GS damage/hitchance/aim selection remain active. The full NL resolver, weapon-dependent automatic scale and NL aim-selection logic are not ported.
+
+          NL braking arithmetic is now connected inside the shared native GS stop function for both current and simulated movement. Enabled in modes 2/4 with [movement] nl_brake=1 (default); set 0 and restart CS:GO for the previous GS braking behavior. GS stop eligibility, friction, effective weapon/duck/walk inputs and firing gates remain native. This is not the full NL autostop/quick-stop controller and earlier firing is not established. Menu 5 now reports stop requests, applied NL impulses and the latest speed/impulse sample.
 
           CI executes the compiled x86 bridge with real GS intersection/consumer functions and loads the actual DLL in Windows. Gameplay on a CS:GO map has not been tested.
           EOF

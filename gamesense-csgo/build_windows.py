@@ -62,6 +62,8 @@ def main():
         '-lkernel32', '-o', BUILD/'hypotheses_probe.dll')
     run('points-bridge-probe', *common, '-shared', ROOT/'tests/points_bridge_probe.cpp',
         '-o', BUILD/'points_bridge_probe.dll')
+    run('stop-bridge-probe', *common, '-shared', ROOT/'tests/stop_bridge_probe.cpp',
+        '-o', BUILD/'stop_bridge_probe.dll')
     if os.name != 'nt':
         run('hypotheses-host-probe', 'c++', '-std=c++17', '-O2', '-fno-fast-math',
             '-ffp-contract=off', '-shared', '-fPIC', ROOT/'tests/hypotheses_probe.cpp',
