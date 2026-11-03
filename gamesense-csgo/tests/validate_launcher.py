@@ -10,7 +10,7 @@ from unicorn.x86_const import *
 ROOT=Path(__file__).resolve().parents[1];B=ROOT/'build'
 subprocess.run(['g++','-std=c++17','-O2',str(ROOT/'tests/launcher_policy.cpp'),'-o',str(B/'launcher_policy')],check=True)
 portable=subprocess.check_output([str(B/'launcher_policy')],text=True).strip()
-env=os.environ.copy();env.setdefault('ZIG_GLOBAL_CACHE_DIR','/workspace/skeet-motion-bt-8802/.cache/global')
+env=os.environ.copy();env.setdefault('ZIG_GLOBAL_CACHE_DIR',str(ROOT/'.cache/global'))
 subprocess.run([sys.executable,'-m','ziglang','c++','-target','x86-windows-gnu','-std=c++23','-O2','-shared','-Wl,--image-base,0x30000000',str(ROOT/'tests/launcher_probe.cpp'),'-o',str(B/'launcher_probe.dll')],env=env,check=True)
 pe=pefile.PE(str(B/'launcher_probe.dll'));pb=pe.OPTIONAL_HEADER.ImageBase
 entry=next(pb+s.address for s in pe.DIRECTORY_ENTRY_EXPORT.symbols if s.name and b'launch_probe' in s.name)
