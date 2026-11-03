@@ -1,0 +1,18 @@
+{
+  "head_cases": 666,
+  "body_cases": 334,
+  "rejected": 0,
+  "max_coordinate_error": 1.9073486328125e-05,
+  "tolerance_world_units": 0.002,
+  "failures": [],
+  "geometry_scale_helper_overridden": true,
+  "native_head_intersection": true,
+  "body_client_intersection_replaced_with_nl_head_intersection": true,
+  "scale_cases": 1000,
+  "max_scale_error": 0,
+  "native_crt_sine_executed": true,
+  "weapon_fallback_helper_calls_with_explicit_test_input": 64,
+  "invalid_geometry_cases": 37,
+  "gs_runtime_integration_tested": false,
+  "gameplay_tested": false
+}

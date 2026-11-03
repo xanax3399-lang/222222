@@ -1,0 +1,48 @@
+{
+  "donor_sha256": "682ce73b371349f87da6fd9365f8550e240dcdb97951e80445e70286275ad96e",
+  "scope": "Existing donor wrapper NOP/flow normalization inside the three geometry/scale functions only. Applied in original table order. No game initialization.",
+  "patches": [
+    {
+      "address": "0x41491353",
+      "table": "g_noped_addrs",
+      "before": "35501fe855c1c81e0513512e06",
+      "after": "90909090909090909090909090"
+    },
+    {
+      "address": "0x414913e9",
+      "table": "g_noped_addrs",
+      "before": "2c23653546c8435ec1c80dc1c80ec1c81b35fd1a1f48c1c011",
+      "after": "90909090909090909090909090909090909090909090909090"
+    },
+    {
+      "address": "0x414914d7",
+      "table": "g_noped_addrs",
+      "before": "0545911c0b35cc28724105cfc6bb0f",
+      "after": "909090909090909090909090909090"
+    },
+    {
+      "address": "0x414914e9",
+      "table": "g_noped_addrs",
+      "before": "2dae1bc240",
+      "after": "9090909090"
+    },
+    {
+      "address": "0x41491343",
+      "table": "g_noped_addrs",
+      "before": "c1c81005f3f874382de1f38e03",
+      "after": "90909090909090909090909090"
+    },
+    {
+      "address": "0x414913e7",
+      "table": "g_noped_addrs",
+      "before": "35",
+      "after": "90"
+    },
+    {
+      "address": "0x414914d1",
+      "table": "g_noped_addrs",
+      "before": "c1c811",
+      "after": "909090"
+    }
+  ]
+}

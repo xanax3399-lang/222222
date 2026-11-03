@@ -1,0 +1,19 @@
+{
+  "core_sha256": "bbb5ee98d00db63dfc5c454b238d5edd3f809976686be226dbc5f6ae55018b07",
+  "generator": "0x433fd9b7",
+  "direct_callers": [
+    "0x433341ca",
+    "0x4335e9d0"
+  ],
+  "small_vector_initializer": "0x433d5a95",
+  "initializer_bytes": "8d4110894104890183c0488941088bc1c3",
+  "inline_capacity_bytes": 72,
+  "gs_point_stride": 24,
+  "inline_point_capacity": 3,
+  "nl_point_stride": 80,
+  "nl_max_generated_points": 7,
+  "direct_copy_compatible": false,
+  "runtime_hook_installed": false,
+  "aim_selection_ported": false,
+  "gameplay_tested": false
+}
