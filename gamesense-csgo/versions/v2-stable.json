@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "version": "v2",
+  "state": "frozen_checkpoint",
+  "source_commit": "72aa34f0956c619ba5f24c9e5c19c6dabf7fd7ff",
+  "source_branch": "codex/skeet-v2-stable",
+  "source_tag": "skeet-v2-stable-72aa34f",
+  "archive_url": "https://github.com/xanax3399-lang/222222/releases/download/skeet-v2-nl-points-dll-72aa34f0956c619ba5f24c9e5c19c6dabf7fd7ff/skeet-v2-nl-points-windows.zip",
+  "archive_sha256": "0cb831a528b02150685151e82f2fd12001bdcf06109a9d137526e1e06c08f30a",
+  "files_sha256": {
+    "skeet.dll": "16765a96b2ec181031bf392f468dc5948dc77d925b5f7624541545a8bf47dd94",
+    "injector.exe": "323a427fcc367fd01226ae352e0c8e15653475dc037fe5f26fa215e5f6165708",
+    "README_RU.txt": "2b576183e9917a8cfb65686f9c16e98123ff1554c96e477b336f872c1cec7345",
+    "skeet_nl_points.ini": "9bf9ca4f7866ee313c3adb436ad0840a3d959ab1996145abbe7087b74dfa85c6",
+    "reports/points_bridge_validation.json": "7c19259ef6265541b28b17973a352712b9e0aaea6edacfc5fe36c7b4c7291aff",
+    "reports/points_validation.json": "9ccf21b8a346366e66fdc0995a2aae1cceeb73c15ca4ae2e7a12c50b2665d7d4",
+    "reports/points_dll_validation.json": "fc8442c48c42cba54df3c7bc45f2a301b9c6860a2bae1cb303fcd23c14dbd839",
+    "reports/stop_math_validation.json": "9646e05a2806e7206dcf5a5552438c4f5f168c627d644904696f9ac6d802a32d",
+    "reports/stop_bridge_validation.json": "62d2b2f8442d759034cbd5b42519ca7b451a3b16c9e6ca4b22a05cde1d54e93a"
+  },
+  "launcher_choice": 2,
+  "mode": "nl-points",
+  "game": "CS:GO Legacy 8802",
+  "nl_brake_default": 1,
+  "full_nl_stop_controller_ported": false,
+  "automated_gameplay_tested": false,
+  "user_feedback": "User reported improved behavior and firing during a 5x5 match."
+}

@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "version": "v3",
+  "state": "development_base",
+  "source_branch": "codex/skeet-v3-patches",
+  "base_version": "v2",
+  "base_commit": "72aa34f0956c619ba5f24c9e5c19c6dabf7fd7ff",
+  "implemented_patches": [],
+  "published_archive": null,
+  "note": "Development starts from frozen v2. First patch scope is pending user selection."
+}
