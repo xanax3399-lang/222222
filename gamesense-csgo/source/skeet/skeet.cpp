@@ -375,7 +375,7 @@ bool skeet_t::map()
         ImageReservation marker{};
         std::memcpy(&marker, desired, sizeof(marker));
         if (marker.magic != kReservationMagic || marker.version != kReservationVersion ||
-            marker.pid != GetCurrentProcessId() || marker.size != kImageSize || marker.hypothesis_mode>3) {
+            marker.pid != GetCurrentProcessId() || marker.size != kImageSize || !nl_hypotheses::valid_mode(marker.hypothesis_mode)) {
             SetLastError(ERROR_INVALID_DATA); return false;
         }
         nl_hypotheses::selected_mode=marker.hypothesis_mode;

@@ -11,7 +11,10 @@
 #include "nl_hypotheses.h"
 #include "nl_points_status.h"
 #include "nl_points_mean.h"
+#include "v3_head_points.h"
+#include "v3_status.h"
 extern "C" __declspec(dllexport) nl_points_patch::Status skeet_nl_points_status;
+extern "C" __declspec(dllexport) v3_patches::Status skeet_v3_status;
 
 namespace nl_points_patch {
 using nl_points::Vec3;
@@ -20,12 +23,13 @@ struct NativePoint { Vec3 position;float weight;unsigned group,flags; };
 static_assert(sizeof(NativePoint)==0x18);
 struct NativeVector { NativePoint *begin,*end,*capacity;unsigned reserved;NativePoint in_place[3]; };
 static_assert(sizeof(void*)!=4||sizeof(NativeVector)==0x58);
-struct Slot { NativeVector* owner{};unsigned caller{};NativePoint points[10]{};Vec3 native_mean{}; };
+struct Slot { NativeVector* owner{};unsigned caller{};NativePoint points[13]{};Vec3 native_mean{}; };
 struct MainSlot { NativeVector* owner{};NativePoint points[256]{}; };
 struct Pool { Slot slots[8]{};MainSlot main[8]{}; };
 inline DWORD pool_key=FLS_OUT_OF_INDEXES;
 inline const char* install_error="NL points setup did not finish.";
 inline bool enabled(){return (nl_hypotheses::selected_mode&2u)!=0;}
+inline bool v3_enabled(){return nl_hypotheses::selected_mode==nl_hypotheses::V3Patches&&skeet_v3_status.head_enabled!=0;}
 inline const char* last_error(){return install_error;}
 }
 
@@ -146,24 +150,35 @@ __declspec(noinline) inline void __fastcall bridge(const Vec3* eye,void* entity,
     if(id!=0&&id!=3&&!(id>=4&&id<=12)&&!(id>=15&&id<=18)){fallback();return;}
     nl_points::Points points{};
     const unsigned percentage=id==0?status.head_percent:status.body_percent;
-    if(percentage>100||!nl_points::generate(main,*eye,percentage*.01f,id==0,
-                    status.reduced_head!=0,id,points)){fallback();return;}
-    NativePoint accepted[10]{};unsigned count=native_count,filtered=0;
+    if(percentage>100)return fallback();
+    const bool generated=nl_points::generate(main,*eye,percentage*.01f,id==0,status.reduced_head!=0,id,points);
+    v3_head_points::Points crown{};const bool head_patch=id==0&&v3_enabled();
+    if(head_patch) {
+        InterlockedIncrement(&skeet_v3_status.head_calls);
+        if(!v3_head_points::generate(main,*eye,skeet_v3_status.crown_percent,crown))
+            InterlockedIncrement(&skeet_v3_status.geometry_fallback);
+    }
+    if(!generated&&!crown.count){fallback();return;}
+    NativePoint accepted[13]{};unsigned count=native_count,filtered=0,crown_added=0;
     std::memcpy(accepted,baseline,native_count*sizeof(NativePoint));
-    for(unsigned i=0;i<points.count;++i) {
-        const Vec3 delta=points.positions[i]-*eye;bool safe=true;
+    for(unsigned i=0;i<points.count+crown.count;++i) {
+        const bool is_crown=i>=points.count;
+        const Vec3 point=is_crown?crown.positions[i-points.count]:points.positions[i];
+        if(is_crown)InterlockedIncrement(&skeet_v3_status.considered);
+        const Vec3 delta=point-*eye;bool safe=true;
         for(const auto& capsule:alternatives) {
             float hit[8]{};hit[0]=std::numeric_limits<float>::max();
             native_intersection(hit,eye,&delta,&capsule);
             if(!std::isfinite(hit[0])||hit[0]<0||hit[0]>1){safe=false;break;}
         }
-        if(!safe){++filtered;continue;}
+        if(!safe){if(is_crown)InterlockedIncrement(&skeet_v3_status.filtered);else ++filtered;continue;}
         bool duplicate=false;
         for(unsigned j=0;j<count;++j) {
-            const Vec3 difference=accepted[j].position-points.positions[i];
+            const Vec3 difference=accepted[j].position-point;
             if(nl_points::dot(difference,difference)<1e-8f){duplicate=true;break;}
         }
-        if(!duplicate)accepted[count++]={points.positions[i],1.0f,group,3};
+        if(!duplicate){accepted[count++]={point,1.0f,group,3};crown_added+=is_crown;}
+        else if(is_crown)InterlockedIncrement(&skeet_v3_status.duplicates);
     }
     InterlockedExchangeAdd(&status.filtered,static_cast<LONG>(filtered));
     const unsigned added=count-native_count;
@@ -187,7 +202,7 @@ __declspec(noinline) inline void __fastcall bridge(const Vec3* eye,void* entity,
     }
     const auto used=(last-first)/sizeof(NativePoint);
     // Remaining stock branches fit their original 112-entry budget. Leave
-    // that entire budget available in addition to all NL additions (<=20).
+    // that entire budget available in addition to accepted NL/V3 additions.
     if(used+count+112>256){fallback();return;}
     if(first==local)std::memcpy(destination->points,candidates->begin,used*sizeof(NativePoint));
     std::memcpy(storage->points,accepted,count*sizeof(NativePoint));
@@ -195,12 +210,13 @@ __declspec(noinline) inline void __fastcall bridge(const Vec3* eye,void* entity,
     // Commit only after complete input validation, geometry and safety checks.
     // The pinned caller consumes these pointers synchronously and the native
     // destructor 0x433cce8e is RET 0: it does not free the external buffer.
-    out->begin=storage->points;out->end=storage->points+count;out->capacity=storage->points+10;
+    out->begin=storage->points;out->end=storage->points+count;out->capacity=storage->points+(v3_enabled()?13:10);
     candidates->begin=destination->points;candidates->end=destination->points+used;
     candidates->capacity=destination->points+256;
-    InterlockedExchangeAdd(&status.generated,static_cast<LONG>(added));
+    InterlockedExchangeAdd(&status.generated,static_cast<LONG>(added-crown_added));
     InterlockedExchange(&status.last_added,static_cast<LONG>(added));
-    if(id==0)InterlockedExchangeAdd(&status.head_added,static_cast<LONG>(added));
+    if(id==0)InterlockedExchangeAdd(&status.head_added,static_cast<LONG>(added-crown_added));
+    if(crown_added)InterlockedExchangeAdd(&skeet_v3_status.added,static_cast<LONG>(crown_added));
 }
 inline void __cdecl restore_mean(unsigned char* registers,unsigned char* fx) noexcept {
     auto* stack=registers+36;
@@ -232,6 +248,7 @@ inline bool compatible(const unsigned char* image,std::size_t size) {
 }
 inline bool apply(unsigned char* image,std::size_t size) {
     auto& status=skeet_nl_points_status;status.mode=nl_hypotheses::selected_mode;
+    skeet_v3_status.mode=nl_hypotheses::selected_mode;
     if(!enabled())return true;
     if(reinterpret_cast<std::uintptr_t>(image)!=core_image::image_base||!compatible(image,size)) {
         install_error="NL points: unsupported GS call/buffer contract.";SetLastError(ERROR_REVISION_MISMATCH);return false;
@@ -263,6 +280,8 @@ inline bool apply(unsigned char* image,std::size_t size) {
         FlsFree(pool_key);pool_key=FLS_OUT_OF_INDEXES;SetLastError(error);
         install_error="NL points: cannot flush core instruction cache.";return false;
     }
-    InterlockedExchange(&status.installed,1);return true;
+    InterlockedExchange(&status.installed,1);
+    if(v3_enabled())InterlockedExchange(&skeet_v3_status.installed,1);
+    return true;
 }
 } // namespace nl_points_patch

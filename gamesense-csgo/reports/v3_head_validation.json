@@ -1,0 +1,20 @@
+{
+  "geometric_invariant_cases": 1000,
+  "invalid_cases": 34,
+  "frozen_v2_regression_cases": 10,
+  "v3_bridge_cases": 11,
+  "crown_points_committed_in_pose_cases": 18,
+  "pose_record_height_offsets": [
+    0,
+    -9,
+    -18
+  ],
+  "native_three_matrix_intersection_executed": true,
+  "native_primary_center_consumer_executed": true,
+  "native_head_generator_mocked": true,
+  "cover_height_test_is_synthetic": true,
+  "real_visibility_or_damage_tested": false,
+  "interpolation_extrapolation_changed": false,
+  "full_nl_stop_controller_ported": false,
+  "gameplay_tested": false
+}

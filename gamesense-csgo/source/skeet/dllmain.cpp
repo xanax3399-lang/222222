@@ -11,6 +11,7 @@ __declspec(dllexport) LoaderStatus skeet_loader_status = {1, LoaderWaiting, 0, "
 __declspec(dllexport) nl_hypotheses::Status skeet_nl_hypotheses_status = {1,0,0,0,0,0,-1,0,0,0};
 __declspec(dllexport) nl_points_patch::Status skeet_nl_points_status = {2,0,0,0,0,0,0,0,80,80,0};
 __declspec(dllexport) nl_stop_patch::Status skeet_nl_stop_status = {1,1,0};
+__declspec(dllexport) v3_patches::Status skeet_v3_status = {1,1,95,0};
 }
 
 static void status(LoaderState state, DWORD error, const char* message) {
@@ -37,6 +38,10 @@ static DWORD WINAPI initialize(LPVOID parameter) {
     points.reduced_head=GetPrivateProfileIntW(L"points",L"reduced_head",0,settings);
     skeet_nl_stop_status.enabled=GetPrivateProfileIntW(L"movement",L"nl_brake",1,settings);
     if(skeet_nl_stop_status.enabled>1)return fail("Invalid movement.nl_brake: expected 0 or 1.");
+    skeet_v3_status.head_enabled=GetPrivateProfileIntW(L"v3",L"head_crown",1,settings);
+    skeet_v3_status.crown_percent=GetPrivateProfileIntW(L"v3",L"head_crown_percent",95,settings);
+    if(skeet_v3_status.head_enabled>1||skeet_v3_status.crown_percent<50||skeet_v3_status.crown_percent>99)
+        return fail("Invalid v3 settings: head_crown must be 0 or 1; crown percent 50..99.");
     if(points.head_percent>100||points.body_percent>100||points.reduced_head>1)
         return fail("Invalid skeet_nl_points.ini: scale must be 0..100; reduced_head must be 0 or 1.");
     const auto start = GetTickCount64();

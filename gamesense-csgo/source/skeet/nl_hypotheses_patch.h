@@ -100,7 +100,7 @@ inline bool apply(unsigned char* image,std::size_t size) {
     auto& status=skeet_nl_hypotheses_status;
     install_error="NL setup did not finish.";
     status.mode=selected_mode;
-    if(selected_mode>NlCombined) {
+    if(!valid_mode(selected_mode)) {
         install_error="NL setup: invalid selected mode.";SetLastError(ERROR_INVALID_PARAMETER);return false;
     }
     if(!(selected_mode&NlAnimation))return true;

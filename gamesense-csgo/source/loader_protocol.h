@@ -5,7 +5,7 @@
 constexpr DWORD kImageBase = 0x43310000;
 constexpr DWORD kImageSize = 0x002fc000;
 constexpr DWORD kReservationMagic = 0x52534b53; // SKSR
-constexpr DWORD kReservationVersion = 3;
+constexpr DWORD kReservationVersion = 4;
 struct ImageReservation {
     DWORD magic, version, pid, size;
     DWORD hypothesis_mode;

@@ -50,7 +50,7 @@ class Machine:
             self.original_calls.append((u.reg_read(UC_X86_REG_ECX),u.reg_read(UC_X86_REG_EDX),args))
             if self.native_body:return
             id=self.word(args[1]);group=1 if id==0 else 3
-            self.last_baseline=b''.join(floats(0,4 if i==0 else -4,65,1)+words(group,3) for i in range(self.native_count))
+            self.last_baseline=b''.join(floats(0,4 if i==0 else -4,65+getattr(self,'pose_z',0),1)+words(group,3) for i in range(self.native_count))
             out=args[3];begin=self.word(out)
             if self.last_baseline:u.mem_write(begin,self.last_baseline)
             self.store(out+4,begin+len(self.last_baseline))
@@ -101,9 +101,12 @@ class Machine:
         self.u.emu_start(self.exports[name],STOP,count=30000000)
         assert self.u.reg_read(UC_X86_REG_EIP)==STOP
         return self.u.reg_read(UC_X86_REG_EAX)
-    def prepare(self,mode=2):return bool(self.call('points_prepare',[BASE,len(self.image),mode])&255)
+    def prepare(self,mode=2):
+        self.mode=mode
+        return bool(self.call('points_prepare',[BASE,len(self.image),mode])&255)
     def status(self):return struct.unpack('<20I',self.u.mem_read(self.exports['skeet_nl_points_status'],80))
-    def run(self,caller=1,hitbox=0,shift=0,special=0,offset=0,consume=False,existing=0):
+    def run(self,caller=1,hitbox=0,shift=0,special=0,offset=0,consume=False,existing=0,pose_z=0):
+        self.pose_z=pose_z
         u=self.u;parent_sp=STACK+0x11000+offset
         site,cont=(0x433341ca,0x433341cf) if caller==0 else (0x4335e9d0,0x4335e9d5)
         out=parent_sp+(0x240 if caller==0 else 0x26c)
@@ -119,12 +122,12 @@ class Machine:
         u.mem_write(box,bytes(0x44));u.mem_write(box+4,words(1 if hitbox==0 else 3))
         u.mem_write(box+8,floats(0,0,60,0,0,65));u.mem_write(box+0x30,floats(4))
         u.mem_write(desc,bytes(0x90));u.mem_write(desc,words(hitbox,box))
-        u.mem_write(desc+0x48,floats(0,0,60,0,0,65));u.mem_write(desc+0x70,floats(4))
-        u.mem_write(eye,floats(-100,0,64));u.mem_write(middle,floats(0,0,62.5))
+        u.mem_write(desc+0x48,floats(0,0,60+pose_z,0,0,65+pose_z));u.mem_write(desc+0x70,floats(4))
+        u.mem_write(eye,floats(-100,0,64));u.mem_write(middle,floats(0,0,62.5+pose_z))
         u.mem_write(record,bytes(0x1000))
         for i in range(3):
             m=record+(hitbox+31)*48+i*0x3a0
-            u.mem_write(m,floats(1,0,0,0,0,1,0,shift if i==2 else 0,0,0,1,0))
+            u.mem_write(m,floats(1,0,0,0,0,1,0,shift if i==2 else 0,0,0,1,pose_z))
         u.mem_write(parent_sp-20,words(record,desc,middle,out,special))
         u.reg_write(UC_X86_REG_ESP,parent_sp-20);u.reg_write(UC_X86_REG_ECX,eye);u.reg_write(UC_X86_REG_EDX,DATA+0x24000)
         regs=[UC_X86_REG_EBX,UC_X86_REG_ESI,UC_X86_REG_EDI,UC_X86_REG_EBP]
@@ -139,12 +142,12 @@ class Machine:
         assert [u.reg_read(r) for r in regs]==values,'Nonvolatile register corruption'
         assert bytes(u.mem_read(out+0x58,0x80-0x58))==b'\xa5'*(0x80-0x58),'Adjacent stack was overwritten'
         begin,end,cap=struct.unpack('<III',u.mem_read(out,12));count=(end-begin)//24
-        assert 0<=count<=10
+        assert 0<=count<=(13 if getattr(self,'mode',2)==6 else 10)
         points=[struct.unpack('<4fII',u.mem_read(begin+i*24,24)) for i in range(count)]
         assert all(p[3:]==(1.0,1 if hitbox==0 else 3,3) for p in points)
-        baseline=floats(0,4,65,1)+words(1 if hitbox==0 else 3,3)
+        baseline=floats(0,4,65+pose_z,1)+words(1 if hitbox==0 else 3,3)
         if self.native_count and count:assert bytes(u.mem_read(begin,24))==baseline,'First native candidate lost'
-        if self.native_count==2 and count:assert points[1][:3]==(0.0,-4.0,65.0),'Second native candidate lost'
+        if self.native_count==2 and count:assert points[1][:3]==(0.0,-4.0,65.0+pose_z),'Second native candidate lost'
         if begin!=out+16:
             main_begin,main_end,main_cap=struct.unpack('<III',u.mem_read(main,12))
             assert main_cap-main_begin==256*24 and main_end-main_begin==existing*24
@@ -176,7 +179,7 @@ class Machine:
                 if i not in [5,6,7]:assert a==b
             assert u.reg_read(UC_X86_REG_EIP)==0x4335eaba
             average=struct.unpack('<3f',u.mem_read(parent_sp+0x254,12))
-            expected=[0,0,65]
+            expected=[0,0,65+pose_z]
             assert max(abs(a-b) for a,b in zip(average,expected))<.0001,(average,expected)
         return points,(begin,end,cap)
 

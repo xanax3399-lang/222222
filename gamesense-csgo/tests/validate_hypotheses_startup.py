@@ -76,6 +76,7 @@ def main():
     cases=[]
     for mode,fault,pointer,size,accepted,error in [
         (0,None,BASE,SIZE,True,0),
+        (6,None,BASE,SIZE,True,0),
         (1,None,BASE,SIZE,True,0),
         (4,None,BASE,SIZE,False,87),
         (1,None,BASE+1,SIZE,False,487),
@@ -97,7 +98,7 @@ def main():
         assert machine.error==error,(mode,fault,machine.error,error)
         if accepted:
             assert seal_calls==1 and sealed==expected_hash(after)
-            if mode==0:assert after==original and not machine.events and status[2]==0
+            if mode in (0,6):assert after==original and not machine.events and status[2]==0
             else:
                 assert after!=original and sealed!=before and status[2]==1
                 assert machine.allocations==1 and machine.frees==0

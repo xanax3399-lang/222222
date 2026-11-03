@@ -1,0 +1,149 @@
+name: Skeet v3 head crown patches DLL
+on:
+  push:
+    branches: [codex/skeet-v3-patches]
+    paths: ['gamesense-csgo/**', '.github/workflows/skeet-v3-patches.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: 193bdb780b76402adb061cfb37b8eedcebba93cc
+          path: donor
+          sparse-checkout: neverlose-csgo/neverlose/bins/nl.bin
+          sparse-checkout-cone-mode: false
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned build and emulation tools
+        run: python -m pip install -r gamesense-csgo/requirements-build.txt
+      - name: Build Windows x86 DLL and matching injector
+        run: python gamesense-csgo/build_windows.py
+      - name: Compare NL math with original x86 donor
+        working-directory: gamesense-csgo
+        run: |
+          g++ -std=c++17 -O2 -shared -fPIC -ffp-contract=off -fno-fast-math -Wall -Wextra -Werror tests/points_probe.cpp -o build/points_probe.so
+          python tests/validate_points.py --donor ../donor/neverlose-csgo/neverlose/bins/nl.bin
+          g++ -std=c++17 -O2 -shared -fPIC -ffp-contract=off -fno-fast-math -Wall -Wextra -Werror tests/stop_math_probe.cpp -o build/stop_math_probe.so
+          python tests/validate_stop_math.py --donor ../donor/neverlose-csgo/neverlose/bins/nl.bin
+          g++ -std=c++17 -O2 -shared -fPIC -ffp-contract=off -fno-fast-math -Wall -Wextra -Werror tests/v3_head_probe.cpp -o build/v3_head_probe.so
+          python tests/validate_v3_head.py
+      - name: Execute production bridge and actual GS consumer
+        run: |
+          python gamesense-csgo/tests/validate_points_bridge.py
+          python gamesense-csgo/tests/validate_points_contract.py
+          python gamesense-csgo/tests/validate_stop_bridge.py --donor donor/neverlose-csgo/neverlose/bins/nl.bin
+      - name: Check retained loader, resource, animation and crash paths
+        working-directory: gamesense-csgo
+        run: |
+          python tests/validate_core_image.py
+          python tests/validate_hypotheses.py --donor ../donor/neverlose-csgo/neverlose/bins/nl.bin
+          python tests/validate_hypotheses_startup.py
+          python tests/validate_crash_report.py
+          python tests/validate_launcher.py
+          python tests/validate_resolver.py
+          python tests/verify_points_release.py
+      - name: Package DLL and injector
+        run: python gamesense-csgo/package_windows_points.py --v3
+      - uses: actions/upload-artifact@v4
+        with:
+          name: skeet-v3-patches-windows
+          path: gamesense-csgo/build/skeet-v3-patches-windows.zip
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: build-evidence
+          path: |
+            gamesense-csgo/build/*.log
+            gamesense-csgo/build/*validation.json
+            gamesense-csgo/reports/*validation.json
+      - name: Publish bounded compiler evidence
+        if: always()
+        env:
+          CI_JOB_STATUS: ${{ job.status }}
+          SKEET_RELEASE_SERIES: v3
+        run: python gamesense-csgo/publish_ci_status.py
+  windows:
+    needs: build
+    runs-on: windows-2025
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: skeet-v3-patches-windows
+          path: dist
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x86
+      - name: Extract actual compiled artifact
+        shell: pwsh
+        run: Expand-Archive dist/skeet-v3-patches-windows.zip -DestinationPath dist/runtime
+      - name: Compile native loader probe
+        shell: cmd
+        run: cl /nologo /std:c++17 /EHsc /MT /W4 /WX gamesense-csgo\tests\dll_load_smoke.cpp /Fe:dist\dll_load_smoke.exe /Fo:dist\dll_load_smoke.obj
+      - name: Load actual x86 DLL and inspect exports
+        shell: cmd
+        run: dist\dll_load_smoke.exe "%CD%\dist\runtime\skeet.dll"
+      - name: Check injector argument handling
+        shell: pwsh
+        run: |
+          $PSNativeCommandUseErrorActionPreference = $false
+          & dist/runtime/injector.exe --mode invalid
+          if ($LASTEXITCODE -ne 1) { throw 'Invalid mode was not rejected.' }
+          & dist/runtime/injector.exe --diagnostics
+          if ($LASTEXITCODE -ne 1) { throw 'Diagnostics should report that CS:GO is absent.' }
+          $log = 'dist/runtime/module_diagnostics.log'
+          if (!(Test-Path $log) -or (Get-Content $log -Raw) -notmatch 'No matching DLL') { throw 'Diagnostic file was not saved.' }
+          Remove-Item $log
+          '5' | & dist/runtime/injector.exe
+          if ($LASTEXITCODE -ne 1 -or !(Test-Path $log)) { throw 'Menu 5 did not save diagnostics.' }
+          $missing = Join-Path $env:RUNNER_TEMP 'codex-missing-game/csgo.exe'
+          '3' | & dist/runtime/injector.exe --game $missing
+          if ($LASTEXITCODE -ne 1 -or (Get-Content 'dist/runtime/loader_last.log' -Raw) -notmatch 'Selected: v3 record-based head crown scan') { throw 'Menu 3 did not select v3.' }
+          '2' | & dist/runtime/injector.exe --game $missing
+          if ($LASTEXITCODE -ne 1 -or (Get-Content 'dist/runtime/loader_last.log' -Raw) -notmatch 'Selected: v2 NL points') { throw 'Menu 2 did not retain v2.' }
+          & dist/runtime/injector.exe --mode v3-patches --game $missing
+          if ($LASTEXITCODE -ne 1 -or (Get-Content 'dist/runtime/loader_last.log' -Raw) -notmatch 'Selected: v3 record-based head crown scan') { throw 'V3 CLI mode was not accepted.' }
+          exit 0
+  release:
+    needs: [build, windows]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: skeet-v3-patches-windows
+          path: dist
+      - name: Publish tested Windows artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          unzip -q dist/skeet-v3-patches-windows.zip skeet.dll injector.exe -d dist
+          cat > /tmp/points-release-notes.md <<'EOF'
+          CS:GO Legacy 8802 only. Menu 2 retains v2 point/braking behavior; menu 3 enables v3 record-based head crown candidates (--mode v3-patches). The original v2 archive is frozen separately at commit 72aa34f0956c619ba5f24c9e5c19c6dabf7fd7ff.
+
+          V3 adds up to three samples near the upper cap of the selected record's head capsule. This is an independently written geometric extension, not a full NL scanner port. Native candidates, primary center, three-matrix checks, GS damage and hitchance remain. Mode 2 is checked against captured v2 point fixtures.
+
+          [v3] head_crown=1 enables the patch in menu 3 only; head_crown_percent=95 (50..99). Full restart after changing INI. Menu 5 saves V3 head crown counters. Old animation hypotheses moved to menu 6.
+
+          Full NL autostop/quick stop controller is not ported. GS still supplies stop eligibility/friction/effective movement inputs. Interpolation/extrapolation have not changed. Real visibility, damage, head hits and performance on a CS:GO map are not tested here.
+
+          CI checks geometry, compiled x86 bridge/native GS intersection and consumer, v2 fixtures, existing tests, and actual DLL loading in Windows. Use the matching injector/DLL pair.
+          EOF
+          tag="skeet-v3-patches-dll-${SOURCE_SHA}"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" dist/skeet-v3-patches-windows.zip dist/skeet.dll dist/injector.exe --clobber
+          else
+            gh release create "$tag" dist/skeet-v3-patches-windows.zip dist/skeet.dll dist/injector.exe --target "$SOURCE_SHA" --prerelease --title 'Skeet v3 / CS:GO / head crown patch' --notes-file /tmp/points-release-notes.md
+          fi
