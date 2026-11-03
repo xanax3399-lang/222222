@@ -13,7 +13,7 @@ for name,is_dll in [('skeet.dll',True),('injector.exe',False)]:
     if is_dll:
         exports={i.name.decode():i.address for i in pe.DIRECTORY_ENTRY_EXPORT.symbols if i.name}
         for symbol in ['skeet_loader_status','skeet_nl_hypotheses_status','skeet_nl_points_status']:assert symbol in exports
-        assert struct.unpack('<11I',pe.get_data(exports['skeet_nl_points_status'],44))==(1,0,0,0,0,0,0,0,80,80,0)
+        assert struct.unpack('<20I',pe.get_data(exports['skeet_nl_points_status'],80))==(2,0,0,0,0,0,0,0,80,80,0,*([0]*9))
         symbols={s for entries in imports.values() for s in entries}
         assert {'FlsAlloc','FlsGetValue','FlsSetValue','FlsFree','HeapAlloc','HeapFree'}<=symbols
         core=[]

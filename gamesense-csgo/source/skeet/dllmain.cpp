@@ -8,7 +8,7 @@
 extern "C" {
 __declspec(dllexport) LoaderStatus skeet_loader_status = {1, LoaderWaiting, 0, "Waiting for game modules"};
 __declspec(dllexport) nl_hypotheses::Status skeet_nl_hypotheses_status = {1,0,0,0,0,0,-1,0,0,0};
-__declspec(dllexport) nl_points_patch::Status skeet_nl_points_status = {1,0,0,0,0,0,0,0,80,80,0};
+__declspec(dllexport) nl_points_patch::Status skeet_nl_points_status = {2,0,0,0,0,0,0,0,80,80,0};
 }
 
 static void status(LoaderState state, DWORD error, const char* message) {

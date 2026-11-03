@@ -19,8 +19,10 @@
   ],
   "other_caller_native": true,
   "adapter_point_stride": 24,
-  "adapter_capacity": 7,
+  "adapter_capacity": 10,
   "main_capacity": 256,
+  "native_candidates_retained": true,
+  "native_primary_center_hook": "0x4335ea97",
   "vm_writes_do_not_overlap_hook": true,
   "aim_selection_ported": false,
   "gameplay_tested": false

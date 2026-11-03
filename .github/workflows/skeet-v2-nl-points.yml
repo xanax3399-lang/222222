@@ -94,6 +94,11 @@ jobs:
           if ($LASTEXITCODE -ne 1) { throw 'Invalid mode was not rejected.' }
           & dist/runtime/injector.exe --diagnostics
           if ($LASTEXITCODE -ne 1) { throw 'Diagnostics should report that CS:GO is absent.' }
+          $log = 'dist/runtime/module_diagnostics.log'
+          if (!(Test-Path $log) -or (Get-Content $log -Raw) -notmatch 'No matching DLL') { throw 'Diagnostic file was not saved.' }
+          Remove-Item $log
+          '5' | & dist/runtime/injector.exe
+          if ($LASTEXITCODE -ne 1 -or !(Test-Path $log)) { throw 'Menu 5 did not save diagnostics.' }
           exit 0
   release:
     needs: [build, windows]
@@ -113,9 +118,11 @@ jobs:
         run: |
           unzip -q dist/skeet-v2-nl-points-windows.zip skeet.dll injector.exe -d dist
           cat > /tmp/points-release-notes.md <<'EOF'
-          CS:GO Legacy 8802 only. DLL and matching injector with NL-derived point geometry integrated into the verified GS scan path. Start injector.exe and select 2 (NL points), or use --mode nl-points.
+          CS:GO Legacy 8802 only. Native GS candidates and the native primary center are now preserved; validated NL-derived points are appended. Start injector.exe and select 2 (NL points), or use --mode nl-points.
 
-          Three-matrix capsule checks and GS damage/hitchance/aim selection remain active. Temporary storage holds seven points; the main candidate list has 256 slots. Other scan contexts use native fallback. The weapon-dependent automatic NL scale and full NL aim-selection logic are not ported.
+          Empty or rejected NL additions leave the original GS result intact. Minimum damage and hitchance are not lowered. Temporary storage holds up to 3 original + 7 NL points; the main list has 256 slots. Menu 5 saves module_diagnostics.log and waits for Enter in an interactive console.
+
+          Three-matrix checks and GS damage/hitchance/aim selection remain active. The full NL resolver, weapon-dependent automatic scale and NL aim-selection logic are not ported.
 
           CI executes the compiled x86 bridge with real GS intersection/consumer functions and loads the actual DLL in Windows. Gameplay on a CS:GO map has not been tested.
           EOF

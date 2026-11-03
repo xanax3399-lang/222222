@@ -10,6 +10,7 @@
 #include "core_image.h"
 #include "nl_hypotheses.h"
 #include "nl_points_status.h"
+#include "nl_points_mean.h"
 extern "C" __declspec(dllexport) nl_points_patch::Status skeet_nl_points_status;
 
 namespace nl_points_patch {
@@ -19,7 +20,7 @@ struct NativePoint { Vec3 position;float weight;unsigned group,flags; };
 static_assert(sizeof(NativePoint)==0x18);
 struct NativeVector { NativePoint *begin,*end,*capacity;unsigned reserved;NativePoint in_place[3]; };
 static_assert(sizeof(void*)!=4||sizeof(NativeVector)==0x58);
-struct Slot { NativeVector* owner{};unsigned caller{};NativePoint points[7]{}; };
+struct Slot { NativeVector* owner{};unsigned caller{};NativePoint points[10]{};Vec3 native_mean{}; };
 struct MainSlot { NativeVector* owner{};NativePoint points[256]{}; };
 struct Pool { Slot slots[8]{};MainSlot main[8]{}; };
 inline DWORD pool_key=FLS_OUT_OF_INDEXES;
@@ -113,25 +114,42 @@ __declspec(noinline) inline void __fastcall bridge(const Vec3* eye,void* entity,
     auto& status=skeet_nl_points_status;
     InterlockedIncrement(&status.calls);
     const unsigned caller=reinterpret_cast<unsigned>(_ReturnAddress());
-    const auto fallback=[&] {
-        InterlockedIncrement(&status.fallback);
-        original(eye,entity,records,descriptor,middle,out,special);
-    };
+    // Preserve the native result before considering any experimental additions.
+    original(eye,entity,records,descriptor,middle,out,special);
+    InterlockedIncrement(&status.native_calls);
+    const auto fallback=[&] {InterlockedIncrement(&status.fallback);};
     // Special native branch has additional entity/pose semantics, left native.
     if(!enabled()||caller!=0x4335e9d5||special||!eye||!records||
        !descriptor||!middle||!out||!nl_points::finite(*eye)||
-       out->begin!=out->in_place||out->end!=out->begin||out->capacity!=out->in_place+3) {
+       out->begin!=out->in_place||out->end<out->begin||out->end>out->in_place+3||out->capacity!=out->in_place+3) {
         fallback();return;
     }
+    const unsigned native_count=static_cast<unsigned>(out->end-out->begin);
+    InterlockedExchange(&status.last_original,static_cast<LONG>(native_count));
+    InterlockedExchange(&status.last_added,0);
+    InterlockedExchangeAdd(&status.kept,static_cast<LONG>(native_count));
+    if(!native_count){fallback();return;}
+    NativePoint baseline[3]{};
+    std::memcpy(baseline,out->begin,native_count*sizeof(NativePoint));
+    const Vec3 origin=read<Vec3>(records,0x30);Vec3 sum{};
+    if(!nl_points::finite(origin)){fallback();return;}
+    for(unsigned i=0;i<native_count;++i) {
+        if(!nl_points::finite(baseline[i].position)){fallback();return;}
+        sum=sum+(baseline[i].position-origin);
+    }
+    const Vec3 native_mean=sum*(1.0f/static_cast<float>(native_count))+origin;
     Capsule main{},alternatives[3]{};unsigned id=0,group=0;
     if(!input_capsules(records,descriptor,*middle,main,alternatives,id,group)){fallback();return;}
+    InterlockedExchange(&status.last_hitbox,static_cast<LONG>(id));
+    if(id==0)InterlockedExchangeAdd(&status.head_kept,static_cast<LONG>(native_count));
     // NL's native multipoint mask has no body branch for neck/pelvis/hands.
     if(id!=0&&id!=3&&!(id>=4&&id<=12)&&!(id>=15&&id<=18)){fallback();return;}
     nl_points::Points points{};
     const unsigned percentage=id==0?status.head_percent:status.body_percent;
     if(percentage>100||!nl_points::generate(main,*eye,percentage*.01f,id==0,
                     status.reduced_head!=0,id,points)){fallback();return;}
-    NativePoint accepted[7]{};unsigned count=0,filtered=0;
+    NativePoint accepted[10]{};unsigned count=native_count,filtered=0;
+    std::memcpy(accepted,baseline,native_count*sizeof(NativePoint));
     for(unsigned i=0;i<points.count;++i) {
         const Vec3 delta=points.positions[i]-*eye;bool safe=true;
         for(const auto& capsule:alternatives) {
@@ -139,8 +157,17 @@ __declspec(noinline) inline void __fastcall bridge(const Vec3* eye,void* entity,
             native_intersection(hit,eye,&delta,&capsule);
             if(!std::isfinite(hit[0])||hit[0]<0||hit[0]>1){safe=false;break;}
         }
-        if(safe)accepted[count++]={points.positions[i],1.0f,group,3};else ++filtered;
+        if(!safe){++filtered;continue;}
+        bool duplicate=false;
+        for(unsigned j=0;j<count;++j) {
+            const Vec3 difference=accepted[j].position-points.positions[i];
+            if(nl_points::dot(difference,difference)<1e-8f){duplicate=true;break;}
+        }
+        if(!duplicate)accepted[count++]={points.positions[i],1.0f,group,3};
     }
+    InterlockedExchangeAdd(&status.filtered,static_cast<LONG>(filtered));
+    const unsigned added=count-native_count;
+    if(!added){InterlockedIncrement(&status.empty_fallback);fallback();return;}
     auto* pool=acquire_pool();
     auto* storage=pool?acquire(*pool,out,caller):nullptr;
     // The verified caller owns a second, initially 112-element list. Redirect
@@ -164,18 +191,34 @@ __declspec(noinline) inline void __fastcall bridge(const Vec3* eye,void* entity,
     if(used+count+112>256){fallback();return;}
     if(first==local)std::memcpy(destination->points,candidates->begin,used*sizeof(NativePoint));
     std::memcpy(storage->points,accepted,count*sizeof(NativePoint));
+    storage->native_mean=native_mean;
     // Commit only after complete input validation, geometry and safety checks.
     // The pinned caller consumes these pointers synchronously and the native
     // destructor 0x433cce8e is RET 0: it does not free the external buffer.
-    out->begin=storage->points;out->end=storage->points+count;out->capacity=storage->points+7;
+    out->begin=storage->points;out->end=storage->points+count;out->capacity=storage->points+10;
     candidates->begin=destination->points;candidates->end=destination->points+used;
     candidates->capacity=destination->points+256;
-    InterlockedExchangeAdd(&status.generated,static_cast<LONG>(count));
-    InterlockedExchangeAdd(&status.filtered,static_cast<LONG>(filtered));
+    InterlockedExchangeAdd(&status.generated,static_cast<LONG>(added));
+    InterlockedExchange(&status.last_added,static_cast<LONG>(added));
+    if(id==0)InterlockedExchangeAdd(&status.head_added,static_cast<LONG>(added));
+}
+inline void __cdecl restore_mean(unsigned char* registers,unsigned char* fx) noexcept {
+    auto* stack=registers+36;
+    auto* out=reinterpret_cast<NativeVector*>(stack+0x26c);
+    if(!enabled()||pool_key==FLS_OUT_OF_INDEXES)return;
+    auto* pool=static_cast<Pool*>(FlsGetValue(pool_key));
+    if(!pool)return;
+    for(auto& slot:pool->slots)if(slot.owner==out&&out->begin==slot.points) {
+        std::memcpy(fx+256,&slot.native_mean.x,4); // XMM6.low
+        std::memcpy(fx+272,&slot.native_mean.y,4); // XMM7.low
+        std::memcpy(fx+240,&slot.native_mean.z,4); // XMM5.low
+        InterlockedIncrement(&skeet_nl_points_status.centroid_restores);return;
+    }
 }
 inline constexpr unsigned sites[]={0x4e9d0};
 inline bool compatible(const unsigned char* image,std::size_t size) {
     if(!image||size!=core_image::image_size)return false;
+    if(!nl_points_mean::compatible(image))return false;
     constexpr unsigned char init[]={0x8d,0x41,0x10,0x89,0x41,4,0x89,1,0x83,0xc0,0x48,0x89,0x41,8,0x8b,0xc1,0xc3};
     constexpr unsigned char entry[]={0x55,0x8b,0xec,0x83,0xe4,0xf0,0x81,0xec,0xe8,3,0,0};
     constexpr unsigned char cleanup[]={0xc2,0,0};
@@ -193,17 +236,30 @@ inline bool apply(unsigned char* image,std::size_t size) {
     if(reinterpret_cast<std::uintptr_t>(image)!=core_image::image_base||!compatible(image,size)) {
         install_error="NL points: unsupported GS call/buffer contract.";SetLastError(ERROR_REVISION_MISMATCH);return false;
     }
+    auto* shim=static_cast<unsigned char*>(VirtualAlloc(nullptr,4096,MEM_COMMIT|MEM_RESERVE,PAGE_READWRITE));
+    if(!shim){install_error="NL points: cannot allocate primary-center bridge.";return false;}
+    const auto plan=nl_points_mean::make(reinterpret_cast<unsigned>(shim),reinterpret_cast<unsigned>(restore_mean));
+    std::memcpy(shim,plan.code,plan.length);DWORD old=0;
+    if(!VirtualProtect(shim,4096,PAGE_EXECUTE_READ,&old)||
+       !FlushInstructionCache(GetCurrentProcess(),shim,4096)) {
+        const DWORD error=GetLastError();VirtualFree(shim,0,MEM_RELEASE);SetLastError(error);
+        install_error="NL points: cannot prepare primary-center bridge.";return false;
+    }
     pool_key=FlsAlloc(release_pool);
-    if(pool_key==FLS_OUT_OF_INDEXES){install_error="NL points: cannot allocate thread storage.";return false;}
+    if(pool_key==FLS_OUT_OF_INDEXES){VirtualFree(shim,0,MEM_RELEASE);install_error="NL points: cannot allocate thread storage.";return false;}
     unsigned char before[1][5]{};
     for(unsigned i=0;i<1;++i) {
         std::memcpy(before[i],image+sites[i],5);
         const unsigned displacement=reinterpret_cast<unsigned>(bridge)-(core_image::image_base+sites[i]+5);
         std::memcpy(image+sites[i]+1,&displacement,4);
     }
+    std::memcpy(image+nl_points_mean::site,plan.jump,8);
     if(!FlushInstructionCache(GetCurrentProcess(),image,size)) {
         const DWORD error=GetLastError();
         for(unsigned i=0;i<1;++i)std::memcpy(image+sites[i],before[i],5);
+        std::memcpy(image+nl_points_mean::site,nl_points_mean::original,8);
+        FlushInstructionCache(GetCurrentProcess(),image,size);
+        VirtualFree(shim,0,MEM_RELEASE);
         FlsFree(pool_key);pool_key=FLS_OUT_OF_INDEXES;SetLastError(error);
         install_error="NL points: cannot flush core instruction cache.";return false;
     }

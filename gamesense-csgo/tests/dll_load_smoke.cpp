@@ -9,7 +9,7 @@ int wmain(int argc,wchar_t** argv) {
     if(!dll){std::printf("LoadLibrary failed: %lu\n",GetLastError());return 1;}
     auto* loader=reinterpret_cast<LoaderStatus*>(GetProcAddress(dll,"skeet_loader_status"));
     auto* points=reinterpret_cast<nl_points_patch::Status*>(GetProcAddress(dll,"skeet_nl_points_status"));
-    if(!loader||!points||loader->version!=1||points->version!=1||points->head_percent!=80||points->body_percent!=80)return 1;
+    if(!loader||!points||loader->version!=1||points->version!=2||points->head_percent!=80||points->body_percent!=80)return 1;
     Sleep(200);
     if(loader->state!=LoaderWaiting)return 1;
     std::puts("Actual x86 DLL loaded; exports and waiting state verified. CS:GO was not run.");

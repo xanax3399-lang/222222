@@ -20,7 +20,8 @@ handlers=json.loads((ROOT/'source/skeet/VM/bytecode.json').read_text())
 for group in handlers:
     for entry in [group['main'],*group['others']]:
         first=entry['vip'];last=first+entry['size']
-        assert last<=0x4335e9d0 or first>=0x4335e9d5,'VM preparation would overwrite the hook'
+        for start,stop in [(0x4335e9d0,0x4335e9d5),(0x4335ea97,0x4335ea9f)]:
+            assert last<=start or first>=stop,'VM preparation would overwrite a hook'
 report={'core_sha256':hashlib.sha256(raw).hexdigest(),
         'generator':'0x433fd9b7','direct_callers':[hex(x) for x in callers],
         'small_vector_initializer':hex(address),'initializer_bytes':initializer.hex(),
@@ -28,7 +29,8 @@ report={'core_sha256':hashlib.sha256(raw).hexdigest(),
         'nl_point_stride':0x50,'nl_max_generated_points':7,
         'direct_copy_compatible':False,'runtime_hook_implemented':True,
         'hook_callers':['0x4335e9d0'],'other_caller_native':True,
-        'adapter_point_stride':24,'adapter_capacity':7,'main_capacity':256,
+        'adapter_point_stride':24,'adapter_capacity':10,'main_capacity':256,
+        'native_candidates_retained':True,'native_primary_center_hook':'0x4335ea97',
         'vm_writes_do_not_overlap_hook':True,
         'aim_selection_ported':False,'gameplay_tested':False}
 (ROOT/'reports').mkdir(exist_ok=True)

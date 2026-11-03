@@ -53,6 +53,8 @@ inline bool write(EXCEPTION_POINTERS* info) {
     const auto& p=skeet_nl_points_status;
     line(file,"nl_points: mode=%u installed=%ld calls=%ld generated=%ld fallback=%ld filtered=%ld pool_full=%ld head=%u body=%u reduced=%u\r\n",
          p.mode,p.installed,p.calls,p.generated,p.fallback,p.filtered,p.pool_full,p.head_percent,p.body_percent,p.reduced_head);
+    line(file,"nl_points_native: calls=%ld kept=%ld empty_nl=%ld center_restored=%ld head_kept=%ld head_added=%ld last_hitbox=%ld original=%ld added=%ld\r\n",
+         p.native_calls,p.kept,p.empty_fallback,p.centroid_restores,p.head_kept,p.head_added,p.last_hitbox,p.last_original,p.last_added);
     line(file,"last_bridge_best_effort: sequence=%lu phase=%ld sp=%08lX caller=%08lX variant=%lu\r\n",
          t.sequence,static_cast<LONG>(t.phase),t.native_stack,t.caller,t.variant);
     line(file,"last_bridge_registers EDI ESI EBP savedESP EBX EDX ECX EAX:\r\n");

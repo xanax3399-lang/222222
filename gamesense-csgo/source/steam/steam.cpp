@@ -6,6 +6,7 @@
 #include <cwchar>
 #include <cstdint>
 #include <cstring>
+#include <cstdarg>
 #include "../loader_protocol.h"
 #include "../skeet/nl_hypotheses.h"
 #include "../skeet/nl_points_status.h"
@@ -16,16 +17,22 @@ static void log_line(const char* message,DWORD code=0) {
     std::fprintf(run_log,"%s (code %lu)\n",message,code);std::fflush(run_log);
 }
 struct RunLog {
-    explicit RunLog(const wchar_t* dll_path) {
+    explicit RunLog(const wchar_t* dll_path,const wchar_t* filename=L"loader_last.log") {
         wchar_t path[32768]{};
         if(std::wcslen(dll_path)>=32768)return;
         std::wcscpy(path,dll_path);auto* last=std::wcsrchr(path,L'\\');
-        if(!last||last-path+17>=32768)return;
-        std::wcscpy(last+1,L"loader_last.log");run_log=_wfopen(path,L"wb");
-        log_line("Legacy 8802 loader - r3 crash diagnostics");
+        if(!last||last-path+std::wcslen(filename)+2>=32768)return;
+        std::wcscpy(last+1,filename);run_log=_wfopen(path,L"wb");
+        log_line("Legacy 8802 loader - NL points / native candidates preserved");
     }
     ~RunLog(){if(run_log){std::fclose(run_log);run_log=nullptr;}}
 };
+static void diagnostic_printf(const char* format,...) {
+    va_list args,copy;va_start(args,format);va_copy(copy,args);
+    std::vprintf(format,args);
+    if(run_log){std::vfprintf(run_log,format,copy);std::fflush(run_log);}
+    va_end(copy);va_end(args);
+}
 struct Handle {
     HANDLE value;
     explicit Handle(HANDLE h = nullptr) : value(h) {}
@@ -128,7 +135,7 @@ static int diagnostics(const wchar_t* path) {
     IMAGE_NT_HEADERS32 local{};
     const DWORD rva=exported_rva(path,"skeet_nl_hypotheses_status",sizeof(nl_hypotheses::Status),&local);
     const DWORD pid=game_pid();
-    if(!rva||!pid){std::puts("No matching DLL or running legacy CS:GO found.");return 1;}
+    if(!rva||!pid){diagnostic_printf("No matching DLL or running legacy CS:GO found.\n");return 1;}
     Handle process(OpenProcess(PROCESS_QUERY_INFORMATION|PROCESS_VM_READ,FALSE,pid));
     if(!process.value)return error("Cannot open game for read-only diagnostics");
     Handle modules(CreateToolhelp32Snapshot(TH32CS_SNAPMODULE,pid));
@@ -144,27 +151,42 @@ static int diagnostics(const wchar_t* path) {
            nt.Signature!=IMAGE_NT_SIGNATURE||nt.FileHeader.Machine!=IMAGE_FILE_MACHINE_I386||
            nt.FileHeader.TimeDateStamp!=local.FileHeader.TimeDateStamp||
            nt.OptionalHeader.SizeOfImage!=local.OptionalHeader.SizeOfImage) {
-            std::puts("Loaded DLL does not match this diagnostic build; use the matching injector/DLL pair.");return 1;
+            diagnostic_printf("Loaded DLL does not match this diagnostic build; restart CS:GO and use the matching injector/DLL pair.\n");return 1;
         }
         nl_hypotheses::Status status{};
         if(!ReadProcessMemory(process.value,item.modBaseAddr+rva,&status,sizeof(status),&got)||
            got!=sizeof(status)||status.version!=1||status.mode>3)return error("Cannot read hypothesis diagnostics");
         float input=0,output=0;std::int32_t in_bits=status.last_input_bits,out_bits=status.last_output_bits;
         std::memcpy(&input,&in_bits,4);std::memcpy(&output,&out_bits,4);
-        std::printf("Mode: %s\nInstalled: %ld\nBuilder calls: %ld\nHypotheses supplied: %ld\nRejected inputs: %ld\n",
+        diagnostic_printf("Mode: %s\nInstalled: %ld\nBuilder calls: %ld\nHypotheses supplied: %ld\nRejected inputs: %ld\n",
             status.mode==0?"GameSense":status.mode==1?"NL animation hypotheses":status.mode==2?"NL points":"NL points + animation",long(status.installed),
             long(status.calls),long(status.changed),long(status.rejected));
-        if(status.changed)std::printf("Last sample: GS variant %ld, record tick %ld, base %.3f -> goal %.3f\n",
+        if(status.changed)diagnostic_printf("Last sample: GS variant %ld, record tick %ld, base %.3f -> goal %.3f\n",
             long(status.last_variant),long(status.last_tick),input,output);
         const DWORD points_rva=exported_rva(path,"skeet_nl_points_status",sizeof(nl_points_patch::Status));
         nl_points_patch::Status points{};
         if(!points_rva||!ReadProcessMemory(process.value,item.modBaseAddr+points_rva,&points,sizeof(points),&got)||
-           got!=sizeof(points)||points.version!=1)return error("Cannot read NL points diagnostics");
-        std::printf("NL points installed: %ld\nCalls: %ld\nGenerated: %ld\nNative fallback: %ld\nFiltered by three matrices: %ld\nStorage fallback: %ld\nHead/body scale: %u/%u%%\n",
+           got!=sizeof(points)||points.version!=2)return error("Cannot read NL points diagnostics");
+        diagnostic_printf("NL points installed: %ld\nCalls: %ld\nNL points added: %ld\nNative-only fallback: %ld\nFiltered by three matrices: %ld\nStorage fallback: %ld\nHead/body scale: %u/%u%%\n",
             points.installed,points.calls,points.generated,points.fallback,points.filtered,points.pool_full,points.head_percent,points.body_percent);
-        std::puts("Counters confirm execution; they do not measure aiming accuracy.");return 0;
+        diagnostic_printf("Native generator calls: %ld\nNative points kept: %ld\nNo additional NL points: %ld\nNative primary center restored: %ld\nHead native points kept: %ld\nHead NL points added: %ld\nLast hitbox: %ld; original: %ld; added: %ld\n",
+            points.native_calls,points.kept,points.empty_fallback,points.centroid_restores,points.head_kept,points.head_added,
+            points.last_hitbox,points.last_original,points.last_added);
+        diagnostic_printf("Counters confirm execution; they do not measure aiming accuracy or damage.\n");return 0;
     }while(Module32NextW(modules.value,&item));
-    std::puts("skeet.dll is not loaded in this game.");return 1;
+    diagnostic_printf("skeet.dll is not loaded in this game.\n");return 1;
+}
+static int run_diagnostics(const wchar_t* path,bool interactive) {
+    RunLog output(path,L"module_diagnostics.log");
+    const int result=diagnostics(path);
+    if(run_log)diagnostic_printf("\nSaved: module_diagnostics.log beside injector.exe\n");
+    else std::fputs("Cannot save module_diagnostics.log beside injector.exe.\n",stderr);
+    DWORD mode=0;
+    if(interactive&&GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE),&mode)) {
+        std::printf("Press Enter to close...");std::fflush(stdout);char line[32]{};
+        std::fgets(line,sizeof(line),stdin);
+    }
+    return result;
 }
 int wmain(int argc,wchar_t** argv) {
     SetConsoleTitleW(L"Legacy CS:GO 8802 - automatic launch");
@@ -197,13 +219,13 @@ int wmain(int argc,wchar_t** argv) {
     if(mode>3||(show_diagnostics&&(mode>=0||explicit_game))) {
         std::fprintf(stderr,"Invalid or conflicting mode arguments.\n");return 1;
     }
-    if(show_diagnostics)return diagnostics(path);
+    if(show_diagnostics)return run_diagnostics(path,false);
     if(mode<0) {
         std::puts("1 - GameSense (original gameplay)\n2 - NL points\n3 - NL animation hypotheses (experimental)\n4 - NL points + animation hypotheses\n5 - Read active module diagnostics\n0 - Exit");
         std::printf("Choice [Enter = 2]: ");char choice[32]{};
         if(!std::fgets(choice,sizeof(choice),stdin))choice[0]='2';
         if(choice[0]=='0')return 0;
-        if(choice[0]=='5')return diagnostics(path);
+        if(choice[0]=='5')return run_diagnostics(path,true);
         if(choice[0]=='2'||choice[0]=='\n'||choice[0]=='\r')mode=2;
         else if(choice[0]=='3')mode=1;
         else if(choice[0]=='4')mode=3;

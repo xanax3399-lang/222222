@@ -3,8 +3,8 @@
   "files": [
     {
       "name": "skeet.dll",
-      "bytes": 15327232,
-      "sha256": "f7c022d4177295bb43e92ab412288591735284d8a22113fad37be55a2c97ff68",
+      "bytes": 15328768,
+      "sha256": "acaa30d78539115e14b1ebe7ead7167cdc2d944e0af8cb9bd80978667e31db56",
       "imports": {
         "user32.dll": [
           "FindWindowA",
@@ -213,8 +213,8 @@
     },
     {
       "name": "injector.exe",
-      "bytes": 424448,
-      "sha256": "453e217e9d721ba0386c1191e519ea91c26fdeba52a7b7958c6354e099568bf3",
+      "bytes": 425472,
+      "sha256": "de5eee1ee5158d44121374b8b78fad45148702cd9a7ed1f51e0068a0183aca3c",
       "imports": {
         "advapi32.dll": [
           "RegCloseKey",
@@ -303,6 +303,7 @@
           "FlsSetValue",
           "FormatMessageA",
           "FreeEnvironmentStringsW",
+          "GetConsoleMode",
           "GetCurrentProcess",
           "GetCurrentThreadId",
           "GetEnvironmentStringsW",
@@ -313,6 +314,7 @@
           "GetModuleHandleExW",
           "GetModuleHandleW",
           "GetProcAddress",
+          "GetStdHandle",
           "GetSystemTimePreciseAsFileTime",
           "GetThreadId",
           "GetTickCount64",
