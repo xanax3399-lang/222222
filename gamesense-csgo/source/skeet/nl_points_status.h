@@ -8,4 +8,3 @@ struct Status {
 };
 static_assert(sizeof(Status)==44);
 }
-extern "C" nl_points_patch::Status skeet_nl_points_status;

@@ -159,6 +159,7 @@ def main():
     p,_=m.run();assert len(p)==5;cases+=1
     m.u.mem_write(m.exports['skeet_nl_points_status']+40,words(0))
     before=len(m.original_calls);m.run(special=1);assert len(m.original_calls)==before+1;cases+=1
+    before=len(m.original_calls);m.run(hitbox=2);assert len(m.original_calls)==before+1;cases+=1
     # Different OS threads and nested native vector addresses keep live data separate.
     m.thread=1;p1,v1=m.run(offset=0x100);saved=bytes(m.u.mem_read(v1[0],7*24))
     m.thread=2;p2,v2=m.run(offset=0x100);assert v1[0]!=v2[0];cases+=1

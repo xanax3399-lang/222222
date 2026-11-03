@@ -5,6 +5,7 @@
 #include <cwchar>
 #include "nl_hypotheses_patch.h"
 #include "nl_points_status.h"
+extern "C" __declspec(dllexport) nl_points_patch::Status skeet_nl_points_status;
 namespace crash_report {
 inline wchar_t path[32768]{};
 inline volatile LONG writing=0;

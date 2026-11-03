@@ -1,8 +1,8 @@
 {
   "passed": true,
-  "compiled_x86_cases": 19,
+  "compiled_x86_cases": 20,
   "actual_gs_intersections_executed": 183,
-  "calls": 11,
+  "calls": 12,
   "native_fallback_dispatch_tested": true,
   "actual_fallback_generator_executed": false,
   "native_consumer_processed_more_than_three_points": true,

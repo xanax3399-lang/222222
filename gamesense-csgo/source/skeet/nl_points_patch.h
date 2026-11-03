@@ -10,6 +10,7 @@
 #include "core_image.h"
 #include "nl_hypotheses.h"
 #include "nl_points_status.h"
+extern "C" __declspec(dllexport) nl_points_patch::Status skeet_nl_points_status;
 
 namespace nl_points_patch {
 using nl_points::Vec3;
@@ -124,6 +125,8 @@ __declspec(noinline) inline void __fastcall bridge(const Vec3* eye,void* entity,
     }
     Capsule main{},alternatives[3]{};unsigned id=0,group=0;
     if(!input_capsules(records,descriptor,*middle,main,alternatives,id,group)){fallback();return;}
+    // NL's native multipoint mask has no body branch for neck/pelvis/hands.
+    if(id!=0&&id!=3&&!(id>=4&&id<=12)&&!(id>=15&&id<=18)){fallback();return;}
     nl_points::Points points{};
     const unsigned percentage=id==0?status.head_percent:status.body_percent;
     if(percentage>100||!nl_points::generate(main,*eye,percentage*.01f,id==0,
