@@ -129,8 +129,10 @@ inline constexpr Site sites[]={
     {0x433ac017,5,0x433ac01c,0x433ac182,{0xe8,0x71,0xc8,0,0}},
     {0x43355ddf,8,0x43355de7,0x43355de7,{0x8b,0x4c,0x24,0x1c,0x8a,0x54,0x24,0x22}}
 };
-inline constexpr unsigned hc_site=0x43354bd3;
-inline constexpr unsigned char hc_call[]={0xe8,0xea,0x68,0x0c,0};
+// The first candidate usually succeeds; later calls retry alternate points.
+inline constexpr unsigned hc_sites[]={0x43354b55,0x43354b9a,0x43354bd3};
+inline constexpr unsigned char hc_calls[][5]={{0xe8,0x68,0x69,0x0c,0},
+    {0xe8,0x23,0x69,0x0c,0},{0xe8,0xea,0x68,0x0c,0}};
 inline bool apply(unsigned char* image,unsigned size) {
     auto& st=skeet_v3_fire_status;st.mode=nl_hypotheses::selected_mode;
     if(st.mode!=nl_hypotheses::V3Patches||(!st.guard_enabled&&!st.recharge_enabled))return true;
@@ -138,7 +140,8 @@ inline bool apply(unsigned char* image,unsigned size) {
     if(size!=0x2fc000||reinterpret_cast<unsigned>(image)!=0x43310000)return reject("V3 fire: unsupported core.");
     for(const auto& s:sites)if(std::memcmp(image+s.address-0x43310000,s.original,s.size))
         return reject("V3 fire: native hook contract differs.");
-    if(std::memcmp(image+hc_site-0x43310000,hc_call,5))return reject("V3 fire: HC call differs.");
+    for(unsigned i=0;i<3;++i)if(std::memcmp(image+hc_sites[i]-0x43310000,hc_calls[i],5))
+        return reject("V3 fire: HC call differs.");
     storage=FlsAlloc(cleanup);if(storage==FLS_OUT_OF_INDEXES){install_error="V3 fire: FLS allocation failed.";return false;}
     auto* shim=static_cast<unsigned char*>(VirtualAlloc(nullptr,4096,MEM_COMMIT|MEM_RESERVE,PAGE_READWRITE));
     const auto release=[&](){if(shim)VirtualFree(shim,0,MEM_RELEASE);FlsFree(storage);storage=FLS_OUT_OF_INDEXES;};
@@ -155,11 +158,14 @@ inline bool apply(unsigned char* image,unsigned size) {
         release();install_error="V3 fire: bridge protection/flush failed.";return false;
     }
     for(unsigned i=0;i<3;++i)std::memcpy(image+sites[i].address-0x43310000,plans[i].jump,sites[i].size);
-    unsigned char call[5]={0xe8};const unsigned delta=reinterpret_cast<unsigned>(sample)-hc_site-5;
-    std::memcpy(call+1,&delta,4);std::memcpy(image+hc_site-0x43310000,call,5);
+    for(unsigned site:hc_sites) {
+        unsigned char call[5]={0xe8};const unsigned delta=reinterpret_cast<unsigned>(sample)-site-5;
+        std::memcpy(call+1,&delta,4);std::memcpy(image+site-0x43310000,call,5);
+    }
     if(!FlushInstructionCache(GetCurrentProcess(),image,size)) {
         for(const auto& s:sites)std::memcpy(image+s.address-0x43310000,s.original,s.size);
-        std::memcpy(image+hc_site-0x43310000,hc_call,5);FlushInstructionCache(GetCurrentProcess(),image,size);
+        for(unsigned i=0;i<3;++i)std::memcpy(image+hc_sites[i]-0x43310000,hc_calls[i],5);
+        FlushInstructionCache(GetCurrentProcess(),image,size);
         release();install_error="V3 fire: core flush failed.";return false;
     }
     InterlockedExchange(&st.installed,1);return true;

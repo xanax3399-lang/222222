@@ -7,7 +7,8 @@ These are independently written GS policies, not a recovered full NL port.
 
 ## Late geometry check
 
-The rage function `4334f55f` calls native HC `4341b4c2` at `43354bd3`.
+The rage function `4334f55f` calls native HC `4341b4c2` at `43354b55`,
+then retries alternate points at `43354b9a` and `43354bd3`. All three are hooked.
 Its native ABI is ECX=context, stack=(weapon context, selected candidate,
 probability output), RET 12. The wrapper calls it normally and records the
 eye at weapon+DC and target at candidate+C, per thread and command.
@@ -66,7 +67,7 @@ has not been measured here.
 
 Three JMP shims save GPR, EFLAGS and the complete FXSAVE state; restore state
 before replaying original instructions. HC CALL uses the native RET 12 ABI.
-All four sites are validated before mutation and rollback on flush failure.
+All six sites are validated before mutation and rollback on flush failure.
 Storage/allocation/protection failures leave all sites original. Installation
 precedes VM/CRC preparation; tests ensure no VM range overlaps the hooks.
 

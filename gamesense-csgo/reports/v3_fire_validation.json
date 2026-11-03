@@ -1,10 +1,11 @@
 {
-  "hook_abi_guards_release_and_failure_cases": 47,
+  "hook_abi_guards_release_and_failure_cases": 51,
   "native_recharge_cases": 37,
   "native_attack_commit_executed": true,
   "native_recharge_bookkeeping_executed": true,
   "native_hc_fast_and_missing_entity_paths_executed": true,
   "normal_hc_outcomes_controlled": true,
+  "all_three_prefire_hc_calls_hooked": true,
   "dt_key_release_and_pending_burst_exempt": true,
   "mode2_hook_bytes_unchanged": true,
   "full_nl_recharge_port": false,

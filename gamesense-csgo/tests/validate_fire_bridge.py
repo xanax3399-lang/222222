@@ -11,7 +11,8 @@ from validate_points_bridge import Machine,ROOT,BASE,DATA,STACK,STOP,words,float
 
 OBS,REC,FIRE,HC=0x433abe72,0x433ac017,0x43355ddf,0x43354bd3
 SITES={OBS:bytes.fromhex('39bef4000000'),REC:bytes.fromhex('e871c80000'),
-       FIRE:bytes.fromhex('8b4c241c8a542422'),HC:bytes.fromhex('e8ea680c00')}
+       FIRE:bytes.fromhex('8b4c241c8a542422'),HC:bytes.fromhex('e8ea680c00'),
+       0x43354b55:bytes.fromhex('e868690c00'),0x43354b9a:bytes.fromhex('e823690c00')}
 
 class FireMachine(Machine):
     def __init__(self,fault=None):
@@ -81,7 +82,7 @@ class FireMachine(Machine):
         assert self.u.reg_read(UC_X86_REG_EIP)==OBS+6
         assert self.u.reg_read(UC_X86_REG_ESP)==self.frame
 
-    def sample(self):
+    def sample(self,site=HC):
         u=self.u;sp=self.frame
         u.mem_write(sp,words(self.weapon,self.candidate,self.out))
         u.reg_write(UC_X86_REG_ESP,sp);u.reg_write(UC_X86_REG_ECX,self.hc_context)
@@ -89,8 +90,8 @@ class FireMachine(Machine):
         values=[0x11111111,0x22222222,0x33333333,0x44444444]
         regs=[UC_X86_REG_EBX,UC_X86_REG_ESI,UC_X86_REG_EDI,UC_X86_REG_EBP]
         for r,v in zip(regs,values):u.reg_write(r,v)
-        u.emu_start(HC,HC+5,count=1000000)
-        assert u.reg_read(UC_X86_REG_EIP)==HC+5 and u.reg_read(UC_X86_REG_ESP)==sp+12
+        u.emu_start(site,site+5,count=1000000)
+        assert u.reg_read(UC_X86_REG_EIP)==site+5 and u.reg_read(UC_X86_REG_ESP)==sp+12
         assert [u.reg_read(r) for r in regs]==values
 
     def fire(self,allow=True):
@@ -141,6 +142,10 @@ def main():
     # Unchanged data never repeats expensive native HC; normal attack executes.
     m=ready();m.observe();m.sample();assert m.fire() and m.hc_calls==1
     assert m.status()['unchanged']==1 and m.word(m.cmd+0x30)==1;cases+=1
+    for site in [0x43354b55,0x43354b9a]:
+        m=ready();m.observe();m.sample(site)
+        m.u.mem_write(m.weapon+0xe4,floats(62));m.probability=0;m.hc_result=False
+        assert not m.fire() and m.hc_calls==2 and m.status()['canceled']==1;cases+=1
     # Eye or target point changes after candidate selection: fresh native HC
     # result is checked before the real native OR [cmd+30],IN_ATTACK instruction.
     for target_changed in [False,True]:
@@ -256,6 +261,7 @@ def main():
     report={'hook_abi_guards_release_and_failure_cases':cases,'native_recharge_cases':recharge_cases,
             'native_attack_commit_executed':True,'native_recharge_bookkeeping_executed':True,
             'native_hc_fast_and_missing_entity_paths_executed':True,'normal_hc_outcomes_controlled':True,
+            'all_three_prefire_hc_calls_hooked':True,
             'dt_key_release_and_pending_burst_exempt':True,'mode2_hook_bytes_unchanged':True,
             'full_nl_recharge_port':False,'gameplay_tested':False}
     (ROOT/'reports/v3_fire_validation.json').write_text(json.dumps(report,indent=2)+'\n')
