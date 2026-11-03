@@ -13,4 +13,4 @@ An optional website token can be supplied at runtime with `NL_WEBSITE_TOKEN`; do
 
 ## Verified GitHub build
 
-[Download DLL + injector](https://github.com/xanax3399-lang/222222/releases/download/neverlose-csgo-845188ab71a746c07ea89a5bd13f4a83b9efd1c7/neverlose-csgo-windows.zip). See [BUILD_STATUS_RU.md](BUILD_STATUS_RU.md) for usage, checks and current limitations.
+[Download DLL + injector](https://github.com/xanax3399-lang/222222/releases/download/neverlose-csgo-8f5f4938b1fadfd8e4b57793b92b55fe397696c9/neverlose-csgo-windows.zip). See [BUILD_STATUS_RU.md](BUILD_STATUS_RU.md) for usage, checks and current limitations.
