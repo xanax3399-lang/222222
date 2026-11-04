@@ -59,6 +59,10 @@ jobs:
           name: skeet-v3-patches-windows
           path: gamesense-csgo/build/skeet-v3-patches-windows.zip
       - uses: actions/upload-artifact@v4
+        with:
+          name: launcher-report-probe
+          path: gamesense-csgo/build/launcher_reports_probe.exe
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: build-evidence
@@ -75,6 +79,8 @@ jobs:
   windows:
     needs: build
     runs-on: windows-2025
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
@@ -87,6 +93,10 @@ jobs:
       - name: Extract actual compiled artifact
         shell: pwsh
         run: Expand-Archive dist/skeet-v3-patches-windows.zip -DestinationPath dist/runtime
+      - uses: actions/download-artifact@v4
+        with:
+          name: launcher-report-probe
+          path: dist/runtime
       - name: Compile native loader probe
         shell: cmd
         run: cl /nologo /std:c++17 /EHsc /MT /W4 /WX gamesense-csgo\tests\dll_load_smoke.cpp /Fe:dist\dll_load_smoke.exe /Fo:dist\dll_load_smoke.obj
@@ -114,6 +124,21 @@ jobs:
           & dist/runtime/injector.exe --mode v3-patches --game $missing
           if ($LASTEXITCODE -ne 1 -or (Get-Content 'dist/runtime/loader_last.log' -Raw) -notmatch 'Selected: v3 record-based head crown scan') { throw 'V3 CLI mode was not accepted.' }
           exit 0
+      - name: Build controlled process for automatic reports
+        shell: cmd
+        run: cl /nologo /std:c++17 /EHsc /MT /W4 /WX gamesense-csgo\tests\diagnostic_game_fixture.cpp /Fe:dist\csgo.exe /Fo:dist\diagnostic_game_fixture.obj
+      - name: Check automatic reports and menu switches on Windows
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force gamesense-csgo/build | Out-Null
+          ./gamesense-csgo/tests/check_report_watcher.ps1 -Runtime dist/runtime -Fixture dist/csgo.exe *> gamesense-csgo/build/windows-reports.log
+      - name: Publish bounded Windows evidence
+        if: always()
+        env:
+          CI_JOB_STATUS: ${{ job.status }}
+          SKEET_RELEASE_SERIES: v3
+          SKEET_CI_LABEL: windows
+        run: python gamesense-csgo/publish_ci_status.py
   release:
     needs: [build, windows]
     runs-on: ubuntu-24.04
@@ -134,6 +159,8 @@ jobs:
           cat > /tmp/points-release-notes.md <<'EOF'
           CS:GO Legacy 8802 only. Menu 2 retains v2 point/braking behavior; menu 3 enables v3 record-based head crown candidates (--mode v3-patches). The original v2 archive is frozen separately at commit 72aa34f0956c619ba5f24c9e5c19c6dabf7fd7ff.
 
+          Loader update: reports are saved automatically after successful initialization, then every 10 seconds by a separate read-only monitor until CS:GO exits. Menu 8 opens the latest report, including a LocalAppData fallback if the loader directory is not writable. Menu 7 toggles the three v3 patches and automatic reports; changes apply after a full game restart. Shooting/resolver code is unchanged from 49a1179. These counters do not classify aim_miss reasons.
+
           V3 adds up to three samples near the upper cap of the selected record's head capsule. This is an independently written geometric extension, not a full NL scanner port. Native candidates, primary center, three-matrix checks, GS damage and hitchance remain. Mode 2 is checked against captured v2 point fixtures.
 
           New in menu 3: late_eye_guard=1 repeats native GS hitchance if the firing origin/selected point changes after initial HC and vetoes an automatic shot on a failed/zero result. DT key release, queued bursts and existing manual attacks are exempt. Unchanged geometry incurs no second HC. This is an estimate, not knowledge of a server outcome.
@@ -150,5 +177,5 @@ jobs:
           if gh release view "$tag" >/dev/null 2>&1; then
             gh release upload "$tag" dist/skeet-v3-patches-windows.zip dist/skeet.dll dist/injector.exe --clobber
           else
-            gh release create "$tag" dist/skeet-v3-patches-windows.zip dist/skeet.dll dist/injector.exe --target "$SOURCE_SHA" --prerelease --title 'Skeet v3 / CS:GO / fire guard and unsafe DT recharge' --notes-file /tmp/points-release-notes.md
+            gh release create "$tag" dist/skeet-v3-patches-windows.zip dist/skeet.dll dist/injector.exe --target "$SOURCE_SHA" --prerelease --title 'Skeet v3 / CS:GO / automatic reports and patch switches' --notes-file /tmp/points-release-notes.md
           fi

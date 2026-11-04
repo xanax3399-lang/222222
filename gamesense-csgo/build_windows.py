@@ -52,7 +52,10 @@ def main():
         '-o', BUILD/'skeet.dll')
     run('injector', 'c++', '-target', 'x86-windows-gnu', '-std=c++23', '-O2',
         '-DUNICODE', '-D_UNICODE', *compatibility, '-municode', ROOT/'source/steam/steam.cpp',
-        '-ladvapi32', '-o', BUILD/'injector.exe')
+        '-ladvapi32', '-lshell32', '-o', BUILD/'injector.exe')
+    run('launcher-reports-probe', 'c++', '-target', 'x86-windows-gnu', '-std=c++23', '-O2',
+        '-DUNICODE', '-D_UNICODE', *compatibility, '-municode', ROOT/'tests/launcher_reports_probe.cpp',
+        '-ladvapi32', '-lshell32', '-o', BUILD/'launcher_reports_probe.exe')
     run('probe', 'c++', '-target', 'x86-windows-gnu', '-std=c++17', '-O2', '-shared',
         *compatibility, ROOT/'tests/overlay_probe.cpp', '-lkernel32', '-o', BUILD/'overlay_probe.dll')
     run('core-probe', 'c++', '-target', 'x86-windows-gnu', '-std=c++17', '-O2', '-shared',

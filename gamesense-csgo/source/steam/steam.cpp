@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <cstring>
 #include <cstdarg>
+#include <string>
 #include "../loader_protocol.h"
 #include "../skeet/nl_hypotheses.h"
 #include "../skeet/nl_points_status.h"
@@ -15,6 +16,7 @@
 #include "../skeet/v3_fire_status.h"
 
 static FILE* run_log=nullptr;
+static bool diagnostic_quiet=false;
 static void log_line(const char* message,DWORD code=0) {
     if(!run_log)return;
     std::fprintf(run_log,"%s (code %lu)\n",message,code);std::fflush(run_log);
@@ -32,7 +34,7 @@ struct RunLog {
 };
 static void diagnostic_printf(const char* format,...) {
     va_list args,copy;va_start(args,format);va_copy(copy,args);
-    std::vprintf(format,args);
+    if(!diagnostic_quiet)std::vprintf(format,args);
     if(run_log){std::vfprintf(run_log,format,copy);std::fflush(run_log);}
     va_end(copy);va_end(args);
 }
@@ -134,10 +136,10 @@ static DWORD exported_rva(const wchar_t* path,const char* symbol,std::size_t req
     UnmapViewOfFile(base);
     return result;
 }
-static int diagnostics(const wchar_t* path) {
+static int diagnostics(const wchar_t* path,DWORD selected_pid=0) {
     IMAGE_NT_HEADERS32 local{};
     const DWORD rva=exported_rva(path,"skeet_nl_hypotheses_status",sizeof(nl_hypotheses::Status),&local);
-    const DWORD pid=game_pid();
+    const DWORD pid=selected_pid?selected_pid:game_pid();
     if(!rva||!pid){diagnostic_printf("No matching DLL or running legacy CS:GO found.\n");return 1;}
     Handle process(OpenProcess(PROCESS_QUERY_INFORMATION|PROCESS_VM_READ,FALSE,pid));
     if(!process.value)return error("Cannot open game for read-only diagnostics");
@@ -215,6 +217,7 @@ static int run_diagnostics(const wchar_t* path,bool interactive) {
     }
     return result;
 }
+#include "launcher_reports.h"
 int wmain(int argc,wchar_t** argv) {
     SetConsoleTitleW(L"Legacy CS:GO 8802 - automatic launch");
     wchar_t path[32768]{};
@@ -229,6 +232,14 @@ int wmain(int argc,wchar_t** argv) {
         return 1;
     }
     const wchar_t* explicit_game=nullptr;int mode=-1;bool show_diagnostics=false;
+    if(argc>1&&!_wcsicmp(argv[1],L"--watch")) {
+        DWORD watched_pid=0,low=0,high=0;
+        if(argc!=5||!launcher_reports::number(argv[2],watched_pid)||!watched_pid||
+           !launcher_reports::number(argv[3],low)||!launcher_reports::number(argv[4],high)) {
+            std::fputs("Invalid background report arguments.\n",stderr);return 1;
+        }
+        return launcher_reports::watch(path,watched_pid,FILETIME{low,high});
+    }
     for(int i=1;i<argc;++i) {
         if(!_wcsicmp(argv[i],L"--game")&&i+1<argc&&!explicit_game)explicit_game=argv[++i];
         else if(!_wcsicmp(argv[i],L"--mode")&&i+1<argc&&mode<0) {
@@ -248,12 +259,14 @@ int wmain(int argc,wchar_t** argv) {
         std::fprintf(stderr,"Invalid or conflicting mode arguments.\n");return 1;
     }
     if(show_diagnostics)return run_diagnostics(path,false);
-    if(mode<0) {
-        std::puts("1 - GameSense (original gameplay)\n2 - v2 NL points + braking math\n3 - v3 head crown + fire guard + unsafe DT recharge\n4 - NL points + braking math + animation hypotheses\n5 - Read active module diagnostics\n6 - Old animation hypotheses (experimental)\n0 - Exit");
+    while(mode<0) {
+        std::puts("1 - GameSense (original gameplay)\n2 - v2 NL points + braking math\n3 - v3 head crown + fire guard + unsafe DT recharge\n4 - NL points + braking math + animation hypotheses\n5 - Read active module diagnostics\n6 - Old animation hypotheses (experimental)\n7 - Patch switches / automatic reports\n8 - Open last saved report\n0 - Exit");
         std::printf("Choice [Enter = 2]: ");char choice[32]{};
         if(!std::fgets(choice,sizeof(choice),stdin))choice[0]='2';
         if(choice[0]=='0')return 0;
         if(choice[0]=='5')return run_diagnostics(path,true);
+        if(choice[0]=='7'){launcher_reports::settings_menu(path);continue;}
+        if(choice[0]=='8'){launcher_reports::open_report(path);continue;}
         if(choice[0]=='2'||choice[0]=='\n'||choice[0]=='\r')mode=2;
         else if(choice[0]=='3')mode=6;
         else if(choice[0]=='6')mode=1;
@@ -348,6 +361,7 @@ int wmain(int argc,wchar_t** argv) {
         if (status.state == LoaderFailed || status.state == LoaderEntryStarted) {
             std::printf("%s (code %lu)\n", status.message, status.error);
             if (status.state == LoaderFailed) std::puts("Restart the game before retrying.");
+            else launcher_reports::start(path,process.value,pid);
             return status.state == LoaderEntryStarted ? 0 : 1;
         }
         if (WaitForSingleObject(process.value, 0) == WAIT_OBJECT_0) {

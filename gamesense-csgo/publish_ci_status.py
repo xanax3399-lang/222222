@@ -21,5 +21,8 @@ commit=subprocess.check_output(['git','commit-tree',tree,'-m',f'Build evidence f
 series=os.environ.get('SKEET_RELEASE_SERIES','v2')
 if series not in ('v2','v3'):raise ValueError('Invalid release series')
 branch=f'codex/skeet-{series}-ci-{run}'
+label=os.environ.get('SKEET_CI_LABEL','')
+if label not in ('','windows'):raise ValueError('Invalid CI evidence label')
+if label:branch+='-'+label
 subprocess.run(['git','push','origin',f'{commit}:refs/heads/{branch}'],cwd=ROOT.parent,check=True)
 print('Build evidence branch:',branch)

@@ -66,8 +66,20 @@ late_eye_guard=0 / unsafe_dt_recharge=0 независимо отключают 
 V3 head crown, Fire guard и Recharge в module_diagnostics.log. Старые гипотезы анимации теперь в пункте 6.
 Используйте новую пару DLL + инжектор. Исходный архив v2 сохранён отдельно.
 
+ОТЧЁТ БЕЗ РУЧНОГО ПОИСКА
+После успешного запуска лоудер сам сохраняет module_diagnostics.log и обновляет
+его отдельным фоновым процессом раз в 10 секунд до закрытия CS:GO. Он только
+читает счётчики нашей DLL; приоритет/настройки игры не меняет. Последний живой
+отчёт остаётся после выхода. Пункт 8 открывает свежий отчёт в редакторе.
+Если папка лоудера недоступна для записи, используется
+%LOCALAPPDATA%\\GameSenseLegacy8802\\Reports; пункт 8 находит и этот вариант.
+Пункт 7 переключает Head crown / Late HC / Unsafe recharge / автосохранение
+отчёта. Флаги сохраняются в INI; после изменения полностью перезапустите CS:GO.
+Для обычной игры по-прежнему достаточно выбрать 2 или 3. Пункт 5 оставлен
+для разового отчёта вручную. Эти счётчики не определяют причину aim_miss.
+
 ''' + readme
-    config+='\n[v3]\nhead_crown=1\nhead_crown_percent=95\nlate_eye_guard=1\nunsafe_dt_recharge=1\n'
+    config+='\n[v3]\nhead_crown=1\nhead_crown_percent=95\nlate_eye_guard=1\nunsafe_dt_recharge=1\n\n[loader]\nautomatic_reports=1\nreport_interval_seconds=10\n'
 out=ROOT/('build/skeet-v3-patches-windows.zip' if args.v3 else 'build/skeet-v2-nl-points-windows.zip')
 files={n:(ROOT/'build'/n).read_bytes() for n in ['skeet.dll','injector.exe']}
 files.update({'README_RU.txt':readme.encode('utf-8-sig'),'skeet_nl_points.ini':config.encode()})
@@ -80,6 +92,8 @@ if args.v3:
 if args.v3:files['BUILD_INFO.json']=(json.dumps({'series':'v3','source_commit':os.environ.get('GITHUB_SHA'),
     'frozen_v2_base':'72aa34f0956c619ba5f24c9e5c19c6dabf7fd7ff',
     'v3_patches':['record_head_crown','late_eye_hitchance_guard','native_unsafe_dt_recharge'],
+    'automatic_reports':True,'loader_patch_switches':True,
+    'shooting_source_base':'49a11798da38c1e1ab469aeabff9fcff31559c2d',
     'full_nl_recharge_port':False,
     'full_nl_stop_controller_ported':False,'interpolation_extrapolation_changed':False,
     'gameplay_tested':False},indent=2)+'\n').encode()

@@ -14,6 +14,8 @@
   "note": "Independent GS patches: head-cap samples, late HC recheck after eye/point correction and unsafe native DT recharge. Not a full NL scanner/recharge port. DT key release and queued burst exempt. Native damage, charge budget and time settings retained.",
   "launcher_choice": 3,
   "internal_mode": 6,
+  "shooting_source_base": "49a11798da38c1e1ab469aeabff9fcff31559c2d",
+  "loader_features": ["automatic_read_only_reports", "patch_switches", "open_latest_report"],
   "v2_launcher_choice": 2,
   "pending_work": [
     "full_nl_autostop_quickstop_controller_recovery",
