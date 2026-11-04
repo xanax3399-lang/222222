@@ -1,0 +1,108 @@
+name: Validate and publish existing v3 report build
+on:
+  push:
+    branches: [codex/skeet-v3-reports-validation]
+permissions:
+  contents: read
+  actions: read
+env:
+  BUILD_RUN: '41820128718'
+  BUILD_SHA: '2a8dce368230252a5c5d5b6d7391c4aea21c76e1'
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: skeet-v3-patches-windows
+          path: dist
+          github-token: ${{ github.token }}
+          run-id: ${{ env.BUILD_RUN }}
+      - name: Verify production source and existing artifact provenance
+        run: |
+          git fetch --depth=1 origin "$BUILD_SHA"
+          git diff --exit-code "$BUILD_SHA" HEAD -- gamesense-csgo/source gamesense-csgo/build_windows.py gamesense-csgo/package_windows_points.py
+          python - <<'PY'
+          import zipfile,json,hashlib,os
+          with zipfile.ZipFile('dist/skeet-v3-patches-windows.zip') as z:
+              assert z.testzip() is None
+              sums=json.loads(z.read('SHA256SUMS.json'))
+              assert set(sums)==set(z.namelist())-{'SHA256SUMS.json'}
+              assert all(hashlib.sha256(z.read(n)).hexdigest()==v for n,v in sums.items())
+              info=json.loads(z.read('BUILD_INFO.json'))
+              assert info['source_commit']==os.environ['BUILD_SHA']
+              assert info['automatic_reports'] and info['loader_patch_switches']
+              for f in json.loads(z.read('reports/points_dll_validation.json'))['files']:
+                  assert hashlib.sha256(z.read(f['name'])).hexdigest()==f['sha256']
+          print('Original build verified; production source is identical. Only validation code changed.')
+          PY
+  windows:
+    needs: verify
+    runs-on: windows-2025
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: skeet-v3-patches-windows
+          path: dist
+          github-token: ${{ github.token }}
+          run-id: ${{ env.BUILD_RUN }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: launcher-report-probe
+          path: dist/runtime
+          github-token: ${{ github.token }}
+          run-id: ${{ env.BUILD_RUN }}
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x86
+      - name: Extract compiled artifact
+        shell: pwsh
+        run: Expand-Archive dist/skeet-v3-patches-windows.zip -DestinationPath dist/runtime -Force
+      - name: Build native validation processes
+        shell: cmd
+        run: |
+          cl /nologo /std:c++17 /EHsc /MT /W4 /WX gamesense-csgo\tests\dll_load_smoke.cpp /Fe:dist\dll_load_smoke.exe /Fo:dist\dll_load_smoke.obj
+          if errorlevel 1 exit /b 1
+          cl /nologo /std:c++17 /EHsc /MT /W4 /WX gamesense-csgo\tests\diagnostic_game_fixture.cpp /Fe:dist\csgo.exe /Fo:dist\diagnostic_game_fixture.obj
+      - name: Load actual x86 DLL and inspect exports
+        shell: cmd
+        run: dist\dll_load_smoke.exe "%CD%\dist\runtime\skeet.dll"
+      - name: Check automatic reports and menu switches on Windows
+        shell: pwsh
+        run: ./gamesense-csgo/tests/check_report_watcher.ps1 -Runtime dist/runtime -Fixture dist/csgo.exe
+  release:
+    needs: [verify, windows]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: skeet-v3-patches-windows
+          path: dist
+          github-token: ${{ github.token }}
+          run-id: ${{ env.BUILD_RUN }}
+      - name: Publish verified original build
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          unzip -q dist/skeet-v3-patches-windows.zip skeet.dll injector.exe -d dist
+          cat > /tmp/notes.md <<'EOF'
+          CS:GO Legacy 8802. Menu 3 retains the previous v3 shooting behavior. The shooting/resolver source is unchanged since 49a1179; no new aiming-accuracy claim.
+
+          The loader now saves a diagnostic report automatically after successful initialization and periodically during the game. A separate read-only monitor exits with CS:GO and retains the last live counters. Menu 8 opens the latest report, including a LocalAppData fallback. Menu 7 toggles head crown / late HC / unsafe DT recharge / automatic reports. Patch changes require a full game restart. Mode 2 remains the v2 baseline; its original release is frozen separately.
+
+          These counters do not identify aim_miss/resolver causes. No gameplay test was performed. Windows tests cover actual DLL loading and report creation, updates, fallback, process identity, exit and menu persistence against a controlled process.
+
+          This is the unchanged artifact from build 41820128718, source 2a8dce368230252a5c5d5b6d7391c4aea21c76e1. A separate validation run fixes the test script exit code after deliberately rejected invalid arguments. Production sources and archive checksums are verified before release.
+          EOF
+          tag="skeet-v3-patches-dll-${BUILD_SHA}"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" dist/skeet-v3-patches-windows.zip dist/skeet.dll dist/injector.exe --clobber
+          else
+            gh release create "$tag" dist/skeet-v3-patches-windows.zip dist/skeet.dll dist/injector.exe --target "$BUILD_SHA" --prerelease --title 'Skeet v3 / automatic reports and patch switches' --notes-file /tmp/notes.md
+          fi

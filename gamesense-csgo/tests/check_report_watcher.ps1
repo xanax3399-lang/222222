@@ -103,3 +103,6 @@ try {
     if($blockedTemp -and (Test-Path -LiteralPath $blockedTemp)){Remove-Item -LiteralPath $blockedTemp -Force}
     [IO.File]::WriteAllBytes($ini,$original)
 }
+# Expected invalid-argument probes above deliberately leave LASTEXITCODE=1.
+# A successful integration test must explicitly return success to the CI host.
+exit 0
