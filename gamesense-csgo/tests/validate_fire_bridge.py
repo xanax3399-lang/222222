@@ -9,8 +9,9 @@ from unicorn import UC_HOOK_CODE
 from unicorn.x86_const import *
 from validate_points_bridge import Machine,ROOT,BASE,DATA,STACK,STOP,words,floats
 
-OBS,REC,FIRE,HC=0x433abe72,0x433ac017,0x43355ddf,0x43354bd3
-SITES={OBS:bytes.fromhex('39bef4000000'),REC:bytes.fromhex('e871c80000'),
+OBS,REC,FIRE,HC=0x433abe72,0x433ac024,0x43355ddf,0x43354bd3
+NATIVE_WAIT=bytes.fromhex('e871c8000084c00f857a020000')
+SITES={OBS:bytes.fromhex('39bef4000000'),REC:bytes.fromhex('380524724643'),
        FIRE:bytes.fromhex('8b4c241c8a542422'),HC:bytes.fromhex('e8ea680c00'),
        0x43354b55:bytes.fromhex('e868690c00'),0x43354b9a:bytes.fromhex('e823690c00')}
 
@@ -33,6 +34,9 @@ class FireMachine(Machine):
         self.store(0x43475aac,DATA+0x71000)
         self.store(DATA+0x71000+0xbc,DATA+0x72000);self.store(DATA+0x71000+0xc0,DATA+0x72000)
         self.store(0x43475a60,DATA+0x70050);self.store(DATA+0x70050,64)
+        self.store(0x434688d0,DATA+0x70060)
+        self.store(DATA+0x70060,0x104^0xe2fbe695);self.store(0x43468c24,0)
+        self.store(self.player+0x104,1)
         self.store(0x43467f48,0);self.store(0x434721c4,STOP+0x200)
         self.u.mem_write(STOP+0x200,bytes.fromhex('b001c3')) # active aim hotkey
         self.u.mem_write(0x43467224,b'\x01')
@@ -142,6 +146,15 @@ def main():
     # Unchanged data never repeats expensive native HC; normal attack executes.
     m=ready();m.observe();m.sample();assert m.fire() and m.hc_calls==1
     assert m.status()['unchanged']==1 and m.word(m.cmd+0x30)==1;cases+=1
+    assert bytes(m.u.mem_read(0x433ac017,len(NATIVE_WAIT)))==NATIVE_WAIT
+    # Disabling the optional recharge leaves its native gate byte-for-byte,
+    # even while the independent fire guard is enabled.
+    m=ready(recharge=0)
+    assert bytes(m.u.mem_read(REC,6))==SITES[REC]
+    assert bytes(m.u.mem_read(0x433ac017,len(NATIVE_WAIT)))==NATIVE_WAIT;cases+=1
+    m=ready(guard=0)
+    assert bytes(m.u.mem_read(FIRE,8))==SITES[FIRE]
+    assert all(bytes(m.u.mem_read(s,5))==SITES[s] for s in [HC,0x43354b55,0x43354b9a]);cases+=1
     for site in [0x43354b55,0x43354b9a]:
         m=ready();m.observe();m.sample(site)
         m.u.mem_write(m.weapon+0xe4,floats(62));m.probability=0;m.hc_result=False
@@ -199,6 +212,14 @@ def main():
     m=ready();m.observe();m.sample();m.fixture=False
     m.u.mem_write(m.weapon+0xe4,floats(62));assert m.fire() and m.status()['fallback']==1;cases+=1
     recharge_cases=0
+    # Regression: a new charge must not replace the native wait while a recent
+    # shot is unresolved. The previous hook skipped this predicate entirely.
+    m=ready();m.set_command(mode=1)
+    m.store(DATA+0x71000+0xc0,DATA+0x72024)
+    m.u.mem_write(DATA+0x72000,bytes(0x24));m.store(DATA+0x72000,7)
+    m.u.mem_write(DATA+0x72010,floats(1));m.u.mem_write(DATA+0x72020,floats(1))
+    assert m.charge()==0,'Regression: early recharge bypassed the native pending-shot wait'
+    recharge_cases+=1
     for guard in ['cooldown','open_target','both','recent_shot','clear']:
         for unsafe in [False,True]:
             m=ready(recharge=int(unsafe));m.set_command(mode=1)
@@ -209,14 +230,14 @@ def main():
                 m.u.mem_write(DATA+0x72000,bytes(0x24));m.store(DATA+0x72000,7)
                 m.u.mem_write(DATA+0x72010,floats(1));m.u.mem_write(DATA+0x72020,floats(1))
             before=bytes(m.u.mem_read(m.ctx+0x124,4))
-            expected=1 if unsafe or guard=='clear' else 0
+            expected=1 if guard=='clear' or (unsafe and guard=='open_target') else 0
             assert m.charge()==expected,(guard,unsafe,m.status())
             assert bytes(m.u.mem_read(m.ctx+0x124,4))==before,'cooldown state mutated'
             assert m.word(m.cmd+8)==(0x7f7fffff if expected else 12345)
             assert m.word(m.recharging)&255==expected
             assert m.word(m.cmd+0x30)==0;recharge_cases+=1
     # Native budget/completion sequence; subsequent commands stop at full charge.
-    m=ready();m.store(0x434759c0,0x2008);m.u.mem_write(m.ctx+0x124,floats(.5))
+    m=ready();m.store(0x434759c0,0x2008)
     for n in range(16):
         m.set_command(100+n,1,min(n,14))
         assert m.charge()==min(n+1,14)
@@ -246,10 +267,32 @@ def main():
     for buttons in [1,0x800,0x801]:
         m=ready();m.set_command(buttons=buttons);m.observe()
         m.native_frame();m.u.reg_write(UC_X86_REG_EBX,m.cmd)
+        m.u.reg_write(UC_X86_REG_EAX,0) # Native recent-shot predicate returned false.
         m.store(0x434759c0,0x2008)
         m.u.emu_start(REC,STOP,count=1000000)
         assert m.word(m.ctx+0x104)==0 and m.status()['recharge_overrides']==0
         assert m.word(m.cmd+0x30)==buttons;recharge_cases+=1
+    # No opt-in early charge during motion, duck/jump, air or invalid motion.
+    for field,value in [('forward',450),('side',-450),('up',320),('forward',.001),
+                        ('forward',float('nan')),('forward',float('inf')),
+                        ('buttons',8),('buttons',16),('buttons',512),('buttons',1024),
+                        ('buttons',2),('buttons',4),('ground',0),('ground',3)]:
+        m=ready();m.store(0x434759c0,0x2008)
+        if field=='buttons':m.store(m.cmd+0x30,value)
+        elif field=='ground':m.store(m.player+0x104,value)
+        else:m.u.mem_write(m.cmd+{'forward':0x24,'side':0x28,'up':0x2c}[field],floats(value))
+        assert m.charge()==0 and m.status()['recharge_overrides']==0,(field,value,m.status())
+        recharge_cases+=1
+    # A shot still pending + movement + post-shot delay must stay on the native
+    # wait path for multiple commands, rather than increasing charge every tick.
+    m=ready();m.store(0x434759c0,0x2008)
+    m.store(DATA+0x71000+0xc0,DATA+0x72024);m.store(DATA+0x72000,7)
+    m.u.mem_write(DATA+0x72010,floats(1));m.u.mem_write(DATA+0x72020,floats(1))
+    m.u.mem_write(m.ctx+0x124,floats(.5));m.u.mem_write(m.cmd+0x24,floats(450))
+    for n in range(8):
+        m.set_command(100+n,1);assert m.charge()==0
+        assert m.word(m.cmd+8)==12345
+        recharge_cases+=1
     # Each thread owns its observed command and HC context.
     m=ready();m.observe();m.sample();m.u.mem_write(m.weapon+0xe4,floats(62))
     m.thread=2;m.probability=0;m.hc_result=False
@@ -263,6 +306,9 @@ def main():
             'native_hc_fast_and_missing_entity_paths_executed':True,'normal_hc_outcomes_controlled':True,
             'all_three_prefire_hc_calls_hooked':True,
             'dt_key_release_and_pending_burst_exempt':True,'mode2_hook_bytes_unchanged':True,
+            'native_pending_shot_call_and_branch_unchanged':True,
+            'native_post_shot_cooldown_preserved':True,'movement_commands_do_not_get_early_recharge':True,
+            'reported_teleport_reproduced_in_game':False,
             'full_nl_recharge_port':False,'gameplay_tested':False}
     (ROOT/'reports/v3_fire_validation.json').write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps(report))

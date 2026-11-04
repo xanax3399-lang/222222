@@ -1,7 +1,7 @@
 name: Skeet v3 CS:GO patches DLL
 on:
   push:
-    branches: [codex/skeet-v3-patches, 'codex/skeet-v3-auto-reports*']
+    branches: [codex/skeet-v3-patches, 'codex/skeet-v3-auto-reports*', 'codex/skeet-v3-dt-recharge*']
     paths: ['gamesense-csgo/**', '.github/workflows/skeet-v3-patches.yml']
   workflow_dispatch:
 permissions:
@@ -161,13 +161,13 @@ jobs:
           cat > /tmp/points-release-notes.md <<'EOF'
           CS:GO Legacy 8802 only. Menu 2 retains v2 point/braking behavior; menu 3 enables v3 record-based head crown candidates (--mode v3-patches). The original v2 archive is frozen separately at commit 72aa34f0956c619ba5f24c9e5c19c6dabf7fd7ff.
 
-          Loader update: reports are saved automatically after successful initialization, then every 10 seconds by a separate read-only monitor until CS:GO exits. Menu 8 opens the latest report, including a LocalAppData fallback if the loader directory is not writable. Menu 7 toggles the three v3 patches and automatic reports; changes apply after a full game restart. Shooting/resolver code is unchanged from 49a1179. These counters do not classify aim_miss reasons.
+          Loader update: reports are saved automatically after successful initialization, then every 10 seconds by a separate read-only monitor until CS:GO exits. Menu 8 opens the latest report, including a LocalAppData fallback if the loader directory is not writable. Menu 7 toggles the three v3 patches and automatic reports; changes apply after a full game restart. DT recharge revision 2 restores native pending-shot and cooldown guards; other shooting features are unchanged. These counters do not classify aim_miss reasons.
 
           V3 adds up to three samples near the upper cap of the selected record's head capsule. This is an independently written geometric extension, not a full NL scanner port. Native candidates, primary center, three-matrix checks, GS damage and hitchance remain. Mode 2 is checked against captured v2 point fixtures.
 
           New in menu 3: late_eye_guard=1 repeats native GS hitchance if the firing origin/selected point changes after initial HC and vetoes an automatic shot on a failed/zero result. DT key release, queued bursts and existing manual attacks are exempt. Unchanged geometry incurs no second HC. This is an estimate, not knowledge of a server outcome.
 
-          unsafe_dt_recharge=1 bypasses recent-shot, aim/peek and cooldown waiting gates in native DT mode. Native recharge bookkeeping, capacity, choke and attack gates remain. It does not manufacture charge or interrupt release/burst processing. This is an independently written GS policy, not a full NL recharge port. Both switches are in [v3], independent, and require a full restart.
+          DT recharge fix: unsafe_dt_recharge=0 by default leaves native recharge code unhooked. The old bypass of pending-shot and post-shot cooldown is removed. The opt-in legacy key now preserves both native guards and can only bypass the aim/peek gate with neutral movement input and a grounded non-ducking player. Release/burst, attack/choke and capacity checks remain. Old INI files with =1 cannot restore the former unconditional bypass. This is not a full NL recharge port. The regression fixture checks the forbidden recharge; it does not reproduce server teleportation or test gameplay.
 
           [v3] head_crown=1 enables the patch in menu 3 only; head_crown_percent=95 (50..99). Full restart after changing INI. Menu 5 saves V3 head crown counters. Old animation hypotheses moved to menu 6.
 
@@ -179,5 +179,5 @@ jobs:
           if gh release view "$tag" >/dev/null 2>&1; then
             gh release upload "$tag" dist/skeet-v3-patches-windows.zip dist/skeet.dll dist/injector.exe --clobber
           else
-            gh release create "$tag" dist/skeet-v3-patches-windows.zip dist/skeet.dll dist/injector.exe --target "$SOURCE_SHA" --prerelease --title 'Skeet v3 / CS:GO / automatic reports and patch switches' --notes-file /tmp/points-release-notes.md
+            gh release create "$tag" dist/skeet-v3-patches-windows.zip dist/skeet.dll dist/injector.exe --target "$SOURCE_SHA" --prerelease --title 'Skeet v3 / CS:GO / restore native DT recharge guards' --notes-file /tmp/points-release-notes.md
           fi

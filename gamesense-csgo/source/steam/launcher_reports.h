@@ -150,9 +150,9 @@ inline void settings_menu(const wchar_t* dll) {
     for(;;) {
         const unsigned values[]={GetPrivateProfileIntW(L"v3",L"head_crown",1,ini.c_str()),
             GetPrivateProfileIntW(L"v3",L"late_eye_guard",1,ini.c_str()),
-            GetPrivateProfileIntW(L"v3",L"unsafe_dt_recharge",1,ini.c_str()),
+            GetPrivateProfileIntW(L"v3",L"unsafe_dt_recharge",0,ini.c_str()),
             GetPrivateProfileIntW(L"loader",L"automatic_reports",1,ini.c_str())};
-        std::printf("\n1 - Head crown points: %s\n2 - Late hitchance recheck: %s\n3 - Unsafe DT recharge: %s\n4 - Automatic reports: %s\n0 - Back\n",
+        std::printf("\n1 - Head crown points: %s\n2 - Late hitchance recheck: %s\n3 - Guarded early DT recharge (experimental): %s\n4 - Automatic reports: %s\n0 - Back\n",
             values[0]?"ON":"OFF",values[1]?"ON":"OFF",values[2]?"ON":"OFF",values[3]?"ON":"OFF");
         std::puts("Patch switches affect menu 3. Restart CS:GO fully after changing them.");
         std::printf("Toggle: ");char input[32]{};

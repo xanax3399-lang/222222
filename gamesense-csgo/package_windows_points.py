@@ -43,7 +43,7 @@ if args.v3:
     readme='''Skeet v3 / CS:GO Legacy 8802
 
 Пункт 2 сохраняет поведение v2. Пункт 3 включает v3: дополнительные точки головы,
-проверку после коррекции точки выстрела и unsafe DT recharge. Командный запуск:
+проверку после коррекции точки выстрела; recharge DT по умолчанию штатный GS. Командный запуск:
     injector.exe --mode v3-patches
 Это собственный геометрический патч, а не полный перенос сканера NL.
 Проверки трёх матриц, урон и hitchance GS сохраняются. Реальная видимость и
@@ -56,11 +56,17 @@ late_eye_guard=1 повторяет HC GS перед автоматически�
 Если новая проверка не проходит HC или даёт 0, GS не выставляет атаку.
 Это оценка клиента, а не гарантия промаха/попадания на сервере. Отправленную
 пулю отменить нельзя. Ручная атака, отпускание DT и уже начатая очередь исключены.
-unsafe_dt_recharge=1 разрешает штатное пополнение заряда DT, обходя ожидание
-результата предыдущего выстрела, блокировку прицеливания/пика и задержку после
-выстрела. Сохраняются предел заряда, проверка choke, запрет recharge во время
-атаки, отпускание DT и очередь. Заряд увеличивает сам GS. Это собственный патч
-GS по запрошенному поведению, а не восстановленный полный алгоритм Neverlose.
+ИСПРАВЛЕНИЕ RECHARGE DT
+unsafe_dt_recharge=0 по умолчанию: дополнительный обход recharge не установлен,
+зарядом управляет штатный GS. Сам DT продолжает работать.
+Прежний патч мог обходить ожидание незавершённого выстрела и задержку после
+выстрела; этот обход удалён. Даже если оставить старый INI с параметром =1,
+новая DLL сохраняет обе штатные проверки. Эксперимент теперь может обходить
+только aim/peek-блокировку после них, на земле, без приседа/прыжка и команд
+движения. Отпускание DT, очередь, attack/choke, предел и накопление заряда остаются
+штатными. Мгновенный recharge поверх незавершённого DT больше не форсируется.
+Это собственная ограниченная политика GS, а не полный перенос Neverlose.
+Для проверки поведения по умолчанию используй новый INI либо пункт 7 → 3 → OFF.
 late_eye_guard=0 / unsafe_dt_recharge=0 независимо отключают новые изменения.
 После изменения INI полностью перезапустите CS:GO. Пункт 5 сохраняет счётчики
 V3 head crown, Fire guard и Recharge в module_diagnostics.log. Старые гипотезы анимации теперь в пункте 6.
@@ -73,13 +79,13 @@ V3 head crown, Fire guard и Recharge в module_diagnostics.log. Старые г
 отчёт остаётся после выхода. Пункт 8 открывает свежий отчёт в редакторе.
 Если папка лоудера недоступна для записи, используется
 %LOCALAPPDATA%\\GameSenseLegacy8802\\Reports; пункт 8 находит и этот вариант.
-Пункт 7 переключает Head crown / Late HC / Unsafe recharge / автосохранение
+Пункт 7 переключает Head crown / Late HC / экспериментальный early recharge / автосохранение
 отчёта. Флаги сохраняются в INI; после изменения полностью перезапустите CS:GO.
 Для обычной игры по-прежнему достаточно выбрать 2 или 3. Пункт 5 оставлен
 для разового отчёта вручную. Эти счётчики не определяют причину aim_miss.
 
 ''' + readme
-    config+='\n[v3]\nhead_crown=1\nhead_crown_percent=95\nlate_eye_guard=1\nunsafe_dt_recharge=1\n\n[loader]\nautomatic_reports=1\nreport_interval_seconds=10\n'
+    config+='\n[v3]\nhead_crown=1\nhead_crown_percent=95\nlate_eye_guard=1\nunsafe_dt_recharge=0\n\n[loader]\nautomatic_reports=1\nreport_interval_seconds=10\n'
 out=ROOT/('build/skeet-v3-patches-windows.zip' if args.v3 else 'build/skeet-v2-nl-points-windows.zip')
 files={n:(ROOT/'build'/n).read_bytes() for n in ['skeet.dll','injector.exe']}
 files.update({'README_RU.txt':readme.encode('utf-8-sig'),'skeet_nl_points.ini':config.encode()})
@@ -91,9 +97,11 @@ if args.v3:
         files['reports/'+name]=(ROOT/'reports'/name).read_bytes()
 if args.v3:files['BUILD_INFO.json']=(json.dumps({'series':'v3','source_commit':os.environ.get('GITHUB_SHA'),
     'frozen_v2_base':'72aa34f0956c619ba5f24c9e5c19c6dabf7fd7ff',
-    'v3_patches':['record_head_crown','late_eye_hitchance_guard','native_unsafe_dt_recharge'],
+    'v3_patches':['record_head_crown','late_eye_hitchance_guard','guarded_dt_recharge'],
     'automatic_reports':True,'loader_patch_switches':True,
-    'shooting_source_base':'49a11798da38c1e1ab469aeabff9fcff31559c2d',
+    'shooting_source_base':'2a8dce368230252a5c5d5b6d7391c4aea21c76e1',
+    'dt_recharge_revision':2,'early_recharge_default':False,
+    'native_pending_shot_and_cooldown_retained':True,
     'full_nl_recharge_port':False,
     'full_nl_stop_controller_ported':False,'interpolation_extrapolation_changed':False,
     'gameplay_tested':False},indent=2)+'\n').encode()

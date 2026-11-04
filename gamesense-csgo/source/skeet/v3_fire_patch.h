@@ -105,10 +105,10 @@ inline bool __cdecl guard(unsigned* registers,void*) {
     }
     return false; // replay native MOVs/TEST/JZ; native no-fire path handles state
 }
-// Runs AFTER native choke/attack gates, BEFORE recent-shot, aim/peek and .5 s
-// cooldown gates. The alternative enters native ring/budget bookkeeping, which
-// alone increments charge, marks a recharge command and notifies other modules.
-// We never synthesize charge, alter server limits or interrupt a queued burst.
+// The old hook skipped both the pending-shot predicate and the post-shot delay.
+// That was not justified by the local shift flag: it can clear before the shot
+// has finished processing. Enter only AFTER the original predicate returns false,
+// and bypass only the aim/peek gate. The original cooldown and charge path stay.
 inline bool __cdecl recharge(unsigned* registers,void*) {
     auto& st=skeet_v3_fire_status;InterlockedIncrement(&st.recharge_checks);
     if(!st.recharge_enabled)return false;
@@ -121,12 +121,29 @@ inline bool __cdecl recharge(unsigned* registers,void*) {
     if(read(p,0xf4)!=1||protected_dt(*s)||charged<0||desired<1||desired>15||
        capacity<7||capacity>64||charged>=desired||desired>=capacity||
        (read(reinterpret_cast<void*>(command),0x30)&0x801))return false;
+    // No early recharge during a movement/duck/jump command. Zero input alone
+    // does not prove zero physical speed; the native pending-shot and cooldown
+    // guards above/below this hook must therefore remain authoritative too.
+    if(read(reinterpret_cast<void*>(command),0x30)&0x79e)return false;
+    constexpr unsigned movement_offsets[]={0x24,0x28,0x2c};
+    for(unsigned offset:movement_offsets) {
+        float movement;std::memcpy(&movement,reinterpret_cast<const unsigned char*>(command)+offset,4);
+        if(!std::isfinite(movement)||movement!=0.0f)return false;
+    }
+    const unsigned player=read(frame(registers),0x18);
+    const unsigned flags_pointer=*reinterpret_cast<const unsigned*>(0x434688d0);
+    if(player<0x10000||flags_pointer<0x10000)return false;
+    // Same resolved m_fFlags contract as the production GS stop helper.
+    const unsigned flags_offset=*reinterpret_cast<const unsigned*>(flags_pointer)^
+        *reinterpret_cast<const unsigned*>(0x43468c24)^0xe2fbe695u;
+    if(flags_offset>0xfffc||flags_offset%4||
+       (read(reinterpret_cast<void*>(player),flags_offset)&3)!=1)return false;
     InterlockedIncrement(&st.recharge_overrides);return true;
 }
 struct Site {unsigned address,size,normal,alternative;unsigned char original[8];};
 inline constexpr Site sites[]={
     {0x433abe72,6,0x433abe78,0x433abe78,{0x39,0xbe,0xf4,0,0,0}},
-    {0x433ac017,5,0x433ac01c,0x433ac182,{0xe8,0x71,0xc8,0,0}},
+    {0x433ac024,6,0x433ac02a,0x433ac16d,{0x38,0x05,0x24,0x72,0x46,0x43}},
     {0x43355ddf,8,0x43355de7,0x43355de7,{0x8b,0x4c,0x24,0x1c,0x8a,0x54,0x24,0x22}}
 };
 // The first candidate usually succeeds; later calls retry alternate points.
@@ -140,6 +157,9 @@ inline bool apply(unsigned char* image,unsigned size) {
     if(size!=0x2fc000||reinterpret_cast<unsigned>(image)!=0x43310000)return reject("V3 fire: unsupported core.");
     for(const auto& s:sites)if(std::memcmp(image+s.address-0x43310000,s.original,s.size))
         return reject("V3 fire: native hook contract differs.");
+    constexpr unsigned char native_wait[]={0xe8,0x71,0xc8,0,0,0x84,0xc0,0x0f,0x85,0x7a,2,0,0};
+    if(std::memcmp(image+0x9c017,native_wait,sizeof(native_wait)))
+        return reject("V3 fire: native pending-shot wait differs.");
     for(unsigned i=0;i<3;++i)if(std::memcmp(image+hc_sites[i]-0x43310000,hc_calls[i],5))
         return reject("V3 fire: HC call differs.");
     storage=FlsAlloc(cleanup);if(storage==FLS_OUT_OF_INDEXES){install_error="V3 fire: FLS allocation failed.";return false;}
@@ -150,21 +170,24 @@ inline bool apply(unsigned char* image,unsigned size) {
     v3_fire_shim::Plan plans[3];
     for(unsigned i=0;i<3;++i) {
         const auto& s=sites[i];plans[i]=v3_fire_shim::make(reinterpret_cast<unsigned>(shim)+i*256,
-            s.address,s.original,s.size,s.normal,s.alternative,callbacks[i],i==1?0x433b888d:0);
+            s.address,s.original,s.size,s.normal,s.alternative,callbacks[i]);
         std::memcpy(shim+i*256,plans[i].code,plans[i].length);
     }
     DWORD previous=0;
     if(!VirtualProtect(shim,4096,PAGE_EXECUTE_READ,&previous)||!FlushInstructionCache(GetCurrentProcess(),shim,4096)) {
         release();install_error="V3 fire: bridge protection/flush failed.";return false;
     }
-    for(unsigned i=0;i<3;++i)std::memcpy(image+sites[i].address-0x43310000,plans[i].jump,sites[i].size);
-    for(unsigned site:hc_sites) {
+    const bool active[]={true,st.recharge_enabled!=0,st.guard_enabled!=0};
+    for(unsigned i=0;i<3;++i)if(active[i])
+        std::memcpy(image+sites[i].address-0x43310000,plans[i].jump,sites[i].size);
+    if(st.guard_enabled)for(unsigned site:hc_sites) {
         unsigned char call[5]={0xe8};const unsigned delta=reinterpret_cast<unsigned>(sample)-site-5;
         std::memcpy(call+1,&delta,4);std::memcpy(image+site-0x43310000,call,5);
     }
     if(!FlushInstructionCache(GetCurrentProcess(),image,size)) {
-        for(const auto& s:sites)std::memcpy(image+s.address-0x43310000,s.original,s.size);
-        for(unsigned i=0;i<3;++i)std::memcpy(image+hc_sites[i]-0x43310000,hc_calls[i],5);
+        for(unsigned i=0;i<3;++i)if(active[i])
+            std::memcpy(image+sites[i].address-0x43310000,sites[i].original,sites[i].size);
+        if(st.guard_enabled)for(unsigned i=0;i<3;++i)std::memcpy(image+hc_sites[i]-0x43310000,hc_calls[i],5);
         FlushInstructionCache(GetCurrentProcess(),image,size);
         release();install_error="V3 fire: core flush failed.";return false;
     }

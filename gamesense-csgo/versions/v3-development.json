@@ -2,19 +2,21 @@
   "schema_version": 1,
   "version": "v3",
   "state": "release_candidate",
-  "source_branch": "codex/skeet-v3-auto-reports-ready",
+  "source_branch": "codex/skeet-v3-dt-recharge-guards",
   "base_version": "v2",
   "base_commit": "72aa34f0956c619ba5f24c9e5c19c6dabf7fd7ff",
   "implemented_patches": [
     "record_head_crown_candidates",
     "late_eye_hitchance_guard",
-    "native_unsafe_dt_recharge"
+    "guarded_dt_recharge"
   ],
   "published_archive": null,
-  "note": "Independent GS patches: head-cap samples, late HC recheck after eye/point correction and unsafe native DT recharge. Not a full NL scanner/recharge port. DT key release and queued burst exempt. Native damage, charge budget and time settings retained.",
+  "note": "DT recharge revision 2 preserves native pending-shot wait and cooldown. Optional aim-gate bypass requires neutral movement input and grounded non-ducking state; disabled by default. Reported gameplay teleport is not reproduced in the test environment. Independent GS patches, not a full NL port.",
   "launcher_choice": 3,
   "internal_mode": 6,
-  "shooting_source_base": "49a11798da38c1e1ab469aeabff9fcff31559c2d",
+  "shooting_source_base": "2a8dce368230252a5c5d5b6d7391c4aea21c76e1",
+  "dt_recharge_revision": 2,
+  "early_recharge_default": false,
   "loader_features": ["automatic_read_only_reports", "patch_switches", "open_latest_report"],
   "v2_launcher_choice": 2,
   "pending_work": [

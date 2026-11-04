@@ -17,7 +17,7 @@ int wmain(int argc,wchar_t** argv) {
     auto* v3=reinterpret_cast<v3_patches::Status*>(GetProcAddress(dll,"skeet_v3_status"));
     if(!v3||v3->version!=1||v3->crown_percent!=95||v3->installed)return 1;
     auto* fire=reinterpret_cast<v3_fire::Status*>(GetProcAddress(dll,"skeet_v3_fire_status"));
-    if(!fire||fire->version!=1||fire->guard_enabled!=1||fire->recharge_enabled!=1||fire->installed)return 1;
+    if(!fire||fire->version!=1||fire->guard_enabled!=1||fire->recharge_enabled!=0||fire->installed)return 1;
     if(!loader||!points||loader->version!=1||points->version!=2||points->head_percent!=80||points->body_percent!=80)return 1;
     Sleep(200);
     if(loader->state!=LoaderWaiting)return 1;

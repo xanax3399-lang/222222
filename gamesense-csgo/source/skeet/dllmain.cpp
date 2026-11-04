@@ -13,7 +13,7 @@ __declspec(dllexport) nl_hypotheses::Status skeet_nl_hypotheses_status = {1,0,0,
 __declspec(dllexport) nl_points_patch::Status skeet_nl_points_status = {2,0,0,0,0,0,0,0,80,80,0};
 __declspec(dllexport) nl_stop_patch::Status skeet_nl_stop_status = {1,1,0};
 __declspec(dllexport) v3_patches::Status skeet_v3_status = {1,1,95,0};
-__declspec(dllexport) v3_fire::Status skeet_v3_fire_status = {1,1,1,0};
+__declspec(dllexport) v3_fire::Status skeet_v3_fire_status = {1,1,0,0};
 }
 
 static void status(LoaderState state, DWORD error, const char* message) {
@@ -45,7 +45,7 @@ static DWORD WINAPI initialize(LPVOID parameter) {
     if(skeet_v3_status.head_enabled>1||skeet_v3_status.crown_percent<50||skeet_v3_status.crown_percent>99)
         return fail("Invalid v3 settings: head_crown must be 0 or 1; crown percent 50..99.");
     skeet_v3_fire_status.guard_enabled=GetPrivateProfileIntW(L"v3",L"late_eye_guard",1,settings);
-    skeet_v3_fire_status.recharge_enabled=GetPrivateProfileIntW(L"v3",L"unsafe_dt_recharge",1,settings);
+    skeet_v3_fire_status.recharge_enabled=GetPrivateProfileIntW(L"v3",L"unsafe_dt_recharge",0,settings);
     if(skeet_v3_fire_status.guard_enabled>1||skeet_v3_fire_status.recharge_enabled>1)
         return fail("Invalid v3 settings: late_eye_guard / unsafe_dt_recharge must be 0 or 1.");
     if(points.head_percent>100||points.body_percent>100||points.reduced_head>1)

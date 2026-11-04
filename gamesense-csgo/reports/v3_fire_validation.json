@@ -1,6 +1,6 @@
 {
-  "hook_abi_guards_release_and_failure_cases": 51,
-  "native_recharge_cases": 37,
+  "hook_abi_guards_release_and_failure_cases": 53,
+  "native_recharge_cases": 60,
   "native_attack_commit_executed": true,
   "native_recharge_bookkeeping_executed": true,
   "native_hc_fast_and_missing_entity_paths_executed": true,
@@ -8,6 +8,10 @@
   "all_three_prefire_hc_calls_hooked": true,
   "dt_key_release_and_pending_burst_exempt": true,
   "mode2_hook_bytes_unchanged": true,
+  "native_pending_shot_call_and_branch_unchanged": true,
+  "native_post_shot_cooldown_preserved": true,
+  "movement_commands_do_not_get_early_recharge": true,
+  "reported_teleport_reproduced_in_game": false,
   "full_nl_recharge_port": false,
   "gameplay_tested": false
 }

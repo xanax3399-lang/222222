@@ -43,31 +43,44 @@ exceptions, not a timer based on keyboard polling. Bit 8 clears on the native
 prediction completion path `43359efc`, which sets the .5 second cooldown too.
 Snapshots on another thread, stale command or foreign candidate fail open.
 
-## Unsafe recharge
+## Recharge revision 2: native guards restored
 
-The hook replaces the recent-shot CALL at `433ac017`. Eligible mode-1 recharge
-enters `433ac182`, the original ring/budget bookkeeping. It bypasses:
+The previous hook at `433ac017` could jump over the recent/pending-shot
+predicate AND the .5 second post-shot delay into native charge bookkeeping.
+A local cleared shift flag does not prove the prior DT shot has finished
+processing. A regression fixture reproduces premature charge on that old
+implementation; it does not emulate a server correction or prove the cause
+of the user's video. The clip itself is kept outside the repository.
 
-- pending/recent-shot predicate `433b888d`;
-- native aim/peek gate starting `433ac024`;
-- post-shot cooldown at context+124 (`433ac16d..433ac17c`).
+The default is now `unsafe_dt_recharge=0`. With this setting, the recharge
+site remains byte-for-byte native even when the independent fire guard is
+installed. DT itself remains GS. Head points, HC guard and braking arithmetic
+are unchanged by this fix.
 
-Native connection/hotkey selection, choke and attack checks before this hook
-remain. The callback additionally requires command identity, a valid vtable,
-mode 1, no release/queued shift, no attack buttons, charge < desired, desired
-1..15 and desired < native capacity 7..64. It changes no context fields.
-At `433ac224` native GS marks its recharge command; `433ac22b` alone increments
-the native charge count. Native completion bookkeeping, module callbacks and
-capacity logic execute unchanged. Do not patch tick counts or charge globals
-from a separate fabricated counter. Native recharge can consume command time;
-unsafe behavior during exposure is explicitly requested and its combat benefit
-has not been measured here.
+The optional legacy INI key `unsafe_dt_recharge=1` now hooks `433ac024`, AFTER
+native `433b888d` returns false and its original TEST/JNZ permits recharge.
+The CALL/TEST/JNZ bytes at `433ac017..433ac023` are never patched. The alternative
+enters `433ac16d` so native cooldown comparison remains authoritative too.
+Only the aim/peek gate can be bypassed. Native ring/budget logic, recharge
+command marking, increment and module callbacks still execute normally.
+
+Additional opt-in conditions: same observed command/context, DT mode 1,
+no release/pending shift, no attack/choke, valid charge bounds, no movement,
+jump or duck buttons (`0x79e`), exactly zero finite forward/side/upmove, and
+local m_fFlags indicating grounded/non-ducking. Flags use the same resolved
+netvar contract as the existing GS stop helper; player is the native saved
+local-player pointer at frame+18. No new unverified velocity/ack field is read.
+Zero movement INPUT does not prove zero physical velocity; this is why native
+pending-shot and cooldown checks must also remain. This optional policy is
+not proven safe in gameplay and stays off by default. Old INI files enabling
+it cannot restore the previous unconditional bypass.
 
 ## Installation and validation
 
 Three JMP shims save GPR, EFLAGS and the complete FXSAVE state; restore state
 before replaying original instructions. HC CALL uses the native RET 12 ABI.
-All six sites are validated before mutation and rollback on flush failure.
+All six sites and the native pending-shot bytes are validated before mutation;
+installed sites roll back on flush failure. Disabled recharge/HC sites stay native.
 Storage/allocation/protection failures leave all sites original. Installation
 precedes VM/CRC preparation; tests ensure no VM range overlaps the hooks.
 
@@ -80,5 +93,5 @@ pending shift, manual fire, stale/thread state, nonfinite output, mode 2 and
 disabled configuration. Normal scene tracing and a CS:GO session remain untested.
 
 `skeet_v3_fire_status` is a separate 84-byte version-1 export. Launcher menu 5
-prints its counters. `recharge_overrides` counts entering the native bookkeeping,
-not completed recharge or improved time to fire. Both INI switches are independent.
+prints its counters. `recharge_overrides` now counts aim-gate bypasses; the native cooldown may
+still reject charge afterwards. It does not count completed recharge or time to fire. Both INI switches are independent.

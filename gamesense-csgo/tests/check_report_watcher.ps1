@@ -16,10 +16,13 @@ try {
     # unrelated scales / the v2 braking setting. The outer 0 exits without a game.
     foreach($key in @('head_crown','late_eye_guard','unsafe_dt_recharge','automatic_reports')) {
         $choice=1+@('head_crown','late_eye_guard','unsafe_dt_recharge','automatic_reports').IndexOf($key)
+        $initialMatch=[regex]::Match([IO.File]::ReadAllText($ini),"(?m)^$key=([01])\s*$")
+        if(!$initialMatch.Success){throw "Missing Boolean setting $key"}
+        $initial=[int]$initialMatch.Groups[1].Value;$toggled=1-$initial
         "7`n$choice`n0`n0" | & $loader
-        if($LASTEXITCODE -ne 0 -or [IO.File]::ReadAllText($ini) -notmatch "(?m)^$key=0\s*$") {throw "Menu toggle did not save $key=0"}
+        if($LASTEXITCODE -ne 0 -or [IO.File]::ReadAllText($ini) -notmatch "(?m)^$key=$toggled\s*$") {throw "Menu toggle did not save $key=$toggled"}
         "7`n$choice`n0`n0" | & $loader
-        if($LASTEXITCODE -ne 0 -or [IO.File]::ReadAllText($ini) -notmatch "(?m)^$key=1\s*$") {throw "Menu toggle did not restore $key=1"}
+        if($LASTEXITCODE -ne 0 -or [IO.File]::ReadAllText($ini) -notmatch "(?m)^$key=$initial\s*$") {throw "Menu toggle did not restore $key=$initial"}
     }
     $config=[IO.File]::ReadAllText($ini)
     if($config -notmatch '(?m)^nl_brake=1\s*$' -or $config -notmatch '(?m)^head_scale_percent=80\s*$') {throw 'Unrelated settings changed'}
