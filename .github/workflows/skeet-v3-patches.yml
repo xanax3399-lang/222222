@@ -72,6 +72,7 @@ jobs:
             gamesense-csgo/reports/*validation.json
       - name: Publish bounded compiler evidence
         if: always()
+        continue-on-error: true
         env:
           CI_JOB_STATUS: ${{ job.status }}
           SKEET_RELEASE_SERIES: v3
@@ -134,6 +135,7 @@ jobs:
           ./gamesense-csgo/tests/check_report_watcher.ps1 -Runtime dist/runtime -Fixture dist/csgo.exe *> gamesense-csgo/build/windows-reports.log
       - name: Publish bounded Windows evidence
         if: always()
+        continue-on-error: true
         env:
           CI_JOB_STATUS: ${{ job.status }}
           SKEET_RELEASE_SERIES: v3
