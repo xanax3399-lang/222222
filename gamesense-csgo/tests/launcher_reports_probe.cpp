@@ -9,7 +9,9 @@ int wmain(int argc,wchar_t** argv) {
         wchar_t path[32768]{};const DWORD n=GetModuleFileNameW(nullptr,path,32768);
         if(!n||n>=32768)return 3;
         const auto dll=launcher_reports::beside(path,L"skeet.dll");
-        return _wcsicmp(launcher_reports::latest(dll.c_str()).c_str(),argv[2])?1:0;
+        wchar_t expected[32768]{};
+        if(!GetFullPathNameW(argv[2],32768,expected,nullptr))return 4;
+        return _wcsicmp(launcher_reports::latest(dll.c_str()).c_str(),expected)?1:0;
     }
     if(argc!=4||_wcsicmp(argv[1],L"--probe-start"))return production_loader_main(argc,argv);
     DWORD pid=0;if(!launcher_reports::number(argv[2],pid)||!pid)return 2;

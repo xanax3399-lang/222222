@@ -50,6 +50,7 @@ try {
     $watcherId=[int]([IO.File]::ReadAllText($started).Trim())
     if($watcherId -eq 0){throw 'No hidden monitor was spawned'}
     $watcher=[Diagnostics.Process]::GetProcessById($watcherId)
+    [void]$watcher.Handle # Keep a real handle so ExitCode remains available after exit.
     $parentLog=[IO.File]::ReadAllText((Join-Path $Runtime 'report-probe.log'))
     if($parentLog -notmatch 'Parent log restored' -or $parentLog -match 'Automatic snapshot:') {throw 'Initial snapshot damaged the parent startup log'}
     $deadline=[DateTime]::UtcNow.AddSeconds(15)
@@ -71,7 +72,7 @@ try {
     New-Item -ItemType Directory -Path $blockedTemp -Force | Out-Null
     if(!$active.WaitForExit(15000) -or !$watcher.WaitForExit(15000)){throw 'Watcher did not end with its target'}
     if($active.ExitCode -ne 0 -or $watcher.ExitCode -ne 0){throw 'Fixture or watcher failed'}
-    $fallback=Join-Path $env:LOCALAPPDATA 'GameSenseLegacy8802/Reports/module_diagnostics.log'
+    $fallback=[IO.Path]::GetFullPath((Join-Path $env:LOCALAPPDATA 'GameSenseLegacy8802/Reports/module_diagnostics.log'))
     if(!(Test-Path -LiteralPath $fallback)){throw 'Fallback report was not written'}
     $report=[IO.File]::ReadAllText($fallback)
     if($report -notmatch 'Automatic snapshot: ([2-9]|\d{2,})' -or
@@ -89,6 +90,13 @@ try {
     }
     Write-Host 'PASS: menu persistence, actual DLL reads, periodic counters, identity, duplicate watcher, process exit and retained last report.'
     Write-Host 'The fixture is not CS:GO; gameplay was not executed.'
+} catch {
+    Write-Host ('REPORT TEST FAILURE: ' + $_.Exception.Message)
+    Write-Host $_.ScriptStackTrace
+    foreach($candidate in @($log,(Join-Path $env:LOCALAPPDATA 'GameSenseLegacy8802/Reports/module_diagnostics.log'))) {
+        if(Test-Path -LiteralPath $candidate){Write-Host ('REPORT CONTENT: ' + $candidate);Get-Content -LiteralPath $candidate -Tail 45}
+    }
+    throw
 } finally {
     if($watcher -and !$watcher.HasExited){Stop-Process -Id $watcher.Id -ErrorAction SilentlyContinue}
     if($active -and !$active.HasExited){Stop-Process -Id $active.Id -ErrorAction SilentlyContinue}

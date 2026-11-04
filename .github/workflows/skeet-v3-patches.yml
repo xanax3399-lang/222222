@@ -1,7 +1,7 @@
 name: Skeet v3 CS:GO patches DLL
 on:
   push:
-    branches: [codex/skeet-v3-patches, codex/skeet-v3-auto-reports-release]
+    branches: [codex/skeet-v3-patches, 'codex/skeet-v3-auto-reports*']
     paths: ['gamesense-csgo/**', '.github/workflows/skeet-v3-patches.yml']
   workflow_dispatch:
 permissions:
