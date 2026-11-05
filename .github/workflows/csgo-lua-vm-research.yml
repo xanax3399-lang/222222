@@ -1,0 +1,67 @@
+name: CS GO original Lua VM offline research
+on:
+  push:
+    branches: ['codex/csgo-lua-vm-research*']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  vm:
+    runs-on: windows-2025
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x86
+      - name: Download pinned native module build
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force dist, gamesense-csgo/build | Out-Null
+          $url='https://github.com/xanax3399-lang/222222/releases/download/skeet-v3-patches-dll-58f2ec053d170e4756b820798172d462c82527a5/skeet-v3-patches-windows.zip'
+          Invoke-WebRequest $url -OutFile dist/native.zip
+          Expand-Archive dist/native.zip dist/runtime
+          $info=Get-Content dist/runtime/BUILD_INFO.json -Raw | ConvertFrom-Json
+          if($info.source_commit -ne '58f2ec053d170e4756b820798172d462c82527a5'){throw 'Wrong source artifact'}
+          $hashes=Get-Content dist/runtime/SHA256SUMS.json -Raw | ConvertFrom-Json
+          if((Get-FileHash dist/runtime/skeet.dll -Algorithm SHA256).Hash.ToLower() -ne $hashes.'skeet.dll'){throw 'DLL digest mismatch'}
+      - name: Compile offline VM probe
+        shell: cmd
+        run: cl /nologo /std:c++17 /EHsc /MT /W4 /WX gamesense-csgo\recovery\runtime-analysis\gs_vm_probe.cpp /Fe:dist\gs_vm_probe.exe /Fo:dist\gs_vm_probe.obj > gamesense-csgo\build\gs-vm-compile.log 2>&1
+      - name: Execute only original Lua subsystem
+        shell: pwsh
+        run: |
+          $dll=(Resolve-Path dist/runtime/skeet.dll).Path
+          $out=Join-Path $PWD 'gamesense-csgo/build/gs-vm.log'
+          $err=Join-Path $PWD 'gamesense-csgo/build/gs-vm-stderr.log'
+          $process=Start-Process dist/gs_vm_probe.exe -ArgumentList ('"'+$dll+'"') -PassThru -RedirectStandardOutput $out -RedirectStandardError $err
+          [void]$process.Handle
+          if(!$process.WaitForExit(25000)){$process.Kill();throw 'VM experiment timeout'}
+          Get-Content $out
+          $code=$process.ExitCode
+          if($code -ne 0){throw "Offline VM experiment exited $code"}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gs-vm-evidence
+          path: gamesense-csgo/build/gs-vm*.log
+  evidence:
+    if: always()
+    needs: vm
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: gs-vm-evidence
+          path: gamesense-csgo/build
+      - name: Publish bounded research evidence
+        env:
+          CI_JOB_STATUS: ${{ needs.vm.result }}
+          SKEET_RELEASE_SERIES: v3
+          SKEET_CI_LABEL: gs-vm
+        run: python gamesense-csgo/publish_ci_status.py
