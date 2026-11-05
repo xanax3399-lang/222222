@@ -42,6 +42,13 @@ config='[points]\nhead_scale_percent=80\nbody_scale_percent=80\nreduced_head=0\n
 if args.v3:
     readme='''Skeet v3 / CS:GO Legacy 8802
 
+GS + NL API BRIDGE 0.1.0
+Это частичная совместимость с публичным NL CS:GO Lua API, не полный API NL.
+Инструкция: GSNL_README_RU.md. Справочник: GSNL_API.md и gsnl_api_manifest.json.
+Загрузчик и пример находятся в lua/. Мост требует штатного доступа GS к FFI.
+Реализация встроена в DLL; Lua-загрузчик подключается к уже загруженной DLL.
+API GS сохраняется. Новых хуков стрельбы/DT мост не добавляет.
+
 Пункт 2 сохраняет поведение v2. Пункт 3 включает v3: дополнительные точки головы,
 проверку после коррекции точки выстрела; recharge DT по умолчанию штатный GS. Командный запуск:
     injector.exe --mode v3-patches
@@ -93,13 +100,21 @@ for name in ['points_bridge_validation.json','points_validation.json','points_dl
              'stop_math_validation.json','stop_bridge_validation.json']:
     files['reports/'+name]=(ROOT/'reports'/name).read_bytes()
 if args.v3:
-    for name in ['v3_head_validation.json','v3_fire_validation.json']:
+    for name in ['v3_head_validation.json','v3_fire_validation.json','api_bridge_validation.json']:
         files['reports/'+name]=(ROOT/'reports'/name).read_bytes()
+    for name in ['gsnl.lua','gsnl_example.lua']:
+        files['lua/'+name]=(ROOT/'lua'/name).read_bytes()
+    for name in ['GSNL_API.md','gsnl_api_manifest.json']:
+        files[name]=(ROOT/'build'/name).read_bytes()
+    files['GSNL_README_RU.md']=(ROOT/'api/README_RU.md').read_bytes()
+    files['api/gsnl_native.h']=(ROOT/'source/api_bridge/native.h').read_bytes()
 if args.v3:files['BUILD_INFO.json']=(json.dumps({'series':'v3','source_commit':os.environ.get('GITHUB_SHA'),
     'frozen_v2_base':'72aa34f0956c619ba5f24c9e5c19c6dabf7fd7ff',
     'v3_patches':['record_head_crown','late_eye_hitchance_guard','guarded_dt_recharge'],
     'automatic_reports':True,'loader_patch_switches':True,
-    'shooting_source_base':'2a8dce368230252a5c5d5b6d7391c4aea21c76e1',
+    'api_bridge_revision':1,'api_bridge_version':'0.1.0','full_neverlose_api':False,
+    'real_gamesense_lua_loader_tested':False,
+    'shooting_source_base':'bb2cce750ec83af2d6596303046b2a0521c98639',
     'dt_recharge_revision':2,'early_recharge_default':False,
     'native_pending_shot_and_cooldown_retained':True,
     'full_nl_recharge_port':False,

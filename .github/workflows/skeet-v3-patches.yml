@@ -1,7 +1,7 @@
 name: Skeet v3 CS:GO patches DLL
 on:
   push:
-    branches: [codex/skeet-v3-patches, 'codex/skeet-v3-auto-reports*', 'codex/skeet-v3-dt-recharge*']
+    branches: [codex/skeet-v3-patches, 'codex/skeet-v3-auto-reports*', 'codex/skeet-v3-dt-recharge*', 'codex/skeet-v3-api-bridge*']
     paths: ['gamesense-csgo/**', '.github/workflows/skeet-v3-patches.yml']
   workflow_dispatch:
 permissions:
@@ -42,6 +42,8 @@ jobs:
           python gamesense-csgo/tests/validate_points_contract.py
           python gamesense-csgo/tests/validate_stop_bridge.py --donor donor/neverlose-csgo/neverlose/bins/nl.bin
           python gamesense-csgo/tests/validate_fire_bridge.py
+      - name: Execute embedded API bridge and bootstrap in LuaJIT
+        run: python gamesense-csgo/tests/validate_api_bridge.py
       - name: Check retained loader, resource, animation and crash paths
         working-directory: gamesense-csgo
         run: |
@@ -104,6 +106,12 @@ jobs:
       - name: Load actual x86 DLL and inspect exports
         shell: cmd
         run: dist\dll_load_smoke.exe "%CD%\dist\runtime\skeet.dll"
+      - name: Compile native API bridge probe
+        shell: cmd
+        run: cl /nologo /std:c++17 /EHsc /MT /W4 /WX gamesense-csgo\tests\api_bridge_smoke.cpp /Fe:dist\api_bridge_smoke.exe /Fo:dist\api_bridge_smoke.obj
+      - name: Inspect actual native API exports and embedded source
+        shell: cmd
+        run: dist\api_bridge_smoke.exe "%CD%\dist\runtime\skeet.dll"
       - name: Check injector argument handling
         shell: pwsh
         run: |
@@ -163,6 +171,8 @@ jobs:
 
           Loader update: reports are saved automatically after successful initialization, then every 10 seconds by a separate read-only monitor until CS:GO exits. Menu 8 opens the latest report, including a LocalAppData fallback if the loader directory is not writable. Menu 7 toggles the three v3 patches and automatic reports; changes apply after a full game restart. DT recharge revision 2 restores native pending-shot and cooldown guards; other shooting features are unchanged. These counters do not classify aim_miss reasons.
 
+          New: GSNL 0.1.0 is a partial CS:GO Lua API bridge. The DLL hosts its adapter and native math/read-only diagnostic ABI; lua/gsnl.lua attaches to an already-loaded matching DLL with existing GS FFI permission. Original GS globals remain accessible. The archive includes installation instructions, an example, and a pinned symbol inventory with supported/partial/unavailable statuses. This is not a full Neverlose API/runtime or a port of its internal systems. DT force_charge/force_teleport, animation states and NetChannel are unavailable. Gameplay and the real GS Lua loader are not tested in CI.
+
           V3 adds up to three samples near the upper cap of the selected record's head capsule. This is an independently written geometric extension, not a full NL scanner port. Native candidates, primary center, three-matrix checks, GS damage and hitchance remain. Mode 2 is checked against captured v2 point fixtures.
 
           New in menu 3: late_eye_guard=1 repeats native GS hitchance if the firing origin/selected point changes after initial HC and vetoes an automatic shot on a failed/zero result. DT key release, queued bursts and existing manual attacks are exempt. Unchanged geometry incurs no second HC. This is an estimate, not knowledge of a server outcome.
@@ -179,5 +189,5 @@ jobs:
           if gh release view "$tag" >/dev/null 2>&1; then
             gh release upload "$tag" dist/skeet-v3-patches-windows.zip dist/skeet.dll dist/injector.exe --clobber
           else
-            gh release create "$tag" dist/skeet-v3-patches-windows.zip dist/skeet.dll dist/injector.exe --target "$SOURCE_SHA" --prerelease --title 'Skeet v3 / CS:GO / restore native DT recharge guards' --notes-file /tmp/points-release-notes.md
+            gh release create "$tag" dist/skeet-v3-patches-windows.zip dist/skeet.dll dist/injector.exe --target "$SOURCE_SHA" --prerelease --title 'Skeet v3 / CS:GO / GS + NL partial Lua API bridge' --notes-file /tmp/points-release-notes.md
           fi

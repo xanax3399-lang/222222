@@ -1,0 +1,1925 @@
+{
+  "source": "https://github.com/k6w/neverlose-development",
+  "revision": "280ddfb42c437375a02240a64418384aff9de5cb",
+  "official_reference": "https://docs-csgo.neverlose.cc",
+  "scope": "Factual names/signatures from third-party type definitions; not official implementation or proof of runtime behavior. Bundled third-party modules excluded.",
+  "symbols": [
+    {
+      "name": "print",
+      "arguments": "text, ...",
+      "kind": "function",
+      "source_file": "_meta.lua"
+    },
+    {
+      "name": "print_error",
+      "arguments": "text, ...",
+      "kind": "function",
+      "source_file": "_meta.lua"
+    },
+    {
+      "name": "print_chat",
+      "arguments": "text, ...",
+      "kind": "function",
+      "source_file": "_meta.lua"
+    },
+    {
+      "name": "print_raw",
+      "arguments": "text, ...",
+      "kind": "function",
+      "source_file": "_meta.lua"
+    },
+    {
+      "name": "print_dev",
+      "arguments": "text, ...",
+      "kind": "function",
+      "source_file": "_meta.lua"
+    },
+    {
+      "name": "to_ticks",
+      "arguments": "time",
+      "kind": "function",
+      "source_file": "_meta.lua"
+    },
+    {
+      "name": "to_time",
+      "arguments": "ticks",
+      "kind": "function",
+      "source_file": "_meta.lua"
+    },
+    {
+      "name": "NLClass:struct",
+      "arguments": "name",
+      "kind": "method",
+      "source_file": "_meta.lua"
+    },
+    {
+      "name": "new_class",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "_meta.lua"
+    },
+    {
+      "name": "bit.arshift",
+      "arguments": "x, n",
+      "kind": "function",
+      "source_file": "bit.lua"
+    },
+    {
+      "name": "bit.band",
+      "arguments": "x1, x2, ...",
+      "kind": "function",
+      "source_file": "bit.lua"
+    },
+    {
+      "name": "bit.bnot",
+      "arguments": "x",
+      "kind": "function",
+      "source_file": "bit.lua"
+    },
+    {
+      "name": "bit.bor",
+      "arguments": "x1, x2, ...",
+      "kind": "function",
+      "source_file": "bit.lua"
+    },
+    {
+      "name": "bit.bswap",
+      "arguments": "x",
+      "kind": "function",
+      "source_file": "bit.lua"
+    },
+    {
+      "name": "bit.bxor",
+      "arguments": "x1, ...",
+      "kind": "function",
+      "source_file": "bit.lua"
+    },
+    {
+      "name": "bit.lshift",
+      "arguments": "x, n",
+      "kind": "function",
+      "source_file": "bit.lua"
+    },
+    {
+      "name": "bit.rol",
+      "arguments": "x, n",
+      "kind": "function",
+      "source_file": "bit.lua"
+    },
+    {
+      "name": "bit.ror",
+      "arguments": "x, n",
+      "kind": "function",
+      "source_file": "bit.lua"
+    },
+    {
+      "name": "bit.rshift",
+      "arguments": "x, n",
+      "kind": "function",
+      "source_file": "bit.lua"
+    },
+    {
+      "name": "bit.tobit",
+      "arguments": "x",
+      "kind": "function",
+      "source_file": "bit.lua"
+    },
+    {
+      "name": "bit.tohex",
+      "arguments": "x, n",
+      "kind": "function",
+      "source_file": "bit.lua"
+    },
+    {
+      "name": "color:clone",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "color.lua"
+    },
+    {
+      "name": "color:init",
+      "arguments": "r, g, b, a",
+      "kind": "method",
+      "source_file": "color.lua"
+    },
+    {
+      "name": "color:as_fraction",
+      "arguments": "r, g, b, a",
+      "kind": "method",
+      "source_file": "color.lua"
+    },
+    {
+      "name": "color:as_int32",
+      "arguments": "value",
+      "kind": "method",
+      "source_file": "color.lua"
+    },
+    {
+      "name": "color:as_hsv",
+      "arguments": "h, s, v, a",
+      "kind": "method",
+      "source_file": "color.lua"
+    },
+    {
+      "name": "color:as_hsl",
+      "arguments": "h, s, l, a",
+      "kind": "method",
+      "source_file": "color.lua"
+    },
+    {
+      "name": "color:to_fraction",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "color.lua"
+    },
+    {
+      "name": "color:to_hex",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "color.lua"
+    },
+    {
+      "name": "color:to_int32",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "color.lua"
+    },
+    {
+      "name": "color:to_hsv",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "color.lua"
+    },
+    {
+      "name": "color:to_hsl",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "color.lua"
+    },
+    {
+      "name": "color:lerp",
+      "arguments": "other, weight",
+      "kind": "method",
+      "source_file": "color.lua"
+    },
+    {
+      "name": "color:grayscale",
+      "arguments": "weight",
+      "kind": "method",
+      "source_file": "color.lua"
+    },
+    {
+      "name": "color:alpha_modulate",
+      "arguments": "alpha",
+      "kind": "method",
+      "source_file": "color.lua"
+    },
+    {
+      "name": "color:unpack",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "color.lua"
+    },
+    {
+      "name": "color",
+      "arguments": "r, g, b, a",
+      "kind": "function",
+      "source_file": "color.lua"
+    },
+    {
+      "name": "common.get_date",
+      "arguments": "format, unix_time",
+      "kind": "function",
+      "source_file": "common.lua"
+    },
+    {
+      "name": "common.get_unixtime",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "common.lua"
+    },
+    {
+      "name": "common.get_timestamp",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "common.lua"
+    },
+    {
+      "name": "common.get_system_time",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "common.lua"
+    },
+    {
+      "name": "common.get_product_version",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "common.lua"
+    },
+    {
+      "name": "common.get_game_directory",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "common.lua"
+    },
+    {
+      "name": "common.get_map_data",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "common.lua"
+    },
+    {
+      "name": "common.get_username",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "common.lua"
+    },
+    {
+      "name": "common.get_config_name",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "common.lua"
+    },
+    {
+      "name": "common.get_active_scripts",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "common.lua"
+    },
+    {
+      "name": "common.get_mouse_wheel_delta",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "common.lua"
+    },
+    {
+      "name": "common.is_in_thirdperson",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "common.lua"
+    },
+    {
+      "name": "common.reload_script",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "common.lua"
+    },
+    {
+      "name": "common.unload_script",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "common.lua"
+    },
+    {
+      "name": "common.force_full_update",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "common.lua"
+    },
+    {
+      "name": "common.set_clan_tag",
+      "arguments": "text",
+      "kind": "function",
+      "source_file": "common.lua"
+    },
+    {
+      "name": "common.set_name",
+      "arguments": "text",
+      "kind": "function",
+      "source_file": "common.lua"
+    },
+    {
+      "name": "common.add_event",
+      "arguments": "text, icon_name",
+      "kind": "function",
+      "source_file": "common.lua"
+    },
+    {
+      "name": "common.add_notify",
+      "arguments": "title, text, duration",
+      "kind": "function",
+      "source_file": "common.lua"
+    },
+    {
+      "name": "common.is_button_down",
+      "arguments": "key",
+      "kind": "function",
+      "source_file": "common.lua"
+    },
+    {
+      "name": "common.is_button_released",
+      "arguments": "key",
+      "kind": "function",
+      "source_file": "common.lua"
+    },
+    {
+      "name": "cvar_object:call",
+      "arguments": "...",
+      "kind": "method",
+      "source_file": "cvar.lua"
+    },
+    {
+      "name": "cvar_object:int",
+      "arguments": "value, raw",
+      "kind": "method",
+      "source_file": "cvar.lua"
+    },
+    {
+      "name": "cvar_object:float",
+      "arguments": "value, raw",
+      "kind": "method",
+      "source_file": "cvar.lua"
+    },
+    {
+      "name": "cvar_object:string",
+      "arguments": "value",
+      "kind": "method",
+      "source_file": "cvar.lua"
+    },
+    {
+      "name": "cvar_object:set_callback",
+      "arguments": "callback",
+      "kind": "method",
+      "source_file": "cvar.lua"
+    },
+    {
+      "name": "cvar_object:unset_callback",
+      "arguments": "callback",
+      "kind": "method",
+      "source_file": "cvar.lua"
+    },
+    {
+      "name": "entity.get",
+      "arguments": "idx, by_userid",
+      "kind": "function",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity.get_local_player",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity.get_players",
+      "arguments": "enemies_only, include_dormant, callback",
+      "kind": "function",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity.get_entities",
+      "arguments": "class, include_dormant, callback",
+      "kind": "function",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity.get_threat",
+      "arguments": "hittable",
+      "kind": "function",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity.get_game_rules",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity.get_player_resource",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:is_player",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:is_weapon",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:is_dormant",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:is_bot",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:is_alive",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:is_enemy",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:is_visible",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:is_occluded",
+      "arguments": "to_entity",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_index",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_name",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_origin",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_angles",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_simulation_time",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_classname",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_classid",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_materials",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_model_name",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_network_state",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_bbox",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_player_info",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_player_weapon",
+      "arguments": "all_weapons",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_anim_state",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_anim_overlay",
+      "arguments": "idx",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_eye_position",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_bone_position",
+      "arguments": "idx",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_hitbox_position",
+      "arguments": "idx",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_steam_avatar",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_xuid",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_resource",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_spectators",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:set_icon",
+      "arguments": "icon",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:simulate_movement",
+      "arguments": "origin, velocity, flags",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_weapon_index",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_weapon_icon",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_weapon_info",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_weapon_owner",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_weapon_reload",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_max_speed",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_spread",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "entity:get_inaccuracy",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "sim_ctx:think",
+      "arguments": "ticks",
+      "kind": "method",
+      "source_file": "entity.lua"
+    },
+    {
+      "name": "esp_class:new_text",
+      "arguments": "name, preview, callback",
+      "kind": "method",
+      "source_file": "esp.lua"
+    },
+    {
+      "name": "esp_class:new_bar",
+      "arguments": "name, callback",
+      "kind": "method",
+      "source_file": "esp.lua"
+    },
+    {
+      "name": "esp_class:new_item",
+      "arguments": "name",
+      "kind": "method",
+      "source_file": "esp.lua"
+    },
+    {
+      "name": "ESPGroup:get",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "esp.lua"
+    },
+    {
+      "name": "ESPGroup:set",
+      "arguments": "value",
+      "kind": "method",
+      "source_file": "esp.lua"
+    },
+    {
+      "name": "ESPGroup:name",
+      "arguments": "value",
+      "kind": "method",
+      "source_file": "esp.lua"
+    },
+    {
+      "name": "ESPGroup:create",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "esp.lua"
+    },
+    {
+      "name": "events.render",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.render_glow",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.override_view",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.createmove",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.createmove_run",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.aim_fire",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.aim_ack",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.bullet_fire",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.console_input",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.draw_model",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.level_init",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.pre_render",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.post_render",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.net_update_start",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.net_update_end",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.config_state",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.mouse_input",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.shutdown",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.pre_update_clientside_animation",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.post_update_clientside_animation",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.grenade_override_view",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.grenade_warning",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.grenade_prediction",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.localplayer_transparency",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.voice_message",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.player_hurt",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.player_death",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.weapon_fire",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.round_start",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.round_end",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "events.bullet_impact",
+      "kind": "event",
+      "source_file": "events.lua"
+    },
+    {
+      "name": "files.create_folder",
+      "arguments": "path",
+      "kind": "function",
+      "source_file": "files.lua"
+    },
+    {
+      "name": "files.read",
+      "arguments": "path",
+      "kind": "function",
+      "source_file": "files.lua"
+    },
+    {
+      "name": "files.write",
+      "arguments": "path, contents, is_binary",
+      "kind": "function",
+      "source_file": "files.lua"
+    },
+    {
+      "name": "files.get_crc32",
+      "arguments": "path",
+      "kind": "function",
+      "source_file": "files.lua"
+    },
+    {
+      "name": "globals.curtime",
+      "kind": "property",
+      "source_file": "globals.lua"
+    },
+    {
+      "name": "globals.realtime",
+      "kind": "property",
+      "source_file": "globals.lua"
+    },
+    {
+      "name": "globals.frametime",
+      "kind": "property",
+      "source_file": "globals.lua"
+    },
+    {
+      "name": "globals.framecount",
+      "kind": "property",
+      "source_file": "globals.lua"
+    },
+    {
+      "name": "globals.absoluteframetime",
+      "kind": "property",
+      "source_file": "globals.lua"
+    },
+    {
+      "name": "globals.tickcount",
+      "kind": "property",
+      "source_file": "globals.lua"
+    },
+    {
+      "name": "globals.tickinterval",
+      "kind": "property",
+      "source_file": "globals.lua"
+    },
+    {
+      "name": "globals.max_players",
+      "kind": "property",
+      "source_file": "globals.lua"
+    },
+    {
+      "name": "globals.is_connected",
+      "kind": "property",
+      "source_file": "globals.lua"
+    },
+    {
+      "name": "globals.is_in_game",
+      "kind": "property",
+      "source_file": "globals.lua"
+    },
+    {
+      "name": "globals.choked_commands",
+      "kind": "property",
+      "source_file": "globals.lua"
+    },
+    {
+      "name": "globals.commandack",
+      "kind": "property",
+      "source_file": "globals.lua"
+    },
+    {
+      "name": "globals.commandack_prev",
+      "kind": "property",
+      "source_file": "globals.lua"
+    },
+    {
+      "name": "globals.last_outgoing_command",
+      "kind": "property",
+      "source_file": "globals.lua"
+    },
+    {
+      "name": "globals.server_tick",
+      "kind": "property",
+      "source_file": "globals.lua"
+    },
+    {
+      "name": "globals.client_tick",
+      "kind": "property",
+      "source_file": "globals.lua"
+    },
+    {
+      "name": "globals.delta_tick",
+      "kind": "property",
+      "source_file": "globals.lua"
+    },
+    {
+      "name": "globals.clock_offset",
+      "kind": "property",
+      "source_file": "globals.lua"
+    },
+    {
+      "name": "json.parse",
+      "arguments": "json_text",
+      "kind": "function",
+      "source_file": "json.lua"
+    },
+    {
+      "name": "json.stringify",
+      "arguments": "value",
+      "kind": "function",
+      "source_file": "json.lua"
+    },
+    {
+      "name": "Material:get_name",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "materials.lua"
+    },
+    {
+      "name": "Material:get_texture_group_name",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "materials.lua"
+    },
+    {
+      "name": "Material:var_flag",
+      "arguments": "flag, value",
+      "kind": "method",
+      "source_file": "materials.lua"
+    },
+    {
+      "name": "Material:shader_param",
+      "arguments": "name, value",
+      "kind": "method",
+      "source_file": "materials.lua"
+    },
+    {
+      "name": "Material:color_modulate",
+      "arguments": "color",
+      "kind": "method",
+      "source_file": "materials.lua"
+    },
+    {
+      "name": "Material:alpha_modulate",
+      "arguments": "alpha",
+      "kind": "method",
+      "source_file": "materials.lua"
+    },
+    {
+      "name": "Material:is_valid",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "materials.lua"
+    },
+    {
+      "name": "Material:reset",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "materials.lua"
+    },
+    {
+      "name": "Material:override",
+      "arguments": "mat",
+      "kind": "method",
+      "source_file": "materials.lua"
+    },
+    {
+      "name": "materials.get",
+      "arguments": "path, force_load",
+      "kind": "function",
+      "source_file": "materials.lua"
+    },
+    {
+      "name": "materials.get_materials",
+      "arguments": "partial_path, force_load, callback",
+      "kind": "function",
+      "source_file": "materials.lua"
+    },
+    {
+      "name": "materials.create",
+      "arguments": "name, key_values",
+      "kind": "function",
+      "source_file": "materials.lua"
+    },
+    {
+      "name": "math.clamp",
+      "arguments": "value, min, max",
+      "kind": "function",
+      "source_file": "math_ext.lua"
+    },
+    {
+      "name": "math.map",
+      "arguments": "value, in_from, in_to, out_from, out_to, should_clamp",
+      "kind": "function",
+      "source_file": "math_ext.lua"
+    },
+    {
+      "name": "math.normalize_yaw",
+      "arguments": "x",
+      "kind": "function",
+      "source_file": "math_ext.lua"
+    },
+    {
+      "name": "math.difference",
+      "arguments": "a, b",
+      "kind": "function",
+      "source_file": "math_ext.lua"
+    },
+    {
+      "name": "network.get",
+      "arguments": "url, headers, callback",
+      "kind": "function",
+      "source_file": "network.lua"
+    },
+    {
+      "name": "network.post",
+      "arguments": "url, data, headers, callback",
+      "kind": "function",
+      "source_file": "network.lua"
+    },
+    {
+      "name": "panorama.loadstring",
+      "arguments": "js_code, panel",
+      "kind": "function",
+      "source_file": "panorama.lua"
+    },
+    {
+      "name": "rage_antiaim:get_max_desync",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "rage.lua"
+    },
+    {
+      "name": "rage_antiaim:get_rotation",
+      "arguments": "value",
+      "kind": "method",
+      "source_file": "rage.lua"
+    },
+    {
+      "name": "rage_antiaim:get_target",
+      "arguments": "return_fr",
+      "kind": "method",
+      "source_file": "rage.lua"
+    },
+    {
+      "name": "rage_antiaim:inverter",
+      "arguments": "value",
+      "kind": "method",
+      "source_file": "rage.lua"
+    },
+    {
+      "name": "rage_antiaim:override_hidden_pitch",
+      "arguments": "value",
+      "kind": "method",
+      "source_file": "rage.lua"
+    },
+    {
+      "name": "rage_antiaim:override_hidden_yaw_offset",
+      "arguments": "value",
+      "kind": "method",
+      "source_file": "rage.lua"
+    },
+    {
+      "name": "rage_exploit:get",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "rage.lua"
+    },
+    {
+      "name": "rage_exploit:allow_charge",
+      "arguments": "value",
+      "kind": "method",
+      "source_file": "rage.lua"
+    },
+    {
+      "name": "rage_exploit:allow_defensive",
+      "arguments": "value",
+      "kind": "method",
+      "source_file": "rage.lua"
+    },
+    {
+      "name": "rage_exploit:force_teleport",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "rage.lua"
+    },
+    {
+      "name": "rage_exploit:force_charge",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "rage.lua"
+    },
+    {
+      "name": "FontObject:set_size",
+      "arguments": "size",
+      "kind": "method",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.screen_size",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.camera_position",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.camera_angles",
+      "arguments": "angles",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.world_to_screen",
+      "arguments": "position",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.get_offscreen",
+      "arguments": "position, radius, accurate",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.get_pixel",
+      "arguments": "position",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.load_font",
+      "arguments": "name, size, flags",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.load_image",
+      "arguments": "contents, size",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.load_image_rgba",
+      "arguments": "contents, size",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.load_image_from_file",
+      "arguments": "path, size",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.measure_text",
+      "arguments": "font, flags, text",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.highlight_hitbox",
+      "arguments": "entity, hitbox, color",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.get_scale",
+      "arguments": "type",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.blur",
+      "arguments": "position_a, position_b, strength, alpha, rounding",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.line",
+      "arguments": "position_a, position_b, color, thickness",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.poly",
+      "arguments": "color, positions, ...",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.poly_blur",
+      "arguments": "opacity, strength, positions, ...",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.poly_line",
+      "arguments": "color, positions, ...",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.rect",
+      "arguments": "position_a, position_b, color, rounding, no_clamp",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.rect_outline",
+      "arguments": "position_a, position_b, color, thickness, rounding, no_clamp",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.gradient",
+      "arguments": "position_a, position_b, top_left, top_right, bottom_left, bottom_right, rounding",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.circle",
+      "arguments": "position, color, radius, start_deg, pct",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.circle_outline",
+      "arguments": "position, color, radius, start_deg, pct, thickness",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.circle_gradient",
+      "arguments": "position, color_outer, color_inner, radius, start_deg, pct",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.circle_3d",
+      "arguments": "position, color, radius, start_deg, pct, outline",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.circle_3d_outline",
+      "arguments": "position, color, radius, start_deg, pct, thickness",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.circle_3d_gradient",
+      "arguments": "position, color_outer, color_inner, radius, start_deg, pct",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.text",
+      "arguments": "font, position, color, flags, text, ...",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.texture",
+      "arguments": "texture, position, size, color, mode, rounding",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.push_rotation",
+      "arguments": "degrees, center",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.pop_rotation",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.push_clip_rect",
+      "arguments": "pos_a, pos_b, intersect",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.pop_clip_rect",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "render.shadow",
+      "arguments": "pos_a, pos_b, clr, thickness, offset, rounding",
+      "kind": "function",
+      "source_file": "render.lua"
+    },
+    {
+      "name": "ui.get_alpha",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "ui.get_size",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "ui.get_position",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "ui.get_mouse_position",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "ui.get_binds",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "ui.get_style",
+      "arguments": "name",
+      "kind": "function",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "ui.get_icon",
+      "arguments": "name",
+      "kind": "function",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "ui.create",
+      "arguments": "group",
+      "kind": "function",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "ui.find",
+      "arguments": "category, tab, group, item",
+      "kind": "function",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "ui.sidebar",
+      "arguments": "name, icon_name",
+      "kind": "function",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "ui.localize",
+      "arguments": "lang, str, localized",
+      "kind": "function",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuGroup:switch",
+      "arguments": "name, init",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuGroup:slider",
+      "arguments": "name, min, max, init, scale, tooltip",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuGroup:combo",
+      "arguments": "name, items, ...",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuGroup:selectable",
+      "arguments": "name, items, ...",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuGroup:color_picker",
+      "arguments": "name, color",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuGroup:button",
+      "arguments": "name, callback, alt_style",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuGroup:hotkey",
+      "arguments": "name, default_key",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuGroup:input",
+      "arguments": "name, text",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuGroup:list",
+      "arguments": "name, items, ...",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuGroup:listable",
+      "arguments": "name, items, ...",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuGroup:label",
+      "arguments": "text",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuGroup:texture",
+      "arguments": "texture, size, color, mode, rounding",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuItem:get",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuItem:id",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuItem:list",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuItem:type",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuItem:override",
+      "arguments": "value, ...",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuItem:get_override",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuItem:update",
+      "arguments": "...",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuItem:reset",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuItem:set",
+      "arguments": "value, ...",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuItem:name",
+      "arguments": "value",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuItem:tooltip",
+      "arguments": "value",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuItem:visibility",
+      "arguments": "state",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuItem:disabled",
+      "arguments": "state",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuItem:set_callback",
+      "arguments": "callback, force_call",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuItem:unset_callback",
+      "arguments": "callback",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuItem:color_picker",
+      "arguments": "color",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuItem:create",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "MenuItem:parent",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "ui.lua"
+    },
+    {
+      "name": "utils.console_exec",
+      "arguments": "cmd, ...",
+      "kind": "function",
+      "source_file": "utils.lua"
+    },
+    {
+      "name": "utils.execute_after",
+      "arguments": "delay, callback, ...",
+      "kind": "function",
+      "source_file": "utils.lua"
+    },
+    {
+      "name": "utils.net_channel",
+      "arguments": "",
+      "kind": "function",
+      "source_file": "utils.lua"
+    },
+    {
+      "name": "utils.trace_line",
+      "arguments": "from, to, skip, mask, type",
+      "kind": "function",
+      "source_file": "utils.lua"
+    },
+    {
+      "name": "utils.trace_hull",
+      "arguments": "from, to, mins, maxs, skip, mask, type",
+      "kind": "function",
+      "source_file": "utils.lua"
+    },
+    {
+      "name": "utils.trace_bullet",
+      "arguments": "from_entity, from, to, skip",
+      "kind": "function",
+      "source_file": "utils.lua"
+    },
+    {
+      "name": "utils.opcode_scan",
+      "arguments": "module, signature, offset",
+      "kind": "function",
+      "source_file": "utils.lua"
+    },
+    {
+      "name": "utils.create_interface",
+      "arguments": "module, interface",
+      "kind": "function",
+      "source_file": "utils.lua"
+    },
+    {
+      "name": "utils.get_netvar_offset",
+      "arguments": "table, prop",
+      "kind": "function",
+      "source_file": "utils.lua"
+    },
+    {
+      "name": "utils.get_vfunc",
+      "arguments": "index, ...",
+      "kind": "function",
+      "source_file": "utils.lua"
+    },
+    {
+      "name": "utils.random_int",
+      "arguments": "min, max",
+      "kind": "function",
+      "source_file": "utils.lua"
+    },
+    {
+      "name": "utils.random_float",
+      "arguments": "min, max",
+      "kind": "function",
+      "source_file": "utils.lua"
+    },
+    {
+      "name": "utils.random_seed",
+      "arguments": "seed",
+      "kind": "function",
+      "source_file": "utils.lua"
+    },
+    {
+      "name": "NetChannel:get_server_info",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "utils.lua"
+    },
+    {
+      "name": "NetChannel:is_valid_packet",
+      "arguments": "flow, frame",
+      "kind": "method",
+      "source_file": "utils.lua"
+    },
+    {
+      "name": "NetChannel:get_packet_time",
+      "arguments": "flow, frame",
+      "kind": "method",
+      "source_file": "utils.lua"
+    },
+    {
+      "name": "NetChannel:get_packet_bytes",
+      "arguments": "flow, frame, group",
+      "kind": "method",
+      "source_file": "utils.lua"
+    },
+    {
+      "name": "NetChannel:get_packet_response_latency",
+      "arguments": "flow, frame",
+      "kind": "method",
+      "source_file": "utils.lua"
+    },
+    {
+      "name": "vector:angles",
+      "arguments": "pitch, yaw",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:ceil",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:clone",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:closest_ray_point",
+      "arguments": "ray_start, ray_end",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:cross",
+      "arguments": "other",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:dist",
+      "arguments": "other",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:dist2d",
+      "arguments": "other",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:dist2dsqr",
+      "arguments": "other",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:distsqr",
+      "arguments": "other",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:dist_to_ray",
+      "arguments": "ray_start, ray_direction",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:dot",
+      "arguments": "other",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:floor",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:in_range",
+      "arguments": "other, range",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:init",
+      "arguments": "x, y, z",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:length",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:length2d",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:length2dsqr",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:lengthsqr",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:lerp",
+      "arguments": "other, weight",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:normalize",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:normalized",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:scale",
+      "arguments": "scalar",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:scaled",
+      "arguments": "scalar",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:to",
+      "arguments": "other",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:to_screen",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:unpack",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector:vectors",
+      "arguments": "",
+      "kind": "method",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "vector",
+      "arguments": "x, y, z",
+      "kind": "function",
+      "source_file": "vector.lua"
+    },
+    {
+      "name": "db",
+      "kind": "namespace",
+      "source_file": "db.lua"
+    },
+    {
+      "name": "cvar",
+      "kind": "namespace",
+      "source_file": "cvar.lua"
+    }
+  ]
+}

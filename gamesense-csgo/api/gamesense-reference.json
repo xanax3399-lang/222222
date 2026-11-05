@@ -1,0 +1,1122 @@
+{
+  "source": "https://github.com/gamesensical/docs",
+  "revision": "5df4ee20158c3b258a3232aef753405d1b74d0c3",
+  "symbols": [
+    {
+      "name": "client.set_event_callback",
+      "arguments": [
+        "event_name",
+        "callback"
+      ]
+    },
+    {
+      "name": "client.unset_event_callback",
+      "arguments": [
+        "event_name",
+        "callback"
+      ]
+    },
+    {
+      "name": "client.log",
+      "arguments": []
+    },
+    {
+      "name": "client.color_log",
+      "arguments": []
+    },
+    {
+      "name": "client.error_log",
+      "arguments": [
+        "msg"
+      ]
+    },
+    {
+      "name": "client.exec",
+      "arguments": []
+    },
+    {
+      "name": "client.userid_to_entindex",
+      "arguments": [
+        "userid"
+      ]
+    },
+    {
+      "name": "client.draw_debug_text",
+      "arguments": [
+        "x",
+        "y",
+        "z",
+        "line_offset",
+        "duration",
+        "r",
+        "g",
+        "b",
+        "a",
+        "..."
+      ]
+    },
+    {
+      "name": "client.draw_hitboxes",
+      "arguments": [
+        "entindex",
+        "duration",
+        "hitboxes",
+        "r",
+        "g",
+        "b",
+        "a",
+        "tick"
+      ]
+    },
+    {
+      "name": "client.random_int",
+      "arguments": [
+        "minimum",
+        "maximum"
+      ]
+    },
+    {
+      "name": "client.random_float",
+      "arguments": [
+        "minimum",
+        "maximum"
+      ]
+    },
+    {
+      "name": "client.screen_size",
+      "arguments": []
+    },
+    {
+      "name": "client.visible",
+      "arguments": [
+        "x",
+        "y",
+        "z"
+      ]
+    },
+    {
+      "name": "client.trace_line",
+      "arguments": [
+        "skip_entindex",
+        "from_x",
+        "from_y",
+        "from_z",
+        "to_x",
+        "to_y",
+        "to_z"
+      ]
+    },
+    {
+      "name": "client.trace_bullet",
+      "arguments": [
+        "from_player",
+        "from_x",
+        "from_y",
+        "from_z",
+        "to_x",
+        "to_y",
+        "to_z",
+        "skip_players"
+      ]
+    },
+    {
+      "name": "client.scale_damage",
+      "arguments": [
+        "entindex",
+        "hitgroup",
+        "damage"
+      ]
+    },
+    {
+      "name": "client.delay_call",
+      "arguments": []
+    },
+    {
+      "name": "client.latency",
+      "arguments": []
+    },
+    {
+      "name": "client.camera_angles",
+      "arguments": [
+        "pitch",
+        "yaw"
+      ]
+    },
+    {
+      "name": "client.camera_position",
+      "arguments": []
+    },
+    {
+      "name": "client.timestamp",
+      "arguments": []
+    },
+    {
+      "name": "client.eye_position",
+      "arguments": []
+    },
+    {
+      "name": "client.set_clan_tag",
+      "arguments": [
+        "..."
+      ]
+    },
+    {
+      "name": "client.system_time",
+      "arguments": []
+    },
+    {
+      "name": "client.unix_time",
+      "arguments": []
+    },
+    {
+      "name": "client.reload_active_scripts",
+      "arguments": []
+    },
+    {
+      "name": "client.create_interface",
+      "arguments": [
+        "module_name",
+        "interface_name"
+      ]
+    },
+    {
+      "name": "client.find_signature",
+      "arguments": [
+        "module_name",
+        "pattern"
+      ]
+    },
+    {
+      "name": "client.key_state",
+      "arguments": [
+        "key"
+      ]
+    },
+    {
+      "name": "client.get_model_name",
+      "arguments": [
+        "model_index"
+      ]
+    },
+    {
+      "name": "client.register_esp_flag",
+      "arguments": [
+        "flag",
+        "r",
+        "g",
+        "b",
+        "callback"
+      ]
+    },
+    {
+      "name": "client.update_player_list",
+      "arguments": []
+    },
+    {
+      "name": "config.load",
+      "arguments": [
+        "name",
+        "tab_name",
+        "container_name"
+      ]
+    },
+    {
+      "name": "config.export",
+      "arguments": []
+    },
+    {
+      "name": "cvar.set_string",
+      "arguments": []
+    },
+    {
+      "name": "cvar.get_string",
+      "arguments": []
+    },
+    {
+      "name": "cvar.set_float",
+      "arguments": []
+    },
+    {
+      "name": "cvar.set_raw_float",
+      "arguments": []
+    },
+    {
+      "name": "cvar.get_float",
+      "arguments": []
+    },
+    {
+      "name": "cvar.set_int",
+      "arguments": []
+    },
+    {
+      "name": "cvar.set_raw_int",
+      "arguments": []
+    },
+    {
+      "name": "cvar.get_int",
+      "arguments": []
+    },
+    {
+      "name": "cvar.invoke_callback",
+      "arguments": [
+        "..."
+      ]
+    },
+    {
+      "name": "database.write",
+      "arguments": [
+        "key_name",
+        "value"
+      ]
+    },
+    {
+      "name": "database.read",
+      "arguments": [
+        "key_name"
+      ]
+    },
+    {
+      "name": "entity.get_local_player",
+      "arguments": []
+    },
+    {
+      "name": "entity.get_all",
+      "arguments": [
+        "classname"
+      ]
+    },
+    {
+      "name": "entity.get_players",
+      "arguments": [
+        "enemies_only"
+      ]
+    },
+    {
+      "name": "entity.get_game_rules",
+      "arguments": []
+    },
+    {
+      "name": "entity.get_player_resource",
+      "arguments": []
+    },
+    {
+      "name": "entity.get_classname",
+      "arguments": [
+        "ent"
+      ]
+    },
+    {
+      "name": "entity.set_prop",
+      "arguments": []
+    },
+    {
+      "name": "entity.get_prop",
+      "arguments": [
+        "ent",
+        "propname",
+        "array_index"
+      ]
+    },
+    {
+      "name": "entity.is_enemy",
+      "arguments": [
+        "ent"
+      ]
+    },
+    {
+      "name": "entity.is_alive",
+      "arguments": [
+        "ent"
+      ]
+    },
+    {
+      "name": "entity.is_dormant",
+      "arguments": []
+    },
+    {
+      "name": "entity.get_player_name",
+      "arguments": [
+        "ent"
+      ]
+    },
+    {
+      "name": "entity.get_player_weapon",
+      "arguments": [
+        "ent"
+      ]
+    },
+    {
+      "name": "entity.hitbox_position",
+      "arguments": [
+        "player",
+        "hitbox"
+      ]
+    },
+    {
+      "name": "entity.get_steam64",
+      "arguments": [
+        "player"
+      ]
+    },
+    {
+      "name": "entity.get_bounding_box",
+      "arguments": [
+        "player"
+      ]
+    },
+    {
+      "name": "entity.get_origin",
+      "arguments": [
+        "ent"
+      ]
+    },
+    {
+      "name": "entity.get_esp_data",
+      "arguments": [
+        "player"
+      ]
+    },
+    {
+      "name": "globals.realtime",
+      "arguments": []
+    },
+    {
+      "name": "globals.curtime",
+      "arguments": []
+    },
+    {
+      "name": "globals.frametime",
+      "arguments": []
+    },
+    {
+      "name": "globals.absoluteframetime",
+      "arguments": []
+    },
+    {
+      "name": "globals.maxplayers",
+      "arguments": []
+    },
+    {
+      "name": "globals.tickcount",
+      "arguments": []
+    },
+    {
+      "name": "globals.tickinterval",
+      "arguments": []
+    },
+    {
+      "name": "globals.framecount",
+      "arguments": []
+    },
+    {
+      "name": "globals.mapname",
+      "arguments": []
+    },
+    {
+      "name": "globals.lastoutgoingcommand",
+      "arguments": []
+    },
+    {
+      "name": "globals.oldcommandack",
+      "arguments": []
+    },
+    {
+      "name": "globals.commandack",
+      "arguments": []
+    },
+    {
+      "name": "globals.chokedcommands",
+      "arguments": []
+    },
+    {
+      "name": "panorama.open",
+      "arguments": [
+        "panel"
+      ]
+    },
+    {
+      "name": "panorama.loadstring",
+      "arguments": [
+        "js_code",
+        "panel"
+      ]
+    },
+    {
+      "name": "materialsystem.get_name",
+      "arguments": []
+    },
+    {
+      "name": "materialsystem.reload",
+      "arguments": []
+    },
+    {
+      "name": "materialsystem.color_modulate",
+      "arguments": [
+        "r",
+        "g",
+        "b"
+      ]
+    },
+    {
+      "name": "materialsystem.alpha_modulate",
+      "arguments": [
+        "a"
+      ]
+    },
+    {
+      "name": "materialsystem.set_shader_param",
+      "arguments": [
+        "shader_param",
+        "value"
+      ]
+    },
+    {
+      "name": "materialsystem.get_shader_param",
+      "arguments": [
+        "shader_param"
+      ]
+    },
+    {
+      "name": "materialsystem.set_material_var_flag",
+      "arguments": [
+        "material_var_flag",
+        "value"
+      ]
+    },
+    {
+      "name": "materialsystem.get_material_var_flag",
+      "arguments": [
+        "material_var_flag"
+      ]
+    },
+    {
+      "name": "materialsystem.find_material",
+      "arguments": [
+        "path",
+        "force_load"
+      ]
+    },
+    {
+      "name": "materialsystem.find_materials",
+      "arguments": [
+        "partial_path",
+        "force_load"
+      ]
+    },
+    {
+      "name": "materialsystem.find_texture",
+      "arguments": [
+        "path"
+      ]
+    },
+    {
+      "name": "materialsystem.get_model_materials",
+      "arguments": [
+        "entindex"
+      ]
+    },
+    {
+      "name": "materialsystem.arms_material",
+      "arguments": []
+    },
+    {
+      "name": "materialsystem.chams_material",
+      "arguments": []
+    },
+    {
+      "name": "materialsystem.override_material",
+      "arguments": [
+        "material",
+        "material_new"
+      ]
+    },
+    {
+      "name": "plist.set",
+      "arguments": [
+        "entindex",
+        "field",
+        "value"
+      ]
+    },
+    {
+      "name": "plist.get",
+      "arguments": [
+        "entindex",
+        "field"
+      ]
+    },
+    {
+      "name": "renderer.text",
+      "arguments": [
+        "x",
+        "y",
+        "r",
+        "g",
+        "b",
+        "a",
+        "flags",
+        "max_width",
+        "..."
+      ]
+    },
+    {
+      "name": "renderer.measure_text",
+      "arguments": [
+        "flags",
+        "..."
+      ]
+    },
+    {
+      "name": "renderer.rectangle",
+      "arguments": [
+        "x",
+        "y",
+        "w",
+        "h",
+        "r",
+        "g",
+        "b",
+        "a"
+      ]
+    },
+    {
+      "name": "renderer.line",
+      "arguments": [
+        "xa",
+        "ya",
+        "xb",
+        "yb",
+        "r",
+        "g",
+        "b",
+        "a"
+      ]
+    },
+    {
+      "name": "renderer.gradient",
+      "arguments": [
+        "x",
+        "y",
+        "w",
+        "h",
+        "r1",
+        "g1",
+        "b1",
+        "a1",
+        "r2",
+        "g2",
+        "b2",
+        "a2",
+        "ltr"
+      ]
+    },
+    {
+      "name": "renderer.circle",
+      "arguments": [
+        "x",
+        "y",
+        "r",
+        "g",
+        "b",
+        "a",
+        "radius",
+        "start_degrees",
+        "percentage"
+      ]
+    },
+    {
+      "name": "renderer.circle_outline",
+      "arguments": [
+        "x",
+        "y",
+        "r",
+        "g",
+        "b",
+        "a",
+        "radius",
+        "start_degrees",
+        "percentage",
+        "thickness"
+      ]
+    },
+    {
+      "name": "renderer.triangle",
+      "arguments": [
+        "x0",
+        "y0",
+        "x1",
+        "y1",
+        "x2",
+        "y2",
+        "r",
+        "g",
+        "b",
+        "a"
+      ]
+    },
+    {
+      "name": "renderer.world_to_screen",
+      "arguments": [
+        "x",
+        "y",
+        "z"
+      ]
+    },
+    {
+      "name": "renderer.indicator",
+      "arguments": [
+        "r",
+        "g",
+        "b",
+        "a",
+        "..."
+      ]
+    },
+    {
+      "name": "renderer.texture",
+      "arguments": []
+    },
+    {
+      "name": "renderer.load_svg",
+      "arguments": [
+        "contents",
+        "width",
+        "height"
+      ]
+    },
+    {
+      "name": "renderer.load_png",
+      "arguments": [
+        "contents",
+        "width",
+        "height"
+      ]
+    },
+    {
+      "name": "renderer.load_jpg",
+      "arguments": [
+        "contents",
+        "width",
+        "height"
+      ]
+    },
+    {
+      "name": "renderer.load_rgba",
+      "arguments": [
+        "contents",
+        "width",
+        "height"
+      ]
+    },
+    {
+      "name": "ui.new_checkbox",
+      "arguments": [
+        "tab",
+        "container",
+        "name"
+      ]
+    },
+    {
+      "name": "ui.new_slider",
+      "arguments": [
+        "tab",
+        "container",
+        "name",
+        "min",
+        "max",
+        "init_value",
+        "show_tooltip",
+        "unit",
+        "scale",
+        "tooltips"
+      ]
+    },
+    {
+      "name": "ui.new_combobox",
+      "arguments": [
+        "tab",
+        "container",
+        "name",
+        "..."
+      ]
+    },
+    {
+      "name": "ui.new_multiselect",
+      "arguments": [
+        "tab",
+        "container",
+        "name",
+        "..."
+      ]
+    },
+    {
+      "name": "ui.new_hotkey",
+      "arguments": [
+        "tab",
+        "container",
+        "name",
+        "inline",
+        "default_hotkey"
+      ]
+    },
+    {
+      "name": "ui.new_button",
+      "arguments": [
+        "tab",
+        "container",
+        "name",
+        "callback"
+      ]
+    },
+    {
+      "name": "ui.new_color_picker",
+      "arguments": [
+        "tab",
+        "container",
+        "name",
+        "r",
+        "g",
+        "b",
+        "a"
+      ]
+    },
+    {
+      "name": "ui.new_textbox",
+      "arguments": [
+        "tab",
+        "container",
+        "name"
+      ]
+    },
+    {
+      "name": "ui.new_listbox",
+      "arguments": [
+        "tab",
+        "container",
+        "name",
+        "items"
+      ]
+    },
+    {
+      "name": "ui.new_string",
+      "arguments": [
+        "name",
+        "default_value"
+      ]
+    },
+    {
+      "name": "ui.new_label",
+      "arguments": [
+        "tab",
+        "container",
+        "name"
+      ]
+    },
+    {
+      "name": "ui.reference",
+      "arguments": [
+        "tab",
+        "container",
+        "name"
+      ]
+    },
+    {
+      "name": "ui.set",
+      "arguments": [
+        "item",
+        "value",
+        "..."
+      ]
+    },
+    {
+      "name": "ui.get",
+      "arguments": [
+        "item"
+      ]
+    },
+    {
+      "name": "ui.set_callback",
+      "arguments": []
+    },
+    {
+      "name": "ui.set_visible",
+      "arguments": []
+    },
+    {
+      "name": "ui.is_menu_open",
+      "arguments": []
+    },
+    {
+      "name": "ui.mouse_position",
+      "arguments": []
+    },
+    {
+      "name": "ui.menu_position",
+      "arguments": []
+    },
+    {
+      "name": "ui.menu_size",
+      "arguments": []
+    },
+    {
+      "name": "ui.name",
+      "arguments": [
+        "item"
+      ]
+    },
+    {
+      "name": "ui.update",
+      "arguments": [
+        "item",
+        "value",
+        "..."
+      ]
+    },
+    {
+      "name": "bit.arshift",
+      "arguments": [
+        "x",
+        "n"
+      ]
+    },
+    {
+      "name": "bit.band",
+      "arguments": [
+        "x1",
+        "x2",
+        "..."
+      ]
+    },
+    {
+      "name": "bit.bnot",
+      "arguments": [
+        "x"
+      ]
+    },
+    {
+      "name": "bit.bor",
+      "arguments": [
+        "x1",
+        "x2",
+        "..."
+      ]
+    },
+    {
+      "name": "bit.bswap",
+      "arguments": [
+        "x"
+      ]
+    },
+    {
+      "name": "bit.bxor",
+      "arguments": [
+        "x1",
+        "[x2...]"
+      ]
+    },
+    {
+      "name": "bit.lshift",
+      "arguments": [
+        "x",
+        "n"
+      ]
+    },
+    {
+      "name": "bit.rol",
+      "arguments": [
+        "x",
+        "n"
+      ]
+    },
+    {
+      "name": "bit.ror",
+      "arguments": [
+        "x",
+        "n"
+      ]
+    },
+    {
+      "name": "bit.rshift",
+      "arguments": [
+        "x",
+        "n"
+      ]
+    },
+    {
+      "name": "bit.tobit",
+      "arguments": [
+        "x"
+      ]
+    },
+    {
+      "name": "bit.tohex",
+      "arguments": [
+        "x",
+        "n"
+      ]
+    },
+    {
+      "name": "json.parse",
+      "arguments": [
+        "json_text"
+      ]
+    },
+    {
+      "name": "json.stringify",
+      "arguments": [
+        "value"
+      ]
+    },
+    {
+      "name": "json.decode_invalid_numbers",
+      "arguments": [
+        "setting"
+      ]
+    },
+    {
+      "name": "json.decode_max_depth",
+      "arguments": [
+        "setting"
+      ]
+    },
+    {
+      "name": "json.encode_invalid_numbers",
+      "arguments": [
+        "setting"
+      ]
+    },
+    {
+      "name": "json.encode_keep_buffer",
+      "arguments": [
+        "setting"
+      ]
+    },
+    {
+      "name": "json.encode_max_depth",
+      "arguments": [
+        "depth"
+      ]
+    },
+    {
+      "name": "json.encode_number_precision",
+      "arguments": [
+        "precision"
+      ]
+    },
+    {
+      "name": "json.encode_sparse_array",
+      "arguments": [
+        "convert",
+        "ratio",
+        "safe"
+      ]
+    },
+    {
+      "name": "vector.vector",
+      "arguments": [
+        "x",
+        "y",
+        "z"
+      ]
+    },
+    {
+      "name": "vector.unpack",
+      "arguments": []
+    },
+    {
+      "name": "vector.init",
+      "arguments": [
+        "x",
+        "y",
+        "z"
+      ]
+    },
+    {
+      "name": "vector.init_from_angles",
+      "arguments": [
+        "pitch",
+        "yaw",
+        "roll"
+      ]
+    },
+    {
+      "name": "vector.scale",
+      "arguments": [
+        "scalar"
+      ]
+    },
+    {
+      "name": "vector.scaled",
+      "arguments": [
+        "scalar"
+      ]
+    },
+    {
+      "name": "vector.normalize",
+      "arguments": []
+    },
+    {
+      "name": "vector.normalized",
+      "arguments": []
+    },
+    {
+      "name": "vector.length2d",
+      "arguments": []
+    },
+    {
+      "name": "vector.length2dsqr",
+      "arguments": []
+    },
+    {
+      "name": "vector.length",
+      "arguments": []
+    },
+    {
+      "name": "vector.lengthsqr",
+      "arguments": []
+    },
+    {
+      "name": "vector.lerp",
+      "arguments": [
+        "to",
+        "percentage"
+      ]
+    },
+    {
+      "name": "vector.dot",
+      "arguments": []
+    },
+    {
+      "name": "vector.dist",
+      "arguments": [
+        "other"
+      ]
+    },
+    {
+      "name": "vector.dist2d",
+      "arguments": [
+        "other"
+      ]
+    },
+    {
+      "name": "vector.cross",
+      "arguments": [
+        "other"
+      ]
+    },
+    {
+      "name": "vector.angles",
+      "arguments": []
+    },
+    {
+      "name": "vector.vectors",
+      "arguments": []
+    },
+    {
+      "name": "vector.to",
+      "arguments": [
+        "other"
+      ]
+    }
+  ]
+}

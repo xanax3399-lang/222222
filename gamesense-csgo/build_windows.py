@@ -10,6 +10,7 @@ import subprocess
 import sys
 import re
 import ziglang
+from generate_api_bridge import generate as generate_api_bridge
 
 ROOT = Path(__file__).resolve().parent
 ZIG = Path(ziglang.__file__).parent
@@ -30,6 +31,7 @@ def run(label, *args, cwd=ROOT):
         raise SystemExit(proc.returncode)
 
 def main():
+    generate_api_bridge()
     # Validate the exact resource choice before invoking the compiler.
     # Keep the expected value pinned in the production header; do not regenerate
     # it automatically from arbitrary replacement bytes.
@@ -48,7 +50,8 @@ def main():
               '-fasm-blocks', '-DUNICODE', '-D_UNICODE', '-D_CRT_SECURE_NO_WARNINGS',
               *compatibility, '-I', ROOT/'source/skeet']
     run('dll', *common, '-shared', ROOT/'source/skeet/skeet.cpp', ROOT/'source/skeet/saver.cpp',
-        ROOT/'source/skeet/dllmain.cpp', BUILD/'skeet.res', '-luser32', '-ladvapi32', '-lpsapi',
+        ROOT/'source/skeet/dllmain.cpp', ROOT/'source/api_bridge/native.cpp', '-I', BUILD,
+        BUILD/'skeet.res', '-luser32', '-ladvapi32', '-lpsapi',
         '-o', BUILD/'skeet.dll')
     run('injector', 'c++', '-target', 'x86-windows-gnu', '-std=c++23', '-O2',
         '-DUNICODE', '-D_UNICODE', *compatibility, '-municode', ROOT/'source/steam/steam.cpp',

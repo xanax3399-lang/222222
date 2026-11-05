@@ -1,0 +1,14 @@
+{
+  "luajit_contract_assertions": 106,
+  "native_buffer_guard_cases": 3,
+  "reference_symbols": 328,
+  "supported": 135,
+  "partial": 23,
+  "unavailable": 170,
+  "source_sha256": "f239027e021d3baee087b6f39372a8222bdc45d7196aeca18e6c34b85d3f5a8a",
+  "native_math_and_embedded_source_executed": true,
+  "host_globals_preserved": true,
+  "missing_module_and_exports_rejected": true,
+  "controlled_gs_api_fixtures": true,
+  "gameplay_tested": false
+}

@@ -13,6 +13,9 @@ for name,is_dll in [('skeet.dll',True),('injector.exe',False)]:
     if is_dll:
         exports={i.name.decode():i.address for i in pe.DIRECTORY_ENTRY_EXPORT.symbols if i.name}
         for symbol in ['skeet_loader_status','skeet_nl_hypotheses_status','skeet_nl_points_status','skeet_nl_stop_status','skeet_v3_status','skeet_v3_fire_status']:assert symbol in exports
+        for symbol in ['gsnl_abi_version','gsnl_source','gsnl_snapshot','gsnl_length3','gsnl_dot3','gsnl_normalize_yaw']:assert symbol in exports
+        embedded=(ROOT/'build/gsnl_embedded.lua').read_bytes()
+        assert embedded in raw and b'__GSNL_INVENTORY__' not in embedded
         assert struct.unpack('<21I',pe.get_data(exports['skeet_v3_fire_status'],84))==(1,1,0,*([0]*18))
         assert struct.unpack('<11I',pe.get_data(exports['skeet_v3_status'],44))==(1,1,95,*([0]*8))
         assert struct.unpack('<14I',pe.get_data(exports['skeet_nl_stop_status'],56))==(1,1,*([0]*12))
