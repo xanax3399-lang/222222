@@ -66,7 +66,7 @@ def generate():
     for item in nl['symbols']:
         name=item['name'];status='partial' if name in partial else 'supported' if name in implemented else 'unavailable'
         rows[name]={**item,'status':status,'notes':partial.get(name,'Implemented against the bridge contract; NL binary equivalence unverified.' if status=='supported' else 'No implementation in this revision; explicit error. Original GS API remains available through api.gs.')}
-    manifest={'bridge_version':'0.1.0','scope':'CS:GO Legacy 8802 only; partial compatibility, not a full Neverlose runtime.',
+    manifest={'bridge_version':'0.1.1','scope':'CS:GO Legacy 8802 only; partial compatibility, not a full Neverlose runtime.',
         'neverlose_reference':{k:v for k,v in nl.items() if k!='symbols'},
         'gamesense_reference':{k:v for k,v in gs.items() if k!='symbols'},
         'neverlose':rows,'gamesense':gs['symbols'],'gameplay_tested':False}
@@ -76,7 +76,7 @@ def generate():
     (build/'embedded.h').write_text('#pragma once\nstatic const char gsnl_embedded_source[]=R"GSNL_SOURCE('+embedded+')GSNL_SOURCE";\n')
     (build/'gsnl_embedded.lua').write_text(embedded)
     (build/'gsnl_api_manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
-    lines=['# GS + NL API bridge 0.1.0','',manifest['scope'],'',
+    lines=['# GS + NL API bridge 0.1.1','',manifest['scope'],'',
         'This is an independently written adapter. Public NL type declarations are a reference, not a recovered implementation.',
         'Native GS globals are preserved. `local api = require("gsnl")`; use `api.gs` for the original GS API.',
         '`api.supports(name)` is true for supported signatures only; partial entries require reading their restrictions.',

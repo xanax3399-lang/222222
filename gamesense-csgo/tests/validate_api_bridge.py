@@ -26,7 +26,7 @@ report={'luajit_contract_assertions':checks,'native_buffer_guard_cases':3,'refer
     'native_math_and_embedded_source_executed':True,'host_globals_preserved':True,
     'missing_module_and_exports_rejected':True,'controlled_gs_api_fixtures':True,'gameplay_tested':False}
 report.update({'ffi_load_disabled':True,'ffi_C_external_resolution_disabled':True,
-    'os_library_absent':True,'descriptor_discovery_uses_controlled_host_scanner':True,
-    'real_gamesense_signature_scanner_tested':False})
+    'os_library_absent':True,'native_preload_module_controlled_fixture':True,
+    'ffi_module_required':False,'own_module_signature_scanning_required':False})
 (ROOT/'reports/api_bridge_validation.json').write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps(report))

@@ -1,6 +1,6 @@
 -- This factory is embedded in skeet.dll. It never replaces Gamesense globals.
-return function(native, gs, ffi)
-    local api = {version = '0.1.0', gs = gs}
+return function(native, gs)
+    local api = {version = '0.1.1', gs = gs}
     local inventory = __GSNL_INVENTORY__
     local unpack = unpack
     local function fail(name, reason)
@@ -26,13 +26,13 @@ return function(native, gs, ffi)
     end
     api.native = {}
     function api.native.snapshot()
-        local out = ffi.new('GsnlSnapshot[1]')
-        assert(native.gsnl_snapshot(out, ffi.sizeof(out[0])) == 1, 'GSNL: snapshot ABI mismatch')
+        local values={native.snapshot()}
+        assert(#values==18 and values[1]==72 and values[2]==0x10000,'GSNL: snapshot ABI mismatch')
         local result = {}
-        for _,k in ipairs({'size','abi','loader_state','mode','points_installed','points_calls','points_added',
+        for i,k in ipairs({'size','abi','loader_state','mode','points_installed','points_calls','points_added',
             'brake_enabled','brake_installed','brake_applied','crown_enabled','crown_installed','crown_added',
             'fire_installed','guard_enabled','guard_canceled','recharge_enabled','recharge_overrides'}) do
-            result[k] = tonumber(out[0][k])
+            result[k] = values[i]
         end
         return result
     end

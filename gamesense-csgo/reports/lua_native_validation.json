@@ -1,0 +1,11 @@
+{
+  "compiled_native_lua_cases": 18,
+  "actual_gs_bootstrap_call_executed": true,
+  "preload_registered_before_original_compat": true,
+  "existing_stack_restored": true,
+  "native_math_c_callbacks_executed": true,
+  "lua_allocating_apis_controlled_fixtures": true,
+  "diagnostic_values_controlled_fixture": true,
+  "real_gs_lua_vm_tested": false,
+  "gameplay_tested": false
+}

@@ -43,7 +43,9 @@ jobs:
           python gamesense-csgo/tests/validate_stop_bridge.py --donor donor/neverlose-csgo/neverlose/bins/nl.bin
           python gamesense-csgo/tests/validate_fire_bridge.py
       - name: Execute embedded API bridge and bootstrap in LuaJIT
-        run: python gamesense-csgo/tests/validate_api_bridge.py
+        run: |
+          python gamesense-csgo/tests/validate_api_bridge.py
+          python gamesense-csgo/tests/validate_lua_native.py
       - name: Check retained loader, resource, animation and crash paths
         working-directory: gamesense-csgo
         run: |
@@ -171,9 +173,9 @@ jobs:
 
           Loader update: reports are saved automatically after successful initialization, then every 10 seconds by a separate read-only monitor until CS:GO exits. Menu 8 opens the latest report, including a LocalAppData fallback if the loader directory is not writable. Menu 7 toggles the three v3 patches and automatic reports; changes apply after a full game restart. DT recharge revision 2 restores native pending-shot and cooldown guards; other shooting features are unchanged. These counters do not classify aim_miss reasons.
 
-          New: GSNL 0.1.0 is a partial CS:GO Lua API bridge. The DLL hosts its adapter and native math/read-only diagnostic ABI; lua/gsnl.lua attaches to an already-loaded matching DLL with existing GS FFI permission. Original GS globals remain accessible. The archive includes installation instructions, an example, and a pinned symbol inventory with supported/partial/unavailable statuses. This is not a full Neverlose API/runtime or a port of its internal systems. DT force_charge/force_teleport, animation states and NetChannel are unavailable. Gameplay and the real GS Lua loader are not tested in CI.
+          New: GSNL 0.1.1 is a partial CS:GO Lua API bridge. The DLL hosts its adapter and native math/read-only diagnostic ABI; lua/gsnl.lua requires the native gsnl_native preload module registered by the DLL. Original GS globals remain accessible. The archive includes installation instructions, an example, and a pinned symbol inventory with supported/partial/unavailable statuses. This is not a full Neverlose API/runtime or a port of its internal systems. DT force_charge/force_teleport, animation states and NetChannel are unavailable. Gameplay and the real GS Lua loader are not tested in CI.
 
-          Bootstrap revision 2 corrects assumptions found by reversing the original GS LuaJIT: ffi.load is absent and uncached ffi.C functions are rejected. The loader now uses client.find_signature to locate a unique immutable API descriptor in the already-loaded wrapper. It needs neither of those FFI resolution paths. Windows checks the relocated descriptor; LuaJIT fixtures disable both paths and remove os. Calendar helpers require a host os.date; unix time uses GS client.unix_time. Original shooting code is unchanged.
+          Bootstrap revision 3 uses native GS Lua module registration before the original compat stage and user scripts. No FFI, ffi.load, ffi.C external resolution or own-module signature scan is needed. This replaces experimental revisions 1/2 after reversing the GS restrictions. The actual bootstrap CALL, compiled C++ callbacks and stack restoration are tested with controlled allocating Lua APIs; the real Lua VM and game are not run. Calendar helpers require a host os.date; unix time uses GS client.unix_time. Original shooting code is unchanged.
 
           V3 adds up to three samples near the upper cap of the selected record's head capsule. This is an independently written geometric extension, not a full NL scanner port. Native candidates, primary center, three-matrix checks, GS damage and hitchance remain. Mode 2 is checked against captured v2 point fixtures.
 

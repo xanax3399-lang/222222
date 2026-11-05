@@ -21,6 +21,8 @@ for name,is_dll in [('skeet.dll',True),('injector.exe',False)]:
         section=pe.get_section_by_rva(table_rva)
         assert section.Characteristics&0x20000000 and not section.Characteristics&0x80000000
         assert raw.count(b'GSNL_API_V1_TAB!')==1
+        assert 'gsnl_lua_status'in exports and 'gsnl_lua_open'in exports
+        assert struct.unpack('<7I',pe.get_data(exports['gsnl_lua_status'],28))==(1,1,0,0,0,0,0)
         embedded=(ROOT/'build/gsnl_embedded.lua').read_bytes()
         assert embedded in raw and b'__GSNL_INVENTORY__' not in embedded
         assert struct.unpack('<21I',pe.get_data(exports['skeet_v3_fire_status'],84))==(1,1,0,*([0]*18))

@@ -42,11 +42,11 @@ config='[points]\nhead_scale_percent=80\nbody_scale_percent=80\nreduced_head=0\n
 if args.v3:
     readme='''Skeet v3 / CS:GO Legacy 8802
 
-GS + NL API BRIDGE 0.1.0
+GS + NL API BRIDGE 0.1.1
 Это частичная совместимость с публичным NL CS:GO Lua API, не полный API NL.
 Инструкция: GSNL_README_RU.md. Справочник: GSNL_API.md и gsnl_api_manifest.json.
-Загрузчик и пример находятся в lua/. Мост требует штатного доступа GS к FFI.
-Реализация встроена в DLL; Lua-загрузчик подключается к уже загруженной DLL.
+Загрузчик и пример находятся в lua/. Самому мосту не требуется Lua FFI.
+DLL регистрирует нативный модуль gsnl_native на штатном этапе инициализации Lua.
 API GS сохраняется. Новых хуков стрельбы/DT мост не добавляет.
 
 Пункт 2 сохраняет поведение v2. Пункт 3 включает v3: дополнительные точки головы,
@@ -92,7 +92,7 @@ V3 head crown, Fire guard и Recharge в module_diagnostics.log. Старые г
 для разового отчёта вручную. Эти счётчики не определяют причину aim_miss.
 
 ''' + readme
-    config+='\n[v3]\nhead_crown=1\nhead_crown_percent=95\nlate_eye_guard=1\nunsafe_dt_recharge=0\n\n[loader]\nautomatic_reports=1\nreport_interval_seconds=10\n'
+    config+='\n[v3]\nhead_crown=1\nhead_crown_percent=95\nlate_eye_guard=1\nunsafe_dt_recharge=0\n\n[loader]\nautomatic_reports=1\nreport_interval_seconds=10\nnative_api_bridge=1\n'
 out=ROOT/('build/skeet-v3-patches-windows.zip' if args.v3 else 'build/skeet-v2-nl-points-windows.zip')
 files={n:(ROOT/'build'/n).read_bytes() for n in ['skeet.dll','injector.exe']}
 files.update({'README_RU.txt':readme.encode('utf-8-sig'),'skeet_nl_points.ini':config.encode()})
@@ -100,7 +100,7 @@ for name in ['points_bridge_validation.json','points_validation.json','points_dl
              'stop_math_validation.json','stop_bridge_validation.json']:
     files['reports/'+name]=(ROOT/'reports'/name).read_bytes()
 if args.v3:
-    for name in ['v3_head_validation.json','v3_fire_validation.json','api_bridge_validation.json']:
+    for name in ['v3_head_validation.json','v3_fire_validation.json','api_bridge_validation.json','lua_native_validation.json']:
         files['reports/'+name]=(ROOT/'reports'/name).read_bytes()
     for name in ['gsnl.lua','gsnl_example.lua']:
         files['lua/'+name]=(ROOT/'lua'/name).read_bytes()
@@ -108,12 +108,14 @@ if args.v3:
         files[name]=(ROOT/'build'/name).read_bytes()
     files['GSNL_README_RU.md']=(ROOT/'api/README_RU.md').read_bytes()
     files['api/gsnl_native.h']=(ROOT/'source/api_bridge/native.h').read_bytes()
+    files['api/lua_native.h']=(ROOT/'source/api_bridge/lua_native.h').read_bytes()
 if args.v3:files['BUILD_INFO.json']=(json.dumps({'series':'v3','source_commit':os.environ.get('GITHUB_SHA'),
     'frozen_v2_base':'72aa34f0956c619ba5f24c9e5c19c6dabf7fd7ff',
     'v3_patches':['record_head_crown','late_eye_hitchance_guard','guarded_dt_recharge'],
     'automatic_reports':True,'loader_patch_switches':True,
-    'api_bridge_revision':1,'api_bridge_version':'0.1.0','full_neverlose_api':False,
-    'api_bootstrap_revision':2,'gs_ffi_load_required':False,'gs_ffi_external_resolution_required':False,
+    'api_bridge_revision':1,'api_bridge_version':'0.1.1','full_neverlose_api':False,
+    'api_bootstrap_revision':3,'native_lua_preload_module':True,
+    'gs_ffi_module_required':False,'gs_ffi_load_required':False,'gs_ffi_external_resolution_required':False,
     'real_gamesense_lua_loader_tested':False,
     'shooting_source_base':'bb2cce750ec83af2d6596303046b2a0521c98639',
     'dt_recharge_revision':2,'early_recharge_default':False,

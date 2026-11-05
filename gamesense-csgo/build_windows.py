@@ -50,7 +50,8 @@ def main():
               '-fasm-blocks', '-DUNICODE', '-D_UNICODE', '-D_CRT_SECURE_NO_WARNINGS',
               *compatibility, '-I', ROOT/'source/skeet']
     run('dll', *common, '-shared', ROOT/'source/skeet/skeet.cpp', ROOT/'source/skeet/saver.cpp',
-        ROOT/'source/skeet/dllmain.cpp', ROOT/'source/api_bridge/native.cpp', '-I', BUILD,
+        ROOT/'source/skeet/dllmain.cpp', ROOT/'source/api_bridge/native.cpp',
+        ROOT/'source/api_bridge/lua_native.cpp', '-I', BUILD,
         ROOT/'source/api_bridge/exports.def',
         BUILD/'skeet.res', '-luser32', '-ladvapi32', '-lpsapi',
         '-o', BUILD/'skeet.dll')
@@ -73,6 +74,8 @@ def main():
         '-o', BUILD/'stop_bridge_probe.dll')
     run('fire-bridge-probe', *common, '-shared', ROOT/'tests/fire_bridge_probe.cpp',
         '-o', BUILD/'fire_bridge_probe.dll')
+    run('lua-api-probe', *common, '-shared', ROOT/'source/api_bridge/lua_native.cpp',
+        ROOT/'tests/lua_api_probe.cpp', '-I', BUILD, '-o', BUILD/'lua_api_probe.dll')
     if os.name != 'nt':
         run('hypotheses-host-probe', 'c++', '-std=c++17', '-O2', '-fno-fast-math',
             '-ffp-contract=off', '-shared', '-fPIC', ROOT/'tests/hypotheses_probe.cpp',

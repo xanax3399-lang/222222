@@ -1,9 +1,36 @@
 -- Host contracts only: this fixture does not emulate a live CS:GO scene.
 local ffi=require('ffi')
 local rawload=ffi.load
-ffi.cdef'void gsnl_fixture_failure(int);'
-ffi.cdef'const void* gsnl_fixture_table(void);'
+ffi.cdef[[
+unsigned int gsnl_abi_version(void);
+const char* gsnl_source(unsigned int*);
+int gsnl_snapshot(void*,unsigned int);
+double gsnl_length3(double,double,double);
+double gsnl_dot3(double,double,double,double,double,double);
+double gsnl_normalize_yaw(double);
+]]
 local host=rawload(HOST_LIBRARY)
+local backend_failure=0
+local function backend()
+    if backend_failure==1 then error('fixture native module missing')end
+    local m={abi_version=function()return backend_failure==2 and 0 or tonumber(host.gsnl_abi_version())end}
+    function m.source()local n=ffi.new('unsigned int[1]');local p=host.gsnl_source(n);return ffi.string(p,n[0])end
+    function m.snapshot()
+        local out=ffi.new('unsigned int[18]');assert(host.gsnl_snapshot(out,72)==1)
+        local v={};for i=0,17 do v[i+1]=tonumber(out[i])end;return unpack(v)
+    end
+    function m.length3(...)return tonumber(host.gsnl_length3(...))end
+    function m.dot3(...)return tonumber(host.gsnl_dot3(...))end
+    function m.normalize_yaw(...)return tonumber(host.gsnl_normalize_yaw(...))end
+    if backend_failure==3 then m.source=nil end
+    return m
+end
+package.preload.gsnl_native=backend
+local real_require=require
+require=function(name)
+    if name=='ffi'then error('GS FFI permission disabled in this fixture')end
+    return real_require(name)
+end
 -- Match the recovered GS FFI surface: ffi.load is absent. WinAPI resolution
 -- Both dynamic library loading and external symbol resolution are disabled.
 ffi.load=nil
@@ -17,10 +44,7 @@ end
 local callbacks,controls,props,db={},{},{},{}
 local renders,lastangles={},{10,20}
 client={}
-function client.find_signature(module,signature)
-    check(module=='skeet.dll' and signature=='GSNL_API_V1_TAB!','unexpected module or signature')
-    return host.gsnl_fixture_table()
-end
+function client.find_signature()error('GS own-module scanning restricted')end
 function client.set_event_callback(name,fn)callbacks[name]=callbacks[name]or {};callbacks[name][fn]=true end
 function client.unset_event_callback(name,fn)if callbacks[name]then callbacks[name][fn]=nil end end
 local function fire(name,arg)
@@ -91,10 +115,10 @@ local oldui,oldentity,oldglobals=ui,entity,globals
 os=nil
 client.unix_time=function()return 123456 end
 local loader=assert(loadfile(BOOTSTRAP))
-host.gsnl_fixture_failure(1);throws(loader,'must already be loaded')
-host.gsnl_fixture_failure(2);throws(loader,'invalid bridge descriptor')
-host.gsnl_fixture_failure(3);throws(loader,'missing bridge functions')
-host.gsnl_fixture_failure(0)
+backend_failure=1;package.loaded.gsnl_native=nil;throws(loader,'native module unavailable')
+backend_failure=2;package.loaded.gsnl_native=nil;throws(loader,'incompatible native Lua ABI')
+backend_failure=3;package.loaded.gsnl_native=nil;throws(loader,'missing native function source')
+backend_failure=0;package.loaded.gsnl_native=nil
 local api=loader()
 check(ffi.load==nil,'bootstrap depends on the unavailable GS ffi.load')
 check(ui==oldui and entity==oldentity and globals==oldglobals,'host globals replaced')

@@ -46,6 +46,8 @@ static DWORD WINAPI initialize(LPVOID parameter) {
         return fail("Invalid v3 settings: head_crown must be 0 or 1; crown percent 50..99.");
     skeet_v3_fire_status.guard_enabled=GetPrivateProfileIntW(L"v3",L"late_eye_guard",1,settings);
     skeet_v3_fire_status.recharge_enabled=GetPrivateProfileIntW(L"v3",L"unsafe_dt_recharge",0,settings);
+    gsnl_lua_status.enabled=GetPrivateProfileIntW(L"loader",L"native_api_bridge",1,settings);
+    if(gsnl_lua_status.enabled>1)return fail("Invalid loader.native_api_bridge: expected 0 or 1.");
     if(skeet_v3_fire_status.guard_enabled>1||skeet_v3_fire_status.recharge_enabled>1)
         return fail("Invalid v3 settings: late_eye_guard / unsafe_dt_recharge must be 0 or 1.");
     if(points.head_percent>100||points.body_percent>100||points.reduced_head>1)

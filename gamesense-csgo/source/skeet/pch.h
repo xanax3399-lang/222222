@@ -18,6 +18,7 @@
 #include "Json/json.hpp"
 #include "skeet.h"
 #include "MinHook/MinHook.h"
+#include "../api_bridge/lua_native.h"
 #include <Windows.h>
 #include <iostream>
 

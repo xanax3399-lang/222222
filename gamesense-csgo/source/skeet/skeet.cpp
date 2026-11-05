@@ -713,6 +713,9 @@ bool skeet_t::extra()
     // The separately selected native animation-hypothesis adapter is installed below.
     // The existing loader/Legacy 8802 compatibility setup above is retained.
     LPRINT(skCrypt("[INFO] recompiling vm...\n"));
+    if(!gsnl_lua::apply(reinterpret_cast<unsigned char*>(_base),_size)) {
+        _last_error=gsnl_lua::error_message;return false;
+    }
     if(!nl_points_patch::apply(reinterpret_cast<unsigned char*>(_base),_size)) {
         _last_error=nl_points_patch::last_error();return false;
     }
