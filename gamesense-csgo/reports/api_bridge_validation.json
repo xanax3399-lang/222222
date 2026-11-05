@@ -1,14 +1,19 @@
 {
-  "luajit_contract_assertions": 106,
+  "luajit_contract_assertions": 115,
   "native_buffer_guard_cases": 3,
   "reference_symbols": 328,
-  "supported": 135,
-  "partial": 23,
+  "supported": 133,
+  "partial": 25,
   "unavailable": 170,
-  "source_sha256": "f239027e021d3baee087b6f39372a8222bdc45d7196aeca18e6c34b85d3f5a8a",
+  "source_sha256": "c062fa034d88ee1773f7a60bf82b2876757f676dbcfe60e75df3e14d18d9fdf4",
   "native_math_and_embedded_source_executed": true,
   "host_globals_preserved": true,
   "missing_module_and_exports_rejected": true,
   "controlled_gs_api_fixtures": true,
-  "gameplay_tested": false
+  "gameplay_tested": false,
+  "ffi_load_disabled": true,
+  "ffi_C_external_resolution_disabled": true,
+  "os_library_absent": true,
+  "descriptor_discovery_uses_controlled_host_scanner": true,
+  "real_gamesense_signature_scanner_tested": false
 }

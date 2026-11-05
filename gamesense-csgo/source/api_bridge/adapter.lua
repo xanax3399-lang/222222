@@ -403,10 +403,19 @@ return function(native, gs, ffi)
         local args={...};local count=select('#',...)
         gs.client.delay_call(delay,function()if alive then callback(unpack(args,1,count))end end)
     end
-    api.common=namespace('common',{get_unixtime=os.time,get_date=os.date,get_timestamp=gs.client.timestamp,
+    api.common=namespace('common',{get_timestamp=gs.client.timestamp,
         is_button_down=gs.client.key_state,set_clan_tag=gs.client.set_clan_tag})
+    function api.common.get_unixtime()
+        if type(gs.client.unix_time)~='function'then fail('common.get_unixtime','host unix_time getter unavailable')end
+        return gs.client.unix_time()
+    end
+    function api.common.get_date(format,time)
+        local host_os=gs.environment.os
+        if not host_os or type(host_os.date)~='function'then fail('common.get_date','host os.date unavailable')end
+        return host_os.date(format,time)
+    end
     function api.common.get_system_time()
-        local t=os.date('*t');return {year=t.year,month=t.month,day=t.day,hours=t.hour,minutes=t.min,seconds=t.sec}
+        local t=api.common.get_date('*t');return {year=t.year,month=t.month,day=t.day,hours=t.hour,minutes=t.min,seconds=t.sec}
     end
     api.json=namespace('json',{parse=gs.json.parse,stringify=gs.json.stringify})
     api.db=setmetatable({}, {__index=function(_,k)return gs.database.read('gsnl:'..tostring(k))end,

@@ -29,6 +29,23 @@ GSNL_EXPORT double gsnl_length3(double x,double y,double z);
 GSNL_EXPORT double gsnl_dot3(double x,double y,double z,double a,double b,double c);
 GSNL_EXPORT double gsnl_normalize_yaw(double yaw);
 
+// Explicit bridge capability table. GS removes ffi.load and external ffi.C
+// resolution; the Lua loader discovers this table in our already loaded DLL.
+struct GsnlApiTable {
+    char magic[16];
+    std::uint32_t abi,size;
+    unsigned (*version)();
+    const char* (*source)(unsigned*);
+    int (*snapshot)(GsnlSnapshot*,unsigned);
+    double (*length3)(double,double,double);
+    double (*dot3)(double,double,double,double,double,double);
+    double (*normalize_yaw)(double);
+};
+static_assert(sizeof(GsnlApiTable)==(sizeof(void*)==4?48:72));
+GSNL_EXPORT const GsnlApiTable gsnl_api_table;
+#define GSNL_TABLE_INITIALIZER {{'G','S','N','L','_','A','P','I','_','V','1','_','T','A','B','!'}, \
+    0x10000u,sizeof(GsnlApiTable),gsnl_abi_version,gsnl_source,gsnl_snapshot,gsnl_length3,gsnl_dot3,gsnl_normalize_yaw}
+
 #ifdef GSNL_IMPLEMENT_MATH
 GSNL_EXPORT unsigned gsnl_abi_version(){return 0x10000u;}
 GSNL_EXPORT double gsnl_length3(double x,double y,double z){return std::hypot(x,y,z);}

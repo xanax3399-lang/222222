@@ -13,7 +13,14 @@ for name,is_dll in [('skeet.dll',True),('injector.exe',False)]:
     if is_dll:
         exports={i.name.decode():i.address for i in pe.DIRECTORY_ENTRY_EXPORT.symbols if i.name}
         for symbol in ['skeet_loader_status','skeet_nl_hypotheses_status','skeet_nl_points_status','skeet_nl_stop_status','skeet_v3_status','skeet_v3_fire_status']:assert symbol in exports
-        for symbol in ['gsnl_abi_version','gsnl_source','gsnl_snapshot','gsnl_length3','gsnl_dot3','gsnl_normalize_yaw']:assert symbol in exports
+        bridge_symbols=['gsnl_abi_version','gsnl_source','gsnl_snapshot','gsnl_length3','gsnl_dot3','gsnl_normalize_yaw']
+        for symbol in [*bridge_symbols,'gsnl_api_table']:assert symbol in exports
+        table_rva=exports['gsnl_api_table'];table=pe.get_data(table_rva,48)
+        assert table[:16]==b'GSNL_API_V1_TAB!' and struct.unpack_from('<II',table,16)==(0x10000,48)
+        assert struct.unpack_from('<6I',table,24)==tuple(pe.OPTIONAL_HEADER.ImageBase+exports[n]for n in bridge_symbols)
+        section=pe.get_section_by_rva(table_rva)
+        assert section.Characteristics&0x20000000 and not section.Characteristics&0x80000000
+        assert raw.count(b'GSNL_API_V1_TAB!')==1
         embedded=(ROOT/'build/gsnl_embedded.lua').read_bytes()
         assert embedded in raw and b'__GSNL_INVENTORY__' not in embedded
         assert struct.unpack('<21I',pe.get_data(exports['skeet_v3_fire_status'],84))==(1,1,0,*([0]*18))

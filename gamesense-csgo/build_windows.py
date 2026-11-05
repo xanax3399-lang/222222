@@ -51,6 +51,7 @@ def main():
               *compatibility, '-I', ROOT/'source/skeet']
     run('dll', *common, '-shared', ROOT/'source/skeet/skeet.cpp', ROOT/'source/skeet/saver.cpp',
         ROOT/'source/skeet/dllmain.cpp', ROOT/'source/api_bridge/native.cpp', '-I', BUILD,
+        ROOT/'source/api_bridge/exports.def',
         BUILD/'skeet.res', '-luser32', '-ladvapi32', '-lpsapi',
         '-o', BUILD/'skeet.dll')
     run('injector', 'c++', '-target', 'x86-windows-gnu', '-std=c++23', '-O2',

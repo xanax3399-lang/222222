@@ -113,6 +113,7 @@ if args.v3:files['BUILD_INFO.json']=(json.dumps({'series':'v3','source_commit':o
     'v3_patches':['record_head_crown','late_eye_hitchance_guard','guarded_dt_recharge'],
     'automatic_reports':True,'loader_patch_switches':True,
     'api_bridge_revision':1,'api_bridge_version':'0.1.0','full_neverlose_api':False,
+    'api_bootstrap_revision':2,'gs_ffi_load_required':False,'gs_ffi_external_resolution_required':False,
     'real_gamesense_lua_loader_tested':False,
     'shooting_source_base':'bb2cce750ec83af2d6596303046b2a0521c98639',
     'dt_recharge_revision':2,'early_recharge_default':False,

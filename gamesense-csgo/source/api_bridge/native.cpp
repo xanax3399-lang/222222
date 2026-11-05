@@ -12,6 +12,22 @@ extern "C" nl_stop_patch::Status skeet_nl_stop_status;
 extern "C" v3_patches::Status skeet_v3_status;
 extern "C" v3_fire::Status skeet_v3_fire_status;
 
+// Keep the unique descriptor in the PE text section so hosts which restrict
+// signature scans to executable sections can still find it. It is immutable
+// after normal loader relocations; no RWX allocation or runtime patch is used.
+#if defined(__GNUC__) && defined(__i386__)
+// GNU COFF otherwise gives allocated const data non-code section flags even
+// with pragma section. Emit the small relocation table with explicit RX flags.
+asm(".section .text$gsnl,\"xr\"\n"
+    ".p2align 2\n.globl _gsnl_api_table\n_gsnl_api_table:\n"
+    ".ascii \"GSNL_API_V1_TAB!\"\n.long 65536\n.long 48\n"
+    ".long _gsnl_abi_version\n.long _gsnl_source\n.long _gsnl_snapshot\n"
+    ".long _gsnl_length3\n.long _gsnl_dot3\n.long _gsnl_normalize_yaw\n.text\n");
+#else
+#pragma section(".text$gsnl", read, execute)
+GSNL_EXPORT __declspec(allocate(".text$gsnl")) const GsnlApiTable gsnl_api_table=GSNL_TABLE_INITIALIZER;
+#endif
+
 GSNL_EXPORT const char* gsnl_source(unsigned* length){
     if(length)*length=sizeof(gsnl_embedded_source)-1;
     return gsnl_embedded_source;

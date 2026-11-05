@@ -14,7 +14,11 @@ int wmain(int argc,wchar_t** argv){
     const auto snapshot=reinterpret_cast<int(*)(GsnlSnapshot*,unsigned)>(GetProcAddress(module,"gsnl_snapshot"));
     const auto length=reinterpret_cast<double(*)(double,double,double)>(GetProcAddress(module,"gsnl_length3"));
     const auto yaw=reinterpret_cast<double(*)(double)>(GetProcAddress(module,"gsnl_normalize_yaw"));
+    const auto table=reinterpret_cast<const GsnlApiTable*>(GetProcAddress(module,"gsnl_api_table"));
     if(!version||!source||!snapshot||!length||!yaw||version()!=0x10000)return 3;
+    if(!table||std::memcmp(table->magic,"GSNL_API_V1_TAB!",16)||table->abi!=0x10000||table->size!=48||
+        table->version!=version||table->source!=source||table->snapshot!=snapshot||
+        table->length3!=length||table->normalize_yaw!=yaw)return 8;
     unsigned size=0;const char* code=source(&size);
     if(!code||size<20000||size>=1048576||code[size]!=0||!std::strstr(code,"return function(native, gs, ffi)")||
         !std::strstr(code,"rage_exploit:force_charge")||std::strstr(code,"__GSNL_INVENTORY__"))return 4;

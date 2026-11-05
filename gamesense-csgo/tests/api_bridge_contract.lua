@@ -2,8 +2,12 @@
 local ffi=require('ffi')
 local rawload=ffi.load
 ffi.cdef'void gsnl_fixture_failure(int);'
+ffi.cdef'const void* gsnl_fixture_table(void);'
 local host=rawload(HOST_LIBRARY)
-ffi.load=function(name,...)if name=='kernel32.dll'then return host end;return rawload(name,...)end
+-- Match the recovered GS FFI surface: ffi.load is absent. WinAPI resolution
+-- Both dynamic library loading and external symbol resolution are disabled.
+ffi.load=nil
+ffi.C=setmetatable({}, {__index=function()error('GS FFI external symbol resolution disabled')end})
 local checks=0
 local function check(v,message)assert(v,message);checks=checks+1 end
 local function near(a,b)check(math.abs(a-b)<1e-8,tostring(a)..' != '..tostring(b))end
@@ -13,6 +17,10 @@ end
 local callbacks,controls,props,db={},{},{},{}
 local renders,lastangles={},{10,20}
 client={}
+function client.find_signature(module,signature)
+    check(module=='skeet.dll' and signature=='GSNL_API_V1_TAB!','unexpected module or signature')
+    return host.gsnl_fixture_table()
+end
 function client.set_event_callback(name,fn)callbacks[name]=callbacks[name]or {};callbacks[name][fn]=true end
 function client.unset_event_callback(name,fn)if callbacks[name]then callbacks[name][fn]=nil end end
 local function fire(name,arg)
@@ -78,15 +86,24 @@ database={read=function(k)return db[k]end,write=function(k,v)db[k]=v end}
 json={parse=function(s)return {raw=s}end,stringify=function()return '{}'end}
 bit=require('bit')
 local oldui,oldentity,oldglobals=ui,entity,globals
+-- The recovered GS open-library set has no standard os registration. Loading
+-- the bridge must not require an os global supplied by a different runtime.
+os=nil
+client.unix_time=function()return 123456 end
 local loader=assert(loadfile(BOOTSTRAP))
 host.gsnl_fixture_failure(1);throws(loader,'must already be loaded')
-host.gsnl_fixture_failure(2);throws(loader,'missing gsnl_')
+host.gsnl_fixture_failure(2);throws(loader,'invalid bridge descriptor')
+host.gsnl_fixture_failure(3);throws(loader,'missing bridge functions')
 host.gsnl_fixture_failure(0)
 local api=loader()
+check(ffi.load==nil,'bootstrap depends on the unavailable GS ffi.load')
 check(ui==oldui and entity==oldentity and globals==oldglobals,'host globals replaced')
 check(api.gs.ui==ui and api.gs.environment==_G)
 check(api.native.snapshot().points_added==456)
 check(api.native.snapshot().recharge_enabled==0)
+check(api.common.get_unixtime()==123456)
+throws(function()api.common.get_date('%Y')end,'host os.date unavailable')
+throws(function()api.common.get_system_time()end,'host os.date unavailable')
 check(api.supports('vector:length') and not api.supports('rage_exploit:force_charge'))
 check(api.capability('render.text').status=='partial')
 local inventory=api.capabilities();inventory['vector:length'].status='corrupted'
@@ -137,13 +154,15 @@ api.events.player_hurt:set(onhurt);api.events.player_hurt:set(onhurt);fire('play
 api.events.player_hurt(onhurt,false);fire('player_hurt',{damage=2});check(calls==2)
 api.events.player_hurt(onhurt);api.events.player_hurt:call({damage=3});check(calls==5)
 local raw={pitch=1,yaw=2,forwardmove=0,sidemove=0,upmove=0,in_attack=0,chokedcommands=2}
-api.events.createmove:set(function(cmd)
+local onmove=function(cmd)
     check(cmd.in_attack==false and cmd.choked_commands==2)
     cmd.in_attack=true;cmd.forwardmove=100;cmd.view_angles.y=90
     cmd.view_angles=api.vector(10,100)
     throws(function()cmd.force_defensive=true end,'unsupported')
-end)
+end
+api.events.createmove:set(onmove)
 fire('setup_command',raw);check(raw.in_attack==1 and raw.forwardmove==100 and raw.pitch==10 and raw.yaw==100)
+api.events.createmove:unset(onmove)
 local broken=function(cmd)cmd.forwardmove=450;cmd.in_attack=false;cmd.send_packet=false end
 api.events.createmove:set(broken)
 throws(function()fire('setup_command',raw)end,'unsupported')

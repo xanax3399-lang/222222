@@ -16,21 +16,29 @@ int gsnl_snapshot(GsnlSnapshot* output,unsigned int size);
 double gsnl_length3(double x,double y,double z);
 double gsnl_dot3(double x,double y,double z,double a,double b,double c);
 double gsnl_normalize_yaw(double yaw);
-void* __stdcall GetModuleHandleA(const char* name);
-void* __stdcall GetProcAddress(void* module, const char* name);
+typedef struct {
+    char magic[16];
+    unsigned int abi,size;
+    unsigned int (*version)(void);
+    const char* (*source)(unsigned int* length);
+    int (*snapshot)(GsnlSnapshot*,unsigned int);
+    double (*length3)(double,double,double);
+    double (*dot3)(double,double,double,double,double,double);
+    double (*normalize_yaw)(double);
+} GsnlApiTable;
 ]]
-local kernel = ffi.load('kernel32.dll')
-local module = kernel.GetModuleHandleA('skeet.dll')
-assert(module~=nil,'GSNL: matching skeet.dll must already be loaded; this loader never injects or loads another core')
-local native={}
-local signatures={gsnl_abi_version='unsigned int(*)(void)',gsnl_source='const char*(*)(unsigned int*)',
-    gsnl_snapshot='int(*)(GsnlSnapshot*,unsigned int)',gsnl_length3='double(*)(double,double,double)',
-    gsnl_dot3='double(*)(double,double,double,double,double,double)',gsnl_normalize_yaw='double(*)(double)'}
-for name,signature in pairs(signatures)do
-    local address=kernel.GetProcAddress(module,name)
-    assert(address~=nil,'GSNL: missing '..name..'; update skeet.dll and injector from the API-bridge archive')
-    native[name]=ffi.cast(signature,address)
-end
+-- GS's FFI omits load and rejects external ffi.C function resolution.
+-- Use the documented signature scanner and only our versioned descriptor.
+local ok,address=pcall(client.find_signature,'skeet.dll','GSNL_API_V1_TAB!')
+assert(ok and address~=nil,'GSNL: matching skeet.dll must already be loaded; bridge descriptor not found')
+local descriptor=ffi.cast('const GsnlApiTable*',address)
+assert(descriptor~=nil and ffi.string(descriptor.magic,16)=='GSNL_API_V1_TAB!' and
+    descriptor.abi==0x10000 and descriptor.size==ffi.sizeof('GsnlApiTable'),'GSNL: invalid bridge descriptor')
+assert(descriptor.version~=nil and descriptor.source~=nil and descriptor.snapshot~=nil and
+    descriptor.length3~=nil and descriptor.dot3~=nil and descriptor.normalize_yaw~=nil,'GSNL: missing bridge functions')
+local native={gsnl_abi_version=descriptor.version,gsnl_source=descriptor.source,
+    gsnl_snapshot=descriptor.snapshot,gsnl_length3=descriptor.length3,
+    gsnl_dot3=descriptor.dot3,gsnl_normalize_yaw=descriptor.normalize_yaw}
 assert(native.gsnl_abi_version()==0x10000,'GSNL: incompatible native ABI')
 local length=ffi.new('unsigned int[1]')
 local source=native.gsnl_source(length)

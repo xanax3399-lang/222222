@@ -57,6 +57,8 @@ def generate():
         'events.createmove_run':'GS run_command exposes only command_number and choked_commands; read-only.',
         'events.aim_fire':'GS event with hit_chance renamed hitchance and x/y/z converted to aim. No NL shot angle.',
         'common.get_timestamp':'GS millisecond timestamp; no promise of the same epoch as NL.',
+        'common.get_date':'Only when the host explicitly provides os.date; stripped GS standard libraries do not guarantee it.',
+        'common.get_system_time':'Requires host os.date for the calendar fields; no fabricated date if it is absent.',
         'db':'Namespaced GS database keys (gsnl: prefix); no existing NL database import.',
     }
     rows={}
