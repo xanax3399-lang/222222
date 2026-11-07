@@ -60,6 +60,8 @@ Python с requirements-full.txt:
   python structure_sigma.py
   python build_full_source.py
   python polish_full_source.py
+  python clean_padding.py
+  python verify_padding.py
   SIGMA_SOURCE=new_sigma_pred.full_source.lua python verify_sigma.py
   python verify_helpers.py
 
@@ -68,3 +70,7 @@ $env:SIGMA_SOURCE='new_sigma_pred.full_source.lua' в PowerShell.
 Парсер при форматировании сохраняет исходные Lua-строки с экранированием
 и многозначные поля конструкторов таблиц; эти особенности проверяются
 сравнением реальных аргументов API и многозначных возвратов.
+
+Уточнение padding: таблица из 201 строки теперь записана прямо и отделена
+от API-переменных; 2000 случайных выборов, результирующий текст и следующий
+результат RNG совпали с оригинальной VM (padding_validation.json).

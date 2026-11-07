@@ -1,8 +1,8 @@
 {
   "input_sha256": "eb49cf0ca426ea748aadd008694cde1f2a2ce5a64a4d5bf524768a78825718fe",
-  "full_source_sha256": "e92c2c949bfec7ca4e2f6eedd344fb92490c1b12d754328cbcadf11d741635a6",
+  "full_source_sha256": "76342ae94727c352e1315115c03066df62bb8eee241a435d730e188800e0a37c",
   "application_functions": 41,
-  "source_lines": 4524,
+  "source_lines": 4295,
   "native_lexical_closures": true,
   "virtual_register_array_removed": true,
   "upvalue_proxy_removed": true,
@@ -21,5 +21,6 @@
   "author_variable_names_recovered": false,
   "all_possible_paths_proven_equivalent": false,
   "original_panorama_override_preserved": true,
-  "network_requests_or_remote_javascript_executed": false
+  "network_requests_or_remote_javascript_executed": false,
+  "padding_cleanup_verified": true
 }
