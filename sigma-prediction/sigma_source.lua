@@ -357,6 +357,9 @@ local function main(...)
         if get_value_type(values) == "number" then
             values = ui_get(values)
         end
+        if get_value_type(values) ~= "table" then
+            return values == wanted
+        end
         for index = 0, #values do
             if values[index] == wanted then
                 return true
@@ -1705,7 +1708,11 @@ local function main(...)
                     value_3 = "-"
                 end
             end
-            ui_set(value_2, value_3)
+            if get_value_type(ui_get(value_2)) == "boolean" then
+                ui_set(value_2, not not anti_aim_state.dir.freestand)
+            else
+                ui_set(value_2, value_3)
+            end
             value_2 = native_controls.freestand[2]
             ui_set(value_2, "Always on")
             value_1 = anti_aim_state.stored_dir
@@ -2296,7 +2303,12 @@ local function main(...)
                     value_15 = new_table(256)
                     value_15.t = "FREESTAND"
                     value_17 = native_controls.freestand[1]
-                    value_16 = contains_value(value_17, "Default")
+                    local freestanding_value = ui_get(value_17)
+                    if get_value_type(freestanding_value) == "boolean" then
+                        value_16 = freestanding_value
+                    else
+                        value_16 = contains_value(freestanding_value, "Default")
+                    end
                     if not (not value_16) then
                         value_17 = native_controls.freestand[2]
                         value_16 = ui_get(value_17)

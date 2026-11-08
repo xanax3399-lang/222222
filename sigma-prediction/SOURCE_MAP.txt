@@ -13,40 +13,40 @@
  191  reference_group
  216  set_native_ui_visible
  353  contains_value
- 367  head_coordinates
- 372  normalize_yaw
- 381  yaw_between_points
- 389  signed_coordinate_delta
- 403  target_info
- 494  signed_line_distance
- 501  target_record_info
- 619  pose_desync_side
- 629  update_shot_history
- 758  angles_to_direction
- 765  classify_movement
- 817  vector_yaw
- 823  estimate_damage_at_offsets
- 895  select_nearest_player
- 925  is_valid_player
- 937  update_target_anti_aim
-1318  reset_player_state
-1346  handle_use_key
-1424  update_manual_and_freestanding
-1725  point_on_circle
-1730  draw_indicator_triangle
-1832  apply_body_yaw
-1932  on_bullet_impact
-2018  on_player_hurt
-2061  on_player_spawn
-2071  draw_keybind_indicators
-2378  update_ui_visibility
-2445  get_steam_identity
-2472  update_whitelist
-2495  register_events_if_whitelisted
-2500  draw_not_whitelisted
-2584  is_mouse_in_rectangle
-2592  track_choked_commands
-2602  draw_custom_indicator
-2840  unused_callback
-2844  reset_body_yaw
-2854  adjust_crouching_ct_setting
+ 370  head_coordinates
+ 375  normalize_yaw
+ 384  yaw_between_points
+ 392  signed_coordinate_delta
+ 406  target_info
+ 497  signed_line_distance
+ 504  target_record_info
+ 622  pose_desync_side
+ 632  update_shot_history
+ 761  angles_to_direction
+ 768  classify_movement
+ 820  vector_yaw
+ 826  estimate_damage_at_offsets
+ 898  select_nearest_player
+ 928  is_valid_player
+ 940  update_target_anti_aim
+1321  reset_player_state
+1349  handle_use_key
+1427  update_manual_and_freestanding
+1732  point_on_circle
+1737  draw_indicator_triangle
+1839  apply_body_yaw
+1939  on_bullet_impact
+2025  on_player_hurt
+2068  on_player_spawn
+2078  draw_keybind_indicators
+2390  update_ui_visibility
+2457  get_steam_identity
+2484  update_whitelist
+2507  register_events_if_whitelisted
+2512  draw_not_whitelisted
+2596  is_mouse_in_rectangle
+2604  track_choked_commands
+2614  draw_custom_indicator
+2852  unused_callback
+2856  reset_body_yaw
+2866  adjust_crouching_ct_setting

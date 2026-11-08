@@ -1,7 +1,7 @@
 {
   "input_sha256": "eb49cf0ca426ea748aadd008694cde1f2a2ce5a64a4d5bf524768a78825718fe",
-  "source_sha256": "7e79618d15e0001f60d936a1c5c29099aea0b7bcdb5bec6d31117b46a9c9676c",
-  "source_lines": 2880,
+  "source_sha256": "d31fe4f9a39d097c55114e6a4f31606914049594c5c1eb72b18b99ddd6bbaaab",
+  "source_lines": 2892,
   "recovered_application_function_bodies": 41,
   "direct_helper_reconstructions": 13,
   "numeric_loop_scaffolds_replaced": 9,
@@ -111,7 +111,7 @@
     "existing_control_api_effects_match_original": true,
     "gameplay_tested": false
   },
-  "final_menu_preflight_checks": {
+  "menu_preflight_checks_before_freestanding_fix": {
     "source_sha256": "7e79618d15e0001f60d936a1c5c29099aea0b7bcdb5bec6d31117b46a9c9676c",
     "syntax_checked": [
       "Lua 5.1",
@@ -323,6 +323,20 @@
     ],
     "optional_missing_behavior": "Skip visibility-only controls and existing guarded Fake yaw limit writes.",
     "required_missing_behavior": "Log every missing dependency, then return before original prefix/RNG/UI mutations/callback registration."
+  },
+  "final_freestanding_checks": {
+    "source_sha256": "d31fe4f9a39d097c55114e6a4f31606914049594c5c1eb72b18b99ddd6bbaaab",
+    "gameplay_tested": false,
+    "scenarios": {
+      "checkbox": {
+        "callback_cases": 42,
+        "failures": []
+      },
+      "multiselect": {
+        "callback_cases": 42,
+        "failures": []
+      }
+    }
   },
   "compatibility_change": "Remove 9 unused references; preflight all 16 used dependencies before original side effects; cache handles; report every required/API failure together and do not start if any are missing. Six optional controls are guarded; DT/BAIM try the Aimbot container and are only used by indicators.",
   "reconstruction_tests_apply_before_ui_compatibility_patch": true,
