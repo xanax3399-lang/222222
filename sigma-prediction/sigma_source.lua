@@ -1,4 +1,78 @@
 -- Reconstructed editable Lua; inferred names. See README_EDITABLE_RU.txt.
+-- Validate every used native menu dependency before changing the UI or callbacks.
+local function preflight_native_menu()
+    local specs = {
+        {"pitch", "AA", "Anti-aimbot angles", "Pitch", 1, true},
+        {"yawbase", "AA", "Anti-aimbot angles", "Yaw base", 1, false},
+        {"fakeyawlimit", "AA", "Anti-aimbot angles", "Fake yaw limit", 1, false},
+        {"fsbodyyaw", "AA", "Anti-aimbot angles", "Freestanding body yaw", 1, false},
+        {"edgeyaw", "AA", "Anti-aimbot angles", "Edge yaw", 1, true},
+        {"fakeduck", "RAGE", "Other", "Duck peek assist", 1, true},
+        {"safepoint", "RAGE", "Aimbot", "Force safe point", 1, true},
+        {"forcebaim", "RAGE", "Other", "Force body aim", 1, true},
+        {"yaw", "AA", "Anti-aimbot angles", "Yaw", 2, true},
+        {"quickpeek", "RAGE", "Other", "Quick peek assist", 2, true},
+        {"yawjitter", "AA", "Anti-aimbot angles", "Yaw jitter", 2, false},
+        {"bodyyaw", "AA", "Anti-aimbot angles", "Body yaw", 2, true},
+        {"freestand", "AA", "Anti-aimbot angles", "Freestanding", 2, true},
+        {"os", "AA", "Other", "On shot anti-aim", 2, true},
+        {"slow", "AA", "Other", "Slow motion", 2, true},
+        {"dt", "RAGE", "Other", "Double tap", 2, true},
+    }
+    local function pack(...)
+        return {n = select("#", ...), ...}
+    end
+    local function path_key(tab, container, name)
+        return tab:lower() .. "/" .. container:lower() .. "/" .. name:lower()
+    end
+    local cache, failures, optional = {}, {}, {}
+    for _, spec in ipairs(specs) do
+        local result = pack(pcall(ui.reference, spec[2], spec[3], spec[4]))
+        if not result[1] and spec[1] == "fakeyawlimit" and tostring(result[2]):find("not found", 1, true) then
+            result = pack(pcall(ui.reference, "AA", "anti-aimbot angles", spec[4]))
+        end
+        local valid = result[1] == true
+        if valid then
+            for index = 1, spec[5] do
+                if result[index + 1] == nil then valid = false end
+            end
+        end
+        local label = spec[2] .. " / " .. spec[3] .. " / " .. spec[4]
+        if valid then
+            local handles = {n = result.n - 1}
+            for index = 2, result.n do handles[index - 1] = result[index] end
+            cache[path_key(spec[2], spec[3], spec[4])] = handles
+        else
+            local lookup_missing = not result[1] and tostring(result[2]):find("not found", 1, true)
+            local reason = result[1] and ("expected at least " .. spec[5] .. " non-nil handle(s)") or tostring(result[2])
+            if spec[6] or (not result[1] and not lookup_missing) then
+                failures[#failures + 1] = label .. " (" .. reason .. ")"
+            else
+                optional[#optional + 1] = label
+            end
+            -- Known optional absence is represented by an empty result list.
+            cache[path_key(spec[2], spec[3], spec[4])] = {n = 0}
+        end
+    end
+    if #failures > 0 then
+        client.log("[sigma] Not started: incompatible GameSense menu (" .. #failures .. " required/API issue(s)).")
+        for _, message in ipairs(failures) do client.log("[sigma] Required/API: " .. message) end
+    end
+    if #optional > 0 then
+        client.log("[sigma] Unavailable optional menu controls (" .. #optional .. "):")
+        for _, message in ipairs(optional) do client.log("[sigma] Optional: " .. message) end
+        client.log("[sigma] Missing optional controls are left alone; Fake yaw limit writes and its crouching CT override require that control.")
+    end
+    if #failures > 0 then return nil end
+    return function(tab, container, name)
+        local handles = cache[path_key(tab, container, name)]
+        if handles == nil then error("[sigma] Native reference missing from dependency audit: " .. tab .. "/" .. container .. "/" .. name, 2) end
+        return unpack(handles, 1, handles.n)
+    end
+end
+local cached_native_reference = preflight_native_menu()
+if cached_native_reference == nil then return end
+
 local o_loadstring = panorama.loadstring
 panorama.loadstring = function(...)
     local args = {
@@ -86,7 +160,7 @@ local function main(...)
     ui_new_hotkey = environment.ui.new_hotkey
     ui_new_label = environment.ui.new_label
     ui_new_multiselect = environment.ui.new_multiselect
-    ui_reference = environment.ui.reference
+    ui_reference = cached_native_reference
     ui_set = environment.ui.set
     ui_set_callback = environment.ui.set_callback
     ui_set_visible = environment.ui.set_visible
@@ -119,24 +193,14 @@ local function main(...)
         return controls
     end
     native_controls = new_table(256)
-    native_controls.enabled = ui_reference("AA", "Anti-aimbot angles", "Enabled")
     native_controls.pitch = ui_reference("AA", "Anti-aimbot angles", "Pitch")
     native_controls.yawbase = ui_reference("AA", "Anti-aimbot angles", "Yaw base")
     native_controls.fakeyawlimit = find_fake_yaw_limit()
-    if native_controls.fakeyawlimit == nil then
-        environment.client.log("[sigma] Fake yaw limit is unavailable in this GameSense build; limit writes and the crouching CT limit override are disabled.")
-    end
     native_controls.fsbodyyaw = ui_reference("AA", "Anti-aimbot angles", "Freestanding body yaw")
     native_controls.edgeyaw = ui_reference("AA", "Anti-aimbot angles", "Edge yaw")
-    native_controls.maxprocticks = ui_reference("MISC", "Settings", "sv_maxusrcmdprocessticks")
     native_controls.fakeduck = ui_reference("RAGE", "Other", "Duck peek assist")
     native_controls.safepoint = ui_reference("RAGE", "Aimbot", "Force safe point")
     native_controls.forcebaim = ui_reference("RAGE", "Other", "Force body aim")
-    native_controls.player_list = ui_reference("PLAYERS", "Players", "Player list")
-    native_controls.reset_all = ui_reference("PLAYERS", "Players", "Reset all")
-    native_controls.apply_all = ui_reference("PLAYERS", "Adjustments", "Apply to all")
-    native_controls.load_cfg = ui_reference("Config", "Presets", "Load")
-    native_controls.fl_limit = ui_reference("AA", "Fake lag", "Limit")
     native_controls.yaw = reference_group("AA", "Anti-aimbot angles", "Yaw")
     native_controls.quickpeek = reference_group("RAGE", "Other", "Quick peek assist")
     native_controls.yawjitter = reference_group("AA", "Anti-aimbot angles", "Yaw jitter")
@@ -145,42 +209,21 @@ local function main(...)
     native_controls.os = reference_group("AA", "Other", "On shot anti-aim")
     native_controls.slow = reference_group("AA", "Other", "Slow motion")
     native_controls.dt = reference_group("RAGE", "Other", "Double tap")
-    native_controls.ps = reference_group("RAGE", "Other", "Double tap")
-    native_controls.fakelag = reference_group("AA", "Fake lag", "Enabled")
     set_native_ui_visible = function(visible)
-        local value_2
         if visible == nil then
             visible = true
         end
-        value_2 = native_controls.pitch
-        ui_set_visible(value_2, visible)
-        value_2 = native_controls.yawbase
-        ui_set_visible(value_2, visible)
-        value_2 = native_controls.yaw[1]
-        ui_set_visible(value_2, visible)
-        value_2 = native_controls.yaw[2]
-        ui_set_visible(value_2, visible)
-        value_2 = native_controls.yawjitter[1]
-        ui_set_visible(value_2, visible)
-        value_2 = native_controls.yawjitter[2]
-        ui_set_visible(value_2, visible)
-        value_2 = native_controls.bodyyaw[1]
-        ui_set_visible(value_2, visible)
-        value_2 = native_controls.bodyyaw[2]
-        ui_set_visible(value_2, visible)
-        value_2 = native_controls.fakeyawlimit
-        if value_2 ~= nil then
-            ui_set_visible(value_2, visible)
+        local names = {"pitch", "yawbase", "yaw", "yawjitter", "bodyyaw", "fakeyawlimit", "fsbodyyaw", "edgeyaw", "freestand"}
+        for _, name in ipairs(names) do
+            local control = native_controls[name]
+            if type(control) == "table" then
+                for index = 1, #control do
+                    ui_set_visible(control[index], visible)
+                end
+            elseif control ~= nil then
+                ui_set_visible(control, visible)
+            end
         end
-        value_2 = native_controls.fsbodyyaw
-        ui_set_visible(value_2, visible)
-        value_2 = native_controls.edgeyaw
-        ui_set_visible(value_2, visible)
-        value_2 = native_controls.freestand[1]
-        ui_set_visible(value_2, visible)
-        value_2 = native_controls.freestand[2]
-        ui_set_visible(value_2, visible)
-        return
     end
     set_native_ui_visible(false)
     script_controls = new_table(256)
@@ -2523,13 +2566,13 @@ local function main(...)
     indicator_x = environment.ui.new_slider("AA", "Anti-aimbot angles", "Saved position x", 0, 1920, 10)
     indicator_y = environment.ui.new_slider("AA", "Anti-aimbot angles", "Saved position y", 0, 1080, 400)
     indicator_drag_key = environment.ui.new_hotkey("LUA", "B", "Mouse 1")
-    onshot_enabled = environment.ui.reference
+    onshot_enabled = cached_native_reference
     onshot_enabled, onshot_key = onshot_enabled("AA", "Other", "On shot anti-aim")
-    force_safe_point = environment.ui.reference("RAGE", "Aimbot", "Force safe point")
-    double_tap_enabled = environment.ui.reference
+    force_safe_point = cached_native_reference("RAGE", "Aimbot", "Force safe point")
+    double_tap_enabled = cached_native_reference
     double_tap_enabled, double_tap_key = double_tap_enabled("RAGE", "Other", "Double tap")
-    force_body_aim = environment.ui.reference("RAGE", "Other", "Force body aim")
-    duck_peek_assist = environment.ui.reference("RAGE", "Other", "Duck peek assist")
+    force_body_aim = cached_native_reference("RAGE", "Other", "Force body aim")
+    duck_peek_assist = cached_native_reference("RAGE", "Other", "Duck peek assist")
     indicator_dimensions = new_table(256)
     indicator_dimensions.x = 150
     indicator_dimensions.y = 100

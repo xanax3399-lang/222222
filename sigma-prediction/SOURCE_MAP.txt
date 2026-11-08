@@ -1,49 +1,52 @@
 КАРТА ОСНОВНОГО ФАЙЛА sigma_source.lua
 Строки и имена реконструированных функций; имена определены по использованию.
 
-  16  pack_results
-  22  new_table
-  29  main
-  40  return_varargs
-  95  optional_ui_reference
- 106  find_fake_yaw_limit
- 113  reference_group
- 150  set_native_ui_visible
- 306  contains_value
- 320  head_coordinates
- 325  normalize_yaw
- 334  yaw_between_points
- 342  signed_coordinate_delta
- 356  target_info
- 447  signed_line_distance
- 454  target_record_info
- 572  pose_desync_side
- 582  update_shot_history
- 711  angles_to_direction
- 718  classify_movement
- 770  vector_yaw
- 776  estimate_damage_at_offsets
- 848  select_nearest_player
- 878  is_valid_player
- 890  update_target_anti_aim
-1271  reset_player_state
-1299  handle_use_key
-1377  update_manual_and_freestanding
-1678  point_on_circle
-1683  draw_indicator_triangle
-1785  apply_body_yaw
-1885  on_bullet_impact
-1971  on_player_hurt
-2014  on_player_spawn
-2024  draw_keybind_indicators
-2331  update_ui_visibility
-2398  get_steam_identity
-2425  update_whitelist
-2448  register_events_if_whitelisted
-2453  draw_not_whitelisted
-2537  is_mouse_in_rectangle
-2545  track_choked_commands
-2555  draw_custom_indicator
-2793  unused_callback
-2797  reset_body_yaw
-2807  adjust_crouching_ct_setting
+   3  preflight_native_menu
+  22  pack
+  25  path_key
+  90  pack_results
+  96  new_table
+ 103  main
+ 114  return_varargs
+ 169  optional_ui_reference
+ 180  find_fake_yaw_limit
+ 187  reference_group
+ 212  set_native_ui_visible
+ 349  contains_value
+ 363  head_coordinates
+ 368  normalize_yaw
+ 377  yaw_between_points
+ 385  signed_coordinate_delta
+ 399  target_info
+ 490  signed_line_distance
+ 497  target_record_info
+ 615  pose_desync_side
+ 625  update_shot_history
+ 754  angles_to_direction
+ 761  classify_movement
+ 813  vector_yaw
+ 819  estimate_damage_at_offsets
+ 891  select_nearest_player
+ 921  is_valid_player
+ 933  update_target_anti_aim
+1314  reset_player_state
+1342  handle_use_key
+1420  update_manual_and_freestanding
+1721  point_on_circle
+1726  draw_indicator_triangle
+1828  apply_body_yaw
+1928  on_bullet_impact
+2014  on_player_hurt
+2057  on_player_spawn
+2067  draw_keybind_indicators
+2374  update_ui_visibility
+2441  get_steam_identity
+2468  update_whitelist
+2491  register_events_if_whitelisted
+2496  draw_not_whitelisted
+2580  is_mouse_in_rectangle
+2588  track_choked_commands
+2598  draw_custom_indicator
+2836  unused_callback
+2840  reset_body_yaw
+2850  adjust_crouching_ct_setting

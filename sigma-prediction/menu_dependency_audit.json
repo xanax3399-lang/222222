@@ -1,0 +1,145 @@
+{
+  "used_references": [
+    {
+      "key": "pitch",
+      "tab": "AA",
+      "container": "Anti-aimbot angles",
+      "name": "Pitch",
+      "minimum_handles": 1,
+      "required": true
+    },
+    {
+      "key": "yawbase",
+      "tab": "AA",
+      "container": "Anti-aimbot angles",
+      "name": "Yaw base",
+      "minimum_handles": 1,
+      "required": false
+    },
+    {
+      "key": "fakeyawlimit",
+      "tab": "AA",
+      "container": "Anti-aimbot angles",
+      "name": "Fake yaw limit",
+      "minimum_handles": 1,
+      "required": false
+    },
+    {
+      "key": "fsbodyyaw",
+      "tab": "AA",
+      "container": "Anti-aimbot angles",
+      "name": "Freestanding body yaw",
+      "minimum_handles": 1,
+      "required": false
+    },
+    {
+      "key": "edgeyaw",
+      "tab": "AA",
+      "container": "Anti-aimbot angles",
+      "name": "Edge yaw",
+      "minimum_handles": 1,
+      "required": true
+    },
+    {
+      "key": "fakeduck",
+      "tab": "RAGE",
+      "container": "Other",
+      "name": "Duck peek assist",
+      "minimum_handles": 1,
+      "required": true
+    },
+    {
+      "key": "safepoint",
+      "tab": "RAGE",
+      "container": "Aimbot",
+      "name": "Force safe point",
+      "minimum_handles": 1,
+      "required": true
+    },
+    {
+      "key": "forcebaim",
+      "tab": "RAGE",
+      "container": "Other",
+      "name": "Force body aim",
+      "minimum_handles": 1,
+      "required": true
+    },
+    {
+      "key": "yaw",
+      "tab": "AA",
+      "container": "Anti-aimbot angles",
+      "name": "Yaw",
+      "minimum_handles": 2,
+      "required": true
+    },
+    {
+      "key": "quickpeek",
+      "tab": "RAGE",
+      "container": "Other",
+      "name": "Quick peek assist",
+      "minimum_handles": 2,
+      "required": true
+    },
+    {
+      "key": "yawjitter",
+      "tab": "AA",
+      "container": "Anti-aimbot angles",
+      "name": "Yaw jitter",
+      "minimum_handles": 2,
+      "required": false
+    },
+    {
+      "key": "bodyyaw",
+      "tab": "AA",
+      "container": "Anti-aimbot angles",
+      "name": "Body yaw",
+      "minimum_handles": 2,
+      "required": true
+    },
+    {
+      "key": "freestand",
+      "tab": "AA",
+      "container": "Anti-aimbot angles",
+      "name": "Freestanding",
+      "minimum_handles": 2,
+      "required": true
+    },
+    {
+      "key": "os",
+      "tab": "AA",
+      "container": "Other",
+      "name": "On shot anti-aim",
+      "minimum_handles": 2,
+      "required": true
+    },
+    {
+      "key": "slow",
+      "tab": "AA",
+      "container": "Other",
+      "name": "Slow motion",
+      "minimum_handles": 2,
+      "required": true
+    },
+    {
+      "key": "dt",
+      "tab": "RAGE",
+      "container": "Other",
+      "name": "Double tap",
+      "minimum_handles": 2,
+      "required": true
+    }
+  ],
+  "removed_unused_references": [
+    "enabled",
+    "maxprocticks",
+    "player_list",
+    "reset_all",
+    "apply_all",
+    "load_cfg",
+    "fl_limit",
+    "ps",
+    "fakelag"
+  ],
+  "optional_missing_behavior": "Skip visibility-only controls and existing guarded Fake yaw limit writes.",
+  "required_missing_behavior": "Log every missing dependency, then return before original prefix/RNG/UI mutations/callback registration."
+}

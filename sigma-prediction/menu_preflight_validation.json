@@ -1,0 +1,55 @@
+{
+  "source_sha256": "f37db8e19824655da38da82efd46c900fbaaa24c90169cef4de3d5e12785f8fc",
+  "syntax_checked": [
+    "Lua 5.1",
+    "LuaJIT 2.1"
+  ],
+  "closed_registry": true,
+  "scenarios": {
+    "reported_max_ticks": {
+      "callback_cases": 42,
+      "callback_failures": [],
+      "unused_references_not_queried": true
+    },
+    "all_unused": {
+      "callback_cases": 42,
+      "callback_failures": [],
+      "unused_references_not_queried": true
+    },
+    "all_optional": {
+      "callback_cases": 39,
+      "callback_failures": [],
+      "unused_references_not_queried": true
+    },
+    "three_required": {
+      "all_expected_issues_reported": true,
+      "callbacks_registered": 0,
+      "rng_draws": 0,
+      "original_panorama_override_not_run": true,
+      "ui_mutations": 0
+    },
+    "all_required": {
+      "all_expected_issues_reported": true,
+      "callbacks_registered": 0,
+      "rng_draws": 0,
+      "original_panorama_override_not_run": true,
+      "ui_mutations": 0
+    },
+    "missing_second_handle": {
+      "all_expected_issues_reported": true,
+      "callbacks_registered": 0,
+      "rng_draws": 0,
+      "original_panorama_override_not_run": true,
+      "ui_mutations": 0
+    },
+    "optional_api_error": {
+      "all_expected_issues_reported": true,
+      "callbacks_registered": 0,
+      "rng_draws": 0,
+      "original_panorama_override_not_run": true,
+      "ui_mutations": 0
+    }
+  },
+  "supported_build_effects_match_previous_release": true,
+  "gameplay_tested": false
+}

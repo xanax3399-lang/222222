@@ -4,9 +4,11 @@
   "new_sigma_pred_full_source.lua": "76342ae94727c352e1315115c03066df62bb8eee241a435d730e188800e0a37c",
   "README_FULL_RU.txt": "f2a41d1f33dad6249880a3dfcad0ae3ef26e5a2bb079182a9ee494ee98c6c7ef",
   "new_sigma_pred_full_source.zip": "27ce5f04227e6f54af8c21ec78dc78a89bf4dbdc512d68f25a4cbd1285e242d7",
-  "sigma_source.lua": "9427ce7026598537842a2ac42ea460873f4730b327f0209e51336006eb6cb1e9",
-  "sigma_source.zip": "b127c3dd5910f3a2bce2de9324039fd54cdaada746d4ae10a58bb177924c5e18",
-  "README_EDITABLE_RU.txt": "8a787e511789a046556cdb1147c701722c527a5339ea8d0e534e78e81ce5cfe5",
-  "SOURCE_MAP.txt": "f4a11e0af9dcd0473c051b094d78d5989b1b024868e4a366611bbcb0f2559432",
-  "editable_verification.json": "9e3ae1c0d4903482bcb13e8fa1cf9fee3898536e289f2dd61f822ac2ba8931a9"
+  "sigma_source.lua": "f37db8e19824655da38da82efd46c900fbaaa24c90169cef4de3d5e12785f8fc",
+  "sigma_source.zip": "0cf638a74732f5e4e88b48ec26d788f8ec279c139cb58c5ec990afe958dcdad6",
+  "README_EDITABLE_RU.txt": "8a9ab9ce31e814e9ebc18620e0cd08fa145d69cc7502460c21c6eb937e57b45e",
+  "SOURCE_MAP.txt": "6b2358d6552ead7e5236b2fc5f30aa144b68c60a7d9621f7f4364e6241007688",
+  "editable_verification.json": "251321d45eacfffc423995b987818ce38bc22bef55b21f6f00993664d15a8559",
+  "menu_dependency_audit.json": "a61ad4267d155ea6ecdd30fdc6e726fb3837e634514beb7dc914702d594e85a4",
+  "menu_preflight_validation.json": "4b35af35d186438a3f299f111af19316b7b48afd0f5b7ac0e965a1e526d453b3"
 }

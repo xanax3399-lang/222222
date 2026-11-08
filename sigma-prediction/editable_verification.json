@@ -1,7 +1,7 @@
 {
   "input_sha256": "eb49cf0ca426ea748aadd008694cde1f2a2ce5a64a4d5bf524768a78825718fe",
-  "source_sha256": "9427ce7026598537842a2ac42ea460873f4730b327f0209e51336006eb6cb1e9",
-  "source_lines": 2833,
+  "source_sha256": "f37db8e19824655da38da82efd46c900fbaaa24c90169cef4de3d5e12785f8fc",
+  "source_lines": 2876,
   "recovered_application_function_bodies": 41,
   "direct_helper_reconstructions": 13,
   "numeric_loop_scaffolds_replaced": 9,
@@ -64,7 +64,7 @@
     "virtualization_scaffolding_absent": true,
     "gameplay_tested": false
   },
-  "final_ui_compatibility_checks": {
+  "intermediate_fake_yaw_fix_checks": {
     "syntax_checked": [
       "Lua 5.1",
       "LuaJIT 2.1"
@@ -111,7 +111,207 @@
     "existing_control_api_effects_match_original": true,
     "gameplay_tested": false
   },
-  "compatibility_change": "Missing Fake yaw limit skips limit writes, visibility changes and the crouching CT limit callback, with one explicit warning. Other UI errors remain fatal.",
+  "final_menu_preflight_checks": {
+    "source_sha256": "f37db8e19824655da38da82efd46c900fbaaa24c90169cef4de3d5e12785f8fc",
+    "syntax_checked": [
+      "Lua 5.1",
+      "LuaJIT 2.1"
+    ],
+    "closed_registry": true,
+    "scenarios": {
+      "reported_max_ticks": {
+        "callback_cases": 42,
+        "callback_failures": [],
+        "unused_references_not_queried": true
+      },
+      "all_unused": {
+        "callback_cases": 42,
+        "callback_failures": [],
+        "unused_references_not_queried": true
+      },
+      "all_optional": {
+        "callback_cases": 39,
+        "callback_failures": [],
+        "unused_references_not_queried": true
+      },
+      "three_required": {
+        "all_expected_issues_reported": true,
+        "callbacks_registered": 0,
+        "rng_draws": 0,
+        "original_panorama_override_not_run": true,
+        "ui_mutations": 0
+      },
+      "all_required": {
+        "all_expected_issues_reported": true,
+        "callbacks_registered": 0,
+        "rng_draws": 0,
+        "original_panorama_override_not_run": true,
+        "ui_mutations": 0
+      },
+      "missing_second_handle": {
+        "all_expected_issues_reported": true,
+        "callbacks_registered": 0,
+        "rng_draws": 0,
+        "original_panorama_override_not_run": true,
+        "ui_mutations": 0
+      },
+      "optional_api_error": {
+        "all_expected_issues_reported": true,
+        "callbacks_registered": 0,
+        "rng_draws": 0,
+        "original_panorama_override_not_run": true,
+        "ui_mutations": 0
+      }
+    },
+    "supported_build_effects_match_previous_release": true,
+    "gameplay_tested": false
+  },
+  "native_menu_dependency_audit": {
+    "used_references": [
+      {
+        "key": "pitch",
+        "tab": "AA",
+        "container": "Anti-aimbot angles",
+        "name": "Pitch",
+        "minimum_handles": 1,
+        "required": true
+      },
+      {
+        "key": "yawbase",
+        "tab": "AA",
+        "container": "Anti-aimbot angles",
+        "name": "Yaw base",
+        "minimum_handles": 1,
+        "required": false
+      },
+      {
+        "key": "fakeyawlimit",
+        "tab": "AA",
+        "container": "Anti-aimbot angles",
+        "name": "Fake yaw limit",
+        "minimum_handles": 1,
+        "required": false
+      },
+      {
+        "key": "fsbodyyaw",
+        "tab": "AA",
+        "container": "Anti-aimbot angles",
+        "name": "Freestanding body yaw",
+        "minimum_handles": 1,
+        "required": false
+      },
+      {
+        "key": "edgeyaw",
+        "tab": "AA",
+        "container": "Anti-aimbot angles",
+        "name": "Edge yaw",
+        "minimum_handles": 1,
+        "required": true
+      },
+      {
+        "key": "fakeduck",
+        "tab": "RAGE",
+        "container": "Other",
+        "name": "Duck peek assist",
+        "minimum_handles": 1,
+        "required": true
+      },
+      {
+        "key": "safepoint",
+        "tab": "RAGE",
+        "container": "Aimbot",
+        "name": "Force safe point",
+        "minimum_handles": 1,
+        "required": true
+      },
+      {
+        "key": "forcebaim",
+        "tab": "RAGE",
+        "container": "Other",
+        "name": "Force body aim",
+        "minimum_handles": 1,
+        "required": true
+      },
+      {
+        "key": "yaw",
+        "tab": "AA",
+        "container": "Anti-aimbot angles",
+        "name": "Yaw",
+        "minimum_handles": 2,
+        "required": true
+      },
+      {
+        "key": "quickpeek",
+        "tab": "RAGE",
+        "container": "Other",
+        "name": "Quick peek assist",
+        "minimum_handles": 2,
+        "required": true
+      },
+      {
+        "key": "yawjitter",
+        "tab": "AA",
+        "container": "Anti-aimbot angles",
+        "name": "Yaw jitter",
+        "minimum_handles": 2,
+        "required": false
+      },
+      {
+        "key": "bodyyaw",
+        "tab": "AA",
+        "container": "Anti-aimbot angles",
+        "name": "Body yaw",
+        "minimum_handles": 2,
+        "required": true
+      },
+      {
+        "key": "freestand",
+        "tab": "AA",
+        "container": "Anti-aimbot angles",
+        "name": "Freestanding",
+        "minimum_handles": 2,
+        "required": true
+      },
+      {
+        "key": "os",
+        "tab": "AA",
+        "container": "Other",
+        "name": "On shot anti-aim",
+        "minimum_handles": 2,
+        "required": true
+      },
+      {
+        "key": "slow",
+        "tab": "AA",
+        "container": "Other",
+        "name": "Slow motion",
+        "minimum_handles": 2,
+        "required": true
+      },
+      {
+        "key": "dt",
+        "tab": "RAGE",
+        "container": "Other",
+        "name": "Double tap",
+        "minimum_handles": 2,
+        "required": true
+      }
+    ],
+    "removed_unused_references": [
+      "enabled",
+      "maxprocticks",
+      "player_list",
+      "reset_all",
+      "apply_all",
+      "load_cfg",
+      "fl_limit",
+      "ps",
+      "fakelag"
+    ],
+    "optional_missing_behavior": "Skip visibility-only controls and existing guarded Fake yaw limit writes.",
+    "required_missing_behavior": "Log every missing dependency, then return before original prefix/RNG/UI mutations/callback registration."
+  },
+  "compatibility_change": "Remove 9 unused references; preflight all 16 used dependencies before original side effects; cache handles; report every required/API failure together and do not start if any are missing. Four optional controls are guarded.",
   "reconstruction_tests_apply_before_ui_compatibility_patch": true,
   "fresh_reconstruction_and_compatibility_patch_matched_sha256": true,
   "all_paths_proven_equivalent": false,
