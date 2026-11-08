@@ -1,0 +1,20 @@
+{
+  "source_sha256": "23be87c4a29afd1dfa40fdda96efcb482794b961993ba689621430daae6440d4",
+  "syntax": [
+    "Lua 5.1",
+    "LuaJIT 2.1"
+  ],
+  "reference_and_freestanding_tests": {
+    "checkbox": {
+      "missing_optional_handles": true,
+      "rage_aimbot_fallback": true,
+      "freestanding_writes_checked": 5
+    },
+    "multiselect": {
+      "missing_optional_handles": true,
+      "rage_aimbot_fallback": true,
+      "freestanding_writes_checked": 5
+    }
+  },
+  "full_script_runtime_or_gameplay_tested": false
+}
