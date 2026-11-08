@@ -20,6 +20,21 @@ local function __dec14_pack_results(...)
     return {n = select('#', ...), ...}
 end
 
+-- Resolve known legacy menu paths without changing the global GameSense API.
+local function compatible_reference(tab, container, name)
+    local results = __dec14_pack_results(pcall(ui.reference, tab, container, name))
+    if results[1] then return unpack(results, 2, results.n) end
+    if not tostring(results[2]):find('not found', 1, true) then error(results[2], 2) end
+    if tab:lower() == 'rage' and container:lower() == 'other' and (name == 'Double tap' or name == 'Force body aim') then
+        return ui.reference(tab, 'Aimbot', name)
+    end
+    if name == 'Fake yaw limit' then
+        client.log('[sigma dec14] Fake yaw limit is unavailable; its visibility and limit writes are skipped.')
+        return nil
+    end
+    error(results[2], 2)
+end
+
 local function main(...)
     local http_module, vector_module, get_value_type, set_metatable, to_string, math_pi, math_min, math_max, math_degrees, math_radians, math_square_root, math_sine, math_cosine, math_arctangent, math_arccosine, math_remainder, vector_metatable, base64_module, extract_bits, base64_encoder, base64_decoder, string_char, table_concat, bit_band, camera_angles, eye_position, key_state, scale_damage, screen_size, set_event_callback, trace_bullet, trace_line, userid_to_entindex, get_all_entities, get_classname, get_local_player, get_player_resource, get_players, get_prop, hitbox_position, is_alive, is_dormant, is_enemy, curtime, tickcount, tickinterval, math_abs, math_atan, math_atan2, math_cos, math_deg, math_rad, math_sin, math_sqrt, draw_gradient, draw_line, draw_text, draw_triangle, table_remove, ui_get, ui_new_color_picker, ui_new_hotkey, ui_new_label, ui_new_multiselect, ui_reference, ui_set, ui_set_callback, ui_set_visible, type_alias, ui_new_slider, native_controls, set_native_ui_visible, script_controls, anti_aim_state, player_records, contains_value, head_coordinates, normalize_yaw, yaw_between_points, signed_coordinate_delta, target_info, signed_line_distance, target_record_info, pose_desync_side, update_shot_history, angles_to_direction, classify_movement, vector_yaw, scale_factor, draw_circle_indicator, estimate_damage_at_offsets, select_nearest_player, is_valid_player, value_93_1, value_94_1, update_target_anti_aim, reset_player_state, handle_use_key, value_98_1, update_manual_and_freestanding, point_on_circle, draw_indicator_triangle, reset_clan_tag, apply_body_yaw, on_bullet_impact, on_player_hurt, on_player_spawn, value_107_1, value_108_1, value_109_1, value_110_1, value_111_1, clear_clan_tag, draw_indicators, update_ui_visibility, whitelisted, panorama_api, register_events_if_whitelisted, request_whitelist, fake_yaw_limit, screen_dimensions, screen_center, draw_branding, value_123_1, value_124_1, value_125_1, value_126_1, value_127_1, value_128_1, value_129_1, value_130_1, value_131_1, value_132_1, value_133_1, value_134_1, value_135_1
     http_module = require(("gamesense/http"))
@@ -1024,29 +1039,26 @@ local function main(...)
     ui_new_hotkey = ui.new_hotkey
     ui_new_label = ui.new_label
     ui_new_multiselect = ui.new_multiselect
-    ui_reference = ui.reference
-    ui_set = ui.set
+    ui_reference = compatible_reference
+    ui_set = function(handle, value, ...)
+        if native_controls and native_controls.freestand and handle == native_controls.freestand[1] and type(ui.get(handle)) == 'boolean' and type(value) == 'string' then
+            return ui.set(handle, value == 'Default', ...)
+        end
+        return ui.set(handle, value, ...)
+    end
     ui_set_callback = ui.set_callback
     ui_set_visible = ui.set_visible
     type_alias = get_value_type
     ui_new_slider = ui.new_slider
     native_controls = {
     }
-    native_controls.enabled = ui_reference(("AA"), ("Anti-aimbot angles"), ("Enabled"))
-    native_controls.pitch = ui_reference(("AA"), ("Anti-aimbot angles"), ("pitch"))
+    native_controls.pitch = ui_reference(("AA"), ("Anti-aimbot angles"), ("Pitch"))
     native_controls.yawbase = ui_reference(("AA"), ("Anti-aimbot angles"), ("Yaw base"))
-    native_controls.fakeyawlimit = ui_reference(("AA"), ("anti-aimbot angles"), ("Fake yaw limit"))
-    native_controls.fsbodyyaw = ui_reference(("AA"), ("anti-aimbot angles"), ("Freestanding body yaw"))
+    native_controls.fakeyawlimit = ui_reference(("AA"), ("Anti-aimbot angles"), ("Fake yaw limit"))
+    native_controls.fsbodyyaw = ui_reference(("AA"), ("Anti-aimbot angles"), ("Freestanding body yaw"))
     native_controls.edgeyaw = ui_reference(("AA"), ("Anti-aimbot angles"), ("Edge yaw"))
-    native_controls.maxprocticks = ui_reference(("MISC"), ("Settings"), ("sv_maxusrcmdprocessticks"))
-    native_controls.fakeduck = ui_reference(("RAGE"), ("Other"), ("Duck peek assist"))
     native_controls.safepoint = ui_reference(("RAGE"), ("Aimbot"), ("Force safe point"))
     native_controls.forcebaim = ui_reference(("RAGE"), ("Other"), ("Force body aim"))
-    native_controls.player_list = ui_reference(("PLAYERS"), ("Players"), ("Player list"))
-    native_controls.reset_all = ui_reference(("PLAYERS"), ("Players"), ("Reset all"))
-    native_controls.apply_all = ui_reference(("PLAYERS"), ("Adjustments"), ("Apply to all"))
-    native_controls.load_cfg = ui_reference(("Config"), ("Presets"), ("Load"))
-    native_controls.fl_limit = ui_reference(("AA"), ("Fake lag"), ("Limit"))
     set_native_ui_visible = {
     }
     script_controls, anti_aim_state, player_records, contains_value, head_coordinates, normalize_yaw, yaw_between_points, signed_coordinate_delta, target_info, signed_line_distance, target_record_info, pose_desync_side, update_shot_history, angles_to_direction, classify_movement, vector_yaw, scale_factor, draw_circle_indicator, estimate_damage_at_offsets, select_nearest_player, is_valid_player, value_93_1, value_94_1, update_target_anti_aim, reset_player_state, handle_use_key, value_98_1, update_manual_and_freestanding, point_on_circle, draw_indicator_triangle, reset_clan_tag, apply_body_yaw, on_bullet_impact, on_player_hurt, on_player_spawn, value_107_1, value_108_1, value_109_1, value_110_1, value_111_1, clear_clan_tag, draw_indicators, update_ui_visibility, whitelisted, panorama_api, register_events_if_whitelisted, request_whitelist, fake_yaw_limit, screen_dimensions, screen_center, draw_branding, value_123_1, value_124_1, value_125_1, value_126_1, value_127_1, value_128_1, value_129_1, value_130_1, value_131_1, value_132_1, value_133_1, value_134_1, value_135_1 = ui_reference(("AA"), ("Anti-aimbot angles"), ("Yaw"))
@@ -1681,7 +1693,7 @@ local function main(...)
         value_2_2 = (native_controls.bodyyaw)[2]
         ui_set_visible(value_2_2, argument_0_2)
         value_2_2 = native_controls.fakeyawlimit
-        ui_set_visible(value_2_2, argument_0_2)
+        if value_2_2 ~= nil then ui_set_visible(value_2_2, argument_0_2) end
         value_2_2 = native_controls.fsbodyyaw
         ui_set_visible(value_2_2, argument_0_2)
         value_2_2 = native_controls.edgeyaw
@@ -1959,6 +1971,7 @@ local function main(...)
         if value_2_2 == "number" then
             argument_0_2 = ui_get(argument_0_2)
         end
+        if type_alias(argument_0_2) ~= 'table' then return argument_0_2 == argument_1_2 end
         value_3_2 = #argument_0_2
         for value_5_2 = 0, value_3_2, 1 do
             value_6_2 = argument_0_2[value_5_2]
@@ -4676,37 +4689,37 @@ local function main(...)
         value_9_2 = anti_aim_state.aa
         if value_9_2 == 1 then
             value_10_2 = native_controls.fakeyawlimit
-            ui_set(value_10_2, 60)
+            if value_10_2 ~= nil then ui_set(value_10_2, 60) end
         else
             value_9_2 = anti_aim_state.aa
             if value_9_2 == 2 then
                 value_10_2 = native_controls.fakeyawlimit
-                ui_set(value_10_2, 60)
+                if value_10_2 ~= nil then ui_set(value_10_2, 60) end
             else
                 value_9_2 = anti_aim_state.aa
                 if value_9_2 == 3 then
                     value_10_2 = native_controls.fakeyawlimit
-                    ui_set(value_10_2, 60)
+                    if value_10_2 ~= nil then ui_set(value_10_2, 60) end
                 else
                     value_9_2 = anti_aim_state.aa
                     if value_9_2 == 4 then
                         value_10_2 = native_controls.fakeyawlimit
-                        ui_set(value_10_2, 60)
+                        if value_10_2 ~= nil then ui_set(value_10_2, 60) end
                     else
                         value_9_2 = anti_aim_state.aa
                         if value_9_2 == 5 then
                             value_10_2 = native_controls.fakeyawlimit
-                            ui_set(value_10_2, 60)
+                            if value_10_2 ~= nil then ui_set(value_10_2, 60) end
                         else
                             value_9_2 = anti_aim_state.aa
                             if value_9_2 == 6 then
                                 value_10_2 = native_controls.fakeyawlimit
-                                ui_set(value_10_2, value_7_2)
+                                if value_10_2 ~= nil then ui_set(value_10_2, value_7_2) end
                             else
                                 value_9_2 = anti_aim_state.aa
                                 if value_9_2 == 7 then
                                     value_10_2 = native_controls.fakeyawlimit
-                                    ui_set(value_10_2, value_8_2)
+                                    if value_10_2 ~= nil then ui_set(value_10_2, value_8_2) end
                                 end
                             end
                         end
@@ -5479,7 +5492,12 @@ local function main(...)
                     value_15_2.t = "FS"
                     value_17_2 = (native_controls.freestand)[1]
                     value_18_2 = "Default"
-                    value_16_2 = contains_value(value_17_2, ("Default"))
+                    local freestanding_state = ui_get(value_17_2)
+                    if type_alias(freestanding_state) == 'boolean' then
+                        value_16_2 = freestanding_state
+                    else
+                        value_16_2 = contains_value(freestanding_state, 'Default')
+                    end
                     if value_16_2 then
                         value_17_2 = (native_controls.freestand)[2]
                         value_16_2 = ui_get(value_17_2)
@@ -5759,7 +5777,6 @@ local function main(...)
         return false
     end
     request_whitelist()
-    fake_yaw_limit = (ui.reference)(("aa"), ("Anti-aimbot angles"), ("Fake yaw limit"))
     screen_dimensions = {
     }
     screen_center = client.screen_size

@@ -3,78 +3,80 @@
    6  http.get
   12  renderer.text
   19  __dec14_pack_results
-  23  main
-  44  Vector3
-  74  vector_metatable.__eq
-  97  vector_metatable.__unm
- 105  vector_metatable.__add
- 140  vector_metatable.__sub
- 175  vector_metatable.__mul
- 210  vector_metatable.__div
- 245  vector_metatable.__tostring
- 253  vector_metatable.clear
- 258  vector_metatable.unpack
- 265  vector_metatable.length_2d_sqr
- 276  vector_metatable.length_sqr
- 291  vector_metatable.length_2d
- 298  vector_metatable.length
- 305  vector_metatable.dot
- 320  vector_metatable.cross
- 346  vector_metatable.dist_to
- 353  vector_metatable.is_zero
- 382  vector_metatable.normalize
- 393  vector_metatable.normalize_no_len
- 403  vector_metatable.normalized
- 415  clamp
- 424  normalize_angle
- 442  vector_to_angle
- 467  angle_forward
- 491  angle_right
- 529  angle_up
- 567  get_FOV
- 594  extract_bits
- 603  extract_bits
- 624  base64_module.makeencoder
- 723  base64_module.makedecoder
- 744  base64_module.encode
- 831  base64_module.decode
-1662  set_native_ui_visible
-1953  contains_value
-1971  head_coordinates
-1977  normalize_yaw
-1986  yaw_between_points
-2003  signed_coordinate_delta
-2035  target_info
-2133  signed_line_distance
-2151  target_record_info
-2243  pose_desync_side
-2261  update_shot_history
-2383  angles_to_direction
-2402  classify_movement
-2593  vector_yaw
-2602  scale_factor
-2609  draw_circle_indicator
-2624  estimate_damage_at_offsets
-2686  select_nearest_player
-2714  is_valid_player
-2731  update_target_anti_aim
-3619  reset_player_state
-3645  handle_use_key
-3897  update_manual_and_freestanding
-4106  point_on_circle
-4116  draw_indicator_triangle
-4176  reset_clan_tag
-4183  apply_body_yaw
-4719  on_bullet_impact
-4817  on_player_hurt
-4864  on_player_spawn
-4911  update_ui_visibility
-4916  clear_clan_tag
-4922  whitelisted
-4930  draw_indicators
-5578  update_ui_visibility
-5667  register_events_if_whitelisted
-5671  value_2_2
-5725  request_whitelist
-5735  value_2_2
-5788  draw_branding
+  24  compatible_reference
+  38  main
+  59  Vector3
+  89  vector_metatable.__eq
+ 112  vector_metatable.__unm
+ 120  vector_metatable.__add
+ 155  vector_metatable.__sub
+ 190  vector_metatable.__mul
+ 225  vector_metatable.__div
+ 260  vector_metatable.__tostring
+ 268  vector_metatable.clear
+ 273  vector_metatable.unpack
+ 280  vector_metatable.length_2d_sqr
+ 291  vector_metatable.length_sqr
+ 306  vector_metatable.length_2d
+ 313  vector_metatable.length
+ 320  vector_metatable.dot
+ 335  vector_metatable.cross
+ 361  vector_metatable.dist_to
+ 368  vector_metatable.is_zero
+ 397  vector_metatable.normalize
+ 408  vector_metatable.normalize_no_len
+ 418  vector_metatable.normalized
+ 430  clamp
+ 439  normalize_angle
+ 457  vector_to_angle
+ 482  angle_forward
+ 506  angle_right
+ 544  angle_up
+ 582  get_FOV
+ 609  extract_bits
+ 618  extract_bits
+ 639  base64_module.makeencoder
+ 738  base64_module.makedecoder
+ 759  base64_module.encode
+ 846  base64_module.decode
+1043  ui_set
+1674  set_native_ui_visible
+1965  contains_value
+1984  head_coordinates
+1990  normalize_yaw
+1999  yaw_between_points
+2016  signed_coordinate_delta
+2048  target_info
+2146  signed_line_distance
+2164  target_record_info
+2256  pose_desync_side
+2274  update_shot_history
+2396  angles_to_direction
+2415  classify_movement
+2606  vector_yaw
+2615  scale_factor
+2622  draw_circle_indicator
+2637  estimate_damage_at_offsets
+2699  select_nearest_player
+2727  is_valid_player
+2744  update_target_anti_aim
+3632  reset_player_state
+3658  handle_use_key
+3910  update_manual_and_freestanding
+4119  point_on_circle
+4129  draw_indicator_triangle
+4189  reset_clan_tag
+4196  apply_body_yaw
+4732  on_bullet_impact
+4830  on_player_hurt
+4877  on_player_spawn
+4924  update_ui_visibility
+4929  clear_clan_tag
+4935  whitelisted
+4943  draw_indicators
+5596  update_ui_visibility
+5685  register_events_if_whitelisted
+5689  value_2_2
+5743  request_whitelist
+5753  value_2_2
+5805  draw_branding

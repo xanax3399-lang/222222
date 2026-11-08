@@ -1,7 +1,7 @@
 {
   "input_sha256": "532275963ef3828dfe569f9956f3a73b3fed332caaa75fe9973166c68a38e149",
-  "source_sha256": "1153d9b63588b994547129323020f14f3b6972ed8a3094b2b8817878506f9a62",
-  "source_lines": 5800,
+  "source_sha256": "3fcb6df2048d93121e2d49d596267b3cb6d49ae18445d80f65cf9e2c63700fe0",
+  "source_lines": 5817,
   "application_function_bodies": 75,
   "decoded_instruction_records": 6233,
   "vm_removed": true,
@@ -75,10 +75,41 @@
     "matched_original_vm": true,
     "gameplay_tested": false
   },
-  "fresh_rebuild_same_sha256": true,
   "original_outer_http_renderer_hooks_preserved": true,
-  "native_menu_compatibility_patches_applied": false,
+  "native_menu_compatibility_patches_applied": true,
   "real_network_or_game_execution_tested": false,
   "all_paths_equivalence_proven": false,
-  "decompiler_upstream": "https://github.com/viruscamp/unluac/tree/9c59af46483a932a47224bf2ac84ad8a63094da5"
+  "decompiler_upstream": "https://github.com/viruscamp/unluac/tree/9c59af46483a932a47224bf2ac84ad8a63094da5",
+  "reconstruction_source_sha256_before_compatibility_fix": "1153d9b63588b994547129323020f14f3b6972ed8a3094b2b8817878506f9a62",
+  "menu_compatibility_checks": {
+    "source_sha256": "3fcb6df2048d93121e2d49d596267b3cb6d49ae18445d80f65cf9e2c63700fe0",
+    "syntax": [
+      "Lua 5.1",
+      "LuaJIT 2.1"
+    ],
+    "scenarios": {
+      "checkbox": {
+        "startup": [
+          40,
+          12,
+          0
+        ],
+        "callbacks": 39,
+        "failures": [],
+        "optional_warning_seen": true
+      },
+      "multiselect": {
+        "startup": [
+          40,
+          12,
+          0
+        ],
+        "callbacks": 39,
+        "failures": [],
+        "optional_warning_seen": true
+      }
+    },
+    "gameplay_tested": false
+  },
+  "fresh_rebuild_same_sha256_applies_to_reconstruction_before_compatibility_fix": true
 }
