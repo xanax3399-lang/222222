@@ -1,7 +1,7 @@
 {
   "input_sha256": "eb49cf0ca426ea748aadd008694cde1f2a2ce5a64a4d5bf524768a78825718fe",
-  "source_sha256": "fa4a8931fd2e5dbef49526cceba028cf02ec0f2e1725c856f9e6322e7294331f",
-  "source_lines": 2805,
+  "source_sha256": "9427ce7026598537842a2ac42ea460873f4730b327f0209e51336006eb6cb1e9",
+  "source_lines": 2833,
   "recovered_application_function_bodies": 41,
   "direct_helper_reconstructions": 13,
   "numeric_loop_scaffolds_replaced": 9,
@@ -52,7 +52,7 @@
     "fixture_limited_callback_failures": [],
     "gameplay_tested": false
   },
-  "final_file_checks": {
+  "reconstruction_file_checks_before_ui_patch": {
     "final_source_sha256": "fa4a8931fd2e5dbef49526cceba028cf02ec0f2e1725c856f9e6322e7294331f",
     "syntax_checked": [
       "Lua 5.1",
@@ -64,7 +64,56 @@
     "virtualization_scaffolding_absent": true,
     "gameplay_tested": false
   },
-  "fresh_reconstruction_matched_sha256": true,
+  "final_ui_compatibility_checks": {
+    "syntax_checked": [
+      "Lua 5.1",
+      "LuaJIT 2.1"
+    ],
+    "source_sha256": "9427ce7026598537842a2ac42ea460873f4730b327f0209e51336006eb6cb1e9",
+    "scenarios": {
+      "canonical": {
+        "startup_stats": [
+          57,
+          13,
+          0
+        ],
+        "callback_cases": 42,
+        "callback_failures": [],
+        "missing_control_warning": false
+      },
+      "legacy": {
+        "startup_stats": [
+          57,
+          13,
+          0
+        ],
+        "callback_cases": 42,
+        "callback_failures": [],
+        "missing_control_warning": false
+      },
+      "missing": {
+        "startup_stats": [
+          56,
+          12,
+          0
+        ],
+        "callback_cases": 39,
+        "callback_failures": [],
+        "missing_control_warning": true
+      },
+      "api_error": {
+        "unexpected_failure_propagated": true
+      },
+      "required_missing": {
+        "unexpected_failure_propagated": true
+      }
+    },
+    "existing_control_api_effects_match_original": true,
+    "gameplay_tested": false
+  },
+  "compatibility_change": "Missing Fake yaw limit skips limit writes, visibility changes and the crouching CT limit callback, with one explicit warning. Other UI errors remain fatal.",
+  "reconstruction_tests_apply_before_ui_compatibility_patch": true,
+  "fresh_reconstruction_and_compatibility_patch_matched_sha256": true,
   "all_paths_proven_equivalent": false,
   "gameplay_tested": false,
   "real_network_requests_or_remote_javascript_executed_in_tests": false,

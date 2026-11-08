@@ -91,6 +91,25 @@ local function main(...)
     ui_set_callback = environment.ui.set_callback
     ui_set_visible = environment.ui.set_visible
     get_value_type = environment.type
+    -- Compatibility: some GameSense builds do not expose Fake yaw limit.
+    local function optional_ui_reference(tab, container, name)
+        local result = pack_results(pcall(ui_reference, tab, container, name))
+        if result[1] then
+            return unpack_results(result, 2, result.n)
+        end
+        local message = environment.tostring(result[2])
+        if not environment.string.find(message, "not found", 1, true) then
+            environment.error(message, 0)
+        end
+        return nil
+    end
+    local function find_fake_yaw_limit()
+        local handle = optional_ui_reference("AA", "Anti-aimbot angles", "Fake yaw limit")
+        if handle ~= nil then
+            return handle
+        end
+        return optional_ui_reference("AA", "anti-aimbot angles", "Fake yaw limit")
+    end
     local function reference_group(...)
         local controls = new_table(256)
         local values = pack_results(ui_reference(...))
@@ -101,10 +120,13 @@ local function main(...)
     end
     native_controls = new_table(256)
     native_controls.enabled = ui_reference("AA", "Anti-aimbot angles", "Enabled")
-    native_controls.pitch = ui_reference("AA", "Anti-aimbot angles", "pitch")
+    native_controls.pitch = ui_reference("AA", "Anti-aimbot angles", "Pitch")
     native_controls.yawbase = ui_reference("AA", "Anti-aimbot angles", "Yaw base")
-    native_controls.fakeyawlimit = ui_reference("AA", "anti-aimbot angles", "Fake yaw limit")
-    native_controls.fsbodyyaw = ui_reference("AA", "anti-aimbot angles", "Freestanding body yaw")
+    native_controls.fakeyawlimit = find_fake_yaw_limit()
+    if native_controls.fakeyawlimit == nil then
+        environment.client.log("[sigma] Fake yaw limit is unavailable in this GameSense build; limit writes and the crouching CT limit override are disabled.")
+    end
+    native_controls.fsbodyyaw = ui_reference("AA", "Anti-aimbot angles", "Freestanding body yaw")
     native_controls.edgeyaw = ui_reference("AA", "Anti-aimbot angles", "Edge yaw")
     native_controls.maxprocticks = ui_reference("MISC", "Settings", "sv_maxusrcmdprocessticks")
     native_controls.fakeduck = ui_reference("RAGE", "Other", "Duck peek assist")
@@ -147,7 +169,9 @@ local function main(...)
         value_2 = native_controls.bodyyaw[2]
         ui_set_visible(value_2, visible)
         value_2 = native_controls.fakeyawlimit
-        ui_set_visible(value_2, visible)
+        if value_2 ~= nil then
+            ui_set_visible(value_2, visible)
+        end
         value_2 = native_controls.fsbodyyaw
         ui_set_visible(value_2, visible)
         value_2 = native_controls.edgeyaw
@@ -1852,7 +1876,9 @@ local function main(...)
         value_6 = anti_aim_state.aa
         value_5 = value_5[value_6]
         value_4 = value_4[value_5]
-        ui_set(value_3, value_4)
+        if value_3 ~= nil then
+            ui_set(value_3, value_4)
+        end
         set_native_ui_visible(false)
         return
     end
@@ -2776,7 +2802,7 @@ local function main(...)
         return
     end
     crouching_ct_fake_yaw("aim_fire", reset_body_yaw)
-    crouching_ct_fake_yaw = environment.ui.reference("aa", "Anti-aimbot angles", "Fake yaw limit")
+    crouching_ct_fake_yaw = native_controls.fakeyawlimit
     value_118 = environment.client.set_event_callback
     local adjust_crouching_ct_setting = function(command)
         local value_1, value_2, value_3
@@ -2799,7 +2825,9 @@ local function main(...)
         end
         return
     end
-    value_118("setup_command", adjust_crouching_ct_setting)
+    if crouching_ct_fake_yaw ~= nil then
+        value_118("setup_command", adjust_crouching_ct_setting)
+    end
     return
 end
 return main(...)

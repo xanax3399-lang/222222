@@ -5,43 +5,45 @@
   22  new_table
   29  main
   40  return_varargs
-  94  reference_group
- 128  set_native_ui_visible
- 282  contains_value
- 296  head_coordinates
- 301  normalize_yaw
- 310  yaw_between_points
- 318  signed_coordinate_delta
- 332  target_info
- 423  signed_line_distance
- 430  target_record_info
- 548  pose_desync_side
- 558  update_shot_history
- 687  angles_to_direction
- 694  classify_movement
- 746  vector_yaw
- 752  estimate_damage_at_offsets
- 824  select_nearest_player
- 854  is_valid_player
- 866  update_target_anti_aim
-1247  reset_player_state
-1275  handle_use_key
-1353  update_manual_and_freestanding
-1654  point_on_circle
-1659  draw_indicator_triangle
-1761  apply_body_yaw
-1859  on_bullet_impact
-1945  on_player_hurt
-1988  on_player_spawn
-1998  draw_keybind_indicators
-2305  update_ui_visibility
-2372  get_steam_identity
-2399  update_whitelist
-2422  register_events_if_whitelisted
-2427  draw_not_whitelisted
-2511  is_mouse_in_rectangle
-2519  track_choked_commands
-2529  draw_custom_indicator
-2767  unused_callback
-2771  reset_body_yaw
-2781  adjust_crouching_ct_setting
+  95  optional_ui_reference
+ 106  find_fake_yaw_limit
+ 113  reference_group
+ 150  set_native_ui_visible
+ 306  contains_value
+ 320  head_coordinates
+ 325  normalize_yaw
+ 334  yaw_between_points
+ 342  signed_coordinate_delta
+ 356  target_info
+ 447  signed_line_distance
+ 454  target_record_info
+ 572  pose_desync_side
+ 582  update_shot_history
+ 711  angles_to_direction
+ 718  classify_movement
+ 770  vector_yaw
+ 776  estimate_damage_at_offsets
+ 848  select_nearest_player
+ 878  is_valid_player
+ 890  update_target_anti_aim
+1271  reset_player_state
+1299  handle_use_key
+1377  update_manual_and_freestanding
+1678  point_on_circle
+1683  draw_indicator_triangle
+1785  apply_body_yaw
+1885  on_bullet_impact
+1971  on_player_hurt
+2014  on_player_spawn
+2024  draw_keybind_indicators
+2331  update_ui_visibility
+2398  get_steam_identity
+2425  update_whitelist
+2448  register_events_if_whitelisted
+2453  draw_not_whitelisted
+2537  is_mouse_in_rectangle
+2545  track_choked_commands
+2555  draw_custom_indicator
+2793  unused_callback
+2797  reset_body_yaw
+2807  adjust_crouching_ct_setting
