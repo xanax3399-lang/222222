@@ -1281,8 +1281,11 @@ local function outlaw_main()
         local concat = _G.table.concat
         local insert = _G.table.insert
         local remove = _G.table.remove
-        local unpack_2 = _G.table.unpack
+        local unpack_2 = _G.unpack or _G.table.unpack
         local set = plist.set
+        local function toticks(seconds)
+          return floor(0.5 + seconds / tickinterval())
+        end
         local cast = ffi.cast
         position = "client.dll"
         position_2 = "VClientEntityList003"
