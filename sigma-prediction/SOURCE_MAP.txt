@@ -1,0 +1,47 @@
+КАРТА ОСНОВНОГО ФАЙЛА sigma_source.lua
+Строки и имена реконструированных функций; имена определены по использованию.
+
+  16  pack_results
+  22  new_table
+  29  main
+  40  return_varargs
+  94  reference_group
+ 128  set_native_ui_visible
+ 282  contains_value
+ 296  head_coordinates
+ 301  normalize_yaw
+ 310  yaw_between_points
+ 318  signed_coordinate_delta
+ 332  target_info
+ 423  signed_line_distance
+ 430  target_record_info
+ 548  pose_desync_side
+ 558  update_shot_history
+ 687  angles_to_direction
+ 694  classify_movement
+ 746  vector_yaw
+ 752  estimate_damage_at_offsets
+ 824  select_nearest_player
+ 854  is_valid_player
+ 866  update_target_anti_aim
+1247  reset_player_state
+1275  handle_use_key
+1353  update_manual_and_freestanding
+1654  point_on_circle
+1659  draw_indicator_triangle
+1761  apply_body_yaw
+1859  on_bullet_impact
+1945  on_player_hurt
+1988  on_player_spawn
+1998  draw_keybind_indicators
+2305  update_ui_visibility
+2372  get_steam_identity
+2399  update_whitelist
+2422  register_events_if_whitelisted
+2427  draw_not_whitelisted
+2511  is_mouse_in_rectangle
+2519  track_choked_commands
+2529  draw_custom_indicator
+2767  unused_callback
+2771  reset_body_yaw
+2781  adjust_crouching_ct_setting

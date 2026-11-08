@@ -1,0 +1,72 @@
+{
+  "input_sha256": "eb49cf0ca426ea748aadd008694cde1f2a2ce5a64a4d5bf524768a78825718fe",
+  "source_sha256": "fa4a8931fd2e5dbef49526cceba028cf02ec0f2e1725c856f9e6322e7294331f",
+  "source_lines": 2805,
+  "recovered_application_function_bodies": 41,
+  "direct_helper_reconstructions": 13,
+  "numeric_loop_scaffolds_replaced": 9,
+  "source_has_native_lexical_closures": true,
+  "virtual_machine_and_register_scaffolding_removed": true,
+  "author_names_or_comments_recovered": false,
+  "remaining_ambiguous_identifiers": [
+    "value_N",
+    "argument_N"
+  ],
+  "helper_comparisons": {
+    "cases_per_variant": 344,
+    "functions_tested": [
+      1,
+      3,
+      5,
+      6,
+      7,
+      9,
+      11,
+      13,
+      15,
+      18,
+      23,
+      35,
+      36
+    ],
+    "variants": [
+      "faithful",
+      "readable",
+      "structured",
+      "native",
+      "editable",
+      "idiomatic",
+      "final"
+    ],
+    "matched_original_vm": true
+  },
+  "callback_comparisons": {
+    "matched": true,
+    "stats": [
+      57,
+      13,
+      0
+    ],
+    "host_calls": 449,
+    "callback_cases": 42,
+    "fixture_limited_callback_failures": [],
+    "gameplay_tested": false
+  },
+  "final_file_checks": {
+    "final_source_sha256": "fa4a8931fd2e5dbef49526cceba028cf02ec0f2e1725c856f9e6322e7294331f",
+    "syntax_checked": [
+      "Lua 5.1",
+      "LuaJIT 2.1"
+    ],
+    "padding_data_removed": true,
+    "preserved_random_draws": 2000,
+    "same_next_random_value": 379402,
+    "virtualization_scaffolding_absent": true,
+    "gameplay_tested": false
+  },
+  "fresh_reconstruction_matched_sha256": true,
+  "all_paths_proven_equivalent": false,
+  "gameplay_tested": false,
+  "real_network_requests_or_remote_javascript_executed_in_tests": false,
+  "original_steam_id_check_and_panorama_override_preserved": true
+}
