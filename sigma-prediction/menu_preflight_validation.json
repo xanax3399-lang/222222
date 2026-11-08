@@ -1,5 +1,5 @@
 {
-  "source_sha256": "f37db8e19824655da38da82efd46c900fbaaa24c90169cef4de3d5e12785f8fc",
+  "source_sha256": "7e79618d15e0001f60d936a1c5c29099aea0b7bcdb5bec6d31117b46a9c9676c",
   "syntax_checked": [
     "Lua 5.1",
     "LuaJIT 2.1"
@@ -18,6 +18,11 @@
     },
     "all_optional": {
       "callback_cases": 39,
+      "callback_failures": [],
+      "unused_references_not_queried": true
+    },
+    "screenshot_missing_indicators": {
+      "callback_cases": 42,
       "callback_failures": [],
       "unused_references_not_queried": true
     },
@@ -48,6 +53,10 @@
       "rng_draws": 0,
       "original_panorama_override_not_run": true,
       "ui_mutations": 0
+    },
+    "relocated_to_aimbot": {
+      "callback_cases": 42,
+      "callback_failures": []
     }
   },
   "supported_build_effects_match_previous_release": true,

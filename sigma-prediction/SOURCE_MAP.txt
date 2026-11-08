@@ -4,49 +4,49 @@
    3  preflight_native_menu
   22  pack
   25  path_key
-  90  pack_results
-  96  new_table
- 103  main
- 114  return_varargs
- 169  optional_ui_reference
- 180  find_fake_yaw_limit
- 187  reference_group
- 212  set_native_ui_visible
- 349  contains_value
- 363  head_coordinates
- 368  normalize_yaw
- 377  yaw_between_points
- 385  signed_coordinate_delta
- 399  target_info
- 490  signed_line_distance
- 497  target_record_info
- 615  pose_desync_side
- 625  update_shot_history
- 754  angles_to_direction
- 761  classify_movement
- 813  vector_yaw
- 819  estimate_damage_at_offsets
- 891  select_nearest_player
- 921  is_valid_player
- 933  update_target_anti_aim
-1314  reset_player_state
-1342  handle_use_key
-1420  update_manual_and_freestanding
-1721  point_on_circle
-1726  draw_indicator_triangle
-1828  apply_body_yaw
-1928  on_bullet_impact
-2014  on_player_hurt
-2057  on_player_spawn
-2067  draw_keybind_indicators
-2374  update_ui_visibility
-2441  get_steam_identity
-2468  update_whitelist
-2491  register_events_if_whitelisted
-2496  draw_not_whitelisted
-2580  is_mouse_in_rectangle
-2588  track_choked_commands
-2598  draw_custom_indicator
-2836  unused_callback
-2840  reset_body_yaw
-2850  adjust_crouching_ct_setting
+  94  pack_results
+ 100  new_table
+ 107  main
+ 118  return_varargs
+ 173  optional_ui_reference
+ 184  find_fake_yaw_limit
+ 191  reference_group
+ 216  set_native_ui_visible
+ 353  contains_value
+ 367  head_coordinates
+ 372  normalize_yaw
+ 381  yaw_between_points
+ 389  signed_coordinate_delta
+ 403  target_info
+ 494  signed_line_distance
+ 501  target_record_info
+ 619  pose_desync_side
+ 629  update_shot_history
+ 758  angles_to_direction
+ 765  classify_movement
+ 817  vector_yaw
+ 823  estimate_damage_at_offsets
+ 895  select_nearest_player
+ 925  is_valid_player
+ 937  update_target_anti_aim
+1318  reset_player_state
+1346  handle_use_key
+1424  update_manual_and_freestanding
+1725  point_on_circle
+1730  draw_indicator_triangle
+1832  apply_body_yaw
+1932  on_bullet_impact
+2018  on_player_hurt
+2061  on_player_spawn
+2071  draw_keybind_indicators
+2378  update_ui_visibility
+2445  get_steam_identity
+2472  update_whitelist
+2495  register_events_if_whitelisted
+2500  draw_not_whitelisted
+2584  is_mouse_in_rectangle
+2592  track_choked_commands
+2602  draw_custom_indicator
+2840  unused_callback
+2844  reset_body_yaw
+2854  adjust_crouching_ct_setting

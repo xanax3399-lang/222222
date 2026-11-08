@@ -62,7 +62,9 @@
       "container": "Other",
       "name": "Force body aim",
       "minimum_handles": 1,
-      "required": true
+      "required": false,
+      "alternate_container": "Aimbot",
+      "absence_behavior": "Omit this indicator; it does not control gameplay."
     },
     {
       "key": "yaw",
@@ -126,7 +128,9 @@
       "container": "Other",
       "name": "Double tap",
       "minimum_handles": 2,
-      "required": true
+      "required": false,
+      "alternate_container": "Aimbot",
+      "absence_behavior": "Omit this indicator; it does not control gameplay."
     }
   ],
   "removed_unused_references": [

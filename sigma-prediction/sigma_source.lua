@@ -9,7 +9,7 @@ local function preflight_native_menu()
         {"edgeyaw", "AA", "Anti-aimbot angles", "Edge yaw", 1, true},
         {"fakeduck", "RAGE", "Other", "Duck peek assist", 1, true},
         {"safepoint", "RAGE", "Aimbot", "Force safe point", 1, true},
-        {"forcebaim", "RAGE", "Other", "Force body aim", 1, true},
+        {"forcebaim", "RAGE", "Other", "Force body aim", 1, false},
         {"yaw", "AA", "Anti-aimbot angles", "Yaw", 2, true},
         {"quickpeek", "RAGE", "Other", "Quick peek assist", 2, true},
         {"yawjitter", "AA", "Anti-aimbot angles", "Yaw jitter", 2, false},
@@ -17,7 +17,7 @@ local function preflight_native_menu()
         {"freestand", "AA", "Anti-aimbot angles", "Freestanding", 2, true},
         {"os", "AA", "Other", "On shot anti-aim", 2, true},
         {"slow", "AA", "Other", "Slow motion", 2, true},
-        {"dt", "RAGE", "Other", "Double tap", 2, true},
+        {"dt", "RAGE", "Other", "Double tap", 2, false},
     }
     local function pack(...)
         return {n = select("#", ...), ...}
@@ -30,6 +30,10 @@ local function preflight_native_menu()
         local result = pack(pcall(ui.reference, spec[2], spec[3], spec[4]))
         if not result[1] and spec[1] == "fakeyawlimit" and tostring(result[2]):find("not found", 1, true) then
             result = pack(pcall(ui.reference, "AA", "anti-aimbot angles", spec[4]))
+        end
+        -- These indicators moved between native RAGE containers across builds.
+        if not result[1] and (spec[1] == "dt" or spec[1] == "forcebaim") and tostring(result[2]):find("not found", 1, true) then
+            result = pack(pcall(ui.reference, "RAGE", "Aimbot", spec[4]))
         end
         local valid = result[1] == true
         if valid then
@@ -2227,7 +2231,7 @@ local function main(...)
                 value_13 = new_table(256)
                 value_15 = script_controls.k
                 value_14 = contains_value(value_15, "Double tap")
-                if not (not value_14) then
+                if value_14 and native_controls.dt[1] ~= nil and native_controls.dt[2] ~= nil then
                     value_14 = (#value_13) + 1
                     value_15 = new_table(256)
                     value_15.t = "DT"
@@ -2257,7 +2261,7 @@ local function main(...)
                 end
                 value_15 = script_controls.k
                 value_14 = contains_value(value_15, "Force body aim")
-                if not (not value_14) then
+                if value_14 and native_controls.forcebaim ~= nil then
                     value_14 = (#value_13) + 1
                     value_15 = new_table(256)
                     value_15.t = "BAIM"
@@ -2777,7 +2781,7 @@ local function main(...)
                 value_26 = #value_24
                 value_25[value_26] = true
             end
-            value_26 = environment.ui.get(double_tap_enabled)
+            value_26 = double_tap_enabled ~= nil and double_tap_key ~= nil and environment.ui.get(double_tap_enabled)
             if not (not value_26) then
                 value_26 = environment.ui.get(double_tap_key)
                 if not (not value_26) then
@@ -2787,7 +2791,7 @@ local function main(...)
                     value_25[value_26] = true
                 end
             end
-            value_26 = environment.ui.get(force_body_aim)
+            value_26 = force_body_aim ~= nil and environment.ui.get(force_body_aim)
             if not (not value_26) then
                 value_26 = (#value_24) + 1
                 value_24[value_26] = "force baim"

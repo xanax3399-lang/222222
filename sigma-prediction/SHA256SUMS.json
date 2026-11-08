@@ -4,11 +4,11 @@
   "new_sigma_pred_full_source.lua": "76342ae94727c352e1315115c03066df62bb8eee241a435d730e188800e0a37c",
   "README_FULL_RU.txt": "f2a41d1f33dad6249880a3dfcad0ae3ef26e5a2bb079182a9ee494ee98c6c7ef",
   "new_sigma_pred_full_source.zip": "27ce5f04227e6f54af8c21ec78dc78a89bf4dbdc512d68f25a4cbd1285e242d7",
-  "sigma_source.lua": "f37db8e19824655da38da82efd46c900fbaaa24c90169cef4de3d5e12785f8fc",
-  "sigma_source.zip": "0cf638a74732f5e4e88b48ec26d788f8ec279c139cb58c5ec990afe958dcdad6",
-  "README_EDITABLE_RU.txt": "8a9ab9ce31e814e9ebc18620e0cd08fa145d69cc7502460c21c6eb937e57b45e",
-  "SOURCE_MAP.txt": "6b2358d6552ead7e5236b2fc5f30aa144b68c60a7d9621f7f4364e6241007688",
-  "editable_verification.json": "251321d45eacfffc423995b987818ce38bc22bef55b21f6f00993664d15a8559",
-  "menu_dependency_audit.json": "a61ad4267d155ea6ecdd30fdc6e726fb3837e634514beb7dc914702d594e85a4",
-  "menu_preflight_validation.json": "4b35af35d186438a3f299f111af19316b7b48afd0f5b7ac0e965a1e526d453b3"
+  "sigma_source.lua": "7e79618d15e0001f60d936a1c5c29099aea0b7bcdb5bec6d31117b46a9c9676c",
+  "sigma_source.zip": "8c63501e7bd391f13482ae85713e9ab25e13be34b0c704114583322beff13ab8",
+  "README_EDITABLE_RU.txt": "1b66966297024da5d758d75f5b70138c2f89dd4db57dabf49a66af6025cbbf4a",
+  "SOURCE_MAP.txt": "758becac5d214abb1d94e703072652251c14161c1badaa64b8b4bf4d19f02607",
+  "editable_verification.json": "23f3103d210031bcfb39fd09b5a7e342d45c345bb4fcd733c511d1aec81c4d62",
+  "menu_dependency_audit.json": "7cbadc0cce6120faf368363d1b68fc697d732d9adf858dd91ba8349a0ff1fc8f",
+  "menu_preflight_validation.json": "47147995da0f74b670e6629b9c8c373a166291c35b62f2af008eb7259600b62e"
 }
