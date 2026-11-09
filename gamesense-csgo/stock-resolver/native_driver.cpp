@@ -203,8 +203,15 @@ void __fastcall notify(void* object,void*,int stage) {
     }
     previous(object,stage);
 }
-bool fail(Error code,const char* text){sr_driver_status.error=code;sr_driver_status.state=Failed;error_text=text;return false;}
-bool matches(const unsigned char* image,unsigned address,const unsigned char* data,unsigned size){return std::memcmp(image+address-base,data,size)==0;}
+bool fail(Error code,const char* text){
+    sr_driver_status.error=code;sr_driver_status.state=Failed;error_text=text;
+    if(code==CoreContract||code==Netvars)SetLastError(ERROR_REVISION_MISMATCH);
+    else if(code==ClientInterface)SetLastError(ERROR_MOD_NOT_FOUND);
+    else if(code==WaitHook)SetLastError(ERROR_TIMEOUT);
+    else if(code==HookLost)SetLastError(ERROR_RETRY);
+    return false;
+}
+bool matches(const unsigned char* image,unsigned address,const unsigned char* data,unsigned size){return std::memcmp(image+(address-base),data,size)==0;}
 }
 const char* last_error(){return error_text;}
 bool prepare(unsigned char* image,unsigned size,HMODULE module) {
