@@ -1,0 +1,145 @@
+name: Skeet stock resolver CS-GO DLL
+on:
+  push:
+    branches: [codex/skeet-stock-resolver]
+    paths: ['gamesense-csgo/**', '.github/workflows/skeet-stock-resolver.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned build and driver test tools
+        run: python -m pip install -r gamesense-csgo/requirements-build.txt lupa==2.6
+      - name: Test native model and real LuaJIT to C++ integration
+        run: |
+          mkdir -p gamesense-csgo/build
+          g++ -std=c++17 -O2 -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off gamesense-csgo/stock-resolver/test_model.cpp -o gamesense-csgo/build/test_stock_resolver
+          gamesense-csgo/build/test_stock_resolver > gamesense-csgo/build/stock_resolver_model_validation.json
+          g++ -std=c++17 -O2 -shared -fPIC -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off gamesense-csgo/stock-resolver/exports.cpp -o gamesense-csgo/build/stock_resolver_host.so
+          python gamesense-csgo/stock-resolver/test_driver.py
+      - name: Compile actual Windows x86 DLL and injector
+        run: python gamesense-csgo/build_stock_resolver.py
+      - name: Check real PE imports and integrated resolver exports
+        run: python gamesense-csgo/stock-resolver/verify_package.py
+      - name: Package matching DLL injector and driver
+        run: python gamesense-csgo/package_stock_resolver.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: skeet-stock-resolver-windows
+          path: gamesense-csgo/build/skeet-stock-resolver-windows.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stock-mode-probe
+          path: gamesense-csgo/build/stock_mode_probe.exe
+      - name: Publish bounded compiler evidence
+        if: always()
+        continue-on-error: true
+        env:
+          CI_JOB_STATUS: ${{ job.status }}
+          SKEET_RELEASE_SERIES: stock-resolver
+        run: python gamesense-csgo/publish_ci_status.py
+  windows:
+    needs: build
+    runs-on: windows-2025
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: skeet-stock-resolver-windows
+          path: dist
+      - uses: actions/download-artifact@v4
+        with:
+          name: stock-mode-probe
+          path: dist
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x86
+      - name: Extract compiled artifact
+        shell: pwsh
+        run: |
+          Expand-Archive dist/skeet-stock-resolver-windows.zip -DestinationPath dist/runtime
+          New-Item -ItemType Directory -Force gamesense-csgo/build | Out-Null
+      - name: Compile independent native x86 ABI and installer probe
+        shell: pwsh
+        run: |
+          & cl /nologo /std:c++17 /EHsc /MT /W4 /WX gamesense-csgo/stock-resolver/windows_smoke.cpp /Fe:dist/stock_smoke.exe /Fo:dist/stock_smoke.obj *> gamesense-csgo/build/windows-compile.log
+          if ($LASTEXITCODE -ne 0) { Get-Content gamesense-csgo/build/windows-compile.log; throw 'Probe compilation failed' }
+      - name: Load actual DLL and exercise its exported C++ model on Windows
+        shell: pwsh
+        run: |
+          & dist/stock_smoke.exe "$PWD/dist/runtime/skeet.dll" "$PWD/dist/windows_abi.json" *> gamesense-csgo/build/windows-smoke.log
+          if ($LASTEXITCODE -ne 0) { Get-Content gamesense-csgo/build/windows-smoke.log; throw 'Actual DLL smoke test failed' }
+          & dist/stock_mode_probe.exe 0
+          if ($LASTEXITCODE -ne 0) { throw 'Stock mode installed old patches' }
+          & dist/stock_mode_probe.exe 8
+          if ($LASTEXITCODE -ne 0) { throw 'Resolver mode installed old patches' }
+      - name: Check real injector CLI and mode selection
+        shell: pwsh
+        run: |
+          $PSNativeCommandUseErrorActionPreference = $false
+          & dist/runtime/injector.exe --mode invalid
+          if ($LASTEXITCODE -ne 1) { throw 'Invalid mode was not rejected' }
+          & dist/runtime/injector.exe --diagnostics
+          if ($LASTEXITCODE -ne 1) { throw 'Diagnostics should detect absent CS:GO' }
+          $missing = Join-Path $env:RUNNER_TEMP 'codex-missing-game/csgo.exe'
+          '2' | & dist/runtime/injector.exe --game $missing
+          if ($LASTEXITCODE -ne 1 -or (Get-Content dist/runtime/loader_last.log -Raw) -notmatch 'stock GS with integrated native resolver') { throw 'Menu 2 did not select resolver' }
+          '1' | & dist/runtime/injector.exe --game $missing
+          if ($LASTEXITCODE -ne 1 -or (Get-Content dist/runtime/loader_last.log -Raw) -notmatch 'original GameSense gameplay') { throw 'Menu 1 did not retain original GS' }
+          & dist/runtime/injector.exe --mode stock-resolver --game $missing
+          if ($LASTEXITCODE -ne 1 -or (Get-Content dist/runtime/loader_last.log -Raw) -notmatch 'stock GS with integrated native resolver') { throw 'CLI resolver mode failed' }
+          & dist/runtime/injector.exe --mode stock --game $missing
+          if ($LASTEXITCODE -ne 1 -or (Get-Content dist/runtime/loader_last.log -Raw) -notmatch 'original GameSense gameplay') { throw 'CLI stock mode failed' }
+          $report = @{ abi = (Get-Content dist/windows_abi.json -Raw | ConvertFrom-Json); legacy_patch_guards = @(0,8); injector_cli_checked = $true; gameplay_tested = $false }
+          $report | ConvertTo-Json -Depth 8 | Set-Content -Encoding utf8 gamesense-csgo/build/stock_resolver_windows_validation.json
+          exit 0
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stock-windows-validation
+          path: gamesense-csgo/build/stock_resolver_windows_validation.json
+      - name: Publish bounded Windows evidence
+        if: always()
+        continue-on-error: true
+        env:
+          CI_JOB_STATUS: ${{ job.status }}
+          SKEET_RELEASE_SERIES: stock-resolver
+          SKEET_CI_LABEL: windows
+        run: python gamesense-csgo/publish_ci_status.py
+  release:
+    needs: [build, windows]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: skeet-stock-resolver-windows
+          path: dist
+      - uses: actions/download-artifact@v4
+        with:
+          name: stock-windows-validation
+          path: dist
+      - name: Preserve tested DLL bytes and include Windows evidence
+        run: python gamesense-csgo/stock-resolver/finalize_release.py dist/skeet-stock-resolver-windows.zip dist/stock_resolver_windows_validation.json
+      - name: Publish compiled and tested Windows download
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          tag="skeet-stock-resolver-${SOURCE_SHA}"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" dist/skeet-stock-resolver-windows.zip --clobber
+          else
+            gh release create "$tag" dist/skeet-stock-resolver-windows.zip --target "$SOURCE_SHA" --prerelease --title 'CS:GO 8802 / stock GS + experimental native resolver' --notes-file gamesense-csgo/stock-resolver/README_RU.txt
+          fi

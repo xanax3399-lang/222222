@@ -68,7 +68,7 @@ static DWORD WINAPI initialize(LPVOID parameter) {
         if (!FlushInstructionCache(GetCurrentProcess(), reinterpret_cast<void*>(kImageBase), kImageSize))
             return fail("Could not flush the image instruction cache.");
         if (!skeet->entry()) return fail("Could not start the original image entry thread.");
-        status(LoaderEntryStarted, 0, nl_hypotheses::selected_mode==nl_hypotheses::Stock
+        status(LoaderEntryStarted, 0, (nl_hypotheses::selected_mode==nl_hypotheses::Stock||nl_hypotheses::selected_mode==nl_hypotheses::StockResolver)
             ? "GameSense mode: original entry resumed. Game runtime unverified."
             : "Selected NL modules installed. Entry resumed; game runtime unverified.");
         return 0;

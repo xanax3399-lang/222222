@@ -1,0 +1,71 @@
+local ffi=require('ffi')
+local native=test_native
+local stats=ffi.new('sr_stats_v1[1]')
+local checks=0
+local function check(value,label) checks=checks+1;assert(value,label) end
+local function count(name) native.sr_stats(stats);return tonumber(stats[0][name]) end
+local function forced() return plist.get(2,'Force body yaw') end
+local function yaw() return plist.get(2,'Force body yaw value') end
+local function enable() ui.set(controls['Stock resolver: enabled'],true) end
+local function disable() ui.set(controls['Stock resolver: enabled'],false) end
+check(forced()==false,'no immediate override')
+tick(2);check(not forced(),'history gating')
+tick(6);check(forced() and yaw()==-60,'native decision reaches actual plist boundary')
+check(count('records')==8,'one record per simulation update')
+local old_writes=writes
+for _=1,20 do emit('net_update_end') end
+check(count('records')==8 and count('duplicates')==20,'duplicate simulation updates')
+check(writes==old_writes,'unchanged overrides do not write repeatedly')
+local snapshots=ffi.new('sr_snapshot_v1[16]')
+check(native.sr_history(2,snapshots,16)==8,'DLL history export')
+check(math.abs(tonumber(snapshots[7].lerp)-.03125)<.00001,'interpolation cvars connected')
+emit('aim_fire',{id=1,target=2});emit('aim_hit',{id=1,target=2,hitgroup=1})
+check(count('head_feedback')==1,'matching confirmed head feedback')
+emit('aim_hit',{id=1,target=2,hitgroup=1});check(count('head_feedback')==1,'no duplicate credit')
+emit('aim_fire',{id=2,target=2});emit('aim_miss',{id=2,reason='unknown'})
+emit('aim_hit',{id=2,target=2,hitgroup=1});check(count('head_feedback')==1,'unknown misses never train model')
+emit('aim_fire',{id=3,target=2});emit('aim_hit',{id=3,target=3,hitgroup=1})
+check(count('head_feedback')==1,'target mismatch rejected')
+disable();check(not forced() and yaw()==17,'disable restores original controls')
+plist.set(2,'Force body yaw value',31);plist.set(2,'Force body yaw',true)
+enable();tick(8);check(forced() and yaw()==31,'pre-existing manual override preserved')
+disable();check(forced() and yaw()==31,'manual override remains on disable')
+plist.set(2,'Force body yaw',false);plist.set(2,'Force body yaw value',17)
+enable();tick(8);check(forced() and yaw()==-60,'re-enable rebuilds history')
+plist.set(2,'Force body yaw value',29);tick(1)
+check(forced() and yaw()==29,'later manual edit preserved')
+disable();check(forced() and yaw()==29,'cleanup preserves later edits')
+plist.set(2,'Force body yaw',false);plist.set(2,'Force body yaw value',17)
+enable();tick(8);enemy_dormant=true;tick(1)
+check(not forced() and yaw()==17 and count('slots')==0,'dormancy releases and forgets')
+enemy_dormant=false;tick(8);check(forced(),'wakes with new history')
+steam_id='76561198000000003';tick(1)
+check(not forced() and count('slots')==1,'slot identity change releases old decision')
+tick(8);check(forced(),'replacement enemy gets independent history')
+emit('player_death',{userid=2});check(not forced() and yaw()==17,'death cleanup')
+tick(8);local_alive=false;tick(1);check(not forced(),'local death releases overrides')
+local_alive=true;tick(8);emit('round_start');check(not forced() and count('records')==0,'round reset')
+tick(8);check(forced(),'round recovery')
+ui.set(controls['Resolver evidence threshold'],95);emit('net_update_end')
+check(not forced(),'raising threshold immediately releases cached decision')
+ui.set(controls['Resolver evidence threshold'],65);tick(1);check(forced(),'normal threshold recovers')
+ui.set(controls['Resolver: stable FPS limit'],true);check(cvar.fps_max.value==120,'opt-in FPS cap')
+ui.set(controls['Resolver FPS limit'],144);check(cvar.fps_max.value==144,'FPS slider')
+ui.set(controls['Resolver: stable FPS limit'],false);check(cvar.fps_max.value==300,'original cap restored')
+ui.set(controls['Resolver: stable FPS limit'],true);cvar.fps_max.value=180
+ui.set(controls['Resolver FPS limit'],150)
+check(cvar.fps_max.value==180 and not ui.get(controls['Resolver: stable FPS limit']),'manual cap changes preserved')
+ui.set(controls['Resolver: show frame-time metrics'],true)
+for _=1,100 do emit('paint') end
+controls['Save resolver report and history'].callback()
+check(files['stock_resolver_report.txt']:find('Frames: 100',1,true)~=nil,'real native frame samples in report')
+check(files['stock_resolver_history.csv']:find('player,identity,simtime',1,true)==1,'CSV report')
+disable();enable();fail_enable_once=true;tick(8)
+check(not ui.get(controls['Stock resolver: enabled']),'API write error disables driver')
+check(not forced() and yaw()==17,'partial write rolled back')
+check(logs[#logs]:find('Disabled after API error',1,true)~=nil,'API error visible')
+enable();tick(8);check(forced(),'recover after transient API failure')
+ui.set(controls['Resolver: stable FPS limit'],true)
+emit('shutdown')
+check(not forced() and yaw()==17 and cvar.fps_max.value==180,'shutdown restores owned controls')
+return checks

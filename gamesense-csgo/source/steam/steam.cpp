@@ -164,7 +164,7 @@ static int diagnostics(const wchar_t* path,DWORD selected_pid=0) {
         float input=0,output=0;std::int32_t in_bits=status.last_input_bits,out_bits=status.last_output_bits;
         std::memcpy(&input,&in_bits,4);std::memcpy(&output,&out_bits,4);
         diagnostic_printf("Mode: %s\nInstalled: %ld\nBuilder calls: %ld\nHypotheses supplied: %ld\nRejected inputs: %ld\n",
-            status.mode==0?"GameSense":status.mode==1?"NL animation hypotheses":status.mode==2?"v2 NL points":status.mode==6?"v3 head crown + fire/recharge":"NL points + animation",long(status.installed),
+            status.mode==8?"Stock GS with integrated resolver / Lua bridge":status.mode==0?"GameSense":status.mode==1?"NL animation hypotheses":status.mode==2?"v2 NL points":status.mode==6?"v3 head crown + fire/recharge":"NL points + animation",long(status.installed),
             long(status.calls),long(status.changed),long(status.rejected));
         if(status.changed)diagnostic_printf("Last sample: GS variant %ld, record tick %ld, base %.3f -> goal %.3f\n",
             long(status.last_variant),long(status.last_tick),input,output);
@@ -218,6 +218,7 @@ static int run_diagnostics(const wchar_t* path,bool interactive) {
     return result;
 }
 #include "launcher_reports.h"
+#include "stock_resolver_install.h"
 int wmain(int argc,wchar_t** argv) {
     SetConsoleTitleW(L"Legacy CS:GO 8802 - automatic launch");
     wchar_t path[32768]{};
@@ -245,14 +246,11 @@ int wmain(int argc,wchar_t** argv) {
         else if(!_wcsicmp(argv[i],L"--mode")&&i+1<argc&&mode<0) {
             const auto* value=argv[++i];
             if(!_wcsicmp(value,L"stock"))mode=0;
-            else if(!_wcsicmp(value,L"nl-hypotheses"))mode=1;
-            else if(!_wcsicmp(value,L"nl-points"))mode=2;
-            else if(!_wcsicmp(value,L"nl-combined"))mode=3;
-            else if(!_wcsicmp(value,L"v3-patches"))mode=6;
-            else mode=4;
+            else if(!_wcsicmp(value,L"stock-resolver"))mode=8;
+            else mode=99;
         } else if(!_wcsicmp(argv[i],L"--diagnostics")&&!show_diagnostics)show_diagnostics=true;
         else {
-            std::fprintf(stderr,"Usage: injector.exe [--game \"path to csgo.exe\"] [--mode stock|nl-points|nl-hypotheses|nl-combined|v3-patches]\n       injector.exe --diagnostics\n");return 1;
+            std::fprintf(stderr,"Usage: injector.exe [--game \"path to csgo.exe\"] [--mode stock|stock-resolver]\n       injector.exe --diagnostics\n");return 1;
         }
     }
     if((mode>=0&&!nl_hypotheses::valid_mode(static_cast<unsigned>(mode)))||(show_diagnostics&&(mode>=0||explicit_game))) {
@@ -260,22 +258,18 @@ int wmain(int argc,wchar_t** argv) {
     }
     if(show_diagnostics)return run_diagnostics(path,false);
     while(mode<0) {
-        std::puts("1 - GameSense (original gameplay)\n2 - v2 NL points + braking math\n3 - v3 points + fire guard / native DT recharge by default\n4 - NL points + braking math + animation hypotheses\n5 - Read active module diagnostics\n6 - Old animation hypotheses (experimental)\n7 - Patch switches / automatic reports\n8 - Open last saved report\n0 - Exit");
+        std::puts("1 - Original GameSense\n2 - Stock GS + native resolver DLL / Lua driver\n5 - Read loader diagnostics\n8 - Open last loader report\n0 - Exit");
         std::printf("Choice [Enter = 2]: ");char choice[32]{};
         if(!std::fgets(choice,sizeof(choice),stdin))choice[0]='2';
         if(choice[0]=='0')return 0;
         if(choice[0]=='5')return run_diagnostics(path,true);
-        if(choice[0]=='7'){launcher_reports::settings_menu(path);continue;}
         if(choice[0]=='8'){launcher_reports::open_report(path);continue;}
-        if(choice[0]=='2'||choice[0]=='\n'||choice[0]=='\r')mode=2;
-        else if(choice[0]=='3')mode=6;
-        else if(choice[0]=='6')mode=1;
-        else if(choice[0]=='4')mode=3;
+        if(choice[0]=='2'||choice[0]=='\n'||choice[0]=='\r')mode=8;
         else if(choice[0]=='1')mode=0;
         else {std::fprintf(stderr,"Unknown choice.\n");return 1;}
     }
     RunLog startup_log(path);
-    const char* mode_message=mode==0?"Selected: original GameSense gameplay.":mode==1?"Selected: NL animation hypotheses.":mode==2?"Selected: v2 NL points; native GS aim selection.":mode==6?"Selected: v3 record-based head crown scan + late eye guard; native DT recharge by default.":"Selected: NL points + animation hypotheses.";
+    const char* mode_message=mode==8?"Selected: stock GS with integrated native resolver / Lua bridge. No NL or v3 gameplay patches.":"Selected: original GameSense gameplay.";
     std::puts(mode_message);log_line(mode_message);
     DWORD pid=game_pid();Handle process;legacy_launch::Suspended suspended;
     if(!pid) {
@@ -293,6 +287,12 @@ int wmain(int argc,wchar_t** argv) {
         process.value=OpenProcess(SYNCHRONIZE|PROCESS_CREATE_THREAD|PROCESS_QUERY_INFORMATION|
             PROCESS_VM_OPERATION|PROCESS_VM_READ|PROCESS_VM_WRITE,FALSE,pid);
         if(!process.value)return error("Cannot open csgo.exe");
+    }
+    if(mode==8) {
+        wchar_t game_file[32768]{};DWORD game_length=32768;
+        if(!QueryFullProcessImageNameW(process.value,0,game_file,&game_length))return error("Cannot locate running csgo.exe for resolver files");
+        if(!stock_resolver_install::deploy(path,game_file))return error("Cannot install stock_resolver.lua in the game csgo folder");
+        std::puts("Resolver Lua bridge installed. In GameSense load stock_resolver.lua once; settings are in LUA / B.");
     }
     BOOL self_wow = FALSE, target_wow = FALSE;
     if (!IsWow64Process(GetCurrentProcess(), &self_wow) ||

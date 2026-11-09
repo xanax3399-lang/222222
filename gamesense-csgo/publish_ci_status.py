@@ -19,7 +19,7 @@ env=os.environ.copy()
 env.update(GIT_AUTHOR_NAME='Codex',GIT_AUTHOR_EMAIL='codex@openai.com',GIT_COMMITTER_NAME='Codex',GIT_COMMITTER_EMAIL='codex@openai.com')
 commit=subprocess.check_output(['git','commit-tree',tree,'-m',f'Build evidence for {source}'],cwd=ROOT.parent,env=env).decode().strip()
 series=os.environ.get('SKEET_RELEASE_SERIES','v2')
-if series not in ('v2','v3'):raise ValueError('Invalid release series')
+if series not in ('v2','v3','stock-resolver'):raise ValueError('Invalid release series')
 branch=f'codex/skeet-{series}-ci-{run}'
 label=os.environ.get('SKEET_CI_LABEL','')
 if label not in ('','windows'):raise ValueError('Invalid CI evidence label')
