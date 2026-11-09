@@ -1,0 +1,5 @@
+windows-compile.log
+windows_smoke.cpp
+
+windows-smoke.log
+Passed 51 checks on actual packaged Windows x86 DLL; CS:GO was not run.
