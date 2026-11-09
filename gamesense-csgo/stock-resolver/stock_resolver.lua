@@ -1,11 +1,15 @@
 -- Stock GS resolver: native bounded history/scoring; supported GameSense overrides.
 local ffi = require('ffi')
-if not pcall(ffi.typeof, 'sr_snapshot_v1') then
-    ffi.cdef[[
-    typedef struct { uint32_t player,identity,flags,reserved; float simulation_time,now,interval,latency,lerp,max_unlag,eye_yaw,lower_body_yaw,pose_yaw,velocity_x,velocity_y,duck,origin_x,origin_y,origin_z; } sr_snapshot_v1;
-    typedef struct { uint32_t player,identity,generation,apply,records,state,reason,reserved; float offset,confidence,simulation_time; } sr_decision_v1;
-    typedef struct { uint32_t feeds,records,duplicates,rejected,resets,selected,fallback,head_feedback,feedback_rejected,slots,memory_bytes; } sr_stats_v1;
-    typedef struct { uint32_t count,spikes; float mean_ms,p50_ms,p95_ms,p99_ms,max_ms; } sr_frames_v1;
+local function declare_type(name, definition)
+    local ok, value = pcall(ffi.typeof, name)
+    if not ok or value == nil then ffi.cdef(definition) end
+end
+declare_type('sr_snapshot_v1', [[typedef struct { uint32_t player,identity,flags,reserved; float simulation_time,now,interval,latency,lerp,max_unlag,eye_yaw,lower_body_yaw,pose_yaw,velocity_x,velocity_y,duck,origin_x,origin_y,origin_z; } sr_snapshot_v1;]])
+declare_type('sr_decision_v1', [[typedef struct { uint32_t player,identity,generation,apply,records,state,reason,reserved; float offset,confidence,simulation_time; } sr_decision_v1;]])
+declare_type('sr_stats_v1', [[typedef struct { uint32_t feeds,records,duplicates,rejected,resets,selected,fallback,head_feedback,feedback_rejected,slots,memory_bytes; } sr_stats_v1;]])
+declare_type('sr_frames_v1', [[typedef struct { uint32_t count,spikes; float mean_ms,p50_ms,p95_ms,p99_ms,max_ms; } sr_frames_v1;]])
+-- Function declarations are required on EVERY load, independently of typedefs.
+ffi.cdef[[
     unsigned sr_abi_version(void); unsigned sr_snapshot_bytes(void); unsigned sr_decision_bytes(void);
     unsigned sr_mode_enabled(void);
     void sr_reset(void); void sr_forget(unsigned);
@@ -13,22 +17,16 @@ if not pcall(ffi.typeof, 'sr_snapshot_v1') then
     unsigned sr_head_hit(unsigned,unsigned,unsigned);
     void sr_stats(sr_stats_v1*); unsigned sr_history(unsigned,sr_snapshot_v1*,unsigned);
     void sr_frame(float); void sr_frame_stats(sr_frames_v1*);
-    unsigned long __stdcall GetModuleFileNameA(void*, char*, unsigned long);
-    void* __stdcall GetModuleHandleA(const char*);
-    ]]
-end
+]]
 local function load_native()
-    local handle = ffi.C.GetModuleHandleA('skeet.dll')
-    if handle == nil then error('[stock resolver] Inject the matching skeet.dll first') end
-    local buffer = ffi.new('char[32768]')
-    local size = tonumber(ffi.C.GetModuleFileNameA(handle, buffer, 32768))
-    if size == 0 or size >= 32768 then error('[stock resolver] Cannot locate injected skeet.dll') end
-    local ok, module = pcall(ffi.load, ffi.string(buffer, size))
-    if not ok then error('[stock resolver] Cannot bind injected resolver DLL: ' .. tostring(module)) end
+    -- Windows resolves an already loaded DLL by basename, including when the
+    -- injector loaded it from another directory. No ffi.C WinAPI symbols needed.
+    local ok, module = pcall(ffi.load, 'skeet.dll')
+    if not ok or module == nil then error('[stock resolver] Cannot bind skeet.dll. Inject the matching DLL first: ' .. tostring(module)) end
     return module
 end
 local native = load_native()
-assert(native.sr_abi_version() == 0x00010001 and native.sr_snapshot_bytes() == ffi.sizeof('sr_snapshot_v1') and native.sr_decision_bytes() == ffi.sizeof('sr_decision_v1'), '[stock resolver] DLL/Lua versions differ')
+assert(native.sr_abi_version() == 0x00010001 and native.sr_snapshot_bytes() == ffi.sizeof('sr_snapshot_v1') and native.sr_decision_bytes() == ffi.sizeof('sr_decision_v1') and ffi.sizeof('sr_stats_v1') == 44 and ffi.sizeof('sr_frames_v1') == 28, '[stock resolver] DLL/Lua versions differ')
 assert(native.sr_mode_enabled() == 1, '[stock resolver] Select loader option 2 and restart CS:GO to enable this module')
 assert(type(plist) == 'table' and type(plist.get) == 'function' and type(plist.set) == 'function', '[stock resolver] Player-list API is unavailable')
 
