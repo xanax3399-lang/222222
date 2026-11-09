@@ -1,0 +1,4 @@
+windows-compile.log
+windows_smoke.cpp
+D:\a\222222\222222\gamesense-csgo\stock-resolver\../source/steam/stock_resolver_install.h(16): error C2220: the following warning is treated as an error
+D:\a\222222\222222\gamesense-csgo\stock-resolver\../source/steam/stock_resolver_install.h(16): warning C4244: 'argument': conversion from 'std::streamsize' to 'const ptrdiff_t', possible loss of data
