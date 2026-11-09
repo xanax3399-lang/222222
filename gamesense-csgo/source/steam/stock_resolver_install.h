@@ -13,7 +13,11 @@ inline bool same_file(const fs::path& a,const fs::path& b) {
     if(fs::file_size(b,ec)!=size||ec)return false;
     std::ifstream x(a,std::ios::binary),y(b,std::ios::binary);if(!x||!y)return false;
     std::array<char,8192> left{},right{};
-    while(x){x.read(left.data(),left.size());y.read(right.data(),right.size());if(x.gcount()!=y.gcount()||!std::equal(left.begin(),left.begin()+x.gcount(),right.begin()))return false;}
+    while(x){
+        x.read(left.data(),left.size());y.read(right.data(),right.size());
+        const auto count=static_cast<std::size_t>(x.gcount()); // bounded by left.size()
+        if(x.gcount()!=y.gcount()||!std::equal(left.data(),left.data()+count,right.data()))return false;
+    }
     return true;
 }
 inline bool install_file(const fs::path& source,const fs::path& destination) {
