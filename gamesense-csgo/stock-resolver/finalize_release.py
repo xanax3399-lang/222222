@@ -11,7 +11,8 @@ archive, evidence = map(Path, sys.argv[1:])
 report = json.loads(evidence.read_text())
 assert report['abi']['actual_packaged_x86_dll_loaded'] is True
 assert report['legacy_patch_guards'] == [0, 8] and report['injector_cli_checked'] is True
-assert report['lua_bootstrap'] == ['clean', 'snapshot_already_declared', 'typeof_returns_nil']
+assert report['native_driver']['production_native_driver'] is True
+assert report['native_driver']['external_lua_required'] is False
 with tempfile.TemporaryDirectory() as temp:
     folder = Path(temp)
     with zipfile.ZipFile(archive) as source:
@@ -23,6 +24,7 @@ with tempfile.TemporaryDirectory() as temp:
         assert hashlib.sha256((folder / name).read_bytes()).hexdigest() == digest, name
     info = json.loads((folder / 'build_info.json').read_text())
     assert info['source_commit'] == os.environ['GITHUB_SHA']
+    assert info['external_lua_required'] is False and not list(folder.rglob('*.lua'))
     (folder / 'reports' / evidence.name).write_bytes(evidence.read_bytes())
     hashes = {str(p.relative_to(folder)): hashlib.sha256(p.read_bytes()).hexdigest()
               for p in sorted(folder.rglob('*')) if p.is_file() and p.name != 'SHA256SUMS.json'}

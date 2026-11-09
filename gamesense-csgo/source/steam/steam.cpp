@@ -14,6 +14,7 @@
 #include "../skeet/nl_stop_status.h"
 #include "../skeet/v3_status.h"
 #include "../skeet/v3_fire_status.h"
+#include "../../stock-resolver/native_driver.h"
 
 static FILE* run_log=nullptr;
 static bool diagnostic_quiet=false;
@@ -201,7 +202,17 @@ static int diagnostics(const wchar_t* path,DWORD selected_pid=0) {
         diagnostic_printf("Fire guard calls: %ld; unchanged: %ld; rechecks: %ld; canceled: %ld; DT bypass: %ld; manual attack bypass: %ld; fallback: %ld; last probability: %.3f\nRecharge gate visits: %ld; aim gate overrides: %ld (native pending-shot wait and cooldown retained)\n",
             fire.guard_calls,fire.unchanged,fire.rechecks,fire.canceled,fire.dt_bypass,fire.manual_bypass,
             fire.fallback,fire.last_probability,fire.recharge_checks,fire.recharge_overrides);
-        diagnostic_printf("GS chooses stop timing and recharge safety. Optional early recharge only bypasses the aim gate after native checks. Counters do not measure aiming accuracy.\n");return 0;
+        const DWORD native_rva=exported_rva(path,"sr_driver_status",sizeof(stock_native::DriverStatus));
+        if(native_rva) {
+            stock_native::DriverStatus native{};
+            if(!ReadProcessMemory(process.value,item.modBaseAddr+native_rva,&native,sizeof(native),&got)||got!=sizeof(native)||native.version!=1)
+                return error("Cannot read native C++ resolver diagnostics");
+            diagnostic_printf("\nNative C++ resolver: enabled %u; state %u (0 off, 1 prepared, 2 waiting, 3 active, 4 failed); error %u; installed %u\nFrame callbacks: %u; network updates: %u; frames: %u\nTracked: %u; active overrides: %u; manual blocks: %u; invalid controls: %u\nNetvar mask: %03X; previous callback: %08X; vtable slot: %08X\nRecords: %u; duplicates: %u; rejected: %u; model decisions: %u; GS fallbacks: %u\nThreshold: %.2f; native memory: %u bytes; update last/worst: %.3f/%.3f ms\n",
+                native.enabled,native.state,native.error,native.installed,native.callbacks,native.updates,native.frames,
+                native.tracked,native.applied,native.blocked,native.invalid_controls,native.netvar_mask,native.previous,native.slot,
+                native.records,native.duplicates,native.rejected,native.selected,native.fallback,native.threshold,native.memory_bytes,native.last_update_ms,native.worst_update_ms);
+        }
+        diagnostic_printf("GS chooses stop timing and recharge safety. Counters do not measure aiming accuracy.\n");return 0;
     }while(Module32NextW(modules.value,&item));
     diagnostic_printf("skeet.dll is not loaded in this game.\n");return 1;
 }
@@ -218,7 +229,6 @@ static int run_diagnostics(const wchar_t* path,bool interactive) {
     return result;
 }
 #include "launcher_reports.h"
-#include "stock_resolver_install.h"
 int wmain(int argc,wchar_t** argv) {
     SetConsoleTitleW(L"Legacy CS:GO 8802 - automatic launch");
     wchar_t path[32768]{};
@@ -258,7 +268,7 @@ int wmain(int argc,wchar_t** argv) {
     }
     if(show_diagnostics)return run_diagnostics(path,false);
     while(mode<0) {
-        std::puts("1 - Original GameSense\n2 - Stock GS + native resolver DLL / Lua driver\n5 - Read loader diagnostics\n8 - Open last loader report\n0 - Exit");
+        std::puts("1 - Original GameSense\n2 - Stock GS + native C++ resolver (no Lua needed)\n5 - Read loader diagnostics\n8 - Open last loader report\n0 - Exit");
         std::printf("Choice [Enter = 2]: ");char choice[32]{};
         if(!std::fgets(choice,sizeof(choice),stdin))choice[0]='2';
         if(choice[0]=='0')return 0;
@@ -269,7 +279,7 @@ int wmain(int argc,wchar_t** argv) {
         else {std::fprintf(stderr,"Unknown choice.\n");return 1;}
     }
     RunLog startup_log(path);
-    const char* mode_message=mode==8?"Selected: stock GS with integrated native resolver / Lua bridge. No NL or v3 gameplay patches.":"Selected: original GameSense gameplay.";
+    const char* mode_message=mode==8?"Selected: stock GS with integrated native resolver / C++ driver. No Lua, NL or v3 gameplay patches.":"Selected: original GameSense gameplay.";
     std::puts(mode_message);log_line(mode_message);
     DWORD pid=game_pid();Handle process;legacy_launch::Suspended suspended;
     if(!pid) {
@@ -287,12 +297,6 @@ int wmain(int argc,wchar_t** argv) {
         process.value=OpenProcess(SYNCHRONIZE|PROCESS_CREATE_THREAD|PROCESS_QUERY_INFORMATION|
             PROCESS_VM_OPERATION|PROCESS_VM_READ|PROCESS_VM_WRITE,FALSE,pid);
         if(!process.value)return error("Cannot open csgo.exe");
-    }
-    if(mode==8) {
-        wchar_t game_file[32768]{};DWORD game_length=32768;
-        if(!QueryFullProcessImageNameW(process.value,0,game_file,&game_length))return error("Cannot locate running csgo.exe for resolver files");
-        if(!stock_resolver_install::deploy(path,game_file))return error("Cannot install stock_resolver.lua in the game csgo folder");
-        std::puts("Resolver Lua bridge installed. In GameSense load stock_resolver.lua once; settings are in LUA / B.");
     }
     BOOL self_wow = FALSE, target_wow = FALSE;
     if (!IsWow64Process(GetCurrentProcess(), &self_wow) ||
@@ -350,14 +354,18 @@ int wmain(int argc,wchar_t** argv) {
     std::puts("DLL mapped. Waiting for its initialization status...");
     log_line("DLL mapped. Waiting for its initialization status...");
     const auto initialize_start = GetTickCount64();
-    LONG logged_state=-1;
-    while (GetTickCount64() - initialize_start < 125000) {
+    LONG logged_state=-1;char logged_message[244]{};DWORD logged_error=0;
+    while (GetTickCount64() - initialize_start < 210000) {
         LoaderStatus status{};
         SIZE_T got = 0;
         if (!ReadProcessMemory(process.value, reinterpret_cast<void*>(module + export_rva), &status, sizeof(status), &got) ||
             got != sizeof(status) || status.version != 1) return error("Cannot read DLL initialization status");
         status.message[sizeof(status.message) - 1] = 0;
-        if(status.state!=logged_state){log_line(status.message,status.error);logged_state=status.state;}
+        if(status.state!=logged_state||status.error!=logged_error||std::strcmp(status.message,logged_message)){
+            log_line(status.message,status.error);logged_state=status.state;logged_error=status.error;
+            std::memcpy(logged_message,status.message,sizeof(logged_message));
+            std::printf("%s (code %lu)\n",status.message,status.error);std::fflush(stdout);
+        }
         if (status.state == LoaderFailed || status.state == LoaderEntryStarted) {
             std::printf("%s (code %lu)\n", status.message, status.error);
             if (status.state == LoaderFailed) std::puts("Restart the game before retrying.");

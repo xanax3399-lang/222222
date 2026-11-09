@@ -6,12 +6,13 @@
 #define SR_EXPORT extern "C" __attribute__((visibility("default")))
 #endif
 namespace { stock_resolver::Engine engine; }
+namespace stock_native {stock_resolver::Engine& shared_engine(){return engine;}}
 SR_EXPORT unsigned sr_abi_version(){return 0x00010001;}
 SR_EXPORT unsigned sr_snapshot_bytes(){return sizeof(stock_resolver::Snapshot);}
 SR_EXPORT unsigned sr_decision_bytes(){return sizeof(stock_resolver::Decision);}
 SR_EXPORT unsigned sr_mode_enabled(){
 #ifdef _WIN32
-    return nl_hypotheses::selected_mode==nl_hypotheses::StockResolver;
+    return 0; // Retired external Lua driver must never compete with native control.
 #else
     return 1; // Host tests exercise the enabled mode without loading the game.
 #endif

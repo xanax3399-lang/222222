@@ -18,6 +18,7 @@
 #include "v3_fire_patch.h"
 #include "crash_report.h"
 #include "../loader_protocol.h"
+#include "../../stock-resolver/native_driver.h"
 #include <intrin.h>
 #include <stdexcept>
 
@@ -272,7 +273,7 @@ static vm_element_t parse_vm_element(const nlohmann::json& json) {
 
     return element;
 }
-skeet_t::skeet_t(HMODULE base) : _base(0x43310000), page(nullptr), _stack(nullptr) {
+skeet_t::skeet_t(HMODULE base) : _module(base), _base(0x43310000), page(nullptr), _stack(nullptr) {
     if (singleton)
         return;
 
@@ -713,6 +714,10 @@ bool skeet_t::extra()
     // The separately selected native animation-hypothesis adapter is installed below.
     // The existing loader/Legacy 8802 compatibility setup above is retained.
     LPRINT(skCrypt("[INFO] recompiling vm...\n"));
+    if(!stock_native::prepare(reinterpret_cast<unsigned char*>(_base),_size,
+        reinterpret_cast<HMODULE>(_module))) {
+        _last_error=stock_native::last_error();return false;
+    }
     if(!nl_points_patch::apply(reinterpret_cast<unsigned char*>(_base),_size)) {
         _last_error=nl_points_patch::last_error();return false;
     }

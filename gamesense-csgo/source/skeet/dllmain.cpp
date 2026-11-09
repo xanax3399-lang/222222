@@ -6,6 +6,7 @@
 #include "v3_fire_patch.h"
 #include "crash_report.h"
 #include <exception>
+#include "../../stock-resolver/native_driver.h"
 
 extern "C" {
 __declspec(dllexport) LoaderStatus skeet_loader_status = {1, LoaderWaiting, 0, "Waiting for game modules"};
@@ -68,8 +69,12 @@ static DWORD WINAPI initialize(LPVOID parameter) {
         if (!FlushInstructionCache(GetCurrentProcess(), reinterpret_cast<void*>(kImageBase), kImageSize))
             return fail("Could not flush the image instruction cache.");
         if (!skeet->entry()) return fail("Could not start the original image entry thread.");
+        if(nl_hypotheses::selected_mode==nl_hypotheses::StockResolver) {
+            status(LoaderInitializing,0,"GS entry started; waiting for native resolver FrameStage hook");
+            if(!stock_native::start())return fail(stock_native::last_error());
+        }
         status(LoaderEntryStarted, 0, (nl_hypotheses::selected_mode==nl_hypotheses::Stock||nl_hypotheses::selected_mode==nl_hypotheses::StockResolver)
-            ? "GameSense mode: original entry resumed. Game runtime unverified."
+            ? (sr_driver_status.installed?"Native C++ resolver connected to FrameStageNotify. Game runtime unverified.":"GameSense mode: original entry resumed. Game runtime unverified.")
             : "Selected NL modules installed. Entry resumed; game runtime unverified.");
         return 0;
     } catch (const std::exception& e) {

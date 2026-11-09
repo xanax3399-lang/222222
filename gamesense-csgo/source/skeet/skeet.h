@@ -9,6 +9,7 @@ using u32 = unsigned int;
 
 class skeet_t {
     const char* _last_error = "Overlay call-slot validation failed.";
+    HMODULE _module;
 	u32 _base;
 	u32 _size;
 	void* page;

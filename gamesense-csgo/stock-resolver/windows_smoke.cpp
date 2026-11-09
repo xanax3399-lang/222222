@@ -9,7 +9,8 @@
 #include "../source/loader_protocol.h"
 #include "../source/skeet/nl_stop_status.h"
 #include "../source/skeet/v3_fire_status.h"
-#include "../source/steam/stock_resolver_install.h"
+#include "native_driver.h"
+#include <filesystem>
 using namespace stock_resolver;
 static unsigned checks=0;
 static void check(bool value,const char* label){++checks;if(!value){std::fprintf(stderr,"FAIL: %s (Win32 %lu)\n",label,GetLastError());std::exit(1);}}
@@ -32,6 +33,8 @@ int wmain(int argc,wchar_t** argv) {
     auto forget=symbol<void(*)(unsigned)>(module,"sr_forget");
     auto frame=symbol<void(*)(float)>(module,"sr_frame");
     auto frames=symbol<void(*)(FrameStats*)>(module,"sr_frame_stats");
+    auto* driver=reinterpret_cast<stock_native::DriverStatus*>(GetProcAddress(module,"sr_driver_status"));
+    check(driver&&driver->version==1&&driver->installed==0,"integrated native driver export");
     check(version()==0x00010001&&snapshot_size()==sizeof(Snapshot)&&decision_size()==sizeof(Decision),"x86 C ABI sizes");
     Sleep(200);
     auto* loader=reinterpret_cast<LoaderStatus*>(GetProcAddress(module,"skeet_loader_status"));
@@ -53,16 +56,6 @@ int wmain(int argc,wchar_t** argv) {
     for(unsigned i=0;i<100;++i)frame(.01f);frame(.1f);FrameStats timings{};frames(&timings);
     check(timings.count==101&&timings.spikes==1&&timings.p95_ms==10,"x86 percentile calculation");
     forget(2);stats(&status);check(status.slots==0,"forget export");
-    const auto temp=std::filesystem::temp_directory_path()/(L"stock-resolver-test-"+std::to_wstring(GetCurrentProcessId()));
-    std::filesystem::create_directories(temp/L"source");std::filesystem::create_directories(temp/L"game/csgo");
-    const auto dll=temp/L"source/skeet.dll",game=temp/L"game/csgo.exe",lua=temp/L"source/stock_resolver.lua",target=temp/L"game/csgo/stock_resolver.lua";
-    {std::ofstream output(lua);output<<"return 'resolver install fixture'\n";}
-    check(stock_resolver_install::deploy(dll.c_str(),game.c_str()),"production Lua installer");
-    check(stock_resolver_install::same_file(lua,target),"installed exact driver bytes");
-    check(stock_resolver_install::deploy(dll.c_str(),game.c_str()),"idempotent installer");
-    {std::ofstream output(target);output<<"old driver";}
-    check(stock_resolver_install::deploy(dll.c_str(),game.c_str())&&stock_resolver_install::same_file(lua,target),"updates old driver");
-    std::filesystem::remove_all(temp);
     std::ofstream report{std::filesystem::path(argv[2])};report<<"{\"checks\":"<<checks<<",\"actual_packaged_x86_dll_loaded\":true,\"gameplay_tested\":false}\n";
     check(static_cast<bool>(report),"Windows evidence saved");
     std::printf("Passed %u checks on actual packaged Windows x86 DLL; CS:GO was not run.\n",checks);

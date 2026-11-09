@@ -12,7 +12,8 @@ assert value==expected
 compat=[]if os.name=='nt'else ['-I',R/'source/compat']
 base.run('resources','rc','/fo',B/'skeet.res','/I',Z/'lib/libc/include/any-windows-any','/I',R/'source/compat','skeet.rc',cwd=R/'source/skeet')
 common=['c++','-target','x86-windows-gnu','-std=c++23','-O1','-fno-fast-math','-ffp-contract=off','-fms-extensions','-fasm-blocks','-DUNICODE','-D_UNICODE','-D_CRT_SECURE_NO_WARNINGS',*compat,'-I',R/'source/skeet']
-base.run('stock-dll',*common,'-shared',R/'source/skeet/skeet.cpp',R/'source/skeet/saver.cpp',R/'source/skeet/dllmain.cpp',R/'stock-resolver/exports.cpp',B/'skeet.res','-luser32','-ladvapi32','-lpsapi','-o',B/'skeet.dll')
+base.run('stock-dll',*common,'-shared',R/'source/skeet/skeet.cpp',R/'source/skeet/saver.cpp',R/'source/skeet/dllmain.cpp',R/'stock-resolver/exports.cpp',R/'stock-resolver/native_driver.cpp',B/'skeet.res','-luser32','-ladvapi32','-lpsapi','-o',B/'skeet.dll')
 base.run('stock-injector','c++','-target','x86-windows-gnu','-std=c++23','-O2','-DUNICODE','-D_UNICODE',*compat,'-municode',R/'source/steam/steam.cpp','-ladvapi32','-lshell32','-o',B/'injector.exe')
 base.run('stock-mode-probe',*common,R/'stock-resolver/mode_probe.cpp','-luser32','-o',B/'stock_mode_probe.exe')
-print('Built skeet.dll with integrated resolver and injector.exe. Lua driver remains explicit.')
+base.run('native-driver-probe',*common,R/'stock-resolver/windows_native_probe.cpp','-luser32','-o',B/'native_driver_probe.exe')
+print('Built skeet.dll with native C++ driver and injector.exe. No Lua script required.')

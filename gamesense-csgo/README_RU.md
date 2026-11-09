@@ -1,8 +1,9 @@
 # Stock resolver / CS:GO 8802 — текущая ветка
 
 В `codex/skeet-stock-resolver` собирается отдельная экспериментальная версия:
-`python build_stock_resolver.py`. C++-модель встроена в `skeet.dll`, её Lua-драйвер
-обязателен для получения данных и применения решений через GameSense.
+`python build_stock_resolver.py`. C++-модель и нативный драйвер встроены в
+`skeet.dll`; данные читаются через Source-интерфейсы и RecvTable, результаты
+применяются к проверенным полям GS. Отдельный Lua-файл не требуется.
 Инжектор: **1** — штатный GS, **2** — новый резольвер. Установка, ограничения
 и проверка: [stock-resolver/README_RU.txt](stock-resolver/README_RU.txt).
 Автоматическая сборка и публикация: `skeet-stock-resolver.yml`.

@@ -16,15 +16,16 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install pinned build and driver test tools
-        run: python -m pip install -r gamesense-csgo/requirements-build.txt lupa==2.6
-      - name: Test native model and real LuaJIT to C++ integration
+      - name: Install pinned build and emulation tools
+        run: python -m pip install -r gamesense-csgo/requirements-build.txt
+      - name: Test native model controller and actual GS player-list contract
         run: |
           mkdir -p gamesense-csgo/build
           g++ -std=c++17 -O2 -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off gamesense-csgo/stock-resolver/test_model.cpp -o gamesense-csgo/build/test_stock_resolver
           gamesense-csgo/build/test_stock_resolver > gamesense-csgo/build/stock_resolver_model_validation.json
-          g++ -std=c++17 -O2 -shared -fPIC -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off gamesense-csgo/stock-resolver/exports.cpp -o gamesense-csgo/build/stock_resolver_host.so
-          python gamesense-csgo/stock-resolver/test_driver.py
+          g++ -std=c++17 -O2 -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off gamesense-csgo/stock-resolver/test_native_controller.cpp -o gamesense-csgo/build/test_native_controller
+          gamesense-csgo/build/test_native_controller > gamesense-csgo/build/stock_resolver_native_controller_validation.json
+          python gamesense-csgo/stock-resolver/validate_native_contract.py
       - name: Compile actual Windows x86 DLL and injector
         run: python gamesense-csgo/build_stock_resolver.py
       - name: Check real PE imports and integrated resolver exports
@@ -34,11 +35,13 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: skeet-stock-resolver-windows
-          path: gamesense-csgo/build/skeet-stock-resolver-windows.zip
+          path: gamesense-csgo/build/skeet-native-resolver-windows.zip
       - uses: actions/upload-artifact@v4
         with:
           name: stock-mode-probe
-          path: gamesense-csgo/build/stock_mode_probe.exe
+          path: |
+            gamesense-csgo/build/stock_mode_probe.exe
+            gamesense-csgo/build/native_driver_probe.exe
       - name: Publish bounded compiler evidence
         if: always()
         continue-on-error: true
@@ -64,19 +67,11 @@ jobs:
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: x86
-      - uses: actions/checkout@v4
-        with:
-          repository: LuaJIT/LuaJIT
-          ref: c4b1e2f73a2e10fbcc637fcec474f639c38daafe
-          path: tools/luajit
-      - name: Build pinned official LuaJIT for actual x86 Lua bootstrap test
-        shell: cmd
-        working-directory: tools/luajit/src
-        run: msvcbuild.bat
       - name: Extract compiled artifact
         shell: pwsh
         run: |
-          Expand-Archive dist/skeet-stock-resolver-windows.zip -DestinationPath dist/runtime
+          Expand-Archive dist/skeet-native-resolver-windows.zip -DestinationPath dist/runtime
+          if (Get-ChildItem dist/runtime -Recurse -Filter '*.lua') { throw 'Native archive must not require Lua files' }
           New-Item -ItemType Directory -Force gamesense-csgo/build | Out-Null
       - name: Compile independent native x86 ABI and installer probe
         shell: pwsh
@@ -110,14 +105,12 @@ jobs:
           & dist/runtime/injector.exe --mode stock --game $missing
           if ($LASTEXITCODE -ne 1 -or (Get-Content dist/runtime/loader_last.log -Raw) -notmatch 'original GameSense gameplay') { throw 'CLI stock mode failed' }
           exit 0
-      - name: Execute unmodified Lua driver bootstrap with actual x86 DLL
+      - name: Execute production C++ Source driver with controlled interface objects
         shell: pwsh
         run: |
-          foreach ($scenario in @('clean','snapshot_already_declared','typeof_returns_nil')) {
-            & tools/luajit/src/luajit.exe gamesense-csgo/stock-resolver/windows_lua_bootstrap.lua "$PWD/dist/runtime/skeet.dll" "$PWD/dist/runtime/stock_resolver.lua" $scenario *> "gamesense-csgo/build/windows-lua-$scenario.log"
-            if ($LASTEXITCODE -ne 0) { Get-Content "gamesense-csgo/build/windows-lua-$scenario.log"; throw "Windows Lua bootstrap failed: $scenario" }
-          }
-          $report = @{ abi = (Get-Content dist/windows_abi.json -Raw | ConvertFrom-Json); legacy_patch_guards = @(0,8); injector_cli_checked = $true; lua_bootstrap = @('clean','snapshot_already_declared','typeof_returns_nil'); gameplay_tested = $false }
+          & dist/native_driver_probe.exe "$PWD/gamesense-csgo/source/skeet/Binary/skeet.bin" "$PWD/dist/native_driver.json" *> gamesense-csgo/build/windows-native-driver.log
+          if ($LASTEXITCODE -ne 0) { Get-Content gamesense-csgo/build/windows-native-driver.log; throw 'Native C++ driver test failed' }
+          $report = @{ abi = (Get-Content dist/windows_abi.json -Raw | ConvertFrom-Json); legacy_patch_guards = @(0,8); injector_cli_checked = $true; native_driver = (Get-Content dist/native_driver.json -Raw | ConvertFrom-Json); gameplay_tested = $false }
           $report | ConvertTo-Json -Depth 8 | Set-Content -Encoding utf8 gamesense-csgo/build/stock_resolver_windows_validation.json
           exit 0
       - uses: actions/upload-artifact@v4
@@ -148,16 +141,15 @@ jobs:
           name: stock-windows-validation
           path: dist
       - name: Preserve tested DLL bytes and include Windows evidence
-        run: python gamesense-csgo/stock-resolver/finalize_release.py dist/skeet-stock-resolver-windows.zip dist/stock_resolver_windows_validation.json
+        run: python gamesense-csgo/stock-resolver/finalize_release.py dist/skeet-native-resolver-windows.zip dist/stock_resolver_windows_validation.json
       - name: Publish compiled and tested Windows download
         env:
           GH_TOKEN: ${{ github.token }}
           SOURCE_SHA: ${{ github.sha }}
         run: |
-          tag="skeet-stock-resolver-${SOURCE_SHA}"
-          unzip -p dist/skeet-stock-resolver-windows.zip stock_resolver.lua > dist/stock_resolver.lua
+          tag="skeet-native-resolver-${SOURCE_SHA}"
           if gh release view "$tag" >/dev/null 2>&1; then
-            gh release upload "$tag" dist/skeet-stock-resolver-windows.zip dist/stock_resolver.lua --clobber
+            gh release upload "$tag" dist/skeet-native-resolver-windows.zip --clobber
           else
-            gh release create "$tag" dist/skeet-stock-resolver-windows.zip dist/stock_resolver.lua --target "$SOURCE_SHA" --prerelease --title 'CS:GO 8802 / stock GS + experimental native resolver' --notes-file gamesense-csgo/stock-resolver/README_RU.txt
+            gh release create "$tag" dist/skeet-native-resolver-windows.zip --target "$SOURCE_SHA" --prerelease --title 'CS:GO 8802 / native C++ resolver / no Lua driver' --notes-file gamesense-csgo/stock-resolver/README_RU.txt
           fi
