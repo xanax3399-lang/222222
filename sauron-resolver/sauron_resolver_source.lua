@@ -1,1105 +1,394 @@
--- Sauron resolver: recovered editable GameSense Lua.
--- PSU VM, encoded payload and unused padding removed. Names inferred.
--- Requires gamesense/csgo_weapons and vector. See README_RU.txt.
-local function pack_results(...)
-    return {
-        n = select("#", ...),
-        ...,
-    }
-end
+-- Sauron resolver for GameSense / CS:GO.
+-- Recovered from the supplied PSU-protected file. Names and comments are inferred.
+-- Menu: RAGE / Other. Dependencies: gamesense/csgo_weapons, vector.
+
 local function main(...)
-    local color_log, eye_position, random_int, register_esp_flag, screen_size, set_event_callback, unset_event_callback, trace_bullet, update_player_list, userid_to_entindex, get_local_player, get_player_weapon, get_players, get_prop, hitbox_position, frametime, atan, cos, floor, max, min, rad, sin, sqrt, plist_get, plist_set, draw_line, measure_text, draw_rectangle, draw_text, world_to_screen, table_remove, to_number, require_module, pairs_iter, ui_get, ui_name, print_message, ui_set_callback, ui_set_visible, notifications, weapon_data, vector_constructor, menu, yaw_presets, stage_defaults, player_state, player_history, remember_ui_references, log_message, controls, reset_player_state, on_player_death, on_round_start, on_player_connect, round_number, weapon_is_selected, contains, select_preset_yaw, normalize_yaw, yaw_between_points, trace_hitbox_offsets, angles_to_direction, classify_movement, same_side_of_threshold, on_setup_command, on_aim_hit, on_aim_miss, update_callbacks, L75_1, L79_1
-    color_log = client.color_log
-    eye_position = client.eye_position
-    random_int = client.random_int
-    register_esp_flag = client.register_esp_flag
-    screen_size = client.screen_size
-    set_event_callback = client.set_event_callback
-    unset_event_callback = client.unset_event_callback
-    trace_bullet = client.trace_bullet
-    update_player_list = client.update_player_list
-    userid_to_entindex = client.userid_to_entindex
-    get_local_player = entity.get_local_player
-    get_player_weapon = entity.get_player_weapon
-    get_players = entity.get_players
-    get_prop = entity.get_prop
-    hitbox_position = entity.hitbox_position
-    frametime = globals.frametime
-    atan = math.atan
-    cos = math.cos
-    floor = math.floor
-    max = math.max
-    min = math.min
-    rad = math.rad
-    sin = math.sin
-    sqrt = math.sqrt
-    plist_get = plist.get
-    plist_set = plist.set
-    draw_line = renderer.line
-    measure_text = renderer.measure_text
-    draw_rectangle = renderer.rectangle
-    draw_text = renderer.text
-    world_to_screen = renderer.world_to_screen
-    table_remove = table.remove
-    to_number = tonumber
-    require_module = require
-    pairs_iter = pairs
-    ui_get = ui.get
-    ui_name = ui.name
-    print_message = print
-    ui_set_callback = ui.set_callback
-    ui_set_visible = ui.set_visible
-    notifications = _G.sauron_notify_cache
-    if not notifications then
-        weapon_data = {
-        }
-        _G.sauron_notify_cache = weapon_data
+    -- Cache the same API functions as the original script.
+    local color_log = client.color_log
+    local eye_position = client.eye_position
+    local random_int = client.random_int
+    local register_esp_flag = client.register_esp_flag
+    local screen_size = client.screen_size
+    local set_event_callback = client.set_event_callback
+    local unset_event_callback = client.unset_event_callback
+    local trace_bullet = client.trace_bullet
+    local update_player_list = client.update_player_list
+    local userid_to_entindex = client.userid_to_entindex
+    local get_local_player = entity.get_local_player
+    local get_player_weapon = entity.get_player_weapon
+    local get_players = entity.get_players
+    local get_prop = entity.get_prop
+    local hitbox_position = entity.hitbox_position
+    local frametime = globals.frametime
+    local atan, cos, floor = math.atan, math.cos, math.floor
+    local max, min, rad = math.max, math.min, math.rad
+    local sin, sqrt = math.sin, math.sqrt
+    local plist_get, plist_set = plist.get, plist.set
+    local draw_line = renderer.line
+    local measure_text = renderer.measure_text
+    local draw_rectangle = renderer.rectangle
+    local draw_text = renderer.text
+    local world_to_screen = renderer.world_to_screen
+    local table_remove, to_number = table.remove, tonumber
+    local require_module, pairs_iter = require, pairs
+    local ui_get, ui_name = ui.get, ui.name
+    local print_message = print
+    local ui_set_callback, ui_set_visible = ui.set_callback, ui.set_visible
+
+    -- Notifications retain the original lifetime, fade and callback timing.
+    if not _G.sauron_notify_cache then
+        _G.sauron_notify_cache = {}
     end
-    notifications = function(...)
-        local L0_2, L1_2
-        L0_2 = {
-        }
-        L0_2.callback_registered = false
-        L0_2.maximum_count = 7
-        L1_2 = function(A0_3, ...)
-            local L1_3, L3_3
-            L1_3 = A0_3.callback_registered
-            if L1_3 then
-                return 
-            end
-            L3_3 = function(...)
-                local L0_4, L1_4, L2_4, L3_4, L4_4, L5_4, L6_4, L7_4, L8_4, L9_4, L10_4, L11_4, L12_4, L13_4, L14_4, L15_4, L16_4, L17_4, L18_4, L19_4, L20_4, L21_4, L22_4, L23_4, L24_4, L25_4, L26_4
-                L0_4 = {
-                }
-                L1_4, L2_4, L3_4, L4_4, L5_4, L6_4, L7_4, L8_4, L9_4, L10_4, L11_4, L12_4, L13_4, L14_4, L15_4, L16_4, L17_4, L18_4, L19_4, L20_4, L21_4, L22_4, L23_4, L24_4, L25_4, L26_4 = screen_size()
-                L0_4[1] = L1_4
-                L0_4[2] = L2_4
-                L0_4[3] = L3_4
-                L0_4[4] = L4_4
-                L0_4[5] = L5_4
-                L0_4[6] = L6_4
-                L0_4[7] = L7_4
-                L0_4[8] = L8_4
-                L0_4[9] = L9_4
-                L0_4[10] = L10_4
-                L0_4[11] = L11_4
-                L0_4[12] = L12_4
-                L0_4[13] = L13_4
-                L0_4[14] = L14_4
-                L0_4[15] = L15_4
-                L0_4[16] = L16_4
-                L0_4[17] = L17_4
-                L0_4[18] = L18_4
-                L0_4[19] = L19_4
-                L0_4[20] = L20_4
-                L0_4[21] = L21_4
-                L0_4[22] = L22_4
-                L0_4[23] = L23_4
-                L0_4[24] = L24_4
-                L0_4[25] = L25_4
-                L0_4[26] = L26_4
-                L1_4 = {
-                }
-                L1_4[1] = 0
-                L1_4[2] = 0
-                L1_4[3] = 0
-                L2_4 = 5
-                L3_4 = _G.sauron_notify_cache
-                L4_4 = #L3_4
-                L6_4 = -1
-                for L7_4 = L4_4, 1, L6_4 do
-                    L8_4 = (_G.sauron_notify_cache)[L7_4]
-                    L9_4 = ((_G.sauron_notify_cache)[L7_4]).time
-                    L10_4 = frametime()
-                    L8_4.time = L9_4 - L10_4
-                    L8_4 = 255
-                    L9_4 = 0
-                    L10_4 = L3_4[L7_4]
-                    L11_4 = L10_4.time
-                    if not (0 <= L11_4) then
-                        L11_4 = table_remove
-                        L12_4 = _G.sauron_notify_cache
-                        L13_4 = L7_4
-                        table_remove(L12_4, L7_4)
-                    else
-                        L11_4 = L10_4.def_time
-                        L12_4 = L10_4.time
-                        L11_4 = L11_4 - L12_4
-                        if not (L11_4 <= 1) then
-                            L12_4 = 1
-                            if not 1 then
-                                L12_4 = L11_4
-                            end
-                        else
-                            L12_4 = L11_4
+    local notifications = {callback_registered = false, maximum_count = 7}
+
+    function notifications:register_callback(...)
+        if self.callback_registered then return end
+        set_event_callback("paint_ui", function(...)
+            local width, height = screen_size()
+            local cache = _G.sauron_notify_cache
+            local vertical_offset = 5
+            for index = #cache, 1, -1 do
+                local entry = _G.sauron_notify_cache[index]
+                entry.time = entry.time - frametime()
+                local alpha, fade = 255, 0
+                entry = cache[index]
+                if entry.time < 0 then
+                    table_remove(_G.sauron_notify_cache, index)
+                else
+                    local elapsed = entry.def_time - entry.time
+                    local fade_in = elapsed > 1 and 1 or elapsed
+                    if entry.time < 0.5 or fade_in < 0.5 then
+                        local fade_time = fade_in < 1 and fade_in or entry.time
+                        fade = fade_time / 0.5
+                        alpha = fade * 255
+                        if fade < 0.2 then
+                            vertical_offset = vertical_offset + 15 * (1 - fade / 0.2)
                         end
-                        L13_4 = L10_4.time
-                        if L13_4 < 0.5 or not (0.5 <= L12_4) then
-                            if not (1 <= L12_4) and L12_4 then
-                                L13_4 = L12_4
-                            else
-                                L13_4 = L10_4.time
-                            end
-                            L9_4 = L13_4 / 0.5
-                            L8_4 = L9_4 * 255
-                            if not (0.2 <= L9_4) then
-                                L13_4 = L9_4 / 0.2
-                                L13_4 = 1 - L13_4
-                                L13_4 = 15 * L13_4
-                                L2_4 = L2_4 + L13_4
-                            end
-                        end
-                        L13_4 = {
-                        }
-                        L18_4 = L10_4.draw
-                        L17_4 = ("[sauron] ")..L18_4
-                        L15_4 = (measure_text(nil, L17_4)) * 1.1
-                        L14_4, L15_4, L16_4, L17_4, L18_4, L19_4, L20_4, L21_4, L22_4, L23_4, L24_4, L25_4, L26_4 = floor(L15_4)
-                        L13_4[1] = L14_4
-                        L13_4[2] = L15_4
-                        L13_4[3] = L16_4
-                        L13_4[4] = L17_4
-                        L13_4[5] = L18_4
-                        L13_4[6] = L19_4
-                        L13_4[7] = L20_4
-                        L13_4[8] = L21_4
-                        L13_4[9] = L22_4
-                        L13_4[10] = L23_4
-                        L13_4[11] = L24_4
-                        L13_4[12] = L25_4
-                        L13_4[13] = L26_4
-                        L14_4 = {
-                        }
-                        L15_4, L16_4, L17_4, L18_4, L19_4, L20_4, L21_4, L22_4, L23_4, L24_4, L25_4, L26_4 = measure_text(nil, ("[sauron]"))
-                        L14_4[1] = L15_4
-                        L14_4[2] = L16_4
-                        L14_4[3] = L17_4
-                        L14_4[4] = L18_4
-                        L14_4[5] = L19_4
-                        L14_4[6] = L20_4
-                        L14_4[7] = L21_4
-                        L14_4[8] = L22_4
-                        L14_4[9] = L23_4
-                        L14_4[10] = L24_4
-                        L14_4[11] = L25_4
-                        L14_4[12] = L26_4
-                        L15_4 = {
-                        }
-                        L18_4 = L10_4.draw
-                        L16_4, L17_4, L18_4, L19_4, L20_4, L21_4, L22_4, L23_4, L24_4, L25_4, L26_4 = measure_text(nil, L18_4)
-                        L15_4[1] = L16_4
-                        L15_4[2] = L17_4
-                        L15_4[3] = L18_4
-                        L15_4[4] = L19_4
-                        L15_4[5] = L20_4
-                        L15_4[6] = L21_4
-                        L15_4[7] = L22_4
-                        L15_4[8] = L23_4
-                        L15_4[9] = L24_4
-                        L15_4[10] = L25_4
-                        L15_4[11] = L26_4
-                        L16_4 = {
-                        }
-                        L17_4 = (L0_4[1]) / 2
-                        L18_4 = (L13_4[1]) / 2
-                        L17_4 = (L17_4 - L18_4) + 3
-                        L18_4 = L0_4[2]
-                        L19_4 = ((L0_4[2]) / 100) * 17.4
-                        L18_4 = (L18_4 - L19_4) + L2_4
-                        L16_4[1] = L17_4
-                        L16_4[2] = L18_4
-                        L18_4 = L16_4[1]
-                        L19_4 = (L16_4[2]) - 20
-                        L20_4 = L13_4[1]
-                        L22_4 = L1_4[1]
-                        L23_4 = L1_4[2]
-                        L24_4 = L1_4[3]
-                        if not (L8_4 <= 155) then
-                            L25_4 = 155
-                            if not 155 then
-                                L25_4 = L8_4
-                            end
-                        else
-                            L25_4 = L8_4
-                        end
-                        draw_rectangle(L18_4, L19_4, L20_4, 40, L22_4, L23_4, L24_4, L25_4)
-                        L18_4 = L16_4[1]
-                        L19_4 = (L16_4[2]) - 19
-                        L20_4 = L16_4[1]
-                        L21_4 = L13_4[1]
-                        L20_4 = L20_4 + L21_4
-                        L21_4 = (L16_4[2]) - 19
-                        if not (L8_4 <= 155) then
-                            L25_4 = 155
-                            if not 155 then
-                                L25_4 = L8_4
-                            end
-                        else
-                            L25_4 = L8_4
-                        end
-                        draw_line(L18_4, L19_4, L20_4, L21_4, 255, 0, 0, L25_4)
-                        L18_4 = L16_4[1]
-                        L19_4 = (L13_4[1]) / 2
-                        L18_4 = L18_4 + L19_4
-                        L19_4 = (L15_4[1]) / 2
-                        L18_4 = L18_4 - L19_4
-                        L19_4 = L16_4[2]
-                        draw_text(L18_4, L19_4, 255, 0, 0, L8_4, ("c"), nil, ("[sauron] "))
-                        L17_4 = draw_text
-                        L18_4 = L16_4[1]
-                        L19_4 = (L13_4[1]) / 2
-                        L18_4 = L18_4 + L19_4
-                        L19_4 = (L14_4[1]) / 2
-                        L18_4 = L18_4 + L19_4
-                        L19_4 = L16_4[2]
-                        L20_4 = 255
-                        L21_4 = 255
-                        L22_4 = 255
-                        L23_4 = L8_4
-                        L24_4 = "c"
-                        L25_4 = nil
-                        L26_4 = L10_4.draw
-                        draw_text(L18_4, L19_4, 255, 255, 255, L8_4, ("c"), nil, L26_4)
-                        L2_4 = L2_4 - 50
                     end
+                    local box_width = floor(measure_text(nil, "[sauron] " .. entry.draw) * 1.1)
+                    local brand_width = measure_text(nil, "[sauron]")
+                    local message_width = measure_text(nil, entry.draw)
+                    local x = width / 2 - box_width / 2 + 3
+                    local y = height - (height / 100) * 17.4 + vertical_offset
+                    local background_alpha = alpha > 155 and 155 or alpha
+                    draw_rectangle(x, y - 20, box_width, 40, 0, 0, 0, background_alpha)
+                    draw_line(x, y - 19, x + box_width, y - 19, 255, 0, 0, background_alpha)
+                    draw_text(x + box_width / 2 - message_width / 2, y,
+                        255, 0, 0, alpha, "c", nil, "[sauron] ")
+                    draw_text(x + box_width / 2 + brand_width / 2, y,
+                        255, 255, 255, alpha, "c", nil, entry.draw)
+                    vertical_offset = vertical_offset - 50
                 end
-                A0_3.callback_registered = true
             end
-            set_event_callback(("paint_ui"), L3_3)
-        end
-        L0_2.register_callback = L1_2
-        L1_2 = function(A0_3, A1_3, A2_3, ...)
-            local L3_3, L4_3, L5_3, L6_3, L7_3, L8_3, L9_3, L10_3
-            L3_3 = (to_number(A1_3)) + 1
-            L4_3 = A0_3.maximum_count
-            L6_3 = -1
-            for L7_3 = L4_3, 2, L6_3 do
-                L8_3 = _G.sauron_notify_cache
-                L9_3 = _G.sauron_notify_cache
-                L10_3 = L7_3 - 1
-                L9_3 = L9_3[L10_3]
-                L8_3[L7_3] = L9_3
-            end
-            L4_3 = _G.sauron_notify_cache
-            L5_3 = {
-            }
-            L5_3.time = L3_3
-            L5_3.def_time = L3_3
-            L5_3.draw = A2_3
-            L4_3[1] = L5_3
-            L4_3 = A0_3.register_callback
-            L4_3(A0_3)
-        end
-        L0_2.paint = L1_2
-        return L0_2
+            self.callback_registered = true
+        end)
     end
-    notifications = notifications()
-    weapon_data = require_module(("gamesense/csgo_weapons"))
-    vector_constructor = require_module(("vector"))
-    menu = {
-    }
-    yaw_presets = {
-    }
-    yaw_presets[1] = ("Rage")
-    yaw_presets[2] = ("Other")
-    menu.location = yaw_presets
-    menu.name = "[sauron beta] "
-    menu.id = 100
-    menu.debug = true
-    yaw_presets = {
-    }
-    player_state = {
-    }
-    player_state[1] = 44
-    player_state[2] = -44
-    player_state[3] = 0
-    yaw_presets[("default")] = player_state
-    player_state = {
-    }
-    player_state[1] = 44
-    player_state[2] = -17
-    player_state[3] = 15
-    yaw_presets[("stand")] = player_state
-    player_state = {
-    }
-    player_state[1] = 44
-    player_state[2] = -17
-    player_state[3] = 15
-    yaw_presets[("slow")] = player_state
-    stage_defaults = {
-    }
-    stage_defaults[("default")] = 0
-    stage_defaults[("stand")] = 0
-    stage_defaults[("slow")] = 15
-    player_state = {
-    }
-    player_history = {
-    }
-    remember_ui_references = function(A0_2, ...)
-        local L1_2, L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2, L12_2
-        L1_2 = _G.sauron_reference
-        if not L1_2 then
-            L2_2 = {
-            }
-            _G.sauron_reference = L2_2
+
+    function notifications:paint(duration, message, ...)
+        local lifetime = to_number(duration) + 1
+        for index = self.maximum_count, 2, -1 do
+            _G.sauron_notify_cache[index] = _G.sauron_notify_cache[index - 1]
         end
-        L1_2, L2_2, L3_2 = pairs_iter(A0_2)
-        for L4_2, L5_2 in L1_2, L2_2, L3_2 do
-            if not L4_2 then
-                break
-            end
-            L6_2 = _G.sauron_reference
-            L7_2 = menu.id
-            L8_2 = {
-            }
-            L9_2 = (menu.location)[1]
-            L10_2 = (menu.location)[2]
-            L11_2, L12_2 = ui_name(L5_2)
-            L8_2[1] = L9_2
-            L8_2[2] = L10_2
-            L8_2[3] = L11_2
-            L8_2[4] = L12_2
-            L6_2[L7_2] = L8_2
-            L6_2 = menu
-            L7_2 = (menu.id) + 1
-            menu.id = L7_2
+        _G.sauron_notify_cache[1] = {time = lifetime, def_time = lifetime, draw = message}
+        self:register_callback()
+    end
+
+    local weapon_data = require_module("gamesense/csgo_weapons")
+    local vector_constructor = require_module("vector")
+    local menu = {location = {"Rage", "Other"}, name = "[sauron beta] ", id = 100, debug = true}
+    local yaw_presets = {
+        default = {44, -44, 0},
+        stand = {44, -17, 15},
+        slow = {44, -17, 15},
+    }
+    local stage_defaults = {default = 0, stand = 0, slow = 15}
+    local player_state, player_history = {}, {}
+
+    local function remember_ui_references(references, ...)
+        if not _G.sauron_reference then _G.sauron_reference = {} end
+        for key, handle in pairs_iter(references) do
+            if not key then break end
+            local name, extra = ui_name(handle)
+            _G.sauron_reference[menu.id] = {menu.location[1], menu.location[2], name, extra}
+            menu.id = menu.id + 1
         end
     end
-    log_message = function(A0_2, ...)
-        color_log(255, 0, 21, ("[sauron]\000"))
-        color_log(245, 245, 245, (" "), A0_2)
+
+    local function log_message(message, ...)
+        color_log(255, 0, 21, "[sauron]\000")
+        color_log(245, 245, 245, " ", message)
     end
-    controls = function(A0_2, A1_2, A2_2, ...)
-        local L4_2, L6_2, L7_2
-        if A1_2 == nil then
-            return 
-        end
-        L4_2 = (A0_2.name)..A2_2
-        L6_2 = (A0_2.location)[1]
-        L7_2 = (A0_2.location)[2]
-        return A1_2(L6_2, L7_2, L4_2, ...)
+
+    function menu:create(constructor, name, ...)
+        if constructor == nil then return end
+        return constructor(self.location[1], self.location[2], self.name .. name, ...)
     end
-    menu.create = controls
-    controls = {
-    }
-    on_player_death = menu.create
-    on_player_connect = ui[("new_checkbox")]
-    controls[("enabled")] = on_player_death(menu, on_player_connect, ("Enhanced resolver"))
-    on_player_death = menu.create
-    on_player_connect = ui[("new_checkbox")]
-    controls[("weapons")] = on_player_death(menu, on_player_connect, ("Adaptive weapons"))
-    on_player_death = menu.create
-    on_player_connect = ui[("new_multiselect")]
-    controls[("weapons_list")] = on_player_death(menu, on_player_connect, ("Active Weapons"), ("Scout"), ("Auto"), ("Revolver"), ("Deagle"), ("Pistols"), ("SMG"), ("Rifles"))
+    local controls = {}
+    controls.enabled = menu:create(ui.new_checkbox, "Enhanced resolver")
+    controls.weapons = menu:create(ui.new_checkbox, "Adaptive weapons")
+    controls.weapons_list = menu:create(ui.new_multiselect, "Active Weapons",
+        "Scout", "Auto", "Revolver", "Deagle", "Pistols", "SMG", "Rifles")
     remember_ui_references(controls)
-    reset_player_state = function(A0_2, ...)
-        local L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2
-        for L4_2 = 1, 64, 1 do
-            L6_2 = {
+
+    -- Transient state resets each round; learned sides survive until reconnect.
+    local function reset_player_state(reset_history, ...)
+        for player = 1, 64 do
+            player_state[player] = {
+                active = false, stage = "default", delta = 0, shots = 0,
+                slow = false, last_vel = 0, tick_to = 0,
             }
-            player_state[L4_2] = L6_2
-            L5_2 = player_state[L4_2]
-            L5_2.active = false
-            L5_2 = player_state[L4_2]
-            L5_2.stage = "default"
-            L5_2 = player_state[L4_2]
-            L5_2.delta = 0
-            L5_2 = player_state[L4_2]
-            L5_2.shots = 0
-            L5_2 = player_state[L4_2]
-            L5_2.slow = false
-            L5_2 = player_state[L4_2]
-            L5_2.last_vel = 0
-            L5_2 = player_state[L4_2]
-            L5_2.tick_to = 0
         end
-        if A0_2 then
-            for L4_2 = 1, 64, 1 do
-                L6_2 = {
-                }
-                player_history[L4_2] = L6_2
-                L5_2 = player_history[L4_2]
-                L5_2.side = {
-                }
-                L5_2, L6_2, L7_2 = pairs_iter(stage_defaults)
-                for L8_2, L9_2 in L5_2, L6_2, L7_2 do
-                    if not L8_2 then
-                        break
-                    end
-                    L10_2 = (player_history[L4_2]).side
-                    L10_2[L8_2] = L9_2
+        if reset_history then
+            for player = 1, 64 do
+                local history = {side = {}, res_side = {}, resolved = {}, best_sides = {}}
+                player_history[player] = history
+                for stage, value in pairs_iter(stage_defaults) do
+                    if not stage then break end
+                    history.side[stage] = value
                 end
-                L5_2 = player_history[L4_2]
-                L5_2.res_side = {
-                }
-                L5_2, L6_2, L7_2 = pairs_iter(stage_defaults)
-                for L8_2, L9_2 in L5_2, L6_2, L7_2 do
-                    if not L8_2 then
-                        break
-                    end
-                    L10_2 = (player_history[L4_2]).res_side
-                    L10_2[L8_2] = L9_2
+                for stage, value in pairs_iter(stage_defaults) do
+                    if not stage then break end
+                    history.res_side[stage] = value
                 end
-                L5_2 = player_history[L4_2]
-                L5_2.resolved = {
-                }
-                L5_2, L6_2, L7_2 = pairs_iter(stage_defaults)
-                for L8_2, L9_2 in L5_2, L6_2, L7_2 do
-                    if not L8_2 then
-                        break
-                    end
-                    L10_2 = (player_history[L4_2]).resolved
-                    L10_2[L8_2] = false
+                for stage in pairs_iter(stage_defaults) do
+                    if not stage then break end
+                    history.resolved[stage] = false
                 end
-                L5_2 = player_history[L4_2]
-                L5_2.best_sides = {
-                }
-                L5_2, L6_2, L7_2 = pairs_iter(stage_defaults)
-                for L8_2, L9_2 in L5_2, L6_2, L7_2 do
-                    if not L8_2 then
-                        break
-                    end
-                    L10_2 = (player_history[L4_2]).best_sides
-                    L11_2 = {
-                    }
-                    L10_2[L8_2] = L11_2
+                for stage in pairs_iter(stage_defaults) do
+                    if not stage then break end
+                    history.best_sides[stage] = {}
                 end
             end
         end
     end
     reset_player_state(true)
-    on_player_death = function(A0_2, ...)
-        local L1_2, L2_2
-        L2_2 = A0_2.userid
-        L1_2 = userid_to_entindex(L2_2)
-        L2_2 = get_local_player()
-        if L1_2 ~= L2_2 then
-            return 
-        end
+
+    local function on_player_death(event, ...)
+        if userid_to_entindex(event.userid) ~= get_local_player() then return end
         reset_player_state()
-        L1_2 = notifications.paint
-        L1_2(notifications, 5, ("Reseted data due to death"))
+        notifications:paint(5, "Reseted data due to death")
     end
-    on_round_start = function(...)
-        local L0_2
+    local function on_round_start(...)
         reset_player_state()
-        L0_2 = notifications.paint
-        L0_2(notifications, 5, ("Reseted data due to round start"))
+        notifications:paint(5, "Reseted data due to round start")
     end
-    on_player_connect = function(A0_2, ...)
-        local L1_2, L2_2
-        L2_2 = A0_2.userid
-        L1_2 = userid_to_entindex(L2_2)
-        L2_2 = get_local_player()
-        if L1_2 == L2_2 then
+    local function on_player_connect(event, ...)
+        if userid_to_entindex(event.userid) == get_local_player() then
             reset_player_state(true)
-            L1_2 = notifications.paint
-            L1_2(notifications, 5, ("Reseted data due to connect"))
+            notifications:paint(5, "Reseted data due to connect")
         end
     end
-    round_number = function(A0_2, A1_2, ...)
-        local L2_2, L3_2, L4_2
-        if A1_2 then
-            L2_2 = A1_2
-        else
-            L2_2 = 0
-        end
-        L2_2 = 10 ^ L2_2
-        L4_2 = (A0_2 * L2_2) + 0.5
-        L3_2 = (floor(L4_2)) / L2_2
-        return L3_2
+
+    local function round_number(value, precision, ...)
+        local scale = 10 ^ (precision or 0)
+        return floor(value * scale + 0.5) / scale
     end
-    weapon_is_selected = function(...)
-        local L0_2, L1_2, L2_2, L3_2, L4_2, L6_2, L8_2, L9_2, L10_2, L11_2, L12_2
-        L1_2 = controls.weapons
-        L0_2 = ui_get(L1_2)
-        if not L0_2 then
-            return true
+
+    local function weapon_is_selected(...)
+        if not ui_get(controls.weapons) then return true end
+        local weapon = get_player_weapon(get_local_player())
+        if weapon == nil then return end
+        local info = weapon_data(weapon)
+        if info == nil then return end
+        local selected = ui_get(controls.weapons_list)
+        local matches
+        for index = 1, #selected do
+            local weapon_names = {[40] = "Scout", [11] = "Auto", [38] = "Auto", [64] = "Revolver", [1] = "Deagle"}
+            local category_names = {pistol = "Pistols", smg = "SMG", rifle = "Rifles"}
+            matches = weapon_names[info.idx] == selected[index]
+                or category_names[info.type] == selected[index]
+            if matches then break end
         end
-        L0_2 = get_local_player()
-        L1_2 = get_player_weapon(L0_2)
-        if L1_2 == nil then
-            return 
-        end
-        L2_2 = weapon_data(L1_2)
-        if L2_2 == nil then
-            return 
-        end
-        L4_2 = controls.weapons_list
-        L3_2 = ui_get(L4_2)
-        L4_2 = nil
-        L6_2 = #L3_2
-        for L8_2 = 1, L6_2, 1 do
-            L9_2 = {
-            }
-            L9_2[40] = "Scout"
-            L9_2[11] = "Auto"
-            L9_2[38] = "Auto"
-            L9_2[64] = "Revolver"
-            L9_2[1] = "Deagle"
-            L10_2 = {
-            }
-            L10_2.pistol = "Pistols"
-            L10_2.smg = "SMG"
-            L10_2.rifle = "Rifles"
-            L11_2 = L2_2.idx
-            L11_2 = L9_2[L11_2]
-            L12_2 = L3_2[L8_2]
-            if L11_2 ~= L12_2 then
-                L11_2 = L2_2.type
-                L11_2 = L10_2[L11_2]
-                L12_2 = L3_2[L8_2]
-                if L11_2 ~= L12_2 then
-                    L4_2 = false
-                end
-            else
-                L4_2 = true
-            end
-            if L4_2 then
-                break
-            end
-        end
-        return L4_2
+        return matches
     end
-    contains = function(A0_2, A1_2, ...)
-        local L3_2, L5_2, L6_2
-        if A0_2 == nil then
-            return false
-        end
-        L3_2 = #A0_2
-        for L5_2 = 1, L3_2, 1 do
-            L6_2 = A0_2[L5_2]
-            if L6_2 == A1_2 then
-                return true
-            end
+
+    local function contains(values, wanted, ...)
+        if values == nil then return false end
+        for index = 1, #values do
+            if values[index] == wanted then return true end
         end
         return false
     end
-    select_preset_yaw = function(delta, player, alternate, ...)
+
+    local function select_preset_yaw(delta, player, alternate, ...)
         local index
-        if delta >= 0 and delta < 16 then
-            index = alternate and 1 or 3
-        else
-            if delta > 0 then
-                index = alternate and 2 or 1
-            else
-                if delta < 0 then
-                    index = alternate and 3 or 2
-                else
-                    index = false
-                end
-            end
-        end
+        if delta >= 0 and delta < 16 then index = alternate and 1 or 3
+        elseif delta > 0 then index = alternate and 2 or 1
+        elseif delta < 0 then index = alternate and 3 or 2
+        else index = false end
         return yaw_presets[player_state[player].stage][index]
     end
-    normalize_yaw = function(A0_2, ...)
-        local L1_2
-        L1_2 = (A0_2 % 360) + 360
-        A0_2 = L1_2 % 360
-        if not (A0_2 <= 180) then
-            L1_2 = A0_2 - 360
-            if not (L1_2) then
-                L1_2 = A0_2
-            end
-        else
-            L1_2 = A0_2
-        end
-        return L1_2
+
+    local function normalize_yaw(yaw, ...)
+        yaw = ((yaw % 360) + 360) % 360
+        if yaw > 180 then return yaw - 360 end
+        return yaw
     end
-    yaw_between_points = function(A0_2, A1_2, A2_2, A3_2, ...)
-        local L4_2, L5_2, L6_2, L7_2, L8_2, L9_2
-        L4_2 = A1_2 - A3_2
-        L5_2 = A0_2 - A2_2
-        L7_2 = L4_2 / L5_2
-        L6_2 = atan(L7_2)
-        L8_2 = L6_2 * 180
-        L9_2 = math.pi
-        L8_2 = L8_2 / L9_2
-        L7_2 = normalize_yaw(L8_2)
-        L6_2 = L7_2
-        if not (L5_2 < 0) then
-            L8_2 = L6_2 + 180
-            L7_2 = normalize_yaw(L8_2)
-        end
-        return L7_2
+    local function yaw_between_points(from_x, from_y, to_x, to_y, ...)
+        local delta_y, delta_x = from_y - to_y, from_x - to_x
+        local yaw = normalize_yaw(atan(delta_y / delta_x) * 180 / math.pi)
+        if delta_x >= 0 then yaw = normalize_yaw(yaw + 180) end
+        return yaw
     end
-    trace_hitbox_offsets = function(A0_2, A1_2, A2_2, A3_2, A4_2, ...)
-        local L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L12_2, L13_2, L14_2, L15_2, L16_2, L17_2, L18_2, L19_2, L20_2, L21_2
-        L5_2 = {
+
+    -- Probe the head centre and six axial offsets; retain the first positive damage.
+    local function trace_hitbox_offsets(shooter, target, start_x, start_y, start_z, ...)
+        local x, y, z = hitbox_position(target, 0)
+        local points = {
+            {x, y, z}, {x + 40, y, z}, {x, y + 40, z},
+            {x - 40, y, z}, {x, y - 40, z}, {x, y, z + 40}, {x, y, z - 40},
         }
-        L6_2 = {
-        }
-        L7_2 = {
-        }
-        L8_2, L9_2, L10_2 = hitbox_position(A1_2, 0)
-        L7_2[0] = L10_2
-        L6_2[0] = L9_2
-        L5_2[0] = L8_2
-        L8_2 = (L5_2[0]) + 40
-        L9_2 = L6_2[0]
-        L7_2[1] = L7_2[0]
-        L6_2[1] = L9_2
-        L5_2[1] = L8_2
-        L8_2 = L5_2[0]
-        L9_2 = (L6_2[0]) + 40
-        L7_2[2] = L7_2[0]
-        L6_2[2] = L9_2
-        L5_2[2] = L8_2
-        L8_2 = (L5_2[0]) - 40
-        L9_2 = L6_2[0]
-        L7_2[3] = L7_2[0]
-        L6_2[3] = L9_2
-        L5_2[3] = L8_2
-        L8_2 = L5_2[0]
-        L9_2 = (L6_2[0]) - 40
-        L7_2[4] = L7_2[0]
-        L6_2[4] = L9_2
-        L5_2[4] = L8_2
-        L8_2 = L5_2[0]
-        L9_2 = L6_2[0]
-        L7_2[5] = (L7_2[0]) + 40
-        L6_2[5] = L9_2
-        L5_2[5] = L8_2
-        L8_2 = L5_2[0]
-        L9_2 = L6_2[0]
-        L7_2[6] = (L7_2[0]) - 40
-        L6_2[6] = L9_2
-        L5_2[6] = L8_2
-        L8_2 = 0
-        for L12_2 = 0, 6, 1 do
-            L15_2 = A2_2
-            L16_2 = A3_2
-            L17_2 = A4_2
-            L18_2 = L5_2[L12_2]
-            L19_2 = L6_2[L12_2]
-            L20_2 = L7_2[L12_2]
-            L21_2 = true
-            L13_2, L14_2 = trace_bullet(A0_2, A2_2, A3_2, A4_2, L18_2, L19_2, L20_2, true)
-            if not (L14_2 <= 0) then
-                L8_2 = L14_2
-                break
+        for index = 1, 7 do
+            local point = points[index]
+            local hit_entity, damage = trace_bullet(shooter, start_x, start_y, start_z,
+                point[1], point[2], point[3], true)
+            if damage > 0 then return damage end
+        end
+        return 0
+    end
+    local function angles_to_direction(pitch, yaw, ...)
+        pitch, yaw = rad(pitch), rad(yaw)
+        local pitch_sine, pitch_cosine = sin(pitch), cos(pitch)
+        local yaw_sine, yaw_cosine = sin(yaw), cos(yaw)
+        return pitch_cosine * yaw_cosine, pitch_cosine * yaw_sine, -pitch_sine
+    end
+
+    local function classify_movement(player, ...)
+        local velocity_x, velocity_y = entity.get_prop(player, "m_vecVelocity")
+        local speed = math.floor(math.min(10000, math.sqrt(velocity_x ^ 2 + velocity_y ^ 2) + 0.5))
+        local flags = entity.get_prop(player, "m_fFlags")
+        local duck_amount = entity.get_prop(player, "m_flDuckAmount")
+        local slow = speed > 3 and speed < 85 and duck_amount == 0 and bit.band(flags, 1) == 1
+        local state = player_state[player]
+        if not slow then
+            state.stage = speed < 5 and "stand" or "default"
+            return
+        end
+        if state.tick_to > globals.tickcount() then
+            for tolerance = -3, 3 do
+                if state.last_vel + tolerance == speed then return end
+                if tolerance == 3 then state.tick_to = 0 end
             end
         end
-        return L8_2
+        if state.tick_to == globals.tickcount() then state.stage = "slow" end
+        state.tick_to = globals.tickcount() + 16
+        state.last_vel = speed
     end
-    angles_to_direction = function(A0_2, A1_2, ...)
-        local L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2
-        L2_2 = rad(A0_2)
-        L3_2 = rad(A1_2)
-        L4_2 = sin(L2_2)
-        L5_2 = cos(L2_2)
-        L6_2 = sin(L3_2)
-        L7_2 = cos(L3_2)
-        L8_2 = L5_2 * L7_2
-        L9_2 = L5_2 * L6_2
-        L10_2 = -L4_2
-        return L8_2, L9_2, L10_2
+
+    local function same_side_of_threshold(first, second, threshold, ...)
+        if first > threshold and second > threshold and first then return first end
+        if first < threshold and second < threshold then return first end
+        return false
     end
-    classify_movement = function(A0_2, ...)
-        local L1_2, L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2, L12_2, L13_2
-        L1_2 = entity.get_prop
-        L1_2, L2_2, L3_2 = L1_2(A0_2, ("m_vecVelocity"))
-        L4_2 = math.floor
-        L5_2 = math.min
-        L7_2 = math.sqrt
-        L8_2 = L1_2 ^ 2
-        L9_2 = L2_2 ^ 2
-        L8_2 = L8_2 + L9_2
-        L7_2 = (L7_2(L8_2)) + 0.5
-        local returned_21_0 = pack_results(L5_2(10000, L7_2))
-        L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2, L12_2, L13_2 = unpack(returned_21_0, 1, returned_21_0.n)
-        L4_2 = L4_2(unpack(returned_21_0, 1, returned_21_0.n))
-        L5_2 = (entity.get_prop)(A0_2, ("m_fFlags"))
-        L6_2 = (entity.get_prop)(A0_2, ("m_flDuckAmount"))
-        if not (L4_2 <= 3) and not (85 <= L4_2) and L6_2 == 0 then
-            L7_2 = (bit.band)(L5_2, 1)
-            if L7_2 == 1 then
-                L7_2 = true
-            else
-                L7_2 = false
+
+    local function on_setup_command(...)
+        local enemies = get_players(true)
+        for index = 1, #enemies do
+            local player = enemies[index]
+            if not weapon_is_selected() then
+                player_state[player].active = false
+                plist_set(player, "Force body yaw", false)
+                return
             end
-        else
-            L7_2 = false
-        end
-        if not L7_2 then
-            L8_2 = player_state[A0_2]
-            if not (5 <= L4_2) then
-                L9_2 = "stand"
-                if not ("stand") then
-                    L9_2 = "default"
-                end
-            else
-                L9_2 = "default"
-            end
-            L8_2.stage = L9_2
-            return 
-        else
-            if L7_2 then
-                L8_2 = (player_state[A0_2]).tick_to
-                L9_2 = (globals.tickcount)()
-                if not (L8_2 <= L9_2) then
-                    L8_2 = -3
-                    for L11_2 = L8_2, 3, 1 do
-                        L12_2 = ((player_state[A0_2]).last_vel) + L11_2
-                        if L12_2 == L4_2 then
-                            return 
-                        end
-                        if L11_2 == 3 then
-                            L13_2 = player_state[A0_2]
-                            L13_2.tick_to = 0
-                        end
-                    end
-                end
-            end
-            L8_2 = (player_state[A0_2]).tick_to
-            L9_2 = (globals.tickcount)()
-            if L8_2 == L9_2 then
-                L8_2 = player_state[A0_2]
-                L8_2.stage = "slow"
-            end
-            L8_2 = player_state[A0_2]
-            if L7_2 then
-                L9_2 = ((globals.tickcount)()) + 16
-                if not (L9_2) then
-                    L9_2 = (player_state[A0_2]).tick_to
-                end
-            else
-                L9_2 = (player_state[A0_2]).tick_to
-            end
-            L8_2.tick_to = L9_2
-            L8_2 = player_state[A0_2]
-            L8_2.last_vel = L4_2
-        end
-    end
-    same_side_of_threshold = function(A0_2, A1_2, A2_2, ...)
-        local L3_2
-        if not (A0_2 <= A2_2) and not (A1_2 <= A2_2) and A0_2 then
-            L3_2 = A0_2
-        else
-            if not (A2_2 <= A0_2) and not (A2_2 <= A1_2) then
-                L3_2 = A0_2
-            else
-                L3_2 = false
-            end
-        end
-        return L3_2
-    end
-    on_setup_command = function(...)
-        local L0_2, L2_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2, L12_2, L13_2, L14_2, L15_2, L16_2, L17_2, L18_2, L19_2, L20_2, L21_2, L22_2, L23_2, L24_2, L25_2
-        L0_2 = get_players(true)
-        L2_2 = #L0_2
-        for L4_2 = 1, L2_2, 1 do
-            L5_2 = L0_2[L4_2]
-            L6_2 = weapon_is_selected()
-            if not L6_2 then
-                L6_2 = player_state[L5_2]
-                L6_2.active = false
-                plist_set(L5_2, ("Force body yaw"), false)
-                return 
-            else
-                L6_2 = get_local_player()
-                local returned_23_1 = pack_results(eye_position())
-                L8_2, L9_2, L10_2, L11_2, L12_2, L13_2, L14_2, L15_2, L16_2, L17_2, L18_2, L19_2, L20_2, L21_2, L22_2, L23_2, L24_2, L25_2 = unpack(returned_23_1, 1, returned_23_1.n)
-                L7_2 = vector_constructor(unpack(returned_23_1, 1, returned_23_1.n))
-                local returned_23_2 = pack_results(hitbox_position(L5_2, 0))
-                L9_2, L10_2, L11_2, L12_2, L13_2, L14_2, L15_2, L16_2, L17_2, L18_2, L19_2, L20_2, L21_2, L22_2, L23_2, L24_2, L25_2 = unpack(returned_23_2, 1, returned_23_2.n)
-                L8_2 = vector_constructor(unpack(returned_23_2, 1, returned_23_2.n))
-                L12_2 = L7_2.x
-                L13_2 = L7_2.y
-                L14_2 = L8_2.x
-                L15_2 = L8_2.y
-                L11_2 = yaw_between_points(L12_2, L13_2, L14_2, L15_2)
-                L9_2 = vector_constructor(0, L11_2, 0)
-                L12_2 = L9_2.x
-                L13_2 = (L9_2.y) + 90
-                local returned_23_3 = pack_results(angles_to_direction(L12_2, L13_2))
-                L11_2, L12_2, L13_2, L14_2, L15_2, L16_2, L17_2, L18_2, L19_2, L20_2, L21_2, L22_2, L23_2, L24_2, L25_2 = unpack(returned_23_3, 1, returned_23_3.n)
-                L10_2 = vector_constructor(unpack(returned_23_3, 1, returned_23_3.n))
-                L12_2 = L7_2.x
-                L13_2 = (L10_2.x) * 100
-                L12_2 = L12_2 + L13_2
-                L13_2 = L7_2.y
-                L14_2 = (L10_2.y) * 100
-                L13_2 = L13_2 + L14_2
-                L11_2 = vector_constructor(L12_2, L13_2)
-                L14_2 = L9_2.x
-                L15_2 = (L9_2.y) - 90
-                local returned_23_4 = pack_results(angles_to_direction(L14_2, L15_2))
-                L13_2, L14_2, L15_2, L16_2, L17_2, L18_2, L19_2, L20_2, L21_2, L22_2, L23_2, L24_2, L25_2 = unpack(returned_23_4, 1, returned_23_4.n)
-                L12_2 = vector_constructor(unpack(returned_23_4, 1, returned_23_4.n))
-                L14_2 = L7_2.x
-                L15_2 = (L12_2.x) * 100
-                L14_2 = L14_2 + L15_2
-                L15_2 = L7_2.y
-                L16_2 = (L12_2.y) * 100
-                L15_2 = L15_2 + L16_2
-                L13_2 = vector_constructor(L14_2, L15_2)
-                L17_2 = L11_2.x
-                L18_2 = L11_2.y
-                L19_2 = L7_2.z
-                L14_2 = trace_hitbox_offsets(L6_2, L5_2, L17_2, L18_2, L19_2)
-                L18_2 = L13_2.x
-                L19_2 = L13_2.y
-                L20_2 = L7_2.z
-                L15_2 = trace_hitbox_offsets(L6_2, L5_2, L18_2, L19_2, L20_2)
-                L16_2 = player_state[L5_2]
-                L17_2 = (player_state[L5_2]).shots
-                if not (0 < L17_2) and not (0 < L14_2) and not (0 < L15_2) then
-                    L17_2 = false
+            local local_player = get_local_player()
+            local eye = vector_constructor(eye_position())
+            local head = vector_constructor(hitbox_position(player, 0))
+            local facing = vector_constructor(0, yaw_between_points(eye.x, eye.y, head.x, head.y), 0)
+            local left_direction = vector_constructor(angles_to_direction(facing.x, facing.y + 90))
+            local left = vector_constructor(eye.x + left_direction.x * 100, eye.y + left_direction.y * 100)
+            local right_direction = vector_constructor(angles_to_direction(facing.x, facing.y - 90))
+            local right = vector_constructor(eye.x + right_direction.x * 100, eye.y + right_direction.y * 100)
+            local left_damage = trace_hitbox_offsets(local_player, player, left.x, left.y, eye.z)
+            local right_damage = trace_hitbox_offsets(local_player, player, right.x, right.y, eye.z)
+            local state, history = player_state[player], player_history[player]
+            state.active = state.shots > 0 or left_damage > 0 or right_damage > 0
+            local pose = get_prop(player, "m_flPoseParameter", 11) or 0
+            state.delta = max(-60, min(60, round_number(pose * 120 - 60 + 0.5, 1)))
+            classify_movement(player)
+            local stage = state.stage
+            if state.shots == 0 then
+                if stage == "slow" then
+                    history.side[stage] = history.resolved[stage] and history.res_side[stage] or history.side[stage]
                 else
-                    L17_2 = true
+                    history.side[stage] = history.resolved[stage] and history.res_side[stage]
+                        or select_preset_yaw(state.delta, player)
                 end
-                L16_2.active = L17_2
-                L16_2 = player_state[L5_2]
-                L18_2 = -60
-                L22_2 = get_prop(L5_2, ("m_flPoseParameter"), 11)
-                if not L22_2 then
-                    L22_2 = 0
-                end
-                L22_2 = ((L22_2 * 120) - 60) + 0.5
-                local returned_23_5 = pack_results(round_number(L22_2, 1))
-                L21_2, L22_2, L23_2, L24_2, L25_2 = unpack(returned_23_5, 1, returned_23_5.n)
-                local returned_23_6 = pack_results(min(60, unpack(returned_23_5, 1, returned_23_5.n)))
-                L19_2, L20_2, L21_2, L22_2, L23_2, L24_2, L25_2 = unpack(returned_23_6, 1, returned_23_6.n)
-                L16_2.delta = max(L18_2, unpack(returned_23_6, 1, returned_23_6.n))
-                classify_movement(L5_2)
-                L16_2 = (player_state[L5_2]).stage
-                L17_2 = (player_state[L5_2]).shots
-                if L17_2 == 0 then
-                    if L16_2 == "slow" then
-                        L17_2 = (player_history[L5_2]).side
-                        L18_2 = ((player_history[L5_2]).resolved)[L16_2]
-                        if L18_2 then
-                            L18_2 = ((player_history[L5_2]).res_side)[L16_2]
-                            if not (L18_2) then
-                                L18_2 = ((player_history[L5_2]).side)[L16_2]
-                            end
-                        else
-                            L18_2 = ((player_history[L5_2]).side)[L16_2]
-                        end
-                        L17_2[L16_2] = L18_2
-                    else
-                        L17_2 = (player_history[L5_2]).side
-                        L18_2 = ((player_history[L5_2]).resolved)[L16_2]
-                        if L18_2 then
-                            L18_2 = ((player_history[L5_2]).res_side)[L16_2]
-                            if not (L18_2) then
-                                L19_2 = (player_state[L5_2]).delta
-                                L18_2 = select_preset_yaw(L19_2, L5_2)
-                            end
-                        else
-                            L19_2 = (player_state[L5_2]).delta
-                            L18_2 = select_preset_yaw(L19_2, L5_2)
-                        end
-                        L17_2[L16_2] = L18_2
-                    end
-                end
-                L20_2 = (player_state[L5_2]).active
-                plist_set(L5_2, ("Force body yaw"), L20_2)
-                L18_2 = L5_2
-                L19_2 = "Force body yaw value"
-                L20_2 = ((player_history[L5_2]).side)[L16_2]
-                plist_set(L5_2, ("Force body yaw value"), L20_2)
-                L17_2 = client.update_player_list
-                L17_2()
             end
+            plist_set(player, "Force body yaw", state.active)
+            plist_set(player, "Force body yaw value", history.side[stage])
+            client.update_player_list()
         end
     end
-    on_aim_hit = function(A0_2, ...)
-        local L1_2, L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2
-        L2_2 = A0_2.target
-        L1_2 = (player_state[L2_2]).active
-        if L1_2 then
-            L2_2 = A0_2.target
-            L1_2 = (player_state[L2_2]).stage
-            L3_2 = A0_2.target
-            L2_2 = (player_history[L3_2]).resolved
-            L3_2 = A0_2.hitgroup
-            if L3_2 ~= 1 then
-                L3_2 = false
+
+    local function on_aim_hit(event, ...)
+        local state, history = player_state[event.target], player_history[event.target]
+        if state.active then
+            local stage = state.stage
+            history.resolved[stage] = event.hitgroup == 1
+            if history.resolved[stage] then history.res_side[stage] = history.side[stage] end
+            print_message("Hit in ", state.delta, ", delta ", history.side[stage],
+                " side, stage: ", state.stage, ", misses: ", state.shots)
+        else
+            print_message("Hit in ", state.delta, " with skeet resolver")
+        end
+    end
+    local function on_aim_miss(event, ...)
+        if event.reason == "?" then
+            local state, history = player_state[event.target], player_history[event.target]
+            if state.active then
+                local stage = state.stage
+                state.shots = state.shots + 1
+                history.side[stage] = select_preset_yaw(history.side[stage], event.target, true)
+                if menu.debug then
+                    print_message(string.format("Missed in %s delta, side: %s, stage: %s, was resolved: %s",
+                        state.delta, history.side[stage], state.stage, history.resolved[stage]))
+                    print_message("Shots count: ", state.shots)
+                end
+                history.resolved[stage] = false
             else
-                L3_2 = true
-            end
-            L2_2[L1_2] = L3_2
-            L3_2 = A0_2.target
-            L2_2 = ((player_history[L3_2]).resolved)[L1_2]
-            if L2_2 then
-                L3_2 = A0_2.target
-                L2_2 = (player_history[L3_2]).res_side
-                L4_2 = A0_2.target
-                L3_2 = ((player_history[L4_2]).side)[L1_2]
-                L2_2[L1_2] = L3_2
-            end
-            L5_2 = A0_2.target
-            L4_2 = (player_state[L5_2]).delta
-            L7_2 = A0_2.target
-            L6_2 = ((player_history[L7_2]).side)[L1_2]
-            L9_2 = A0_2.target
-            L8_2 = (player_state[L9_2]).stage
-            L11_2 = A0_2.target
-            L10_2 = (player_state[L11_2]).shots
-            print_message(("Hit in "), L4_2, (", delta "), L6_2, (" side, stage: "), L8_2, (", misses: "), L10_2)
-        else
-            L4_2 = A0_2.target
-            L3_2 = (player_state[L4_2]).delta
-            print_message(("Hit in "), L3_2, (" with skeet resolver"))
-        end
-    end
-    on_aim_miss = function(A0_2, ...)
-        local L1_2, L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2
-        L1_2 = A0_2.reason
-        if L1_2 == "?" then
-            L2_2 = A0_2.target
-            L1_2 = (player_state[L2_2]).active
-            if L1_2 then
-                L2_2 = A0_2.target
-                L1_2 = (player_state[L2_2]).stage
-                L3_2 = A0_2.target
-                L2_2 = player_state[L3_2]
-                L4_2 = A0_2.target
-                L2_2.shots = ((player_state[L4_2]).shots) + 1
-                L3_2 = A0_2.target
-                L2_2 = (player_history[L3_2]).side
-                L5_2 = A0_2.target
-                L4_2 = ((player_history[L5_2]).side)[L1_2]
-                L5_2 = A0_2.target
-                L3_2 = select_preset_yaw(L4_2, L5_2, true)
-                L2_2[L1_2] = L3_2
-                L2_2 = menu.debug
-                if L2_2 then
-                    L2_2 = string.format
-                    L5_2 = A0_2.target
-                    L4_2 = (player_state[L5_2]).delta
-                    L6_2 = A0_2.target
-                    L5_2 = ((player_history[L6_2]).side)[L1_2]
-                    L7_2 = A0_2.target
-                    L6_2 = (player_state[L7_2]).stage
-                    L8_2 = A0_2.target
-                    L7_2 = ((player_history[L8_2]).resolved)[L1_2]
-                    L2_2 = L2_2(("Missed in %s delta, side: %s, stage: %s, was resolved: %s"), L4_2, L5_2, L6_2, L7_2)
-                    print_message(L2_2)
-                    L6_2 = A0_2.target
-                    L5_2 = (player_state[L6_2]).shots
-                    print_message(("Shots count: "), L5_2)
-                end
-                L3_2 = A0_2.target
-                L2_2 = (player_history[L3_2]).resolved
-                L2_2[L1_2] = false
-            end
-        else
-            L1_2 = A0_2.reason
-            if L1_2 == "?" then
-                L4_2 = A0_2.target
-                L3_2 = (player_state[L4_2]).delta
-                print_message(("Missed in "), L3_2, (" with skeet resolver"))
+                print_message("Missed in ", state.delta, " with skeet resolver")
             end
         end
     end
-    update_callbacks = function(...)
-        local L0_2, L1_2, L2_2, L4_2
-        L1_2 = controls.enabled
-        L0_2 = ui_get(L1_2)
-        L2_2 = controls.enabled
-        L1_2 = ui_get(L2_2)
-        if L1_2 then
-            L2_2 = controls.weapons
-            L1_2 = ui_get(L2_2)
-        end
-        if L0_2 then
-            L2_2 = set_event_callback
-            if not set_event_callback then
-                L2_2 = unset_event_callback
-            end
-        else
-            L2_2 = unset_event_callback
-        end
-        L4_2 = controls.weapons
-        ui_set_visible(L4_2, L0_2)
-        L4_2 = controls.weapons_list
-        ui_set_visible(L4_2, L1_2)
-        L2_2(("setup_command"), on_setup_command)
-        L2_2(("aim_miss"), on_aim_miss)
-        L2_2(("aim_hit"), on_aim_hit)
-        L2_2(("round_start"), on_round_start)
-        L2_2(("player_death"), on_player_death)
-        L2_2(("player_connect_full"), on_player_connect)
+
+    local function update_callbacks(...)
+        local enabled = ui_get(controls.enabled)
+        local weapon_filter_visible = ui_get(controls.enabled)
+        if weapon_filter_visible then weapon_filter_visible = ui_get(controls.weapons) end
+        local bind = enabled and set_event_callback or unset_event_callback
+        ui_set_visible(controls.weapons, enabled)
+        ui_set_visible(controls.weapons_list, weapon_filter_visible)
+        bind("setup_command", on_setup_command)
+        bind("aim_miss", on_aim_miss)
+        bind("aim_hit", on_aim_hit)
+        bind("round_start", on_round_start)
+        bind("player_death", on_player_death)
+        bind("player_connect_full", on_player_connect)
     end
     update_callbacks()
-    L75_1 = controls[("enabled")]
-    ui_set_callback(L75_1, update_callbacks)
-    L75_1 = controls[("weapons")]
-    ui_set_callback(L75_1, update_callbacks)
-    L79_1 = function(A0_2, ...)
-        local L1_2, L2_2
-        L1_2 = (player_state[A0_2]).active
-        if L1_2 then
-            L1_2 = (player_history[A0_2]).resolved
-            L2_2 = (player_state[A0_2]).stage
-            L1_2 = not (L1_2[L2_2])
-        end
-        return L1_2
-    end
-    register_esp_flag(("RESOLVING"), 255, 205, 41, L79_1)
-    L79_1 = function(A0_2, ...)
-        local L1_2, L2_2, L3_2, L5_2, L6_2
-        L1_2 = (player_history[A0_2]).resolved
-        L2_2 = (player_state[A0_2]).stage
-        L1_2 = L1_2[L2_2]
-        L3_2 = (player_state[A0_2]).active
-        if L3_2 then
-            L3_2 = string.format
-            L5_2 = string.upper
-            L6_2 = (player_state[A0_2]).stage
-            local returned_28_7 = pack_results(L5_2(L6_2))
-            L5_2, L6_2 = unpack(returned_28_7, 1, returned_28_7.n)
-            L3_2 = L3_2(("RESOLVED %s"), unpack(returned_28_7, 1, returned_28_7.n))
-        end
-        return L1_2, L3_2
-    end
-    register_esp_flag(("RESOLVED"), 0, 255, 115, L79_1)
-    L79_1 = function(A0_2, ...)
-        local L1_2
-        L1_2 = (player_state[A0_2]).active
-        if L1_2 then
-            L1_2 = (player_state[A0_2]).stage
-            if L1_2 ~= "slow" then
-                L1_2 = false
-            else
-                L1_2 = true
-            end
-        end
-        return L1_2
-    end
-    register_esp_flag(("SLOW"), 20, 255, 243, L79_1)
-    L79_1 = function(A0_2, ...)
-        local L1_2, L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2, L12_2, L13_2
-        L1_2, L2_2, L3_2 = get_prop(A0_2, ("m_vecVelocity"))
-        L8_2 = L1_2 ^ 2
-        L9_2 = L2_2 ^ 2
-        L8_2 = L8_2 + L9_2
-        L7_2 = (sqrt(L8_2)) + 0.5
-        local returned_30_8 = pack_results(min(10000, L7_2))
-        L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2, L12_2, L13_2 = unpack(returned_30_8, 1, returned_30_8.n)
-        L4_2 = floor(unpack(returned_30_8, 1, returned_30_8.n))
-        L6_2 = -60
-        L10_2 = get_prop(A0_2, ("m_flPoseParameter"), 11)
-        if not L10_2 then
-            L10_2 = 0
-        end
-        L10_2 = ((L10_2 * 120) - 60) + 0.5
-        local returned_30_9 = pack_results(round_number(L10_2, 1))
-        L9_2, L10_2, L11_2, L12_2, L13_2 = unpack(returned_30_9, 1, returned_30_9.n)
-        local returned_30_10 = pack_results(min(60, unpack(returned_30_9, 1, returned_30_9.n)))
-        L7_2, L8_2, L9_2, L10_2, L11_2, L12_2, L13_2 = unpack(returned_30_10, 1, returned_30_10.n)
-        L5_2 = max(L6_2, unpack(returned_30_10, 1, returned_30_10.n))
-        L7_2 = string.format
-        L10_2 = (player_history[A0_2]).side
-        L11_2 = (player_state[A0_2]).stage
-        L10_2 = L10_2[L11_2]
-        local returned_30_11 = pack_results(L7_2(("%s (%s) [%s]"), L5_2, L10_2, L4_2))
-        L7_2, L8_2, L9_2, L10_2, L11_2, L12_2, L13_2 = unpack(returned_30_11, 1, returned_30_11.n)
-        return true, unpack(returned_30_11, 1, returned_30_11.n)
-    end
-    register_esp_flag(("0"), 255, 255, 255, L79_1)
+    ui_set_callback(controls.enabled, update_callbacks)
+    ui_set_callback(controls.weapons, update_callbacks)
+
+    register_esp_flag("RESOLVING", 255, 205, 41, function(player, ...)
+        return player_state[player].active and not player_history[player].resolved[player_state[player].stage]
+    end)
+    register_esp_flag("RESOLVED", 0, 255, 115, function(player, ...)
+        local state = player_state[player]
+        local resolved = player_history[player].resolved[state.stage]
+        local text = state.active
+        if text then text = string.format("RESOLVED %s", string.upper(state.stage)) end
+        return resolved, text
+    end)
+    register_esp_flag("SLOW", 20, 255, 243, function(player, ...)
+        return player_state[player].active and player_state[player].stage == "slow"
+    end)
+    register_esp_flag("0", 255, 255, 255, function(player, ...)
+        local velocity_x, velocity_y = get_prop(player, "m_vecVelocity")
+        local speed = floor(min(10000, sqrt(velocity_x ^ 2 + velocity_y ^ 2) + 0.5))
+        local pose = get_prop(player, "m_flPoseParameter", 11) or 0
+        local delta = max(-60, min(60, round_number(pose * 120 - 60 + 0.5, 1)))
+        return true, string.format("%s (%s) [%s]", delta,
+            player_history[player].side[player_state[player].stage], speed)
+    end)
 end
 return main(...)
