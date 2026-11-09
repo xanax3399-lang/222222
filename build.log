@@ -1,0 +1,14 @@
+windows-compile.log
+windows_smoke.cpp
+
+windows-lua-clean.log
+Windows x86 Lua bootstrap passed: clean (two loads, shared DLL, real model calls)
+
+windows-lua-snapshot_already_declared.log
+Windows x86 Lua bootstrap passed: snapshot_already_declared (two loads, shared DLL, real model calls)
+
+windows-lua-typeof_returns_nil.log
+Windows x86 Lua bootstrap passed: typeof_returns_nil (two loads, shared DLL, real model calls)
+
+windows-smoke.log
+Passed 51 checks on actual packaged Windows x86 DLL; CS:GO was not run.
