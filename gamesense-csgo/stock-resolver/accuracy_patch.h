@@ -116,6 +116,7 @@ inline bool __cdecl guard(unsigned* registers,void*) {
     s->passed=result&&effective>threshold;
     st.last_probability=probability;st.last_effective=effective;
     if(!s->passed){f[0x22]=0;InterlockedIncrement(&st.canceled);}
+    else std::memcpy(static_cast<unsigned char*>(s->candidate)+0x38,&probability,4); // Same raw HC field native selection writes.
     return false; // Replay native MOV/TEST/JZ; its normal no-fire path owns state.
 }
 inline bool __cdecl brake(unsigned* registers,void*) {

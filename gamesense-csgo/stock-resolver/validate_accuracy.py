@@ -77,6 +77,7 @@ def main():
             m=ready();m.scale=scale;m.store(m.candidate+0x34,0x20 if scaled else 0)
             m.sample();m.u.mem_write(m.weapon+0xc4,floats(.02));m.probability=probability;m.hc_result=True
             assert m.fire()==expected,(probability,scale,m.status())
+            if expected:assert bytes(m.u.mem_read(m.candidate+0x38,4))==floats(probability),'fresh HC metadata must follow the successful recheck'
             assert m.hc_calls==2 and m.status()['precision_changed']==1
             assert m.word(m.cmd+0x30)==int(expected)
             assert bytes(m.u.mem_read(REC,6))==SITES[REC]
@@ -150,6 +151,7 @@ def main():
     report={'guard_and_rollback_cases':cases,'actual_native_threshold_comparisons':comparisons,'actual_gs_stop_cases':brake_cases,
             'nl_braking_original_x86_oracle':True,'native_attack_commit_executed':True,'dt_release_and_burst_preserved':True,
             'recharge_instructions_unchanged':True,'ordinary_hitchance_outcomes':'controlled fixture',
+            'fresh_hc_metadata_preserved':True,
             'full_nl_autostop_controller':False,'gameplay_tested':False}
     (ROOT/'build/stock_resolver_accuracy_validation.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report))
 if __name__=='__main__':main()
