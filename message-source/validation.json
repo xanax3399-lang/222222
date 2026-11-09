@@ -1,0 +1,16 @@
+{
+  "original_sha256": "2db2e139fe786ae552b1b93eaff935d064028e5295222574428a819cba1bd241",
+  "source_sha256": "e2af062f4c6c0f325e71adb93a532e5856f477651f0da85db883749fdf99031a",
+  "extracted_local_prototypes": 52,
+  "vm_instruction_tables_in_source": false,
+  "local_codec_hash_checks": 200,
+  "mocked_native_boundary_checks": 3,
+  "timestamp_js_checks": 3,
+  "native_FFI_used": false,
+  "real_network_requests_during_tests": 0,
+  "main_remote_application_present": false,
+  "public_gist_fetch": "CONNECT 403 from environment proxy",
+  "gameplay_tested": false,
+  "wrapper_checks": 9,
+  "total_checks": 215
+}
