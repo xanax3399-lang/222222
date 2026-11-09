@@ -16,4 +16,5 @@ base.run('stock-dll',*common,'-shared',R/'source/skeet/skeet.cpp',R/'source/skee
 base.run('stock-injector','c++','-target','x86-windows-gnu','-std=c++23','-O2','-DUNICODE','-D_UNICODE',*compat,'-municode',R/'source/steam/steam.cpp','-ladvapi32','-lshell32','-o',B/'injector.exe')
 base.run('stock-mode-probe',*common,R/'stock-resolver/mode_probe.cpp','-luser32','-o',B/'stock_mode_probe.exe')
 base.run('native-driver-probe',*common,R/'stock-resolver/windows_native_probe.cpp','-luser32','-o',B/'native_driver_probe.exe')
+base.run('accuracy-probe','c++','-target','x86-windows-gnu','-std=c++17','-O1','-fno-fast-math','-ffp-contract=off','-shared',R/'stock-resolver/accuracy_probe.cpp','-o',B/'accuracy_probe.dll')
 print('Built skeet.dll with native C++ driver and injector.exe. No Lua script required.')

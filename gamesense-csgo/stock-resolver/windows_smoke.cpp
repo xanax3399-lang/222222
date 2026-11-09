@@ -10,6 +10,7 @@
 #include "../source/skeet/nl_stop_status.h"
 #include "../source/skeet/v3_fire_status.h"
 #include "native_driver.h"
+#include "accuracy_status.h"
 #include <filesystem>
 using namespace stock_resolver;
 static unsigned checks=0;
@@ -35,6 +36,8 @@ int wmain(int argc,wchar_t** argv) {
     auto frames=symbol<void(*)(FrameStats*)>(module,"sr_frame_stats");
     auto* driver=reinterpret_cast<stock_native::DriverStatus*>(GetProcAddress(module,"sr_driver_status"));
     check(driver&&driver->version==1&&driver->installed==0,"integrated native driver export");
+    auto* accuracy=reinterpret_cast<native_accuracy::Status*>(GetProcAddress(module,"sr_accuracy_status"));
+    check(accuracy&&accuracy->version==1&&accuracy->check_enabled==1&&accuracy->brake_enabled==1&&!accuracy->installed,"integrated accuracy settings/export");
     check(version()==0x00010001&&snapshot_size()==sizeof(Snapshot)&&decision_size()==sizeof(Decision),"x86 C ABI sizes");
     Sleep(200);
     auto* loader=reinterpret_cast<LoaderStatus*>(GetProcAddress(module,"skeet_loader_status"));

@@ -13,6 +13,13 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: 193bdb780b76402adb061cfb37b8eedcebba93cc
+          path: donor
+          sparse-checkout: neverlose-csgo/neverlose/bins/nl.bin
+          sparse-checkout-cone-mode: false
+          lfs: false
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -30,12 +37,14 @@ jobs:
         run: python gamesense-csgo/build_stock_resolver.py
       - name: Check real PE imports and integrated resolver exports
         run: python gamesense-csgo/stock-resolver/verify_package.py
+      - name: Execute final accuracy guard native comparison and GS braking body
+        run: python gamesense-csgo/stock-resolver/validate_accuracy.py --donor donor/neverlose-csgo/neverlose/bins/nl.bin
       - name: Package matching DLL injector and driver
         run: python gamesense-csgo/package_stock_resolver.py
       - uses: actions/upload-artifact@v4
         with:
           name: skeet-stock-resolver-windows
-          path: gamesense-csgo/build/skeet-native-resolver-windows.zip
+          path: gamesense-csgo/build/skeet-native-accuracy-windows.zip
       - uses: actions/upload-artifact@v4
         with:
           name: stock-mode-probe
@@ -70,7 +79,7 @@ jobs:
       - name: Extract compiled artifact
         shell: pwsh
         run: |
-          Expand-Archive dist/skeet-native-resolver-windows.zip -DestinationPath dist/runtime
+          Expand-Archive dist/skeet-native-accuracy-windows.zip -DestinationPath dist/runtime
           if (Get-ChildItem dist/runtime -Recurse -Filter '*.lua') { throw 'Native archive must not require Lua files' }
           New-Item -ItemType Directory -Force gamesense-csgo/build | Out-Null
       - name: Compile independent native x86 ABI and installer probe
@@ -141,15 +150,15 @@ jobs:
           name: stock-windows-validation
           path: dist
       - name: Preserve tested DLL bytes and include Windows evidence
-        run: python gamesense-csgo/stock-resolver/finalize_release.py dist/skeet-native-resolver-windows.zip dist/stock_resolver_windows_validation.json
+        run: python gamesense-csgo/stock-resolver/finalize_release.py dist/skeet-native-accuracy-windows.zip dist/stock_resolver_windows_validation.json
       - name: Publish compiled and tested Windows download
         env:
           GH_TOKEN: ${{ github.token }}
           SOURCE_SHA: ${{ github.sha }}
         run: |
-          tag="skeet-native-resolver-${SOURCE_SHA}"
+          tag="skeet-native-accuracy-${SOURCE_SHA}"
           if gh release view "$tag" >/dev/null 2>&1; then
-            gh release upload "$tag" dist/skeet-native-resolver-windows.zip --clobber
+            gh release upload "$tag" dist/skeet-native-accuracy-windows.zip --clobber
           else
-            gh release create "$tag" dist/skeet-native-resolver-windows.zip --target "$SOURCE_SHA" --prerelease --title 'CS:GO 8802 / native C++ resolver / no Lua driver' --notes-file gamesense-csgo/stock-resolver/README_RU.txt
+            gh release create "$tag" dist/skeet-native-accuracy-windows.zip --target "$SOURCE_SHA" --prerelease --title 'CS:GO 8802 / native resolver + accuracy and braking experiment' --notes-file gamesense-csgo/stock-resolver/README_RU.txt
           fi

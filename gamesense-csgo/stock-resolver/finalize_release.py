@@ -25,6 +25,9 @@ with tempfile.TemporaryDirectory() as temp:
     info = json.loads((folder / 'build_info.json').read_text())
     assert info['source_commit'] == os.environ['GITHUB_SHA']
     assert info['external_lua_required'] is False and not list(folder.rglob('*.lua'))
+    accuracy = json.loads((folder / 'reports/stock_resolver_accuracy_validation.json').read_text())
+    assert accuracy['actual_native_threshold_comparisons'] >= 21 and accuracy['actual_gs_stop_cases'] >= 36
+    assert accuracy['dt_release_and_burst_preserved'] and accuracy['recharge_instructions_unchanged']
     (folder / 'reports' / evidence.name).write_bytes(evidence.read_bytes())
     hashes = {str(p.relative_to(folder)): hashlib.sha256(p.read_bytes()).hexdigest()
               for p in sorted(folder.rglob('*')) if p.is_file() and p.name != 'SHA256SUMS.json'}

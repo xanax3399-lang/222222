@@ -7,6 +7,7 @@
 #include "crash_report.h"
 #include <exception>
 #include "../../stock-resolver/native_driver.h"
+#include "../../stock-resolver/accuracy_patch.h"
 
 extern "C" {
 __declspec(dllexport) LoaderStatus skeet_loader_status = {1, LoaderWaiting, 0, "Waiting for game modules"};
@@ -15,6 +16,7 @@ __declspec(dllexport) nl_points_patch::Status skeet_nl_points_status = {2,0,0,0,
 __declspec(dllexport) nl_stop_patch::Status skeet_nl_stop_status = {1,1,0};
 __declspec(dllexport) v3_patches::Status skeet_v3_status = {1,1,95,0};
 __declspec(dllexport) v3_fire::Status skeet_v3_fire_status = {1,1,0,0};
+__declspec(dllexport) native_accuracy::Status sr_accuracy_status = {1,1,1,0};
 }
 
 static void status(LoaderState state, DWORD error, const char* message) {
@@ -51,6 +53,10 @@ static DWORD WINAPI initialize(LPVOID parameter) {
         return fail("Invalid v3 settings: late_eye_guard / unsafe_dt_recharge must be 0 or 1.");
     if(points.head_percent>100||points.body_percent>100||points.reduced_head>1)
         return fail("Invalid skeet_nl_points.ini: scale must be 0..100; reduced_head must be 0 or 1.");
+    sr_accuracy_status.check_enabled=GetPrivateProfileIntW(L"accuracy",L"final_check",1,settings);
+    sr_accuracy_status.brake_enabled=GetPrivateProfileIntW(L"accuracy",L"nl_brake",1,settings);
+    if(sr_accuracy_status.check_enabled>1||sr_accuracy_status.brake_enabled>1)
+        return fail("Invalid accuracy.final_check/nl_brake: expected 0 or 1.");
     const auto start = GetTickCount64();
     while (!GetModuleHandleW(L"serverbrowser.dll") || !GetModuleHandleW(L"client.dll") ||
            !GetModuleHandleW(L"engine.dll") || !GetModuleHandleW(L"shaderapidx9.dll")) {

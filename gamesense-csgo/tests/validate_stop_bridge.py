@@ -18,8 +18,8 @@ ORIGINAL=bytes.fromhex('f30f1044240c')
 CALLERS=[0x433702fb,0x43372c65,0x433ce122]
 
 class StopMachine(Machine):
-    def __init__(self,fault=None):
-        super().__init__(fault,'stop_bridge_probe.dll')
+    def __init__(self,fault=None,probe='stop_bridge_probe.dll'):
+        super().__init__(fault,probe)
         self.command=DATA+0x10000;self.entity=DATA+0x20000
         self.frame=STACK+0x10000;self.snapshots=[]
         self.u.mem_map(0x77509000,4096)

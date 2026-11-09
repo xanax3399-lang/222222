@@ -19,6 +19,7 @@
 #include "crash_report.h"
 #include "../loader_protocol.h"
 #include "../../stock-resolver/native_driver.h"
+#include "../../stock-resolver/accuracy_patch.h"
 #include <intrin.h>
 #include <stdexcept>
 
@@ -717,6 +718,9 @@ bool skeet_t::extra()
     if(!stock_native::prepare(reinterpret_cast<unsigned char*>(_base),_size,
         reinterpret_cast<HMODULE>(_module))) {
         _last_error=stock_native::last_error();return false;
+    }
+    if(!native_accuracy::apply(reinterpret_cast<unsigned char*>(_base),_size)) {
+        _last_error=native_accuracy::error_text;return false;
     }
     if(!nl_points_patch::apply(reinterpret_cast<unsigned char*>(_base),_size)) {
         _last_error=nl_points_patch::last_error();return false;

@@ -16,8 +16,8 @@ SITES={OBS:bytes.fromhex('39bef4000000'),REC:bytes.fromhex('380524724643'),
        0x43354b55:bytes.fromhex('e868690c00'),0x43354b9a:bytes.fromhex('e823690c00')}
 
 class FireMachine(Machine):
-    def __init__(self,fault=None):
-        super().__init__(fault,'fire_bridge_probe.dll')
+    def __init__(self,fault=None,probe='fire_bridge_probe.dll'):
+        super().__init__(fault,probe)
         self.ctx=DATA+0x10000;self.cmd=DATA+0x20000;self.weapon=DATA+0x30000
         self.candidate=DATA+0x40000;self.out=DATA+0x50000;self.frame=STACK+0x17000
         self.hc_context=DATA+0x60000;self.player=DATA+0x61000;self.recharging=DATA+0x62000

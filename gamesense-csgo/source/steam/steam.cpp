@@ -15,6 +15,7 @@
 #include "../skeet/v3_status.h"
 #include "../skeet/v3_fire_status.h"
 #include "../../stock-resolver/native_driver.h"
+#include "../../stock-resolver/accuracy_status.h"
 
 static FILE* run_log=nullptr;
 static bool diagnostic_quiet=false;
@@ -29,7 +30,7 @@ struct RunLog {
         std::wcscpy(path,dll_path);auto* last=std::wcsrchr(path,L'\\');
         if(!last||last-path+std::wcslen(filename)+2>=32768)return;
         std::wcscpy(last+1,filename);run_log=_wfopen(path,L"wb");
-        log_line("Legacy 8802 loader - NL points + NL braking math / GS stop requests");
+        log_line("Legacy 8802 loader - native C++ resolver / final accuracy check / braking math");
     }
     ~RunLog(){if(run_log){std::fclose(run_log);run_log=nullptr;}}
 };
@@ -165,7 +166,7 @@ static int diagnostics(const wchar_t* path,DWORD selected_pid=0) {
         float input=0,output=0;std::int32_t in_bits=status.last_input_bits,out_bits=status.last_output_bits;
         std::memcpy(&input,&in_bits,4);std::memcpy(&output,&out_bits,4);
         diagnostic_printf("Mode: %s\nInstalled: %ld\nBuilder calls: %ld\nHypotheses supplied: %ld\nRejected inputs: %ld\n",
-            status.mode==8?"Stock GS with integrated resolver / Lua bridge":status.mode==0?"GameSense":status.mode==1?"NL animation hypotheses":status.mode==2?"v2 NL points":status.mode==6?"v3 head crown + fire/recharge":"NL points + animation",long(status.installed),
+            status.mode==8?"Native C++ resolver + accuracy/braking patch":status.mode==0?"GameSense":status.mode==1?"NL animation hypotheses":status.mode==2?"v2 NL points":status.mode==6?"v3 head crown + fire/recharge":"NL points + animation",long(status.installed),
             long(status.calls),long(status.changed),long(status.rejected));
         if(status.changed)diagnostic_printf("Last sample: GS variant %ld, record tick %ld, base %.3f -> goal %.3f\n",
             long(status.last_variant),long(status.last_tick),input,output);
@@ -211,6 +212,16 @@ static int diagnostics(const wchar_t* path,DWORD selected_pid=0) {
                 native.enabled,native.state,native.error,native.installed,native.callbacks,native.updates,native.frames,
                 native.tracked,native.applied,native.blocked,native.invalid_controls,native.netvar_mask,native.previous,native.slot,
                 native.records,native.duplicates,native.rejected,native.selected,native.fallback,native.threshold,native.memory_bytes,native.last_update_ms,native.worst_update_ms);
+        }
+        const DWORD accuracy_rva=exported_rva(path,"sr_accuracy_status",sizeof(native_accuracy::Status));
+        if(accuracy_rva) {
+            native_accuracy::Status accuracy{};
+            if(!ReadProcessMemory(process.value,item.modBaseAddr+accuracy_rva,&accuracy,sizeof(accuracy),&got)||got!=sizeof(accuracy)||accuracy.version!=1)
+                return error("Cannot read native accuracy diagnostics");
+            diagnostic_printf("\nAccuracy patch: installed %ld; final check %u; NL brake math %u\nGuard calls: %ld; unchanged: %ld; rechecks: %ld; vetoed: %ld; geometry changes: %ld; precision changes: %ld\nDT/release bypass: %ld; manual bypass: %ld; native fast path: %ld; other weapons: %ld; fallback: %ld\nLast weapon: %ld; probability/effective/threshold: %.3f/%.3f/%.3f\nBrake calls/applied/fallback: %ld/%ld/%ld; speed %.3f; wishspeed %.3f; forward %.3f -> %.3f\n",
+                accuracy.installed,accuracy.check_enabled,accuracy.brake_enabled,accuracy.guard_calls,accuracy.unchanged,accuracy.rechecks,accuracy.canceled,accuracy.geometry_changed,accuracy.precision_changed,
+                accuracy.dt_bypass,accuracy.manual_bypass,accuracy.fast_bypass,accuracy.unsupported,accuracy.fallback,accuracy.last_weapon,accuracy.last_probability,accuracy.last_effective,accuracy.last_threshold,
+                accuracy.brake_calls,accuracy.brake_applied,accuracy.brake_fallback,accuracy.speed,accuracy.wish,accuracy.before,accuracy.after);
         }
         diagnostic_printf("GS chooses stop timing and recharge safety. Counters do not measure aiming accuracy.\n");return 0;
     }while(Module32NextW(modules.value,&item));
@@ -268,7 +279,7 @@ int wmain(int argc,wchar_t** argv) {
     }
     if(show_diagnostics)return run_diagnostics(path,false);
     while(mode<0) {
-        std::puts("1 - Original GameSense\n2 - Stock GS + native C++ resolver (no Lua needed)\n5 - Read loader diagnostics\n8 - Open last loader report\n0 - Exit");
+        std::puts("1 - Original GameSense\n2 - Native C++ resolver + accuracy/braking patch (no Lua)\n5 - Read loader diagnostics\n8 - Open last loader report\n0 - Exit");
         std::printf("Choice [Enter = 2]: ");char choice[32]{};
         if(!std::fgets(choice,sizeof(choice),stdin))choice[0]='2';
         if(choice[0]=='0')return 0;
@@ -279,8 +290,12 @@ int wmain(int argc,wchar_t** argv) {
         else {std::fprintf(stderr,"Unknown choice.\n");return 1;}
     }
     RunLog startup_log(path);
-    const char* mode_message=mode==8?"Selected: stock GS with integrated native resolver / C++ driver. No Lua, NL or v3 gameplay patches.":"Selected: original GameSense gameplay.";
+    const char* mode_message=mode==8?"Selected: stock GS with integrated native resolver / C++ accuracy and braking patch. No Lua driver.":"Selected: original GameSense gameplay.";
     std::puts(mode_message);log_line(mode_message);
+    if(mode==8&&(!exported_rva(path,"sr_driver_status",sizeof(stock_native::DriverStatus))||
+        !exported_rva(path,"sr_accuracy_status",sizeof(native_accuracy::Status)))) {
+        SetLastError(ERROR_REVISION_MISMATCH);return error("Native accuracy mode needs the matching skeet.dll from this archive");
+    }
     DWORD pid=game_pid();Handle process;legacy_launch::Suspended suspended;
     if(!pid) {
         const auto root=legacy_launch::steam_root();
