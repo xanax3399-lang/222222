@@ -1,0 +1,15 @@
+{
+  "baseline_sha256": "0f0a68e4441296cba4838f9c21e08ac4068e13845b335b33a2cf6c99b151170b",
+  "optimized_sha256": "bfbc45fcf5467c7be092adecbac25d30446b3121d6d34f9eb69694e535285d7f",
+  "changes": [
+    "HUD frame caches and lightweight option",
+    "lazy blur resources",
+    "lazy shadow resources",
+    "lightweight guard and lazy draw_blur",
+    "lightweight guard and lazy draw_shadow",
+    "idle rounded_rect_pool fast path",
+    "idle shadow_rect_pool fast path",
+    "shared drag-input snapshot",
+    "reuse drag-input snapshot"
+  ]
+}

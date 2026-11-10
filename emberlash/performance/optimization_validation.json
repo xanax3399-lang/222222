@@ -1,0 +1,39 @@
+{
+  "checks": 8,
+  "animation_output_comparisons": 31209,
+  "custom_easing_calls_preserved": 2386,
+  "drag_state_comparisons": 1440,
+  "drag_host_reads": {
+    "baseline": 1440,
+    "optimized": 120
+  },
+  "same_frame_text_measurements": {
+    "requested": 100,
+    "native": 1
+  },
+  "text_cache_limit": 512,
+  "text_cache_observed_entries_after_churn": 281,
+  "lightweight_initial_effect_factories": 0,
+  "lightweight_effect_draw_calls": 0,
+  "full_quality_effect_geometry_preserved": true,
+  "idle_pool_hide_dispatches": [
+    [
+      805,
+      9
+    ],
+    [
+      805,
+      9
+    ]
+  ],
+  "native_gameplay_source_unchanged": true,
+  "native_gameplay_source_sha256": "d298bd958a1641f03e8375837431801811f270455863403b9f98f8b822cab579",
+  "animation_module_unchanged": true,
+  "baseline_sha256": "0f0a68e4441296cba4838f9c21e08ac4068e13845b335b33a2cf6c99b151170b",
+  "optimized_sha256": "bfbc45fcf5467c7be092adecbac25d30446b3121d6d34f9eb69694e535285d7f",
+  "baseline_functions": 2300,
+  "optimized_functions": 2305,
+  "isolated_components_executed": true,
+  "full_game_runtime_executed": false,
+  "fps_gain_measured": false
+}
