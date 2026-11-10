@@ -265,7 +265,7 @@ void __fastcall event_fire(void*,void*,void* event) {
     const auto integer=[&](const char* key){return method<int(__thiscall*)(void*,const char*,int)>(event,6)(event,key,0);};
     const auto player=[&](const char* key){return method<int(__thiscall*)(void*,int)>(engine,9)(engine,integer(key));};
     const int local=method<int(__thiscall*)(void*)>(engine,12)(engine);const auto now=GetTickCount64();
-    if(!std::strcmp(name,"round_start")) {feedback.reset();controller.reset({reinterpret_cast<unsigned char*>(plist_base)});}
+    if(!std::strcmp(name,"round_start")) {feedback.reset();controller.suspend({reinterpret_cast<unsigned char*>(plist_base)});}
     else if(!std::strcmp(name,"player_disconnect")) {
         feedback.reset();const int who=player("userid");if(who>=1&&who<=64)controller.forget(static_cast<unsigned>(who),{reinterpret_cast<unsigned char*>(plist_base)});
     } else if(!std::strcmp(name,"weapon_fire")&&player("userid")==local) {

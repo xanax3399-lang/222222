@@ -135,7 +135,7 @@ int main(int argc,char** argv) {
     emit("weapon_fire");emit("bullet_impact");emit("player_hurt");step();
     check(sr_feedback_status.counters.credits==2&&shared_engine().learned(2,1,0)==before,"INI learning off retains telemetry without training");
     sr_feedback_status.learning=1;emit("round_start");step();
-    check(shared_engine().learned(2,1,0)==0&&sr_feedback_status.counters.resets>0,"round event resets learned weights and pending shots");
+    check(shared_engine().learned(2,1,0)>0&&sr_feedback_status.counters.resets>0&&sr_driver_status.applied==0,"round retires lag records and pending shots while preserving weak identity evidence");
     const auto shot_path=std::filesystem::path(argv[2]).parent_path()/L"resolver_shots.json";
     check(feedback_reports::save_to(shot_path.c_str(),GetCurrentProcess(),&sr_feedback_status,&sr_feedback_log),"production external shot archive writer");
     std::ifstream shot_file(shot_path);std::string shot_text((std::istreambuf_iterator<char>(shot_file)),std::istreambuf_iterator<char>());
