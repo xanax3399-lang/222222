@@ -1,7 +1,7 @@
-name: Skeet DT fast sampler CS-GO DLL
+name: Skeet native resolver feedback CS-GO DLL
 on:
   push:
-    branches: [codex/gs-dt-performance]
+    branches: [codex/gs-resolver-feedback]
     paths: ['gamesense-csgo/**', '.github/workflows/skeet-stock-resolver.yml']
   workflow_dispatch:
 permissions:
@@ -33,6 +33,8 @@ jobs:
           g++ -std=c++17 -O2 -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off gamesense-csgo/stock-resolver/test_native_controller.cpp -o gamesense-csgo/build/test_native_controller
           gamesense-csgo/build/test_native_controller > gamesense-csgo/build/stock_resolver_native_controller_validation.json
           python gamesense-csgo/stock-resolver/validate_native_contract.py
+          g++ -std=c++17 -O2 -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off gamesense-csgo/stock-resolver/test_feedback.cpp -o gamesense-csgo/build/test_feedback
+          gamesense-csgo/build/test_feedback > gamesense-csgo/build/stock_resolver_feedback_validation.json
       - name: Compile actual Windows x86 DLL and injector
         run: python gamesense-csgo/build_stock_resolver.py
       - name: Check real PE imports and integrated resolver exports
@@ -43,12 +45,14 @@ jobs:
         run: python gamesense-csgo/stock-resolver/validate_dt_sampling.py
       - name: Compare fast/reference x86 samplers and preserved 64-job arithmetic
         run: python gamesense-csgo/stock-resolver/validate_dt_fast.py
+      - name: Execute native shot capture and GS selected tick contract
+        run: python gamesense-csgo/stock-resolver/validate_feedback_hook.py
       - name: Package matching DLL injector and driver
         run: python gamesense-csgo/package_stock_resolver.py
       - uses: actions/upload-artifact@v4
         with:
           name: skeet-stock-resolver-windows
-          path: gamesense-csgo/build/skeet-dt-fast-windows.zip
+          path: gamesense-csgo/build/skeet-feedback-windows.zip
       - uses: actions/upload-artifact@v4
         with:
           name: stock-mode-probe
@@ -83,7 +87,7 @@ jobs:
       - name: Extract compiled artifact
         shell: pwsh
         run: |
-          Expand-Archive dist/skeet-dt-fast-windows.zip -DestinationPath dist/runtime
+          Expand-Archive dist/skeet-feedback-windows.zip -DestinationPath dist/runtime
           if (Get-ChildItem dist/runtime -Recurse -Filter '*.lua') { throw 'Native archive must not require Lua files' }
           New-Item -ItemType Directory -Force gamesense-csgo/build | Out-Null
       - name: Compile independent native x86 ABI and installer probe
@@ -123,7 +127,9 @@ jobs:
         run: |
           & dist/native_driver_probe.exe "$PWD/gamesense-csgo/source/skeet/Binary/skeet.bin" "$PWD/dist/native_driver.json" *> gamesense-csgo/build/windows-native-driver.log
           if ($LASTEXITCODE -ne 0) { Get-Content gamesense-csgo/build/windows-native-driver.log; throw 'Native C++ driver test failed' }
-          $report = @{ abi = (Get-Content dist/windows_abi.json -Raw | ConvertFrom-Json); legacy_patch_guards = @(0,8); injector_cli_checked = $true; native_driver = (Get-Content dist/native_driver.json -Raw | ConvertFrom-Json); gameplay_tested = $false }
+          $shots = Get-Content dist/resolver_shots.json -Raw | ConvertFrom-Json
+          if ($shots.shots.Count -lt 3 -or -not ($shots.shots | Where-Object { $_.reinforced -and $_.record_tick -eq 682 })) { throw 'Native shot archive evidence is missing' }
+          $report = @{ feedback_archive_checked = $true; abi = (Get-Content dist/windows_abi.json -Raw | ConvertFrom-Json); legacy_patch_guards = @(0,8); injector_cli_checked = $true; native_driver = (Get-Content dist/native_driver.json -Raw | ConvertFrom-Json); gameplay_tested = $false }
           $report | ConvertTo-Json -Depth 8 | Set-Content -Encoding utf8 gamesense-csgo/build/stock_resolver_windows_validation.json
           exit 0
       - uses: actions/upload-artifact@v4
@@ -154,15 +160,15 @@ jobs:
           name: stock-windows-validation
           path: dist
       - name: Preserve tested DLL bytes and include Windows evidence
-        run: python gamesense-csgo/stock-resolver/finalize_release.py dist/skeet-dt-fast-windows.zip dist/stock_resolver_windows_validation.json
+        run: python gamesense-csgo/stock-resolver/finalize_release.py dist/skeet-feedback-windows.zip dist/stock_resolver_windows_validation.json
       - name: Publish compiled and tested Windows download
         env:
           GH_TOKEN: ${{ github.token }}
           SOURCE_SHA: ${{ github.sha }}
         run: |
-          tag="skeet-dt-fast-${SOURCE_SHA}"
+          tag="skeet-feedback-${SOURCE_SHA}"
           if gh release view "$tag" >/dev/null 2>&1; then
-            gh release upload "$tag" dist/skeet-dt-fast-windows.zip --clobber
+            gh release upload "$tag" dist/skeet-feedback-windows.zip --clobber
           else
-            gh release create "$tag" dist/skeet-dt-fast-windows.zip --target "$SOURCE_SHA" --prerelease --title 'CS:GO 8802 / DT 64-sample fast sampler' --notes-file gamesense-csgo/stock-resolver/README_RU.txt
+            gh release create "$tag" dist/skeet-feedback-windows.zip --target "$SOURCE_SHA" --prerelease --title 'CS:GO 8802 / native resolver shot feedback' --notes-file gamesense-csgo/stock-resolver/README_RU.txt
           fi

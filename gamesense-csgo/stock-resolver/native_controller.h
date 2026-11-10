@@ -6,7 +6,7 @@ namespace stock_native {
 // Recovered from the pinned GS plist.get/set bodies and descriptor table:
 // array 0x4347BE08, index*32, bool +5, signed integer +8, range -60..60.
 constexpr unsigned plist_base=0x4347be08, stride=32, yaw_enabled=5, yaw_value=8;
-struct PlayerInput { bool valid=false; stock_resolver::Snapshot sample{}; };
+struct PlayerInput { bool valid=false,preserve_learning=false;unsigned seen_identity=0; stock_resolver::Snapshot sample{}; };
 struct FrameInput { std::array<PlayerInput,65> players{}; };
 struct Controls {
     unsigned char* base=nullptr;
@@ -38,6 +38,17 @@ public:
     void forget(unsigned player,Controls controls) {
         release(player,controls);states_[player]=Owned{};engine_.forget(player);
     }
+    bool shot_token(unsigned player,unsigned tick,Controls controls,stock_resolver::ShotToken& out)const {
+        if(player<1||player>64)return false;
+        const auto& state=states_[player];bool enabled=false;int value=0;
+        return state.owned&&!state.blocked&&controls.get(player,enabled,value)&&enabled&&value==state.value&&
+            engine_.token(player,state.identity,tick,value,out);
+    }
+    unsigned identity(unsigned player)const{return player>=1&&player<=64?states_[player].identity:0;}
+    void suspend(Controls controls) {
+        for(unsigned p=1;p<=64;++p)if(states_[p].identity){release(p,controls);engine_.retire(p,states_[p].identity);states_[p].blocked=false;}
+        applied=tracked=blocked=0;
+    }
     void reset(Controls controls) {
         for(unsigned p=1;p<=64;++p)forget(p,controls);
         engine_.reset();applied=tracked=blocked=invalid_controls=0;
@@ -46,7 +57,10 @@ public:
         applied=tracked=blocked=0;
         for(unsigned player=1;player<=64;++player) {
             auto& state=states_[player];const auto& input=frame.players[player];
-            if(!input.valid){if(state.identity)forget(player,controls);continue;}
+            if(!input.valid){if(state.identity){
+                if(input.preserve_learning&&input.seen_identity==state.identity){release(player,controls);engine_.retire(player,state.identity);state.blocked=false;}
+                else forget(player,controls);
+            }continue;}
             if(input.sample.player!=player||!input.sample.identity){if(state.identity)forget(player,controls);continue;}
             ++tracked;
             if(state.identity!=input.sample.identity){forget(player,controls);state.identity=input.sample.identity;}
@@ -63,7 +77,7 @@ public:
             const int wanted=static_cast<int>(decision.offset);
             if(wanted< -60||wanted>60){release(player,controls);continue;}
             if(!state.owned||wanted!=state.value)controls.set(player,true,wanted);
-            state.value=wanted;state.owned=true;++applied;
+            state.value=wanted;state.owned=true;engine_.written(player,decision.generation,wanted);++applied;
         }
     }
 };

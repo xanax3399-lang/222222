@@ -7,7 +7,7 @@ ROOT = Path(__file__).resolve().parent.parent
 BUILD = ROOT / 'build'
 required = {'sr_abi_version', 'sr_mode_enabled', 'sr_snapshot_bytes', 'sr_decision_bytes',
             'sr_reset', 'sr_forget', 'sr_feed', 'sr_head_hit', 'sr_stats', 'sr_history',
-            'sr_frame', 'sr_frame_stats', 'skeet_loader_status', 'sr_driver_status', 'sr_accuracy_status', 'sr_dt_status', 'sr_dt_fast_status'}
+            'sr_frame', 'sr_frame_stats', 'skeet_loader_status', 'sr_driver_status', 'sr_accuracy_status', 'sr_dt_status', 'sr_dt_fast_status', 'sr_feedback_status', 'sr_feedback_log'}
 rows = []
 for name, dll in [('skeet.dll', True), ('injector.exe', False), ('stock_mode_probe.exe', False), ('native_driver_probe.exe', False)]:
     pe = pefile.PE(str(BUILD / name))

@@ -1,6 +1,8 @@
 #define NOMINMAX
 #include "native_driver.h"
 #include "native_controller.h"
+#include "feedback_status.h"
+#include "feedback_hook.h"
 #include "../source/skeet/nl_hypotheses.h"
 #include <array>
 #include <cmath>
@@ -10,6 +12,8 @@
 #include <cstddef>
 
 extern "C" __declspec(dllexport) stock_native::DriverStatus sr_driver_status={1,1};
+extern "C" __declspec(dllexport) stock_feedback::Status sr_feedback_status={1,1,1};
+extern "C" __declspec(dllexport) stock_feedback::Log sr_feedback_log{};
 namespace stock_native {
 namespace {
 constexpr unsigned base=0x43310000,image_size=0x2fc000;
@@ -26,6 +30,15 @@ unsigned fps_limit=0;
 bool fps_owned=false;float fps_original=0;
 const char* error_text="Native resolver was not prepared.";
 Controller controller(shared_engine());
+stock_feedback::Ledger feedback;
+SRWLOCK feedback_lock=SRWLOCK_INIT;
+void* event_manager=nullptr;
+ULONGLONG feedback_retry_at=0;
+struct FeedbackGuard {
+    bool locked;
+    FeedbackGuard():locked(TryAcquireSRWLockExclusive(&feedback_lock)!=0){if(!locked)InterlockedIncrement(reinterpret_cast<volatile LONG*>(&sr_feedback_status.busy));}
+    ~FeedbackGuard(){if(locked)ReleaseSRWLockExclusive(&feedback_lock);}
+};
 template<class T> T read(const void* p,unsigned offset=0){T value;std::memcpy(&value,static_cast<const unsigned char*>(p)+offset,sizeof(value));return value;}
 template<class T> T at(unsigned address){return read<T>(reinterpret_cast<const void*>(address));}
 bool readable(const void* p,std::size_t bytes) {
@@ -140,16 +153,19 @@ void mirror_stats() {
     s.feeds=stats.feeds;s.records=stats.records;s.duplicates=stats.duplicates;s.rejected=stats.rejected;
     s.selected=stats.selected;s.fallback=stats.fallback;s.memory_bytes=stats.memory_bytes;
 }
+void feedback_boundary();
+void feedback_register();
+bool __cdecl shot_capture(unsigned*,void*);
 void update() {
     const auto started=std::chrono::steady_clock::now();FrameInput input;
     auto* globals=at<unsigned char*>(gs_globals);
     const bool in_game=method<bool(__thiscall*)(void*)>(engine,26)(engine);
-    if(!in_game||!globals){controller.reset({reinterpret_cast<unsigned char*>(plist_base)});mirror_stats();return;}
+    if(!in_game||!globals){controller.reset({reinterpret_cast<unsigned char*>(plist_base)});feedback.reset();mirror_stats();return;}
     const float now=read<float>(globals,0x10),interval=read<float>(globals,0x20);
     const int local=method<int(__thiscall*)(void*)>(engine,12)(engine);
     void* self=local>=1&&local<=64?entity(static_cast<unsigned>(local)):nullptr;
     if(!alive(self)||!std::isfinite(now)||!std::isfinite(interval)||interval<.001f||interval>.1f) {
-        controller.update(input,{reinterpret_cast<unsigned char*>(plist_base)},threshold);mirror_stats();return;
+        controller.suspend({reinterpret_cast<unsigned char*>(plist_base)});mirror_stats();return;
     }
     const int team=read<int>(self,offsets.team);const bool free_for_all=number(vars.teammates,0)>0;
     float rate=std::max(1.f,number(vars.rate,1/interval));
@@ -165,7 +181,12 @@ void update() {
     const int count=std::clamp(read<int>(globals,0x18),0,64);
     for(int index=1;index<=count;++index) {
         if(index==local)continue;
-        void* object=entity(static_cast<unsigned>(index));if(!alive(object)||dormant(static_cast<unsigned>(index)))continue;
+        void* object=entity(static_cast<unsigned>(index));if(!object||dormant(static_cast<unsigned>(index)))continue;
+        if(!alive(object)){
+            auto& target=input.players[static_cast<unsigned>(index)];
+            if(controller.identity(static_cast<unsigned>(index))){target.preserve_learning=true;target.seen_identity=identity(static_cast<unsigned>(index),object);}
+            continue;
+        }
         const int enemy_team=read<int>(object,offsets.team);
         if(enemy_team<2||(!free_for_all&&team==enemy_team))continue;
         auto& target=input.players[static_cast<unsigned>(index)];auto& s=target.sample;target.valid=true;
@@ -187,9 +208,96 @@ void update() {
     auto& status=sr_driver_status;status.last_update_ms=std::chrono::duration<float,std::milli>(std::chrono::steady_clock::now()-started).count();
     status.worst_update_ms=std::max(status.worst_update_ms,status.last_update_ms);
 }
+void feedback_publish() {
+    auto& status=sr_feedback_status;
+    InterlockedIncrement(reinterpret_cast<volatile LONG*>(&status.sequence));
+    sr_feedback_log.shots=feedback.shots();status.counters=feedback.counters();
+    status.last_serial=0;for(const auto& shot:feedback.shots())status.last_serial=std::max(status.last_serial,shot.serial);
+    status.bytes=sizeof(sr_feedback_log);
+    InterlockedIncrement(reinterpret_cast<volatile LONG*>(&status.sequence));
+}
+void feedback_boundary() {
+    if(!sr_feedback_status.enabled)return;
+    feedback.boundary(GetTickCount64(),[](const stock_resolver::ShotToken& token) {
+        if(!sr_feedback_status.learning)return 0u;
+        auto* object=entity(token.player);auto& model=shared_engine();
+        const float before=model.learned(token.player,token.state,token.hypothesis);
+        if(!object||identity(token.player,object)!=token.identity||!model.confirm(token))return 0u;
+        return model.learned(token.player,token.state,token.hypothesis)>before?2u:1u;
+    });
+    feedback_publish();
+}
+bool __cdecl shot_capture(unsigned* registers,void*) {
+    if(!sr_feedback_status.enabled||!sr_feedback_status.listening||sr_driver_status.state!=Active)return false;
+    FeedbackGuard guard;if(!guard.locked)return false;
+    const auto* frame=reinterpret_cast<const unsigned char*>(registers)+36;
+    auto* candidate=read<void*>(frame,0x18);auto* weapon=read<void*>(frame,0x14);auto* command=read<void*>(frame,0x28);
+    const auto reject=[](){feedback.reject();return false;};
+    if(!readable(candidate,0xb8)||!readable(weapon,0xe8)||!readable(command,12))return reject();
+    stock_feedback::Shot shot{};shot.command=read<unsigned>(command,4);shot.native_id=registers[1];
+    shot.target=read<unsigned>(candidate,4);shot.record_tick=read<unsigned>(candidate,0xb4);
+    shot.weapon=read<unsigned>(weapon,0xd8);shot.hitbox=read<unsigned>(candidate,0x2c);shot.created_ms=GetTickCount64();
+    if(!shot.command||shot.target<1||shot.target>64||!shot.record_tick||shot.hitbox>18)return reject();
+    for(unsigned i=0;i<3;++i){shot.point[i]=read<float>(candidate,0xc+i*4);shot.eye[i]=read<float>(weapon,0xdc+i*4);
+        if(!std::isfinite(shot.point[i])||!std::isfinite(shot.eye[i]))return reject();}
+    shot.hc=read<float>(candidate,0x38);shot.predicted_damage=static_cast<float>(read<int>(candidate,0x28));
+    if(!std::isfinite(shot.hc)||shot.hc<0||shot.hc>1)shot.hc=-1;
+    if(shot.hc>=0)controller.shot_token(shot.target,shot.record_tick,{reinterpret_cast<unsigned char*>(plist_base)},shot.token);
+    feedback.intent(shot);return false;
+}
+unsigned event_weapon(const char* name) {
+    if(!name)return 0;
+    if(!std::strncmp(name,"weapon_",7))name+=7;
+    const char* keys[]={"deagle","elite","fiveseven","glock","ak47","aug","awp","famas","g3sg1","galilar","m249","m4a1","mac10","p90","mp5sd","ump45","xm1014","bizon","mag7","negev","sawedoff","tec9","taser","hkp2000","mp7","mp9","nova","p250","scar20","sg556","ssg08","m4a1_silencer","usp_silencer","cz75a","revolver"};
+    const unsigned ids[]={1,2,3,4,7,8,9,10,11,13,14,16,17,19,23,24,25,26,27,28,29,30,31,32,33,34,35,36,38,39,40,60,61,63,64};
+    for(unsigned i=0;i<sizeof(ids)/sizeof(ids[0]);++i)if(!std::strcmp(name,keys[i]))return ids[i];return 0;
+}
+void __fastcall event_destroy(void*,void*,unsigned){}
+int __fastcall event_debug(void*,void*){return 42;}
+void __fastcall event_fire(void*,void*,void* event) {
+    if(!sr_feedback_status.listening||!readable(event,4))return;
+    FeedbackGuard guard;if(!guard.locked)return;
+    const char* name=method<const char*(__thiscall*)(void*)>(event,1)(event);if(!name)return;
+    const auto integer=[&](const char* key){return method<int(__thiscall*)(void*,const char*,int)>(event,6)(event,key,0);};
+    const auto player=[&](const char* key){return method<int(__thiscall*)(void*,int)>(engine,9)(engine,integer(key));};
+    const int local=method<int(__thiscall*)(void*)>(engine,12)(engine);const auto now=GetTickCount64();
+    if(!std::strcmp(name,"round_start")) {feedback.reset();controller.reset({reinterpret_cast<unsigned char*>(plist_base)});}
+    else if(!std::strcmp(name,"player_disconnect")) {
+        feedback.reset();const int who=player("userid");if(who>=1&&who<=64)controller.forget(static_cast<unsigned>(who),{reinterpret_cast<unsigned char*>(plist_base)});
+    } else if(!std::strcmp(name,"weapon_fire")&&player("userid")==local) {
+        const char* weapon=method<const char*(__thiscall*)(void*,const char*,const char*)>(event,9)(event,"weapon","");
+        feedback.fire(event_weapon(weapon),now);
+    } else if(!std::strcmp(name,"bullet_impact")&&player("userid")==local) {
+        const auto real=[&](const char* key){return method<float(__thiscall*)(void*,const char*,float)>(event,8)(event,key,0);};
+        const float x=real("x"),y=real("y"),z=real("z");
+        if(std::isfinite(x)&&std::isfinite(y)&&std::isfinite(z))feedback.impact(x,y,z,now);
+    } else if(!std::strcmp(name,"player_hurt")&&player("attacker")==local) {
+        const int target=player("userid"),group=integer("hitgroup"),damage=integer("dmg_health"),remaining=integer("health");
+        if(target>=1&&target<=64&&group>=0&&group<=10&&damage>0&&damage<=10000&&remaining>=0)
+            feedback.hurt(static_cast<unsigned>(target),static_cast<unsigned>(group),static_cast<unsigned>(damage),static_cast<unsigned>(remaining),now);
+    }
+}
+void* event_table[]={reinterpret_cast<void*>(event_destroy),reinterpret_cast<void*>(event_fire),reinterpret_cast<void*>(event_debug)};
+struct EventListener {void** table;};EventListener event_listener{event_table};
+void feedback_register() {
+    if(!sr_feedback_status.enabled||sr_feedback_status.listening||!engine||!method<bool(__thiscall*)(void*)>(engine,26)(engine))return;
+    const auto now=GetTickCount64();if(now<feedback_retry_at)return;feedback_retry_at=now+2000;
+    if(!event_manager)event_manager=resolve_interface(L"engine.dll","GAMEEVENTSMANAGER002");
+    if(!readable(event_manager,4)||!readable(*static_cast<void***>(event_manager),24)){sr_feedback_status.error=1;return;}
+    for(const char* name:{"weapon_fire","bullet_impact","player_hurt","round_start","player_disconnect"}) {
+        if(!method<bool(__thiscall*)(void*,void*,const char*,bool)>(event_manager,3)(event_manager,&event_listener,name,false)) {
+            method<void(__thiscall*)(void*,void*)>(event_manager,5)(event_manager,&event_listener);sr_feedback_status.error=2;return;
+        }
+    }
+    sr_feedback_status.error=0;sr_feedback_status.listening=1;
+}
+
 void __fastcall notify(void* object,void*,int stage) {
     ++sr_driver_status.callbacks;
-    if(stage==4&&sr_driver_status.enabled) {++sr_driver_status.updates;update();}
+    if(stage==4&&sr_driver_status.enabled) {
+        feedback_register();FeedbackGuard guard;
+        if(guard.locked){feedback_boundary();++sr_driver_status.updates;update();}
+    }
     if(stage==5) {
         ++sr_driver_status.frames;auto* globals=at<unsigned char*>(gs_globals);
         if(globals)shared_engine().frame(read<float>(globals,8));
@@ -228,6 +336,9 @@ bool prepare(unsigned char* image,unsigned size,HMODULE module) {
     std::wcscpy(slash+1,L"skeet_nl_points.ini");
     sr_driver_status.enabled=GetPrivateProfileIntW(L"resolver",L"enabled",1,path);
     const unsigned percent=GetPrivateProfileIntW(L"resolver",L"confidence",65,path);
+    sr_feedback_status.enabled=GetPrivateProfileIntW(L"resolver",L"feedback",1,path);
+    sr_feedback_status.learning=GetPrivateProfileIntW(L"resolver",L"feedback_learning",1,path);
+    if(sr_feedback_status.enabled>1||sr_feedback_status.learning>1)return fail(CoreContract,"Native resolver: feedback settings must be 0 or 1.");
     fps_limit=GetPrivateProfileIntW(L"resolver",L"fps_limit",0,path);
     if(sr_driver_status.enabled>1||percent<50||percent>95||(fps_limit&&(fps_limit<30||fps_limit>500)))
         return fail(CoreContract,"Native resolver: invalid enabled/confidence/fps_limit settings.");
@@ -240,6 +351,10 @@ bool prepare(unsigned char* image,unsigned size,HMODULE module) {
     original_entry=original_table[frame_stage];
     if(!readable(original_entry,original_code.size()))return fail(ClientInterface,"Native resolver: invalid original FrameStageNotify.");
     std::memcpy(original_code.data(),original_entry,original_code.size());
+    if(sr_feedback_status.enabled) {
+        if(!stock_feedback::install_hook(image,size,reinterpret_cast<unsigned>(shot_capture),true))return fail(CoreContract,"Native resolver: shot capture contract or installation failed.");
+        sr_feedback_status.installed=1;sr_feedback_status.bytes=sizeof(sr_feedback_log);
+    }
     sr_driver_status.client=static_cast<unsigned>(reinterpret_cast<std::uintptr_t>(client));sr_driver_status.state=Prepared;
     return true;
 }
@@ -258,7 +373,7 @@ bool start() {
                 if(stable_slot!=table+frame_stage||stable_entry!=entry){stable_slot=table+frame_stage;stable_entry=entry;stable_since=GetTickCount64();}
                 if(GetTickCount64()-stable_since>=250) {
                     if(!resolve_netvars())return fail(Netvars,"Native resolver: required DT_CSPlayer netvars were not found.");
-                    cache_variables();previous=reinterpret_cast<StageFn>(entry);hook_slot=table+frame_stage;
+                    cache_variables();event_manager=resolve_interface(L"engine.dll","GAMEEVENTSMANAGER002");previous=reinterpret_cast<StageFn>(entry);hook_slot=table+frame_stage;
                     DWORD old=0;if(!VirtualProtect(hook_slot,4,PAGE_READWRITE,&old))return fail(Protect,"Native resolver: cannot write FrameStageNotify slot.");
                     void* replaced=InterlockedCompareExchangePointer(hook_slot,reinterpret_cast<void*>(&notify),entry);
                     DWORD unused=0;const bool restored=VirtualProtect(hook_slot,4,old,&unused)!=0;

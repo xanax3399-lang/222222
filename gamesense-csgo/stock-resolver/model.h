@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cstdint>
 #include <cstddef>
+#include <cstring>
 
 namespace stock_resolver {
 constexpr unsigned players=64, history_size=16, frame_samples=512;
@@ -36,24 +37,36 @@ inline bool finite(const Snapshot& s) {
         std::fabs(s.eye_yaw)<=7200&&std::fabs(s.lower_body_yaw)<=7200&&std::fabs(s.pose_yaw)<=180&&s.duck>=0&&s.duck<=1&&
         std::fabs(s.velocity_x)<=5000&&std::fabs(s.velocity_y)<=5000;
 }
-struct Record { Snapshot sample{};std::uint32_t generation=0,selected=0,applied=0,credited=0; };
+struct Record { Snapshot sample{};std::uint32_t generation=0,selected=0,applied=0,credited=0,written=0; };
+struct ShotToken {unsigned player=0,identity=0,generation=0,epoch=0,state=0,hypothesis=0,tick=0;float offset=0,simulation_time=0;};
 struct Slot {
     std::uint32_t identity=0,count=0,head=0,pending=3,pending_count=0;
     float last_sim=-1,last_seen=0,anchor=0,anchor_time=-100,world=0;
     bool has_world=false;
-    float prior[3]{};
+    unsigned epoch=0;
+    float prior[4][3]{};
+    unsigned confirmations[4][3]{},last_credit[4][3]{};
     Decision decision{};
     std::array<Record,history_size> records{};
 };
 class Engine {
     std::array<Slot,players+1> slots_{};
     std::array<float,frame_samples> frames_{};
-    std::uint32_t generation_=0,frame_head_=0,frame_count_=0;
+    std::uint32_t generation_=0,epoch_=0,frame_head_=0,frame_count_=0;
     Stats stats_{};
     const Record& recent(const Slot& slot,unsigned n)const{return slot.records[(slot.head+history_size-1-n)%history_size];}
 public:
-    void reset(){slots_={};frames_={};generation_=frame_head_=frame_count_=0;stats_={};}
+    void reset(){slots_={};frames_={};frame_head_=frame_count_=0;stats_={};++epoch_;}
     void forget(unsigned player){if(player>=1&&player<=players){slots_[player]=Slot{};++stats_.resets;}}
+    void retire(unsigned player,unsigned identity) {
+        if(player<1||player>players||slots_[player].identity!=identity)return;
+        auto& slot=slots_[player];if(!slot.count)return;const auto saved=slot;
+        slot=Slot{};slot.identity=identity;slot.epoch=++epoch_;slot.last_seen=saved.last_seen;
+        std::memcpy(slot.prior,saved.prior,sizeof(slot.prior));
+        std::memcpy(slot.confirmations,saved.confirmations,sizeof(slot.confirmations));
+        std::memcpy(slot.last_credit,saved.last_credit,sizeof(slot.last_credit));
+        ++stats_.resets;
+    }
     Stats stats()const {auto out=stats_;out.memory_bytes=sizeof(*this);out.slots=0;for(unsigned i=1;i<=players;++i)out.slots+=slots_[i].identity!=0;return out;}
     bool feed(const Snapshot& s,float threshold,Decision& out) {
         ++stats_.feeds;out={s.player,s.identity,0,0,0,0,Invalid,0,0,0,s.simulation_time};
@@ -63,13 +76,15 @@ public:
         if(age< -2*s.interval||age>s.max_unlag+s.latency+s.lerp+2*s.interval){out.reason=Stale;++stats_.rejected;return false;}
         bool reset=slot.identity!=s.identity;
         const float gap=s.simulation_time-slot.last_sim;
-        if(slot.identity&&(!reset)&&(gap< -s.interval*.25f||gap>std::max(.25f,s.interval*17)))reset=true;
+        if(slot.count&&(!reset)&&(gap< -s.interval*.25f||gap>std::max(.25f,s.interval*17)))reset=true;
         if(slot.count&&!reset) {
             const auto& last=recent(slot,0).sample;
             const float dx=s.origin_x-last.origin_x,dy=s.origin_y-last.origin_y,dz=s.origin_z-last.origin_z;
             if(dx*dx+dy*dy+dz*dz>4096.f)reset=true;
         }
-        if(reset){slot=Slot{};slot.identity=s.identity;++stats_.resets;}
+        if(reset){slot=Slot{};slot.identity=s.identity;slot.epoch=++epoch_;++stats_.resets;}
+        const float elapsed=std::max(0.f,slot.count?gap:s.now-slot.last_seen);
+        if(slot.count&&movement(recent(slot,0).sample)!=movement(s)){slot.pending=3;slot.pending_count=0;slot.has_world=false;}
         slot.last_seen=s.now;
         if(slot.count&&std::fabs(s.simulation_time-slot.last_sim)<s.interval*.25f){out=slot.decision;if(out.confidence<threshold){out.apply=0;out.reason=Uncertain;}++stats_.duplicates;return true;}
         slot.last_sim=s.simulation_time;
@@ -78,7 +93,7 @@ public:
         out={s.player,s.identity,++generation_,0,slot.count,movement(s),NoHistory,0,0,0,s.simulation_time};
         // A generation belongs to one simulation record, never a rendered frame.
         record.generation=out.generation;
-        for(float& prior:slot.prior)prior*=std::exp(-std::max(0.f,gap)*.7f);
+        for(auto& state:slot.prior)for(float& prior:state)prior*=std::exp(-elapsed*.15f);
         const float speed=std::sqrt(s.velocity_x*s.velocity_x+s.velocity_y*s.velocity_y);
         const bool grounded=(s.flags&Ground)!=0,has_lby=(s.flags&Lby)!=0;
         if(grounded&&has_lby&&speed>35&&s.duck<.5f) {
@@ -106,7 +121,7 @@ public:
         for(unsigned c=0;c<3;++c) {
             costs[c]=evidence*distance(normalize(s.eye_yaw+offsets[c]),reference)/60.f;
             if(s.flags&Pose)costs[c]+=.06f*std::fabs(offsets[c]-s.pose_yaw)/60.f;
-            costs[c]-=slot.prior[c];
+            costs[c]-=slot.prior[out.state][c];
             if(costs[c]<costs[best])best=c;
         }
         second=best==0?1:0;for(unsigned c=0;c<3;++c)if(c!=best&&costs[c]<costs[second])second=c;
@@ -137,8 +152,37 @@ public:
         if(player<1||player>players||!identity){++stats_.feedback_rejected;return false;}
         auto& slot=slots_[player];
         if(slot.identity==identity)for(unsigned i=0;i<slot.count;++i){auto& r=slot.records[(slot.head+history_size-1-i)%history_size];
-            if(r.generation==generation&&r.applied&&!r.credited){r.credited=1;slot.prior[r.selected]=std::min(.15f,slot.prior[r.selected]+.025f);++stats_.head_feedback;return true;}}
+            if(r.generation==generation&&r.applied&&!r.credited){r.credited=1;auto& prior=slot.prior[movement(r.sample)][r.selected];prior=std::min(.15f,prior+.025f);++stats_.head_feedback;return true;}}
         ++stats_.feedback_rejected;return false;
+    }
+    void written(unsigned player,unsigned generation,int offset) {
+        if(player<1||player>players)return;
+        auto& slot=slots_[player];
+        for(auto& r:slot.records)if(r.generation==generation&&r.applied&&static_cast<int>(r.selected)*60-60==offset)r.written=1;
+    }
+    bool token(unsigned player,unsigned identity,unsigned tick,int owned_offset,ShotToken& out)const {
+        out={};if(player<1||player>players)return false;const auto& slot=slots_[player];
+        if(slot.identity!=identity)return false;
+        for(unsigned i=0;i<slot.count;++i){const auto& r=recent(slot,i);const unsigned native_tick=static_cast<unsigned>(std::floor(r.sample.simulation_time/r.sample.interval+.5f));
+            if(native_tick==tick&&r.applied&&r.written&&static_cast<int>(r.selected)*60-60==owned_offset) {
+                out={player,identity,r.generation,slot.epoch,movement(r.sample),r.selected,tick,static_cast<float>(owned_offset),r.sample.simulation_time};return true;
+            }
+        }return false;
+    }
+    // Positive compatibility evidence only. Two distinct records are required;
+    // this cannot lower the geometric evidence threshold or punish another side.
+    bool confirm(const ShotToken& token) {
+        if(token.player<1||token.player>players||token.state>3||token.hypothesis>2)return false;
+        auto& slot=slots_[token.player];const unsigned state=token.state,side=token.hypothesis;
+        if(slot.identity!=token.identity||slot.epoch!=token.epoch||!token.generation||
+           token.generation<=slot.last_credit[state][side])return false;
+        slot.last_credit[state][side]=token.generation;
+        auto& n=slot.confirmations[state][side];n=std::min(n+1,1000u);
+        if(n>=2)slot.prior[state][side]=std::min(.08f,slot.prior[state][side]+.02f);
+        ++stats_.head_feedback;return true;
+    }
+    float learned(unsigned player,unsigned state,unsigned side)const {
+        return player>=1&&player<=players&&state<4&&side<3?slots_[player].prior[state][side]:0;
     }
     unsigned history(unsigned player,Snapshot* out,unsigned capacity)const {
         if(player<1||player>players||!out)return 0;

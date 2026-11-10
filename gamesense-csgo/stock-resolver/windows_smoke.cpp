@@ -13,6 +13,7 @@
 #include "accuracy_status.h"
 #include "dt_status.h"
 #include "dt_fast_status.h"
+#include "feedback_status.h"
 #include <filesystem>
 using namespace stock_resolver;
 static unsigned checks=0;
@@ -46,6 +47,9 @@ int wmain(int argc,wchar_t** argv) {
     check(dt&&dt->version==1&&dt->enabled==1&&!dt->installed,"DT sampler configuration/export");
     auto* fast=reinterpret_cast<native_accuracy::DtFastStatus*>(GetProcAddress(module,"sr_dt_fast_status"));
     check(fast&&fast->version==1&&fast->enabled==1&&fast->profiling==1&&!fast->installed&&!fast->samples,"DT fast sampler configuration/export");
+    auto* feedback=reinterpret_cast<stock_feedback::Status*>(GetProcAddress(module,"sr_feedback_status"));
+    auto* log=reinterpret_cast<stock_feedback::Log*>(GetProcAddress(module,"sr_feedback_log"));
+    check(feedback&&feedback->version==1&&feedback->enabled==1&&feedback->learning==1&&!feedback->installed&&log&&log->version==1&&log->count==256,"native shot feedback exports");
     auto* loader=reinterpret_cast<LoaderStatus*>(GetProcAddress(module,"skeet_loader_status"));
     check(loader&&loader->state==LoaderWaiting&&mode()==0,"no game modules: waiting, bridge disabled");
     auto* stop=reinterpret_cast<nl_stop_patch::Status*>(GetProcAddress(module,"skeet_nl_stop_status"));

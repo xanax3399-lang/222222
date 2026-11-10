@@ -8,11 +8,15 @@ namespace stock_native {stock_resolver::Engine& shared_engine(){static stock_res
 #include <cstdlib>
 #include <fstream>
 #include <filesystem>
+#include "../source/steam/feedback_reports.h"
 using namespace stock_native;
 namespace {
 unsigned checks=0,gs_calls=0,gs_saw_force=0;
 bool in_game=true,enemy_dormant=false;unsigned user_id=42;
 struct Object {void** table;};
+void* manager_table[6]{},*event_vtable[10]{};Object fake_manager{manager_table};
+void* registered_listener=nullptr;unsigned registrations=0;
+struct FakeEvent {void** table=event_vtable;const char* name="";int userid=1,attacker=1,group=1,damage=120,remaining=0;};
 void* client_old_table[38]{},*client_gs_table[38]{},*engine_table[79]{},*entity_table[4]{},*network_table[10]{};
 Object fake_client{client_old_table},fake_engine{engine_table},fake_entities{entity_table},fake_network{network_table};
 std::array<unsigned char,512> self_data{},enemy_data{},global_data{};
@@ -30,9 +34,27 @@ void* __fastcall get_entity(void*,void*,int index){return index==1?self_data.dat
 void* __fastcall network(void*,void*,int index){return index==2?&fake_network:nullptr;}
 bool __fastcall is_dormant(void*,void*){return enemy_dormant;}
 bool __fastcall player_info(void*,void*,int index,void* out){put(out,8,static_cast<unsigned>(index+100));put(out,12,0u);put(out,0x90,user_id);return true;}
+int __fastcall by_user(void*,void*,int id){return id==1?1:id==static_cast<int>(user_id)?2:0;}
+bool __fastcall add_event(void*,void*,void* listener,const char*,bool){registered_listener=listener;++registrations;return true;}
+void __fastcall remove_event(void*,void*,void*){registered_listener=nullptr;}
+const char* __fastcall event_name(void* self,void*){return static_cast<FakeEvent*>(self)->name;}
+int __fastcall event_int(void* self,void*,const char* name,int fallback){
+    const auto& e=*static_cast<FakeEvent*>(self);
+    if(!std::strcmp(name,"userid"))return e.userid;if(!std::strcmp(name,"attacker"))return e.attacker;
+    if(!std::strcmp(name,"hitgroup"))return e.group;if(!std::strcmp(name,"dmg_health"))return e.damage;
+    if(!std::strcmp(name,"health"))return e.remaining;return fallback;
+}
+float __fastcall event_float(void*,void*,const char* name,float){return !std::strcmp(name,"x")?200.f:0.f;}
+const char* __fastcall event_string(void*,void*,const char*,const char*){return "scar20";}
+void emit(const char* name){FakeEvent e;e.name=name;e.userid=!std::strcmp(name,"player_hurt")?static_cast<int>(user_id):1;
+    method<void(__thiscall*)(void*,void*)>(registered_listener,1)(registered_listener,&e);}
 void tables() {
     client_old_table[8]=reinterpret_cast<void*>(classes);client_old_table[37]=reinterpret_cast<void*>(old_stage);
     std::copy(std::begin(client_old_table),std::end(client_old_table),std::begin(client_gs_table));client_gs_table[37]=reinterpret_cast<void*>(gs_stage);
+    manager_table[3]=reinterpret_cast<void*>(add_event);manager_table[5]=reinterpret_cast<void*>(remove_event);
+    event_vtable[1]=reinterpret_cast<void*>(event_name);event_vtable[6]=reinterpret_cast<void*>(event_int);
+    event_vtable[8]=reinterpret_cast<void*>(event_float);event_vtable[9]=reinterpret_cast<void*>(event_string);
+    engine_table[9]=reinterpret_cast<void*>(by_user);
     engine_table[8]=reinterpret_cast<void*>(player_info);engine_table[12]=reinterpret_cast<void*>(local_player);
     engine_table[26]=reinterpret_cast<void*>(is_game);engine_table[78]=reinterpret_cast<void*>(channel);
     entity_table[0]=reinterpret_cast<void*>(network);entity_table[3]=reinterpret_cast<void*>(get_entity);network_table[9]=reinterpret_cast<void*>(is_dormant);
@@ -54,6 +76,7 @@ void step(int stage=4){method<void(__thiscall*)(void*,int)>(&fake_client,37)(&fa
 }
 namespace stock_native {namespace {
 void* fixture_interface(const wchar_t* module,const char* name){
+    if(!_wcsicmp(module,L"engine.dll")&&!std::strcmp(name,"GAMEEVENTSMANAGER002"))return &fake_manager;
     return !_wcsicmp(module,L"client.dll")&&std::strcmp(name,"VClient018")==0?&fake_client:nullptr;
 }
 }}
@@ -94,7 +117,30 @@ int main(int argc,char** argv) {
     in_game=false;step();check(sr_driver_status.tracked==0,"disconnect clears history");
     for(unsigned i=0;i<16;++i)step(5);
     check(shared_engine().frame_stats().count==16&&sr_driver_status.frames==16,"native frame-time collection");
-    std::ofstream report(argv[2]);report<<"{\"checks\":"<<checks<<",\"production_native_driver\":true,\"source_interfaces\":\"controlled fixture\",\"actual_gs_core_layout\":true,\"external_lua_required\":false,\"gameplay_tested\":false}\n";
+    check(registrations==5&&registered_listener&&sr_feedback_status.listening==1,"production Source event registration ABI");
+    in_game=true;enemy_dormant=false;for(unsigned t=30;t<42;++t){fields(t);step();}
+    std::array<unsigned char,0xe8> weapon{};std::array<unsigned char,0xb8> candidate{};unsigned command[3]={0,888,0};
+    std::array<unsigned,80> capture{};auto* frame=reinterpret_cast<unsigned char*>(capture.data())+36;
+    put(frame,0x14,weapon.data());put(frame,0x18,candidate.data());put(frame,0x28,command);capture[1]=5;
+    put(weapon.data(),0xd8,38u);put(candidate.data(),4,2u);put(candidate.data(),0xb4,681u);
+    put(candidate.data(),0xc,100.f);put(candidate.data(),0x38,.8f);put(candidate.data(),0x28,120);
+    shot_capture(capture.data(),nullptr);emit("weapon_fire");emit("bullet_impact");emit("player_hurt");step();
+    check(sr_feedback_status.counters.credits==1&&shared_engine().learned(2,1,0)==0,"first uniquely linked head records compatibility without reinforcement");
+    fields(42);step();command[1]=889;capture[1]=6;put(candidate.data(),0xb4,682u);
+    shot_capture(capture.data(),nullptr);emit("weapon_fire");emit("bullet_impact");emit("player_hurt");step();
+    check(sr_feedback_status.counters.credits==2&&shared_engine().learned(2,1,0)>0,"second native event sequence reaches bounded model learning");
+    check((sr_feedback_log.shots[1].bits&stock_feedback::Reinforced)!=0,"exported shot log exposes actual reinforcement");
+    sr_feedback_status.learning=0;fields(43);step();const float before=shared_engine().learned(2,1,0);
+    command[1]=890;capture[1]=7;put(candidate.data(),0xb4,683u);shot_capture(capture.data(),nullptr);
+    emit("weapon_fire");emit("bullet_impact");emit("player_hurt");step();
+    check(sr_feedback_status.counters.credits==2&&shared_engine().learned(2,1,0)==before,"INI learning off retains telemetry without training");
+    sr_feedback_status.learning=1;emit("round_start");step();
+    check(shared_engine().learned(2,1,0)==0&&sr_feedback_status.counters.resets>0,"round event resets learned weights and pending shots");
+    const auto shot_path=std::filesystem::path(argv[2]).parent_path()/L"resolver_shots.json";
+    check(feedback_reports::save_to(shot_path.c_str(),GetCurrentProcess(),&sr_feedback_status,&sr_feedback_log),"production external shot archive writer");
+    std::ifstream shot_file(shot_path);std::string shot_text((std::istreambuf_iterator<char>(shot_file)),std::istreambuf_iterator<char>());
+    check(shot_text.find("\"reinforced\":true")!=std::string::npos&&shot_text.find("\"record_tick\":682")!=std::string::npos,"shot archive contains actual credited record and reinforcement");
+    std::ofstream report(argv[2]);report<<"{\"checks\":"<<checks<<",\"production_native_driver\":true,\"source_interfaces\":\"controlled fixture\",\"actual_gs_core_layout\":true,\"external_lua_required\":false,\"native_feedback_bridge\":true,\"feedback_events_checked\":true,\"gameplay_tested\":false}\n";
     check(static_cast<bool>(report),"native evidence written");std::printf("Native C++ driver: %u checks passed, no Lua/FFI.\n",checks);
     return 0;
 }

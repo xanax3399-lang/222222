@@ -8,7 +8,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parent
 BUILD = ROOT / 'build'
-DEST = BUILD / 'skeet-dt-fast'
+DEST = BUILD / 'skeet-feedback'
 if DEST.exists(): shutil.rmtree(DEST)
 DEST.mkdir(exist_ok=True)
 for name in ('skeet.dll', 'injector.exe'):
@@ -32,6 +32,8 @@ automatic_reports=1
 enabled=1
 confidence=65
 fps_limit=0
+feedback=1
+feedback_learning=1
 [accuracy]
 final_check=1
 nl_brake=1
@@ -41,7 +43,7 @@ dt_profile=1
 ''', encoding='utf-8')
 reports = DEST / 'reports'
 reports.mkdir(exist_ok=True)
-for name in ('model', 'native_controller', 'native_contract', 'accuracy', 'dt', 'dt_fast', 'pe'):
+for name in ('model', 'native_controller', 'native_contract', 'accuracy', 'dt', 'dt_fast', 'feedback', 'feedback_hook', 'pe'):
     source = BUILD / ('stock_resolver_' + name + '_validation.json')
     assert source.exists(), source
     shutil.copy2(source, reports / source.name)
@@ -53,12 +55,13 @@ sha = os.environ.get('GITHUB_SHA') or subprocess.check_output(['git', 'rev-parse
     'accuracy_patch': 'NL braking arithmetic in native GS stop requests + final native HC validation on changed inputs',
     'dt_experiment': 'SCAR-20/G3SG1 active DT: promote native reduced 32-job HC to existing 64-job tier; unchanged threshold and recharge',
     'dt_sampler_optimization': 'Integer-only stack-scoped sampler; same 64 native jobs, sampled HC timing every 32 eligible calls',
+    'resolver_feedback': 'Native shot intent + Source events; exact selected tick and model ownership; bounded state-specific positive evidence, ambiguous/unknown outcomes never penalized by the new learner',
     'game': 'CS:GO Legacy 8802 x86', 'gameplay_tested': False,
 }, indent=2) + '\n')
 hashes = {str(p.relative_to(DEST)): hashlib.sha256(p.read_bytes()).hexdigest()
           for p in sorted(DEST.rglob('*')) if p.is_file() and p.name != 'SHA256SUMS.json'}
 (DEST / 'SHA256SUMS.json').write_text(json.dumps(hashes, indent=2) + '\n')
-archive = BUILD / 'skeet-dt-fast-windows.zip'
+archive = BUILD / 'skeet-feedback-windows.zip'
 with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as output:
     for p in sorted(DEST.rglob('*')):
         if p.is_file(): output.write(p, str(p.relative_to(DEST)))

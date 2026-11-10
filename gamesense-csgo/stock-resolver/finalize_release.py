@@ -13,6 +13,8 @@ assert report['abi']['actual_packaged_x86_dll_loaded'] is True
 assert report['legacy_patch_guards'] == [0, 8] and report['injector_cli_checked'] is True
 assert report['native_driver']['production_native_driver'] is True
 assert report['native_driver']['external_lua_required'] is False
+assert report['native_driver']['native_feedback_bridge'] and report['native_driver']['feedback_events_checked']
+assert report['feedback_archive_checked']
 with tempfile.TemporaryDirectory() as temp:
     folder = Path(temp)
     with zipfile.ZipFile(archive) as source:
@@ -40,6 +42,11 @@ with tempfile.TemporaryDirectory() as temp:
         pair = fast['shim_retired_instructions'][mode]
         assert pair['fast']['instructions'] < pair['reference']['instructions']
         assert pair['fast']['fp_save_restore'] == 0 and pair['fast']['os_calls'] == []
+    feedback = json.loads((folder / 'reports/stock_resolver_feedback_validation.json').read_text())
+    assert feedback['checks'] >= 27 and feedback['same_record_required'] and feedback['unknown_does_not_penalize']
+    assert feedback['DT_ambiguity_skips_learning'] and feedback['single_head_does_not_reinforce']
+    hook = json.loads((folder / 'reports/stock_resolver_feedback_hook_validation.json').read_text())
+    assert hook['checks'] >= 10 and hook['actual_native_shot_replay_executed'] and hook['native_aim_fire_tick_field_executed']
     (folder / 'reports' / evidence.name).write_bytes(evidence.read_bytes())
     hashes = {str(p.relative_to(folder)): hashlib.sha256(p.read_bytes()).hexdigest()
               for p in sorted(folder.rglob('*')) if p.is_file() and p.name != 'SHA256SUMS.json'}

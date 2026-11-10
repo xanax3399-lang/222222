@@ -18,6 +18,7 @@
 #include "../../stock-resolver/accuracy_status.h"
 #include "../../stock-resolver/dt_status.h"
 #include "../../stock-resolver/dt_fast_status.h"
+#include "feedback_reports.h"
 
 static FILE* run_log=nullptr;
 static bool diagnostic_quiet=false;
@@ -235,6 +236,15 @@ static int diagnostics(const wchar_t* path,DWORD selected_pid=0) {
             if(ReadProcessMemory(process.value,item.modBaseAddr+fast_rva,&perf,sizeof(perf),&got)&&got==sizeof(perf)&&perf.version==1)
                 diagnostic_printf("DT fast sampler: enabled %u; installed %ld; profiling %u; sampled native HC calls %ld (1/32); last/worst HC %.3f/%.3f ms; samples >=1ms %ld; last/peak HC calls per command %ld/%ld. These timings include native HC work and waits; they are not FPS or miss classification.\n",perf.enabled,perf.installed,perf.profiling,perf.samples,perf.last_us/1000.0,perf.worst_us/1000.0,perf.slow_samples,perf.last_hc_calls,perf.peak_hc_calls);
         }
+        const DWORD feedback_rva=exported_rva(path,"sr_feedback_status",sizeof(stock_feedback::Status));
+        const DWORD log_rva=exported_rva(path,"sr_feedback_log",sizeof(stock_feedback::Log));
+        if(feedback_rva&&log_rva){stock_feedback::Status feedback{};
+            if(ReadProcessMemory(process.value,item.modBaseAddr+feedback_rva,&feedback,sizeof(feedback),&got)&&got==sizeof(feedback)&&feedback.version==1){
+                const auto& c=feedback.counters;
+                diagnostic_printf("Resolver feedback: enabled %u; learning %u; capture installed %d; events listening %d; error %d; busy skips %d\nIntents %u; local fires %u; impacts %u; hurts %u; matched head/body %u/%u; unknown %u; unconfirmed %u; ambiguous %u\nAccepted confirmations %u; rejected %u; unmatched events %u; overflow %u; duplicate %u; resets %u. Compatibility evidence is not proof of the opponent's true yaw.\n",feedback.enabled,feedback.learning,static_cast<int>(feedback.installed),static_cast<int>(feedback.listening),static_cast<int>(feedback.error),static_cast<int>(feedback.busy),c.intents,c.fires,c.impacts,c.hurts,c.head_hits,c.body_hits,c.unknown,c.unconfirmed,c.ambiguous,c.credits,c.rejected,c.unmatched,c.overflow,c.duplicates,c.resets);
+                if(feedback_reports::save(path,process.value,item.modBaseAddr+feedback_rva,item.modBaseAddr+log_rva))diagnostic_printf("Shot archive saved: resolver_shots.json (latest 256 intents).\n");
+            }
+        }
         diagnostic_printf("GS chooses stop timing and recharge safety. Counters do not measure aiming accuracy.\n");return 0;
     }while(Module32NextW(modules.value,&item));
     diagnostic_printf("skeet.dll is not loaded in this game.\n");return 1;
@@ -291,7 +301,7 @@ int wmain(int argc,wchar_t** argv) {
     }
     if(show_diagnostics)return run_diagnostics(path,false);
     while(mode<0) {
-        std::puts("1 - Original GameSense\n2 - Native C++ resolver + DT 64-sample fast sampler (no Lua)\n5 - Read loader diagnostics\n8 - Open last loader report\n0 - Exit");
+        std::puts("1 - Original GameSense\n2 - Native resolver + shot feedback / DT 64-sample fast sampler\n5 - Read loader diagnostics\n8 - Open last loader report\n0 - Exit");
         std::printf("Choice [Enter = 2]: ");char choice[32]{};
         if(!std::fgets(choice,sizeof(choice),stdin))choice[0]='2';
         if(choice[0]=='0')return 0;
@@ -302,12 +312,14 @@ int wmain(int argc,wchar_t** argv) {
         else {std::fprintf(stderr,"Unknown choice.\n");return 1;}
     }
     RunLog startup_log(path);
-    const char* mode_message=mode==8?"Selected: stock GS with integrated native resolver / C++ accuracy/braking and DT 64-sample fast sampler. No Lua driver.":"Selected: original GameSense gameplay.";
+    const char* mode_message=mode==8?"Selected: stock GS with integrated native resolver / shot feedback / C++ accuracy/braking and DT 64-sample fast sampler. No Lua driver.":"Selected: original GameSense gameplay.";
     std::puts(mode_message);log_line(mode_message);
     if(mode==8&&(!exported_rva(path,"sr_driver_status",sizeof(stock_native::DriverStatus))||
         !exported_rva(path,"sr_accuracy_status",sizeof(native_accuracy::Status))||
         !exported_rva(path,"sr_dt_status",sizeof(native_accuracy::DtStatus))||
-        !exported_rva(path,"sr_dt_fast_status",sizeof(native_accuracy::DtFastStatus)))) {
+        !exported_rva(path,"sr_dt_fast_status",sizeof(native_accuracy::DtFastStatus))||
+        !exported_rva(path,"sr_feedback_status",sizeof(stock_feedback::Status))||
+        !exported_rva(path,"sr_feedback_log",sizeof(stock_feedback::Log)))) {
         SetLastError(ERROR_REVISION_MISMATCH);return error("Native accuracy mode needs the matching skeet.dll from this archive");
     }
     DWORD pid=game_pid();Handle process;legacy_launch::Suspended suspended;
