@@ -209,6 +209,10 @@ void update() {
     status.worst_update_ms=std::max(status.worst_update_ms,status.last_update_ms);
 }
 void feedback_publish() {
+    static stock_feedback::Counters published{};static bool have_published=false;
+    const auto current=feedback.counters();
+    if(have_published&&!std::memcmp(&published,&current,sizeof(current)))return;
+    published=current;have_published=true;
     auto& status=sr_feedback_status;
     InterlockedIncrement(reinterpret_cast<volatile LONG*>(&status.sequence));
     sr_feedback_log.shots=feedback.shots();status.counters=feedback.counters();

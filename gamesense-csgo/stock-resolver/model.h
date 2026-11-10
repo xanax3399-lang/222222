@@ -93,7 +93,8 @@ public:
         out={s.player,s.identity,++generation_,0,slot.count,movement(s),NoHistory,0,0,0,s.simulation_time};
         // A generation belongs to one simulation record, never a rendered frame.
         record.generation=out.generation;
-        for(auto& state:slot.prior)for(float& prior:state)prior*=std::exp(-elapsed*.15f);
+        const float fade=std::exp(-elapsed*.15f);
+        for(auto& state:slot.prior)for(float& prior:state)prior*=fade;
         const float speed=std::sqrt(s.velocity_x*s.velocity_x+s.velocity_y*s.velocity_y);
         const bool grounded=(s.flags&Ground)!=0,has_lby=(s.flags&Lby)!=0;
         if(grounded&&has_lby&&speed>35&&s.duck<.5f) {
