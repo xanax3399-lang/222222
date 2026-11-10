@@ -16,6 +16,7 @@
 #include "../skeet/v3_fire_status.h"
 #include "../../stock-resolver/native_driver.h"
 #include "../../stock-resolver/accuracy_status.h"
+#include "../../stock-resolver/dt_status.h"
 
 static FILE* run_log=nullptr;
 static bool diagnostic_quiet=false;
@@ -30,7 +31,7 @@ struct RunLog {
         std::wcscpy(path,dll_path);auto* last=std::wcsrchr(path,L'\\');
         if(!last||last-path+std::wcslen(filename)+2>=32768)return;
         std::wcscpy(last+1,filename);run_log=_wfopen(path,L"wb");
-        log_line("Legacy 8802 loader - native C++ resolver / final accuracy check / braking math");
+        log_line("Legacy 8802 loader - native C++ resolver / DT HC sampling experiment");
     }
     ~RunLog(){if(run_log){std::fclose(run_log);run_log=nullptr;}}
 };
@@ -223,6 +224,11 @@ static int diagnostics(const wchar_t* path,DWORD selected_pid=0) {
                 accuracy.dt_bypass,accuracy.manual_bypass,accuracy.fast_bypass,accuracy.unsupported,accuracy.fallback,accuracy.last_weapon,accuracy.last_probability,accuracy.last_effective,accuracy.last_threshold,
                 accuracy.brake_calls,accuracy.brake_applied,accuracy.brake_fallback,accuracy.speed,accuracy.wish,accuracy.before,accuracy.after);
         }
+        const DWORD dt_rva=exported_rva(path,"sr_dt_status",sizeof(native_accuracy::DtStatus));
+        if(dt_rva){native_accuracy::DtStatus dt{};
+            if(ReadProcessMemory(process.value,item.modBaseAddr+dt_rva,&dt,sizeof(dt),&got)&&got==sizeof(dt)&&dt.version==1)
+                diagnostic_printf("DT native HC sampling: enabled %u; installed %ld; calls %ld; 32->64 %ld; already 64 %ld; fallback %ld; last weapon %ld; tier %ld -> %ld. This is sample resolution, not hit accuracy.\n",dt.enabled,dt.installed,dt.calls,dt.boosted,dt.already_full,dt.fallback,dt.last_weapon,dt.last_before,dt.last_after);
+        }
         diagnostic_printf("GS chooses stop timing and recharge safety. Counters do not measure aiming accuracy.\n");return 0;
     }while(Module32NextW(modules.value,&item));
     diagnostic_printf("skeet.dll is not loaded in this game.\n");return 1;
@@ -279,7 +285,7 @@ int wmain(int argc,wchar_t** argv) {
     }
     if(show_diagnostics)return run_diagnostics(path,false);
     while(mode<0) {
-        std::puts("1 - Original GameSense\n2 - Native C++ resolver + accuracy/braking patch (no Lua)\n5 - Read loader diagnostics\n8 - Open last loader report\n0 - Exit");
+        std::puts("1 - Original GameSense\n2 - Native C++ resolver + DT 64-sample HC experiment (no Lua)\n5 - Read loader diagnostics\n8 - Open last loader report\n0 - Exit");
         std::printf("Choice [Enter = 2]: ");char choice[32]{};
         if(!std::fgets(choice,sizeof(choice),stdin))choice[0]='2';
         if(choice[0]=='0')return 0;
@@ -290,10 +296,11 @@ int wmain(int argc,wchar_t** argv) {
         else {std::fprintf(stderr,"Unknown choice.\n");return 1;}
     }
     RunLog startup_log(path);
-    const char* mode_message=mode==8?"Selected: stock GS with integrated native resolver / C++ accuracy and braking patch. No Lua driver.":"Selected: original GameSense gameplay.";
+    const char* mode_message=mode==8?"Selected: stock GS with integrated native resolver / C++ accuracy/braking and DT HC sampling experiment. No Lua driver.":"Selected: original GameSense gameplay.";
     std::puts(mode_message);log_line(mode_message);
     if(mode==8&&(!exported_rva(path,"sr_driver_status",sizeof(stock_native::DriverStatus))||
-        !exported_rva(path,"sr_accuracy_status",sizeof(native_accuracy::Status)))) {
+        !exported_rva(path,"sr_accuracy_status",sizeof(native_accuracy::Status))||
+        !exported_rva(path,"sr_dt_status",sizeof(native_accuracy::DtStatus)))) {
         SetLastError(ERROR_REVISION_MISMATCH);return error("Native accuracy mode needs the matching skeet.dll from this archive");
     }
     DWORD pid=game_pid();Handle process;legacy_launch::Suspended suspended;

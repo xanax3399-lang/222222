@@ -17,6 +17,7 @@ __declspec(dllexport) nl_stop_patch::Status skeet_nl_stop_status = {1,1,0};
 __declspec(dllexport) v3_patches::Status skeet_v3_status = {1,1,95,0};
 __declspec(dllexport) v3_fire::Status skeet_v3_fire_status = {1,1,0,0};
 __declspec(dllexport) native_accuracy::Status sr_accuracy_status = {1,1,1,0};
+__declspec(dllexport) native_accuracy::DtStatus sr_dt_status = {1,0,0};
 }
 
 static void status(LoaderState state, DWORD error, const char* message) {
@@ -53,6 +54,8 @@ static DWORD WINAPI initialize(LPVOID parameter) {
         return fail("Invalid v3 settings: late_eye_guard / unsafe_dt_recharge must be 0 or 1.");
     if(points.head_percent>100||points.body_percent>100||points.reduced_head>1)
         return fail("Invalid skeet_nl_points.ini: scale must be 0..100; reduced_head must be 0 or 1.");
+    sr_dt_status.enabled=GetPrivateProfileIntW(L"accuracy",L"dt_hc_samples64",0,settings);
+    if(sr_dt_status.enabled>1)return fail("Invalid accuracy.dt_hc_samples64: expected 0 or 1.");
     sr_accuracy_status.check_enabled=GetPrivateProfileIntW(L"accuracy",L"final_check",1,settings);
     sr_accuracy_status.brake_enabled=GetPrivateProfileIntW(L"accuracy",L"nl_brake",1,settings);
     if(sr_accuracy_status.check_enabled>1||sr_accuracy_status.brake_enabled>1)

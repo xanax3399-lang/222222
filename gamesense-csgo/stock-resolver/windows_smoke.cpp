@@ -11,6 +11,7 @@
 #include "../source/skeet/v3_fire_status.h"
 #include "native_driver.h"
 #include "accuracy_status.h"
+#include "dt_status.h"
 #include <filesystem>
 using namespace stock_resolver;
 static unsigned checks=0;
@@ -40,6 +41,8 @@ int wmain(int argc,wchar_t** argv) {
     check(accuracy&&accuracy->version==1&&accuracy->check_enabled==1&&accuracy->brake_enabled==1&&!accuracy->installed,"integrated accuracy settings/export");
     check(version()==0x00010001&&snapshot_size()==sizeof(Snapshot)&&decision_size()==sizeof(Decision),"x86 C ABI sizes");
     Sleep(200);
+    auto* dt=reinterpret_cast<native_accuracy::DtStatus*>(GetProcAddress(module,"sr_dt_status"));
+    check(dt&&dt->version==1&&dt->enabled==1&&!dt->installed,"DT sampler configuration/export");
     auto* loader=reinterpret_cast<LoaderStatus*>(GetProcAddress(module,"skeet_loader_status"));
     check(loader&&loader->state==LoaderWaiting&&mode()==0,"no game modules: waiting, bridge disabled");
     auto* stop=reinterpret_cast<nl_stop_patch::Status*>(GetProcAddress(module,"skeet_nl_stop_status"));
