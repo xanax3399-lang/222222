@@ -61,6 +61,11 @@ def main():
  assert m.observed[-1][0]==64
  m.set_command(102,mode=0,flags=0);m.observe();m.sample();assert m.observed[-1][0]==32
  checks.append('queued DT and inactive transition')
+ # A changed-input final HC recheck must use the same resolution as selection.
+ m=Machine();assert m.prepare();m.set_command(mode=1);m.observe();m.stub();m.sample()
+ m.u.mem_write(m.weapon+0xc4,floats(.02));assert m.fire()
+ assert [v[0] for v in m.observed]==[64,64] and m.dt_status()['boosted']==2
+ assert m.status()['rechecks']==1;checks.append('changed-input final HC also receives 64 tier')
  for defect in ('stale_before_call','stale_inside_call','HC_context','unexpected_tier','release_same_command','context_change','command_gap','unobserved_pending'):
   m=Machine();assert m.prepare();m.set_command(mode=1);m.observe()
   if defect=='stale_before_call':m.store(m.cmd+4,101)

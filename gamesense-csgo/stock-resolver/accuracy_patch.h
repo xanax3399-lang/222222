@@ -62,8 +62,7 @@ inline bool active_dt(const State& s) {
     return mode==1||(mode==0&&(read(context,0x14)&8));
 }
 using Hitchance=bool(__thiscall*)(void*,void*,void*,float*);
-inline bool __fastcall sample(void* context,void*,void* weapon,void* candidate,float* probability) {
-    auto* s=state();
+inline bool run_hc(State* s,void* context,void* weapon,void* candidate,float* probability) {
     // Bound the sampler callback to the currently executing native HC call.
     const bool old_call=s&&s->dt_call;
     void *old_weapon=s?s->dt_weapon:nullptr,*old_candidate=s?s->dt_candidate:nullptr,*old_context=s?s->dt_hc_context:nullptr;
@@ -75,6 +74,10 @@ inline bool __fastcall sample(void* context,void*,void* weapon,void* candidate,f
     }
     const bool result=reinterpret_cast<Hitchance>(0x4341b4c2)(context,weapon,candidate,probability);
     if(s){s->dt_call=old_call;s->dt_weapon=old_weapon;s->dt_candidate=old_candidate;s->dt_hc_context=old_context;}
+    return result;
+}
+inline bool __fastcall sample(void* context,void*,void* weapon,void* candidate,float* probability) {
+    auto* s=state();const bool result=run_hc(s,context,weapon,candidate,probability);
     if(s&&s->command&&read(reinterpret_cast<void*>(s->command),4)==s->number&&weapon&&candidate) {
         s->hc_context=context;s->weapon=weapon;s->candidate=candidate;
         s->have_sample=capture(weapon,candidate,s->sample);s->cached=false;
@@ -127,7 +130,7 @@ inline bool __cdecl guard(unsigned* registers,void*) {
     if(geometry)InterlockedIncrement(&st.geometry_changed);
     if(precision)InterlockedIncrement(&st.precision_changed);
     InterlockedIncrement(&st.rechecks);float probability=NAN;
-    const bool result=reinterpret_cast<Hitchance>(0x4341b4c2)(s->hc_context,s->weapon,s->candidate,&probability);
+    const bool result=run_hc(s,s->hc_context,s->weapon,s->candidate,&probability);
     const float effective=probability*scale;
     if(!std::isfinite(probability)||probability<0||probability>1||!std::isfinite(effective)) {
         InterlockedIncrement(&st.fallback);return false;
