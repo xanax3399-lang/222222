@@ -18,6 +18,11 @@ assert report['feedback_archive_checked']
 assert report['source_bootstrap_regression']['unchanged_handler_test']
 assert report['source_bootstrap_regression']['source_frame_callbacks_verified']
 assert report['native_driver']['source_frame_callbacks_verified']
+for variant,method in [('vector',2),('array',3),('nested',4)]:
+    assert report['yaw_layout_regressions'][variant]['yaw_binding_method'] == method
+    assert report['yaw_layout_regressions'][variant]['feedback_events_checked']
+assert report['yaw_layout_regressions']['missing']['missing_yaw_model_suspended']
+assert report['yaw_layout_regressions']['missing']['shot_logging_without_yaw']
 with tempfile.TemporaryDirectory() as temp:
     folder = Path(temp)
     with zipfile.ZipFile(archive) as source:
@@ -50,6 +55,8 @@ with tempfile.TemporaryDirectory() as temp:
     assert feedback['DT_ambiguity_skips_learning'] and feedback['single_head_does_not_reinforce']
     hook = json.loads((folder / 'reports/stock_resolver_feedback_hook_validation.json').read_text())
     assert hook['checks'] >= 10 and hook['actual_native_shot_replay_executed'] and hook['native_aim_fire_tick_field_executed']
+    yaw = json.loads((folder / 'reports/stock_resolver_yaw_validation.json').read_text())
+    assert yaw['checks']>=24 and yaw['typed_vector_and_array_yaw'] and yaw['unpaired_pitch_rejected']
     (folder / 'reports' / evidence.name).write_bytes(evidence.read_bytes())
     hashes = {str(p.relative_to(folder)): hashlib.sha256(p.read_bytes()).hexdigest()
               for p in sorted(folder.rglob('*')) if p.is_file() and p.name != 'SHA256SUMS.json'}

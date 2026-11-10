@@ -16,6 +16,7 @@
 #include "../skeet/v3_fire_status.h"
 #include "../../stock-resolver/native_driver.h"
 #include "../../stock-resolver/bootstrap_status.h"
+#include "../../stock-resolver/yaw_status.h"
 #include "../../stock-resolver/accuracy_status.h"
 #include "../../stock-resolver/dt_status.h"
 #include "../../stock-resolver/dt_fast_status.h"
@@ -225,6 +226,16 @@ static int diagnostics(const wchar_t* path,DWORD selected_pid=0) {
             if(boot.time&&boot.interval&&ReadProcessMemory(process.value,reinterpret_cast<void*>(boot.time),&now,4,&got)&&got==4&&ReadProcessMemory(process.value,reinterpret_cast<void*>(boot.interval),&interval,4,&got)&&got==4)
                 diagnostic_printf("Native core curtime/interval: %.6f/%.6f seconds.\n",now,interval);
         }
+        const DWORD yaw_rva=exported_rva(path,"sr_yaw_status",sizeof(stock_native::YawStatus));
+        if(yaw_rva){stock_native::YawStatus yaw{};
+            if(ReadProcessMemory(process.value,item.modBaseAddr+yaw_rva,&yaw,sizeof(yaw),&got)&&got==sizeof(yaw)&&yaw.version==1){
+                diagnostic_printf("Eye yaw binding: ready %u; method %u (1 scalar, 2 vector, 3 array, 4 nested, 5 ambiguous); offset %d; observed %u; truncated %u\n",yaw.ready,yaw.method,yaw.offset,yaw.count,yaw.truncated);
+                if(!yaw.ready)diagnostic_printf("Resolver model SUSPENDED: eye yaw layout is unknown. Frame/event/shot logging can continue without model tokens.\n");
+                for(unsigned i=0;i<yaw.count&&i<16;++i){auto info=yaw.properties[i];info.table[47]=0;info.name[63]=0;
+                    diagnostic_printf("Eye property: table=%s; name=%s; type=%d; offset=0x%X; elements=%d; stride=%d\n",info.table,info.name,info.type,info.offset,info.elements,info.stride);
+                }
+            }
+        }
         const DWORD accuracy_rva=exported_rva(path,"sr_accuracy_status",sizeof(native_accuracy::Status));
         if(accuracy_rva) {
             native_accuracy::Status accuracy{};
@@ -325,6 +336,7 @@ int wmain(int argc,wchar_t** argv) {
     std::puts(mode_message);log_line(mode_message);
     if(mode==8&&(!exported_rva(path,"sr_driver_status",sizeof(stock_native::DriverStatus))||
         !exported_rva(path,"sr_bootstrap_status",sizeof(stock_native::BootstrapStatus))||
+        !exported_rva(path,"sr_yaw_status",sizeof(stock_native::YawStatus))||
         !exported_rva(path,"sr_accuracy_status",sizeof(native_accuracy::Status))||
         !exported_rva(path,"sr_dt_status",sizeof(native_accuracy::DtStatus))||
         !exported_rva(path,"sr_dt_fast_status",sizeof(native_accuracy::DtFastStatus))||

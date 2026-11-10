@@ -8,7 +8,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parent
 BUILD = ROOT / 'build'
-DEST = BUILD / 'skeet-feedback-bootstrap'
+DEST = BUILD / 'skeet-feedback-yaw'
 if DEST.exists(): shutil.rmtree(DEST)
 DEST.mkdir(exist_ok=True)
 for name in ('skeet.dll', 'injector.exe'):
@@ -43,7 +43,7 @@ dt_profile=1
 ''', encoding='utf-8')
 reports = DEST / 'reports'
 reports.mkdir(exist_ok=True)
-for name in ('model', 'native_controller', 'native_contract', 'accuracy', 'dt', 'dt_fast', 'feedback', 'feedback_hook', 'pe'):
+for name in ('model', 'native_controller', 'native_contract', 'accuracy', 'dt', 'dt_fast', 'feedback', 'feedback_hook', 'yaw', 'pe'):
     source = BUILD / ('stock_resolver_' + name + '_validation.json')
     assert source.exists(), source
     shutil.copy2(source, reports / source.name)
@@ -57,12 +57,13 @@ sha = os.environ.get('GITHUB_SHA') or subprocess.check_output(['git', 'rev-parse
     'dt_sampler_optimization': 'Integer-only stack-scoped sampler; same 64 native jobs, sampled HC timing every 32 eligible calls',
     'resolver_feedback': 'Native shot intent + Source events; exact selected tick and model ownership; bounded state-specific positive evidence, ambiguous/unknown outcomes never penalized by the new learner',
     'source_bootstrap': 'Attach current Source FrameStageNotify without requiring a GS hook change; direct Source interfaces and native core clocks; Active only after observed callbacks',
+    'eye_yaw_binding': 'Typed scalar/vector/float-array/nested RecvTable binding; unresolved yaw suspends the model while keeping frame/event logs',
     'game': 'CS:GO Legacy 8802 x86', 'gameplay_tested': False,
 }, indent=2) + '\n')
 hashes = {str(p.relative_to(DEST)): hashlib.sha256(p.read_bytes()).hexdigest()
           for p in sorted(DEST.rglob('*')) if p.is_file() and p.name != 'SHA256SUMS.json'}
 (DEST / 'SHA256SUMS.json').write_text(json.dumps(hashes, indent=2) + '\n')
-archive = BUILD / 'skeet-feedback-bootstrap-windows.zip'
+archive = BUILD / 'skeet-feedback-yaw-windows.zip'
 with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as output:
     for p in sorted(DEST.rglob('*')):
         if p.is_file(): output.write(p, str(p.relative_to(DEST)))

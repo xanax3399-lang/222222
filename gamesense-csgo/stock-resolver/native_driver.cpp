@@ -1,6 +1,8 @@
 #define NOMINMAX
 #include "native_driver.h"
 #include "bootstrap_status.h"
+#include "yaw_binding.h"
+#include "yaw_status.h"
 #include "native_controller.h"
 #include "feedback_status.h"
 #include "feedback_hook.h"
@@ -14,6 +16,7 @@
 
 extern "C" __declspec(dllexport) stock_native::DriverStatus sr_driver_status={1,1};
 extern "C" __declspec(dllexport) stock_native::BootstrapStatus sr_bootstrap_status={1};
+extern "C" __declspec(dllexport) stock_native::YawStatus sr_yaw_status={1,0,0,-1};
 extern "C" __declspec(dllexport) stock_feedback::Status sr_feedback_status={1,1,1};
 extern "C" __declspec(dllexport) stock_feedback::Log sr_feedback_log{};
 namespace stock_native {
@@ -106,6 +109,45 @@ int find(RecvTable* table,const char* name,unsigned depth=0,int parent=0) {
     }
     return -1;
 }
+template<unsigned N> void copy_name(char (&out)[N],const char* name) {
+    out[0]=0;if(!name)return;
+    for(unsigned i=0;i<N-1;++i){if(!readable(name+i,1))break;out[i]=name[i];out[i+1]=0;if(!name[i])break;}
+}
+void observe_eye(RecvTable* table,const RecvProp& property,int absolute,bool inside) {
+    char name[64]{};copy_name(name,property.name);
+    if(!inside&&!std::strstr(name,"Eye")&&!std::strstr(name,"eye"))return;
+    auto& status=sr_yaw_status;
+    for(unsigned i=0;i<status.count;++i)if(status.properties[i].offset==absolute&&status.properties[i].type==property.type&&!std::strcmp(status.properties[i].name,name))return;
+    if(status.count==16){++status.truncated;return;}
+    auto& info=status.properties[status.count++];copy_name(info.table,table->name);copy_name(info.name,name);
+    info.type=property.type;info.offset=absolute;info.elements=property.elements;info.stride=property.stride;
+}
+int find_eye(RecvTable* table,unsigned& method,unsigned depth=0,int parent=0,bool inside=false) {
+    if(depth>20||!readable(table,sizeof(*table))||table->count<0||table->count>4096||!readable(table->props,static_cast<unsigned>(table->count)*sizeof(RecvProp)))return -1;
+    int found=-1;unsigned chosen=0;bool conflict=false;
+    const auto accept=[&](int offset,unsigned kind) {
+        if(offset<0)return;
+        if(kind==YawScalar&&chosen!=YawScalar){found=offset;chosen=kind;conflict=false;return;}
+        if(chosen==YawScalar&&kind!=YawScalar)return;
+        if(found<0){found=offset;chosen=kind;}else if(found!=offset)conflict=true;
+    };
+    for(int i=0;i<table->count;++i) {
+        const auto& p=table->props[i];if(p.offset<0||p.offset>0xffff||parent+p.offset>0xffff)continue;
+        const int absolute=parent+p.offset;char name[64]{};copy_name(name,p.name);observe_eye(table,p,absolute,inside);
+        const int element=p.type==5&&p.array&&readable(p.array,sizeof(RecvProp))?p.array->type:-1;
+        unsigned kind=0;int offset=yaw_component({name,p.type,absolute,p.elements,p.stride,element},kind);
+        if(inside&&p.type==1&&absolute%4==0&&(!std::strcmp(name,"1")||!std::strcmp(name,"001")||!std::strcmp(name,"[1]"))){offset=absolute;kind=YawNested;}
+        accept(offset,kind);
+        if(p.type==6&&p.table) {
+            unsigned child_kind=0;const int child=find_eye(p.table,child_kind,depth+1,absolute,inside||eye_base(name));
+            if(child_kind==YawAmbiguous&&chosen!=YawScalar)conflict=true;
+            accept(child,child_kind);
+        }
+    }
+    if(conflict){method=YawAmbiguous;return -1;}
+    if(found>=0)method=chosen;
+    return found;
+}
 bool resolve_netvars() {
     auto* list=method<ClientClass*(__thiscall*)(void*)>(client,get_classes)(client);
     RecvTable* root=nullptr;
@@ -115,7 +157,9 @@ bool resolve_netvars() {
         list=list->next;
     }
     if(!root)return false;
-    offsets.sim=find(root,"m_flSimulationTime");offsets.yaw=find(root,"m_angEyeAngles[1]");
+    sr_yaw_status=YawStatus{1,0,0,-1};unsigned yaw_method=0;
+    offsets.sim=find(root,"m_flSimulationTime");offsets.yaw=find_eye(root,yaw_method);
+    sr_yaw_status.ready=offsets.yaw>=0;sr_yaw_status.method=yaw_method;sr_yaw_status.offset=offsets.yaw;
     offsets.lby=find(root,"m_flLowerBodyYawTarget");offsets.pose=find(root,"m_flPoseParameter");
     offsets.velocity=find(root,"m_vecVelocity[0]");if(offsets.velocity<0)offsets.velocity=find(root,"m_vecVelocity");
     offsets.duck=find(root,"m_flDuckAmount");offsets.origin=find(root,"m_vecOrigin");
@@ -126,7 +170,8 @@ bool resolve_netvars() {
     for(unsigned i=0;i<8;++i)if(fields[i]>=0)sr_driver_status.netvar_mask|=1u<<i;
     if(offsets.lby>=0)sr_driver_status.netvar_mask|=1u<<8;
     if(offsets.pose>=0)sr_driver_status.netvar_mask|=1u<<9;
-    return (sr_driver_status.netvar_mask&255u)==255u;
+    // An unknown eye layout suspends the model, not the frame/event logger.
+    return (sr_driver_status.netvar_mask&253u)==253u;
 }
 struct Variables {
     void *rate=nullptr,*ratio=nullptr,*interp=nullptr,*unlag=nullptr,*min_rate=nullptr,*max_rate=nullptr,*min_ratio=nullptr,*max_ratio=nullptr,*teammates=nullptr,*fps=nullptr;
@@ -184,6 +229,7 @@ void update() {
     if(!alive(self)||!std::isfinite(now)||!std::isfinite(interval)||interval<.001f||interval>.1f) {
         controller.suspend({reinterpret_cast<unsigned char*>(plist_base)});mirror_stats();return;
     }
+    if(offsets.yaw<0){controller.suspend({reinterpret_cast<unsigned char*>(plist_base)});mirror_stats();return;}
     const int team=read<int>(self,offsets.team);const bool free_for_all=number(vars.teammates,0)>0;
     float rate=std::max(1.f,number(vars.rate,1/interval));
     const float min_rate=number(vars.min_rate,0),max_rate=number(vars.max_rate,0);
