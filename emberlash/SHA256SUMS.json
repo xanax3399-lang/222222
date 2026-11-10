@@ -1,0 +1,14 @@
+{
+  "API_MAP.json": "f10ac79542659f334f7109e7c099d59c0cf97b051f8918ada7dda3541ec690ef",
+  "DEPENDENCIES.json": "701e21546ab4f948a84287e682c3bc1b4ed07e1a3b3ff3391c36170bc0a834b4",
+  "FUNCTIONS.csv": "d0898fdaa6ef2bfe3a6d017a71147d3c5bd60792e03882ca5b7bdba3ae56c583",
+  "README_RU.md": "a8ce4f5564e034ba4292e1a5c4eec841a41686cceb7635f89d89eaf20c7d2c59",
+  "SYMBOLS.csv": "158299fc9999ae68184a0e25332df7bbf22757fbebc7bc9ddbcbf7c1c6e97b74",
+  "emberlash_source.lua": "0f0a68e4441296cba4838f9c21e08ac4068e13845b335b33a2cf6c99b151170b",
+  "original.lua": "a57e4fd72ce31daf2abbb0546cd7913122402175287c89b605c608411394970f",
+  "tools/analyze.py": "89705ea3c0331850bdd2dba66ad379ecc0c60693c18602a3309f9f4e2b778933",
+  "tools/recover.py": "389c9288f00b69d95bd16891ebbdd77e7b21fac650112bda33fffa6c549ffa31",
+  "tools/requirements.txt": "3ead33fee960dfe79d01ec7bf5fe8aea95ad7c9b41bf99ef8c52e59773b1605f",
+  "tools/verify.py": "2b592b43c8063bfd5e4852a4fc43e0b248635311f80ab34fbcaa6618ef27e9a1",
+  "validation.json": "17b7fd897204a1d1532889ed99c90055e2444a79942fb82eb0ceabda2f9c2f20"
+}

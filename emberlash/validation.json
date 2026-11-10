@@ -1,0 +1,160 @@
+{
+  "input_file": "emberlash_decompiled.lua",
+  "input_sha256": "a57e4fd72ce31daf2abbb0546cd7913122402175287c89b605c608411394970f",
+  "source_sha256": "0f0a68e4441296cba4838f9c21e08ac4068e13845b335b33a2cf6c99b151170b",
+  "input_bytes": 12663260,
+  "source_bytes": 3251822,
+  "input_lines": 53322,
+  "source_lines": 53500,
+  "functions_preserved": 2300,
+  "luajit_prototypes_including_main": 2301,
+  "local_bindings": 19308,
+  "bindings_renamed": 14428,
+  "identifier_tokens_renamed": 68801,
+  "api_references_annotated": 305,
+  "stripped_luajit_bytecode_identical": true,
+  "deterministic_dump_mode": "sd",
+  "stripped_bytecode_sha256": "23aa7acd56147654ed53937b0eff76263b6617cd49c07ee1dc699c7d987b06c2",
+  "stripped_bytecode_bytes": 1620315,
+  "runtime_executed": false,
+  "original_protected_build_available": false,
+  "loop_conditions": [
+    {
+      "line": 2128,
+      "condition": "result_621 ~= 0"
+    },
+    {
+      "line": 2542,
+      "condition": "parent_558_772 ~= nil"
+    },
+    {
+      "line": 2569,
+      "condition": "parent_558_782 ~= nil"
+    },
+    {
+      "line": 2592,
+      "condition": "parent_558_787 ~= nil"
+    },
+    {
+      "line": 3179,
+      "condition": "a_2_1046 < result_1048"
+    },
+    {
+      "line": 6812,
+      "condition": "true"
+    },
+    {
+      "line": 7050,
+      "condition": "bytes_written <= number_value_2706"
+    },
+    {
+      "line": 7710,
+      "condition": "argument_2967 < argument_2968"
+    },
+    {
+      "line": 7713,
+      "condition": "argument_2967 > argument_2969"
+    },
+    {
+      "line": 9742,
+      "condition": "helper_3732(name_3726)"
+    },
+    {
+      "line": 12185,
+      "condition": "0 < argument_4085 and 0 < argument_4086"
+    },
+    {
+      "line": 12579,
+      "condition": "0 < argument_4126 and 0 < argument_4127"
+    },
+    {
+      "line": 15790,
+      "condition": "number_value_5432 < peek_scan_settings.incoming_enemy_budget and number_value_5433 < result_5430"
+    },
+    {
+      "line": 17933,
+      "condition": "number_value_6100 < 2 and number_value_6101 < result_6098"
+    },
+    {
+      "line": 22100,
+      "condition": "result_7585 <= 0"
+    },
+    {
+      "line": 24173,
+      "condition": "180 < argument_8400"
+    },
+    {
+      "line": 24176,
+      "condition": "argument_8400 < -180"
+    },
+    {
+      "line": 25029,
+      "condition": "180 < result_8734"
+    },
+    {
+      "line": 25032,
+      "condition": "result_8734 < -180"
+    },
+    {
+      "line": 43505,
+      "condition": "math_random_15518_result ~= math_random_15518_result_15546 or number_value_15554 >= result_15555"
+    },
+    {
+      "line": 43607,
+      "condition": "number_value_15575 < #argument_15574 - 1"
+    },
+    {
+      "line": 44950,
+      "condition": "#rounded_rect_pool.pool < math_min_15514_result_16183"
+    },
+    {
+      "line": 45140,
+      "condition": "#shadow_rect_pool.pool < math_min_15514_result_16245"
+    },
+    {
+      "line": 47324,
+      "condition": "values_17166[1] and values_17166[1].line == result_17178"
+    },
+    {
+      "line": 47359,
+      "condition": "state_table_17164.count_lines(true) > 6"
+    },
+    {
+      "line": 47365,
+      "condition": "state_table_17164.count_lines() > 6"
+    },
+    {
+      "line": 47453,
+      "condition": "number_value_17226 <= #argument_17219"
+    },
+    {
+      "line": 48254,
+      "condition": "values_17475[1] ~= nil and globals_tickcount_15530_result - values_17475[1].created_tick > 256"
+    },
+    {
+      "line": 48570,
+      "condition": "#values_17587 > 64"
+    },
+    {
+      "line": 48868,
+      "condition": "number_value_17730 > 1 and state_table_17716[number_value_17730 - 1].generation < slot_17726"
+    },
+    {
+      "line": 51507,
+      "condition": "enabled_18756"
+    },
+    {
+      "line": 51558,
+      "condition": "number_value_18791 <= #state_table_18554"
+    },
+    {
+      "line": 51602,
+      "condition": "number_value_18811 <= #state_table_18554"
+    },
+    {
+      "line": 52001,
+      "condition": "number_value_18953 <= #values_18946 and number_value_18955 < 4"
+    }
+  ],
+  "luraph_vm_removed_in_this_pass": false
+}

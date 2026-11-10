@@ -1,0 +1,939 @@
+{
+  "game": "CS:GO / GameSense LuaJIT",
+  "modules": [
+    "bit",
+    "ffi",
+    "gamesense/antiaim_funcs",
+    "gamesense/base64",
+    "gamesense/clipboard",
+    "gamesense/csgo_weapons",
+    "gamesense/entity",
+    "gamesense/images",
+    "gamesense/msgpack",
+    "gamesense/pui",
+    "gamesense/surface",
+    "gamesense/trace",
+    "vector"
+  ],
+  "assets": [
+    {
+      "url": "http://resources.emberlash.net/icons/exc.png",
+      "path": "emberlash/assets/7d9eb9b1c1d2d1ef_exc.png",
+      "bytes": 1157349,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "http://resources.emberlash.net/icons/lilith.png",
+      "path": "emberlash/assets/5f54237d72bf96b9_lilith.png",
+      "bytes": 1012963,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "http://resources.emberlash.net/icons/nightly.png",
+      "path": "emberlash/assets/da0e685d524736fb_nightly.png",
+      "bytes": 889157,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "http://resources.emberlash.net/icons/renewed.png",
+      "path": "emberlash/assets/779e36acb3839b6e_renewed.png",
+      "bytes": 43581,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/1SWCpu5.png",
+      "path": "emberlash/assets/ad50e3a0a6b098ce_1SWCpu5.png",
+      "bytes": 88654,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/1ansSkv.png",
+      "path": "emberlash/assets/701e3da6469f2456_1ansSkv.png",
+      "bytes": 245881,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/1rVwNt2.png",
+      "path": "emberlash/assets/e0ec9d1121585bb4_1rVwNt2.png",
+      "bytes": 549233,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/1tspTr2.png",
+      "path": "emberlash/assets/4aaf75f54dcb48cb_1tspTr2.png",
+      "bytes": 68639,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/2e7pCT5.png",
+      "path": "emberlash/assets/50e78fdad31538f6_2e7pCT5.png",
+      "bytes": 173117,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/2uohfNN.png",
+      "path": "emberlash/assets/f76afc78c07f0c40_2uohfNN.png",
+      "bytes": 388069,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/2urI30n.png",
+      "path": "emberlash/assets/3beacb3179371a78_2urI30n.png",
+      "bytes": 467697,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/2y8wrF1.png",
+      "path": "emberlash/assets/9e71e09cc26b5b68_2y8wrF1.png",
+      "bytes": 266570,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/33m0yPS.png",
+      "path": "emberlash/assets/14a89de234aba700_33m0yPS.png",
+      "bytes": 611154,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/57j1yOu.png",
+      "path": "emberlash/assets/0b6171082cbe8891_57j1yOu.png",
+      "bytes": 313753,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/5HzqkSB.png",
+      "path": "emberlash/assets/5041a825184f8837_5HzqkSB.png",
+      "bytes": 802963,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/5K5tPDz.png",
+      "path": "emberlash/assets/82e333fd898a89bd_5K5tPDz.png",
+      "bytes": 222166,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/5RhtxEz.png",
+      "path": "emberlash/assets/0d98dd206aa1deae_5RhtxEz.png",
+      "bytes": 406771,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/5eOiyYd.png",
+      "path": "emberlash/assets/d18da7ed24f3f23b_5eOiyYd.png",
+      "bytes": 231519,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/5oMZhjI.png",
+      "path": "emberlash/assets/98e7a690c53d0b2d_5oMZhjI.png",
+      "bytes": 989260,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/67VloMQ.png",
+      "path": "emberlash/assets/0355a383370799f8_67VloMQ.png",
+      "bytes": 793247,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/6gsjBuD.png",
+      "path": "emberlash/assets/50e9f800a820b9e4_6gsjBuD.png",
+      "bytes": 204356,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/6xO2aCO.png",
+      "path": "emberlash/assets/8f2bf73ead36fcbe_6xO2aCO.png",
+      "bytes": 399363,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/8Pyb9MG.png",
+      "path": "emberlash/assets/4343b74cbca8ebbe_8Pyb9MG.png",
+      "bytes": 576967,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/8fGAsvt.png",
+      "path": "emberlash/assets/e1a0ce26b98f036c_8fGAsvt.png",
+      "bytes": 329897,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/8yntbN3.png",
+      "path": "emberlash/assets/12e23d2f72497319_8yntbN3.png",
+      "bytes": 456591,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/97gVZol.png",
+      "path": "emberlash/assets/c927c5729b714383_97gVZol.png",
+      "bytes": 1133893,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/9sf930y.png",
+      "path": "emberlash/assets/a542fa5bd5862bb7_9sf930y.png",
+      "bytes": 891244,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/B9UPPxw.png",
+      "path": "emberlash/assets/0768bb7d271c448d_B9UPPxw.png",
+      "bytes": 382608,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/BWGXDQx.png",
+      "path": "emberlash/assets/99dfa1069a52445c_BWGXDQx.png",
+      "bytes": 589720,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/CFrUSaE.png",
+      "path": "emberlash/assets/cd5890617ad55b50_CFrUSaE.png",
+      "bytes": 441303,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/CsD6H26.png",
+      "path": "emberlash/assets/261a82c1cd537903_CsD6H26.png",
+      "bytes": 222610,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/DPMD5ra.png",
+      "path": "emberlash/assets/b1d5dd4ad7273ef1_DPMD5ra.png",
+      "bytes": 508750,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/DUdMAZW.png",
+      "path": "emberlash/assets/5ab65c163ab979aa_DUdMAZW.png",
+      "bytes": 518547,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/DZiGU4Y.png",
+      "path": "emberlash/assets/203cf7f25320baac_DZiGU4Y.png",
+      "bytes": 464244,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/DeAUiYa.png",
+      "path": "emberlash/assets/34055feea92badd4_DeAUiYa.png",
+      "bytes": 931089,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/DfRrucp.png",
+      "path": "emberlash/assets/cfda77bf834df6ff_DfRrucp.png",
+      "bytes": 122145,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/DzAaPUP.png",
+      "path": "emberlash/assets/d47ad08a940c7fe9_DzAaPUP.png",
+      "bytes": 147373,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/ELJUAnp.png",
+      "path": "emberlash/assets/76ffa737520486f4_ELJUAnp.png",
+      "bytes": 409568,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/EQeFL2V.png",
+      "path": "emberlash/assets/65eba291db088b62_EQeFL2V.png",
+      "bytes": 819788,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/EoixtGF.png",
+      "path": "emberlash/assets/9b76a5d3a0d33cd8_EoixtGF.png",
+      "bytes": 553654,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/Eueo0VF.png",
+      "path": "emberlash/assets/f4ca18720ede6b54_Eueo0VF.png",
+      "bytes": 1181315,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/ExTaktB.png",
+      "path": "emberlash/assets/de2dfd1612804c2f_ExTaktB.png",
+      "bytes": 471803,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/HSAgJTv.png",
+      "path": "emberlash/assets/e5be4ded5f31de0b_HSAgJTv.png",
+      "bytes": 422224,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/HW4Mvuj.png",
+      "path": "emberlash/assets/5f56b6cb46e46a2f_HW4Mvuj.png",
+      "bytes": 561751,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/IKywnFJ.png",
+      "path": "emberlash/assets/85c675441fc9364d_IKywnFJ.png",
+      "bytes": 428690,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/IkUTWvp.png",
+      "path": "emberlash/assets/dfe5751db2e4fd75_IkUTWvp.png",
+      "bytes": 77183,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/IlqryCh.png",
+      "path": "emberlash/assets/378dcead29c4c883_IlqryCh.png",
+      "bytes": 603087,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/JzZ58Cr.png",
+      "path": "emberlash/assets/f17b201278d6b654_JzZ58Cr.png",
+      "bytes": 64551,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/KUs5G5y.png",
+      "path": "emberlash/assets/f0209836ca4a1c4d_KUs5G5y.png",
+      "bytes": 156378,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/KnoQ15J.png",
+      "path": "emberlash/assets/9bc9f1aec4143b70_KnoQ15J.png",
+      "bytes": 413238,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/Kw2f2si.png",
+      "path": "emberlash/assets/e80a8e04e522cd21_Kw2f2si.png",
+      "bytes": 715828,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/LBjB8tr.png",
+      "path": "emberlash/assets/8e94e994a4aef75a_LBjB8tr.png",
+      "bytes": 86346,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/Monw1XK.png",
+      "path": "emberlash/assets/a0b202ebd82e0144_Monw1XK.png",
+      "bytes": 598892,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/MutkUdQ.png",
+      "path": "emberlash/assets/a46c6a57e62fa42c_MutkUdQ.png",
+      "bytes": 203073,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/N9QVh5B.png",
+      "path": "emberlash/assets/acc86384c52d7bd6_N9QVh5B.png",
+      "bytes": 883357,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/NYH4WYP.png",
+      "path": "emberlash/assets/552fe5c46292d2f9_NYH4WYP.png",
+      "bytes": 320342,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/O4h6tZ7.png",
+      "path": "emberlash/assets/eb67710f0ac7df92_O4h6tZ7.png",
+      "bytes": 443518,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/Pjql0a2.png",
+      "path": "emberlash/assets/7e25d664d9a6807f_Pjql0a2.png",
+      "bytes": 465671,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/QMBg7Ot.png",
+      "path": "emberlash/assets/1e5b582bf5b55c32_QMBg7Ot.png",
+      "bytes": 303671,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/QQrI4vt.png",
+      "path": "emberlash/assets/2d38bd58287c3ac4_QQrI4vt.png",
+      "bytes": 704893,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/QWhjUEo.png",
+      "path": "emberlash/assets/fa48b0fdb9b7eabf_QWhjUEo.png",
+      "bytes": 382656,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/R8cbYq6.png",
+      "path": "emberlash/assets/45b839ab0411bd90_R8cbYq6.png",
+      "bytes": 216293,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/R9IN9j5.png",
+      "path": "emberlash/assets/1984a6c9c3d1c20b_R9IN9j5.png",
+      "bytes": 457266,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/RCbJ8BB.png",
+      "path": "emberlash/assets/7446d9ce4d317920_RCbJ8BB.png",
+      "bytes": 431419,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/RRrhiMF.png",
+      "path": "emberlash/assets/b997fa6617963b89_RRrhiMF.png",
+      "bytes": 602095,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/S7aIRKj.png",
+      "path": "emberlash/assets/0736e145f733ca22_S7aIRKj.png",
+      "bytes": 664065,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/SytIrbd.png",
+      "path": "emberlash/assets/d47ada7d2a5df816_SytIrbd.png",
+      "bytes": 419561,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/T97TEss.png",
+      "path": "emberlash/assets/3cfb295dcb0f97ad_T97TEss.png",
+      "bytes": 230935,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/TETem4E.png",
+      "path": "emberlash/assets/56df737fad84e37e_TETem4E.png",
+      "bytes": 1187445,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/ThoQgcG.png",
+      "path": "emberlash/assets/828eac9e2e4382bf_ThoQgcG.png",
+      "bytes": 923856,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/Tl4BWJN.png",
+      "path": "emberlash/assets/bd2deff51ec3c1a2_Tl4BWJN.png",
+      "bytes": 979076,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/UMkRQCm.png",
+      "path": "emberlash/assets/9fb2cfb080987eb2_UMkRQCm.png",
+      "bytes": 656872,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/Ug9AflU.png",
+      "path": "emberlash/assets/54c61725e68d77bd_Ug9AflU.png",
+      "bytes": 567798,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/WcL2Bwy.png",
+      "path": "emberlash/assets/5b9e70dde4285c07_WcL2Bwy.png",
+      "bytes": 383642,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/WnrTyvg.png",
+      "path": "emberlash/assets/445c15963b41ba9b_WnrTyvg.png",
+      "bytes": 596204,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/XdoLBTl.png",
+      "path": "emberlash/assets/5c645e0533f91417_XdoLBTl.png",
+      "bytes": 650952,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/YvqtR0l.png",
+      "path": "emberlash/assets/bf0a23371b7d5b37_YvqtR0l.png",
+      "bytes": 770318,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/Zi6NbkJ.png",
+      "path": "emberlash/assets/4d1315d9198e337f_Zi6NbkJ.png",
+      "bytes": 760313,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/ZoT0SY6.png",
+      "path": "emberlash/assets/effc63730c90382a_ZoT0SY6.png",
+      "bytes": 118470,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/aYeArl0.png",
+      "path": "emberlash/assets/a96ee93b251352e0_aYeArl0.png",
+      "bytes": 710675,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/ae1L8L3.png",
+      "path": "emberlash/assets/0df8fc29f0910988_ae1L8L3.png",
+      "bytes": 296025,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/b3tNR3E.png",
+      "path": "emberlash/assets/d9908f63249c9238_b3tNR3E.png",
+      "bytes": 857270,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/cBrtjrk.png",
+      "path": "emberlash/assets/941acca51c28c464_cBrtjrk.png",
+      "bytes": 601381,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/cVwdM0W.png",
+      "path": "emberlash/assets/aecc9d6cbaa761ba_cVwdM0W.png",
+      "bytes": 434763,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/ciLYxvt.png",
+      "path": "emberlash/assets/12bd9b0b76f2a04d_ciLYxvt.png",
+      "bytes": 528074,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/dWiU4X8.png",
+      "path": "emberlash/assets/fe476ecc22591367_dWiU4X8.png",
+      "bytes": 398728,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/eh1pS1W.png",
+      "path": "emberlash/assets/215487b83255de2d_eh1pS1W.png",
+      "bytes": 727700,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/f8oM6fa.png",
+      "path": "emberlash/assets/bce9b3214676c594_f8oM6fa.png",
+      "bytes": 817453,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/gMslTQB.png",
+      "path": "emberlash/assets/aa501f086b7dccac_gMslTQB.png",
+      "bytes": 165608,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/hSH03x7.png",
+      "path": "emberlash/assets/5781f353fb179252_hSH03x7.png",
+      "bytes": 714149,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/hTaRvOB.png",
+      "path": "emberlash/assets/5f602d31067363b8_hTaRvOB.png",
+      "bytes": 687940,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/iZLdPl8.png",
+      "path": "emberlash/assets/644641dd6ce29f6a_iZLdPl8.png",
+      "bytes": 202562,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/iaBydr8.png",
+      "path": "emberlash/assets/1499c74790bf6991_iaBydr8.png",
+      "bytes": 622055,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/igia9xH.png",
+      "path": "emberlash/assets/8ba62d79e35c2e14_igia9xH.png",
+      "bytes": 464255,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/jqBAKgp.png",
+      "path": "emberlash/assets/f50bea5e7afedbbc_jqBAKgp.png",
+      "bytes": 496079,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/kNESZzd.png",
+      "path": "emberlash/assets/d35e35584aec028e_kNESZzd.png",
+      "bytes": 432132,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/kSqU74y.png",
+      "path": "emberlash/assets/22901d899e0f9851_kSqU74y.png",
+      "bytes": 490933,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/l5mB3du.png",
+      "path": "emberlash/assets/278d14790b82521d_l5mB3du.png",
+      "bytes": 886576,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/l9FKNKS.png",
+      "path": "emberlash/assets/89f91c487f1500f7_l9FKNKS.png",
+      "bytes": 544754,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/lbrCBUh.png",
+      "path": "emberlash/assets/e2251eae189305c7_lbrCBUh.png",
+      "bytes": 588453,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/losLxVm.png",
+      "path": "emberlash/assets/5f877a22bb535e0d_losLxVm.png",
+      "bytes": 230383,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/lpcFXLB.png",
+      "path": "emberlash/assets/07345e5d7c4e223e_lpcFXLB.png",
+      "bytes": 103491,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/lrqOL9b.png",
+      "path": "emberlash/assets/a75d23e0609b62d8_lrqOL9b.png",
+      "bytes": 771089,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/mHSrudB.png",
+      "path": "emberlash/assets/3adb2fe91386c445_mHSrudB.png",
+      "bytes": 825796,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/nbQFoSy.png",
+      "path": "emberlash/assets/16f1d81defab8aeb_nbQFoSy.png",
+      "bytes": 406171,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/oEn7GKY.png",
+      "path": "emberlash/assets/d9ccaea47e64f923_oEn7GKY.png",
+      "bytes": 534262,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/oIeUR5o.png",
+      "path": "emberlash/assets/0598342c631091d1_oIeUR5o.png",
+      "bytes": 1307394,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/oyIYgkl.png",
+      "path": "emberlash/assets/6f7165083bd2020a_oyIYgkl.png",
+      "bytes": 214499,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/pGM0TAM.png",
+      "path": "emberlash/assets/2f3586723d3e30ff_pGM0TAM.png",
+      "bytes": 488377,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/pNECa95.png",
+      "path": "emberlash/assets/d504f749007ac827_pNECa95.png",
+      "bytes": 254703,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/pys53Br.png",
+      "path": "emberlash/assets/5c2eb5687fc33973_pys53Br.png",
+      "bytes": 1198268,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/q8EFG8m.png",
+      "path": "emberlash/assets/7948ebb5af68f3ac_q8EFG8m.png",
+      "bytes": 525252,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/qUD1JgI.png",
+      "path": "emberlash/assets/533588a56b3e8a80_qUD1JgI.png",
+      "bytes": 417813,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/rcK0H1g.png",
+      "path": "emberlash/assets/4640eff37ec58269_rcK0H1g.png",
+      "bytes": 385843,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/sfk5gji.png",
+      "path": "emberlash/assets/edd874ff3c1f9f50_sfk5gji.png",
+      "bytes": 370760,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/siVpLtv.png",
+      "path": "emberlash/assets/79c743b05220209e_siVpLtv.png",
+      "bytes": 96886,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/sn43mBi.png",
+      "path": "emberlash/assets/1c505aead1758226_sn43mBi.png",
+      "bytes": 1028171,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/trSU5K8.png",
+      "path": "emberlash/assets/9d190e5b9482e48f_trSU5K8.png",
+      "bytes": 276248,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/vKQ2xyE.png",
+      "path": "emberlash/assets/b7df9a96bc50664e_vKQ2xyE.png",
+      "bytes": 502903,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/va2HpJe.png",
+      "path": "emberlash/assets/5f6f5dcd390ff5c6_va2HpJe.png",
+      "bytes": 695261,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/vdksocI.png",
+      "path": "emberlash/assets/1d3ab797420801c0_vdksocI.png",
+      "bytes": 1287297,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/vlgZQjZ.png",
+      "path": "emberlash/assets/983943852624aa63_vlgZQjZ.png",
+      "bytes": 316995,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/vso9kvg.png",
+      "path": "emberlash/assets/cf389e6502041e66_vso9kvg.png",
+      "bytes": 87495,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/wKNSBT2.png",
+      "path": "emberlash/assets/9ab8ca9be41a0be1_wKNSBT2.png",
+      "bytes": 391302,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/x8hSP62.png",
+      "path": "emberlash/assets/95eda720275b5983_x8hSP62.png",
+      "bytes": 51508,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/xKziBUi.png",
+      "path": "emberlash/assets/965555913203b2cf_xKziBUi.png",
+      "bytes": 235152,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/xTz0crs.png",
+      "path": "emberlash/assets/3f9b30dafcddcadb_xTz0crs.png",
+      "bytes": 784065,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/xpSzUKT.png",
+      "path": "emberlash/assets/de748b7f6cdc3761_xpSzUKT.png",
+      "bytes": 1225481,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/yHKcxx8.png",
+      "path": "emberlash/assets/fad8169595d60b4b_yHKcxx8.png",
+      "bytes": 1059847,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/yMod67T.png",
+      "path": "emberlash/assets/c9f27cd53a77243f_yMod67T.png",
+      "bytes": 558213,
+      "mime": "image/png",
+      "included": false
+    },
+    {
+      "url": "https://i.imgur.com/zoueMFj.png",
+      "path": "emberlash/assets/2da2045dcbb5b6cf_zoueMFj.png",
+      "bytes": 418679,
+      "mime": "image/png",
+      "included": false
+    }
+  ],
+  "asset_files_uploaded": false,
+  "asset_total_bytes": 68647669
+}

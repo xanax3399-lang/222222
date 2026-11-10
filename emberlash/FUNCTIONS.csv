@@ -1,0 +1,2301 @@
+id,name,source_start_line,source_end_line,input_start_line,parameters
+1,response_success,336,336,332,(self)
+2,offline_http:request,337,361,333,"(method, url, options, callback)"
+3,callback:client.delay_call,354,359,350,()
+4,offline_http:cancel,362,366,358,(id)
+5,install_prediction_observer_hook,370,378,366,"(state, patcher)"
+6,seed_offline_presets,389,425,385,(database)
+7,load_library,481,488,473,(argument)
+8,field:is_null_pointer,610,622,600,(argument_113)
+9,state_table.assert_native_pointer,625,628,615,"(argument_116, argument_117)"
+10,logger_118.debug_feature_enabled,638,640,626,(argument_121)
+11,diagnostic_log.option_selected,683,690,671,"(argument_124, argument_125)"
+12,diagnostic_log.get_ref,692,699,680,(argument_129)
+13,diagnostic_log.output_enabled,701,708,689,(argument_133)
+14,diagnostic_log.field_enabled,709,716,697,(argument_135)
+15,diagnostic_log.stream_enabled,718,725,706,(argument_140)
+16,diagnostic_log.esp_flag_enabled,729,731,717,(argument_145)
+17,diagnostic_log.compact_line,734,746,722,"(argument_149, argument_150)"
+18,diagnostic_log.normalize_miss_reason,748,771,736,(argument_159)
+19,diagnostic_log.miss_runtime.reset,803,832,791,()
+20,diagnostic_log.miss_runtime.is_hitbox_mismatch,834,847,822,(argument_171)
+21,diagnostic_log.miss_runtime.format_mismatch_hitboxes,869,899,857,(argument_176)
+22,diagnostic_log.miss_runtime.snapshot,903,954,891,(argument_188)
+23,logger_118.get_accent,956,970,944,()
+24,logger_118.write,971,996,959,"(argument_217, argument_218, argument_219, argument_220, argument_221, accent_222, accent_2_223, accent_3_224)"
+25,logger_118.info,998,1000,986,"(argument_243, argument_244)"
+26,logger_118.warn,1002,1004,990,"(argument_246, argument_247)"
+27,logger_118.error,1005,1007,993,"(argument_248, argument_249)"
+28,diagnostic_log.debug,1089,1096,1077,"(argument_251, argument_252, argument_253)"
+29,logger_118.print,1097,1103,1085,(...)
+30,anonymous,1110,1369,1096,()
+31,event_bus_class.new,1147,1168,1131,"(argument_265, argument_266)"
+32,event_bus_class.compact,1169,1189,1153,"(self_state, argument_272)"
+33,event_bus_class.register_native_event,1190,1196,1174,"(self_state_278, argument_279)"
+34,event_bus_class.unregister_native_event,1197,1203,1181,"(self_state_280, argument_281)"
+35,event_bus_class.finish_dispatch,1204,1219,1188,"(self_state_282, argument_283)"
+36,event_bus_class.deactivate_entry,1220,1232,1204,"(self_state_286, argument_287, state_288)"
+37,event_bus_class.dispatch,1233,1263,1217,"(self_state_290, argument_291, ...)"
+38,event_bus_class.get_bridge_callback,1264,1275,1248,"(self_state_301, argument_302)"
+39,helper_303,1270,1272,1254,(...)
+40,event_bus_class.add_callback,1276,1302,1260,"(self_state_305, argument_306, argument_307, argument_308)"
+41,event_bus_class.remove_callback,1303,1321,1287,"(argument_313, argument_314, argument_315)"
+42,event_bus_class.resolve_dispatch_name,1322,1331,1306,"(self_state_319, argument_320, argument_321)"
+43,event_bus_class.set_event_callback,1332,1335,1316,"(argument_323, argument_324, argument_325, argument_326)"
+44,event_bus_class.unset_event_callback,1336,1342,1320,"(argument_328, argument_329, argument_330)"
+45,events.on,1344,1346,1328,"(argument_333, argument_334, argument_335)"
+46,events.off,1347,1349,1331,"(argument_336, argument_337)"
+47,events.get_diagnostics,1350,1368,1334,()
+48,anonymous,1370,1444,1354,()
+49,callback_group_class.new,1375,1382,1357,(argument_344)
+50,callback_group_class.add,1383,1392,1365,"(self_state_348, argument_349, argument_350, argument_351)"
+51,callback_group_class.set_enabled,1393,1408,1375,"(self_state_353, enabled_354)"
+52,callback_group_class.is_enabled,1409,1411,1391,(argument_357)
+53,callback_group_class.bind,1412,1423,1394,"(argument_358, argument_359, argument_360, ...)"
+54,helper_361,1414,1420,1396,()
+55,callback_group_class.clear,1424,1430,1406,(self_state_363)
+56,events.bind_controls,1431,1439,1413,"(argument_365, ...)"
+57,events.group,1441,1443,1423,(argument_368)
+58,anonymous,1446,1630,1428,()
+59,helper_369,1459,1462,1441,()
+60,helper_372,1463,1470,1445,(argument_373)
+61,helper_374,1471,1483,1453,"(argument_375, argument_376)"
+62,lifecycle.reset,1484,1496,1466,(argument_377)
+63,lifecycle.is_player_ready,1497,1499,1479,()
+64,lifecycle.can_install_native,1500,1502,1482,()
+65,lifecycle.can_restore_native,1503,1505,1485,()
+66,lifecycle.can_bind_native,1506,1508,1488,()
+67,lifecycle.can_audit_native,1509,1511,1491,()
+68,helper_378,1512,1567,1494,()
+69,helper_387,1568,1577,1550,(argument_388)
+70,helper_390,1578,1592,1560,(argument_391)
+71,helper_394,1593,1604,1575,(argument_395)
+72,callback:events.on,1607,1609,1589,()
+73,callback:events.on,1610,1612,1592,()
+74,callback:events.on,1613,1619,1595,(argument_398)
+75,callback:events.on,1622,1629,1604,()
+76,anonymous,1637,5626,1617,()
+77,callback:pcall,1644,5621,1624,()
+78,helper_433,1697,1697,1677,()
+79,helper_438,1698,1717,1678,"(argument_439, argument_440, argument_441)"
+80,anonymous,1712,1716,1692,(...)
+81,helper_434,1718,1812,1698,()
+82,callback:pcall,1727,1801,1707,()
+83,helper_482,1773,1779,1753,"(argument_483, argument_484, argument_485)"
+84,helper_433,1875,1892,1853,(argument_493)
+85,native_patcher_impl.get_disabled_message,1895,1900,1873,()
+86,native_patcher_impl.log_disabled_message,1902,1909,1880,()
+87,native_patcher_impl.on_disabled,1910,1919,1888,(argument_497)
+88,native_patcher_impl.disable_patching,1921,1939,1899,(argument_499)
+89,native_patcher_impl.can_patch,1943,1948,1921,()
+90,native_patcher_impl.quarantine_feature,1949,1978,1927,"(self_state_509, argument_510, argument_511)"
+91,native_patcher_impl.quarantine_current_feature,1981,1985,1959,"(argument_521, argument_522)"
+92,native_patcher_impl.quarantine_range,1986,2007,1964,"(argument_523, argument_524)"
+93,native_patcher_impl.is_transient_transition_error,2008,2018,1986,(argument_534)
+94,helper_539,2024,2031,2002,(argument_542)
+95,helper_540,2035,2040,2013,"(argument_549, argument_550)"
+96,helper_551,2046,2063,2024,"(argument_562, argument_563, argument_564, argument_565)"
+97,helper_552,2064,2076,2042,"(argument_571, argument_572)"
+98,helper_553,2079,2095,2057,"(argument_580, argument_581, argument_582, argument_583, argument_584)"
+99,helper_554,2099,2121,2077,"(argument_592, argument_593, argument_594)"
+100,helper_555,2122,2132,2100,"(argument_598, argument_599, argument_600)"
+101,helper_556,2135,2141,2113,"(argument_609, argument_610, argument_611)"
+102,helper_614,2143,2170,2121,"(self_state_615, state_616, argument_617, argument_618)"
+103,helper_623,2171,2190,2149,"(argument_624, argument_625, argument_626, argument_627)"
+104,helper_632,2191,2200,2169,"(self_state_633, argument_634)"
+105,helper_638,2202,2222,2180,()
+106,helper_559,2227,2333,2205,()
+107,helper_560,2337,2350,2315,(self_state_669)
+108,helper_676,2357,2372,2335,"(argument_677, argument_678, argument_679)"
+109,helper_683,2373,2388,2351,"(argument_684, argument_685, argument_686, argument_687, argument_688)"
+110,helper_694,2392,2482,2370,"(self_state_695, argument_696, argument_697, argument_698, argument_699, argument_700)"
+111,helper_732,2485,2496,2463,"(argument_733, argument_734)"
+112,helper_741,2500,2536,2478,"(self_state_742, argument_743)"
+113,helper_670,2537,2554,2515,"(argument_757, argument_758)"
+114,helper_769,2558,2586,2536,(argument_770)
+115,helper_780,2588,2599,2566,(argument_781)
+116,helper_671,2600,2650,2578,()
+117,helper_672,2654,2721,2632,"(self_state_808, argument_809)"
+118,helper_673,2724,2758,2702,"(argument_829, argument_830, argument_831, argument_832, argument_833)"
+119,helper_846,2763,2765,2741,"(argument_847, argument_848)"
+120,helper_843,2766,2773,2744,"(argument_849, argument_850, argument_851)"
+121,helper_844,2777,2800,2755,(self_state_856)
+122,helper_845,2801,2863,2779,"(self_state_861, offset_862, size_863)"
+123,native_patcher_impl.audit_owned_ranges,2867,2895,2845,(argument_888)
+124,helper_892,2900,2912,2878,"(argument_895, argument_896)"
+125,helper_893,2916,2941,2894,"(self_state_903, argument_904, argument_905)"
+126,helper_894,2944,2954,2922,"(argument_913, argument_914, argument_915)"
+127,helper_924,2960,2979,2938,(argument_925)
+128,helper_920,2980,2986,2958,"(argument_932, argument_933, argument_934)"
+129,helper_921,2987,2993,2965,"(argument_937, argument_938, argument_939)"
+130,helper_922,2995,3005,2973,"(argument_943, argument_944, argument_945)"
+131,helper_952,3012,3026,2990,"(argument_957, argument_958, argument_959)"
+132,helper_954,3029,3040,3007,(argument_967)
+133,helper_969,3048,3059,3026,"(argument_975, argument_976)"
+134,helper_970,3060,3068,3038,(argument_977)
+135,helper_971,3069,3085,3047,"(argument_980, argument_981, argument_982)"
+136,helper_992,3095,3118,3073,"(argument_993, argument_994, argument_995)"
+137,helper_1005,3119,3134,3097,"(argument_1006, argument_1007, argument_1008)"
+138,helper_1014,3138,3151,3116,"(argument_1015, argument_1016)"
+139,helper_1020,3153,3161,3131,"(argument_1021, argument_1022, argument_1023, argument_1024, argument_1025)"
+140,helper_1028,3162,3178,3140,"(argument_1029, argument_1030, argument_1031, argument_1032, argument_1033, argument_1034)"
+141,helper_1036,3179,3193,3157,(argument_1037)
+142,helper_1042,3194,3244,3172,(argument_1043)
+143,helper_1057,3245,3302,3223,"(argument_1058, argument_1059, argument_1060, argument_1061, argument_1062)"
+144,helper_1071,3254,3264,3232,(argument_1072)
+145,helper_1076,3266,3286,3244,"(argument_1077, argument_1078)"
+146,helper_1092,3305,3379,3283,"(argument_1093, argument_1094, argument_1095, argument_1096, argument_1097, argument_1098)"
+147,helper_1104,3313,3317,3291,(argument_1105)
+148,helper_1113,3335,3349,3313,(argument_1114)
+149,helper_986,3387,3537,3365,()
+150,callback:pcall,3400,3513,3378,()
+151,native_patcher_impl.has_region,3538,3540,3516,()
+152,native_patcher_impl.get_gamesense_image_base,3541,3549,3519,()
+153,native_patcher_impl.get_module_base,3550,3555,3528,(argument_1171)
+154,native_patcher_impl.get_module_info,3556,3595,3534,(argument_1173)
+155,helper_1192,3604,3623,3580,(argument_1196)
+156,native_patcher_impl.resolve_gamesense_data_rva,3627,3643,3603,"(argument_1206, argument_1207)"
+157,native_patcher_impl.resolve_gamesense_rva,3644,3664,3620,"(argument_1213, argument_1214)"
+158,helper_1219,3665,3674,3641,(argument_1220)
+159,helper_1225,3676,3684,3652,(argument_1226)
+160,helper_1227,3685,3701,3661,"(self_state_1228, state_1229, argument_1230)"
+161,self_state_1228.rollback_state,3692,3698,3668,()
+162,native_patch_class.new,3704,3721,3680,"(argument_1236, argument_1237)"
+163,native_patch_class.get,3725,3730,3701,(argument_1247)
+164,native_patch_class.dump_bytes,3732,3741,3708,"(argument_1249, argument_1250)"
+165,native_patch_class.patch,3742,3827,3718,"(self_state_1253, argument_1254, argument_1255, argument_1256)"
+166,native_patch_class.restore,3828,3879,3804,"(argument_1269, argument_1270, argument_1271)"
+167,native_patch_class.jump_hook,3881,3896,3857,"(self_state_1281, argument_1282, argument_1283, argument_1284, argument_1285)"
+168,native_patch_class.make_jump,3898,3905,3874,"(argument_1291, argument_1292, argument_1293, argument_1294)"
+169,native_patch_class.matches,3909,3923,3885,"(argument_1301, argument_1302, argument_1303, argument_1304, argument_1305)"
+170,native_patch_class.describe,3927,3942,3903,"(self_state_1314, argument_1315)"
+171,x86_assembler.new,3951,3962,3925,"(argument_1323, argument_1324)"
+172,x86_assembler.get,3963,3965,3937,(argument_1325)
+173,x86_assembler.address,3966,3968,3940,(argument_1326)
+174,x86_assembler.address_at,3970,3978,3944,"(argument_1328, argument_1329)"
+175,x86_assembler.ensure,3982,3991,3956,"(argument_1337, argument_1338)"
+176,x86_assembler.claim,3992,4007,3966,"(self_state_1341, argument_1342, argument_1343)"
+177,x86_assembler.reserve_i32,4010,4023,3984,"(self_state_1355, argument_1356)"
+178,x86_assembler.patch_i32,4026,4037,4000,"(argument_1364, argument_1365, argument_1366)"
+179,x86_assembler.tell,4041,4046,4015,(argument_1374)
+180,x86_assembler.size,4049,4053,4023,(argument_1377)
+181,x86_assembler.remaining,4057,4062,4031,(argument_1381)
+182,x86_assembler.seek,4063,4069,4037,"(self_state_1382, cursor_1383)"
+183,x86_assembler.code_seek,4070,4075,4044,"(argument_1386, argument_1387)"
+184,x86_assembler.emit,4077,4091,4051,"(self_state_1391, ...)"
+185,x86_assembler.asm,4092,4137,4066,"(argument_1398, argument_1399, ...)"
+186,x86_assembler.bytes,4139,4150,4113,"(self_state_1414, argument_1415, argument_1416, argument_1417)"
+187,x86_assembler.u32,4151,4157,4125,"(self_state_1422, argument_1423)"
+188,x86_assembler.i32,4160,4164,4134,"(argument_1427, argument_1428)"
+189,x86_assembler.nop,4168,4184,4142,"(self_state_1432, argument_1433)"
+190,x86_assembler.jcc_rel8,4187,4201,4161,"(argument_1442, argument_1443, argument_1444)"
+191,x86_assembler.jz_rel8,4204,4208,4178,"(argument_1451, argument_1452)"
+192,x86_assembler.jnz_rel8,4210,4213,4184,"(argument_1454, argument_1455)"
+193,x86_assembler.jmp,4218,4229,4192,"(self_state_1458, argument_1459)"
+194,x86_assembler.call,4230,4239,4204,"(self_state_1463, argument_1464)"
+195,x86_assembler.jcc,4243,4259,4217,"(self_state_1471, argument_1472, argument_1473)"
+196,x86_assembler.commit,4261,4308,4235,"(self_state_1480, argument_1481)"
+197,x86_assembler.is_committed,4311,4325,4285,"(argument_1505, argument_1506)"
+198,native_patcher_impl.make_jump,4328,4332,4302,"(argument_1510, argument_1511, argument_1512)"
+199,native_patcher_impl.make_call,4334,4339,4308,"(argument_1514, argument_1515)"
+200,helper_1517,4340,4342,4314,"(argument_1518, argument_1519)"
+201,native_patcher_impl.allocate_memory,4345,4373,4319,(argument_1522)
+202,native_patcher_impl.create_cave,4374,4401,4348,(argument_1530)
+203,native_patcher_impl.jump_hook,4402,4423,4376,"(argument_1540, cave_address_1541, argument_1542, argument_1543)"
+204,helper_1558,4426,4440,4400,(argument_1559)
+205,native_patcher_impl.resolve_site,4444,4503,4418,"(argument_1565, argument_1566, argument_1567, argument_1568)"
+206,index_1588.new,4509,4522,4483,"(argument_1592, argument_1593, argument_1594, argument_1595)"
+207,index_1588.resolve,4526,4550,4500,(self_state_1599)
+208,native_patcher_impl.site,4554,4559,4528,"(argument_1606, argument_1607, argument_1608, argument_1609)"
+209,native_feature_class.new,4576,4629,4548,(argument_1611)
+210,setmetatable_5_result.callback,4615,4620,4587,()
+211,setmetatable_5_result.shutdown,4623,4627,4595,()
+212,native_feature_class.reconcile_callback,4632,4670,4604,(self_state_1627)
+213,native_feature_class.run_owned,4671,4691,4643,"(current_feature_1645, argument_1646, ...)"
+214,native_feature_class.run_atomic_owned,4694,4718,4666,"(argument_1661, argument_1662, argument_1663, ...)"
+215,helper_1679,4719,4741,4691,(argument_1680)
+216,helper_1684,4743,4755,4715,(argument_1685)
+217,native_feature_class.wanted,4759,4781,4731,(argument_1690)
+218,helper_1696,4783,4798,4755,"(argument_1697, argument_1698)"
+219,native_feature_class.restore_owned_ranges,4799,4842,4771,(self_state_1701)
+220,helper_1718,4845,4859,4817,(argument_1719)
+221,helper_1725,4863,4875,4835,"(self_state_1726, argument_1727)"
+222,native_feature_class.cancel_deferred_restore,4876,4878,4848,(self_state_1728)
+223,native_feature_class.complete_deferred_restore,4881,4889,4853,(self_state_1731)
+224,native_feature_class.restore,4892,4977,4864,"(self_state_1734, argument_1735)"
+225,native_feature_class.disable_control,4980,5018,4952,"(self_state_1771, argument_1772)"
+226,native_feature_class.cleanup_quarantine,5019,5096,4991,(self_state_1775)
+227,native_feature_class.reconcile,5098,5210,5070,(self_state_1807)
+228,native_feature_class.handle_callback_error,5211,5214,5183,"(argument_1840, argument_1841, argument_1842)"
+229,native_feature_class.bind,5218,5241,5190,"(argument_1847, ...)"
+230,helper_1849,5223,5226,5195,()
+231,native_feature_class.set_event_callback,5242,5250,5214,"(argument_1855, argument_1856, argument_1857)"
+232,callback:events.on,5246,5249,5218,"(argument_1861, argument_1862)"
+233,native_feature_class.new_callback_group,5251,5275,5223,"(argument_1864, argument_1865)"
+234,helper_1872,5258,5262,5230,"(argument_1873, argument_1874)"
+235,native_feature_class.queue,5276,5285,5248,"(self_state_1885, defer_1886)"
+236,native_patcher_impl.feature,5290,5299,5262,(argument_1889)
+237,native_patcher_impl.transaction,5300,5357,5272,"(argument_1891, argument_1892)"
+238,helper_1928,5358,5371,5330,(argument_1929)
+239,native_patcher_impl.safe_read,5372,5386,5344,"(argument_1931, argument_1932, argument_1933)"
+240,native_patcher_impl.safe_write,5387,5401,5359,"(argument_1938, argument_1939, argument_1940)"
+241,native_patcher_impl.safe_read_u8,5405,5420,5377,(argument_1948)
+242,native_patcher_impl.safe_read_u32,5421,5433,5393,(argument_1953)
+243,native_patcher_impl.safe_read_i8,5434,5445,5406,(argument_1958)
+244,native_patcher_impl.safe_read_i32,5449,5463,5421,(argument_1965)
+245,native_patcher_impl.safe_read_buffer,5466,5480,5438,"(argument_1971, argument_1972)"
+246,native_patcher_impl.safe_bytes_equal,5481,5497,5453,"(argument_1978, argument_1979, argument_1980, argument_1981)"
+247,native_patcher_impl.require_read_u8,5501,5512,5473,"(argument_1992, argument_1993)"
+248,native_patcher_impl.require_read_i8,5513,5521,5485,"(argument_2000, argument_2001)"
+249,native_patcher_impl.require_read_u32,5522,5530,5494,"(argument_2008, argument_2009)"
+250,native_patcher_impl.require_read_i32,5531,5539,5503,"(argument_2016, argument_2017)"
+251,native_patcher_impl.require_read_buffer,5543,5554,5515,"(argument_2027, argument_2028, argument_2029)"
+252,native_patcher_impl.safe_write_u8,5558,5568,5530,"(argument_2039, argument_2040)"
+253,native_patcher_impl.safe_write_u32,5571,5580,5543,"(argument_2045, argument_2046)"
+254,native_patcher_impl.safe_read_uintptr,5584,5600,5556,(argument_2052)
+255,native_patcher_impl.safe_write_float,5601,5608,5573,"(argument_2058, argument_2059)"
+256,native_contracts.require_module_site,5634,5661,5606,"(argument_2065, argument_2066, argument_2067, argument_2068)"
+257,native_contracts.resolve_module_rva,5662,5689,5634,"(argument_2088, argument_2089, argument_2090, argument_2091)"
+258,native_contracts.is_permanent_contract_error,5690,5711,5662,(argument_2109)
+259,native_contracts.retry_delay,5713,5722,5685,(argument_2116)
+260,native_contracts.require_relative_call,5723,5730,5695,"(argument_2120, argument_2121, argument_2122, argument_2123, argument_2124)"
+261,anonymous,5737,5802,5707,()
+262,helper_2136,5745,5756,5715,()
+263,entity_cache.get_players,5757,5766,5727,(argument_2139)
+264,entity_cache.get_all,5767,5776,5737,(tostring_result_2142)
+265,entity_cache.hitbox_position,5777,5800,5747,"(tonumber_result_2144, tonumber_result_2145)"
+266,anonymous,5804,5974,5774,()
+267,helper_2159,5815,5826,5785,()
+268,helper_2161,5827,5830,5797,(argument_2162)
+269,helper_2163,5831,5840,5801,"(argument_2164, argument_2165, argument_2166, argument_2167, argument_2168, argument_2169, argument_2170)"
+270,helper_2172,5841,5843,5811,"(argument_2173, argument_2174, argument_2175, argument_2176, argument_2177, argument_2178, argument_2179, argument_2180)"
+271,helper_2181,5844,5855,5814,"(self_state_2182, argument_2183, skip_2184, sx_2185, sy_2186, sz_2187, ex_2188, ey_2189, p9)"
+272,trace_cache.line_uncached,5856,5865,5826,"(argument_2192, argument_2193, argument_2194, argument_2195, argument_2196, argument_2197, argument_2198)"
+273,trace_cache.line,5866,5880,5836,"(argument_2201, argument_2202, argument_2203, argument_2204, argument_2205, argument_2206, argument_2207)"
+274,trace_cache.bullet_uncached,5881,5890,5851,"(argument_2213, argument_2214, argument_2215, argument_2216, argument_2217, argument_2218, argument_2219)"
+275,trace_cache.bullet,5891,5905,5861,"(argument_2222, argument_2223, argument_2224, argument_2225, argument_2226, argument_2227, argument_2228)"
+276,trace_cache.object_line,5906,5915,5876,"(argument_2234, argument_2235, argument_2236)"
+277,trace_cache.visible_hitbox,5916,5936,5886,"(argument_2238, argument_2239, argument_2240, argument_2241, argument_2242)"
+278,trace_cache.hitboxes,5937,5972,5907,"(argument_2250, argument_2251, argument_2252, argument_2253, argument_2254, argument_2255, argument_2256, argument_2257, p9, p10, p11, p12)"
+279,anonymous,5982,6429,5950,()
+280,state_table_2289.unpack,5991,5994,5959,(argument_2291)
+281,helper_2294,5997,6004,5965,"(argument_2295, argument_2296, argument_2297, argument_2298)"
+282,helper_2305,6038,6052,6006,()
+283,helper_2306,6054,6064,6022,"(argument_2307, argument_2308)"
+284,helper_2316,6068,6086,6036,"(argument_2317, argument_2318)"
+285,field:nl,6088,6129,6056,"(argument_2323, argument_2324)"
+286,state_table_2331.nw,6133,6146,6101,"(argument_2334, argument_2335)"
+287,state_table_2331.pd,6147,6157,6115,"(argument_2340, argument_2341)"
+288,state_table_2331.ot,6161,6194,6129,"(argument_2349, argument_2350)"
+289,state_table_2331.ft,6198,6211,6166,"(argument_2364, argument_2365)"
+290,state_table_2331.pl,6212,6221,6180,"(argument_2370, argument_2371)"
+291,state_table_2331.ev,6222,6247,6190,"(argument_2375, argument_2376)"
+292,state_table_2331.r7,6250,6262,6218,"(argument_2384, argument_2385)"
+293,state_table_2331.af,6264,6274,6232,"(argument_2391, argument_2392)"
+294,state_table_2331.gs,6276,6300,6244,"(argument_2397, argument_2398)"
+295,helper_2406,6302,6314,6270,"(argument_2407, argument_2408)"
+296,helper_2411,6315,6326,6283,(argument_2412)
+297,helper_2418,6329,6334,6297,(argument_2419)
+298,helper_2423,6338,6344,6306,()
+299,helper_2425,6346,6351,6314,(argument_2426)
+300,callback:events.on,6356,6386,6324,(argument_2431)
+301,callback:events.on,6387,6399,6355,(argument_2439)
+302,callback:events.on,6400,6407,6368,(argument_2441)
+303,state_table_2283.has_data,6409,6411,6377,(argument_2443)
+304,state_table_2283.get_cheat,6414,6427,6382,(argument_2446)
+305,helper_2455,6445,6482,6413,()
+306,callback:pcall,6455,6465,6423,()
+307,helper_2472,6483,6493,6451,()
+308,helper_2450,6495,6511,6463,(argument_2477)
+309,helper_2482,6534,6539,6500,()
+310,helper_2483,6540,6548,6506,()
+311,helper_2491,6553,6594,6519,()
+312,helper_2489,6595,6617,6561,()
+313,helper_2490,6619,6627,6585,(argument_2503)
+314,callback:events.on,6631,6638,6597,(argument_2505)
+315,callback:events.on,6639,6642,6605,()
+316,helper_2511,6655,6699,6621,()
+317,callback:pcall,6667,6682,6633,()
+318,helper_2532,6707,6712,6671,"(argument_2536, argument_2537, argument_2538, argument_2539)"
+319,bit_buffer.new,6718,6720,6682,()
+320,bit_buffer.from_data,6721,6735,6685,"(argument_2543, argument_2544)"
+321,bit_buffer.write_bits,6737,6754,6701,"(self_state_2553, argument_2554, argument_2555)"
+322,bit_buffer.write_coord,6756,6785,6720,"(argument_2561, argument_2562)"
+323,bit_buffer.write_string,6786,6799,6750,"(argument_2577, tostring_2_result_2578)"
+324,bit_buffer.read_bits,6800,6815,6764,"(self_state_2584, argument_2585)"
+325,bit_buffer.read_coord,6819,6845,6783,(argument_2593)
+326,bit_buffer.read_string,6846,6864,6810,(argument_2605)
+327,bit_buffer.crypt,6866,6877,6830,"(self_state_2611, argument_2612)"
+328,bit_buffer.reset,6878,6886,6842,(self_state_2617)
+329,bit_buffer.bytes_written,6888,6890,6852,(argument_2619)
+330,bit_buffer.is_overflow,6892,6894,6856,(argument_2623)
+331,bit_buffer.is_overflowed,6896,6898,6860,(argument_2627)
+332,helper_2630,6905,6907,6869,()
+333,helper_2631,6909,6916,6873,"(argument_2633, argument_2634, argument_2635)"
+334,helper_2641,6924,6937,6888,"(argument_2642, argument_2643)"
+335,helper_2650,6939,6979,6903,"(argument_2653, argument_2654)"
+336,helper_2639,6981,6983,6945,(argument_2665)
+337,helper_2666,6991,7002,6955,(argument_2672)
+338,helper_2669,7003,7018,6967,(argument_2674)
+339,callback:events.on,7021,7024,6985,()
+340,helper_2679,7028,7076,6992,"(argument_2681, argument_2682, argument_2683)"
+341,helper_2700,7078,7109,7042,(argument_2702)
+342,private_transport.send_private,7110,7117,7074,(argument_2711)
+343,private_transport.send_meta,7119,7157,7083,(argument_2714)
+344,callback:helper_2679,7129,7156,7093,"(argument_2724, argument_2725, argument_2726)"
+345,private_transport.set_send_enabled,7158,7177,7122,"(argument_2740, argument_2741)"
+346,private_transport.can_send,7181,7183,7145,()
+347,private_transport.transport_status,7184,7200,7148,()
+348,helper_2667,7202,7211,7166,(argument_2754)
+349,private_transport.set_receive_enabled,7212,7214,7176,(argument_2756)
+350,private_transport.on_private,7216,7236,7180,(argument_2760)
+351,anonymous,7223,7232,7187,()
+352,helper_2762,7234,7234,7198,()
+353,anonymous,7251,7475,7213,()
+354,helper_2768,7344,7356,7306,"(argument_2769, argument_2770, argument_2771, argument_2772)"
+355,helper_2773,7357,7359,7319,"(argument_2774, argument_2775, argument_2776, argument_2777)"
+356,helper_2779,7365,7373,7327,(argument_2780)
+357,gamesense_controls.get_double_tap_ref,7374,7376,7336,()
+358,gamesense_controls.get_minimum_damage_override_ref,7377,7379,7339,()
+359,gamesense_controls.get_force_body_aim_ref,7380,7382,7342,()
+360,gamesense_controls.get_force_safe_point_ref,7383,7385,7345,()
+361,gamesense_controls.get_quick_peek_ref,7386,7388,7348,()
+362,gamesense_controls.get_quick_peek_assist_mode_ref,7389,7391,7351,()
+363,gamesense_controls.get_fake_duck_ref,7392,7394,7354,()
+364,gamesense_controls.get_freestanding_ref,7395,7397,7357,()
+365,gamesense_controls.get_on_shot_anti_aim_ref,7398,7400,7360,()
+366,gamesense_controls.get_slow_motion_ref,7401,7403,7363,()
+367,gamesense_controls.get_ping_spike_ref,7404,7406,7366,()
+368,gamesense_controls.is_double_tap,7407,7409,7369,()
+369,gamesense_controls.is_quick_peek,7410,7412,7372,()
+370,gamesense_controls.is_minimum_damage_override,7413,7415,7375,()
+371,gamesense_controls.is_force_body_aim,7416,7418,7378,()
+372,gamesense_controls.is_force_safe_point,7419,7421,7381,()
+373,gamesense_controls.is_duck_peek_assist,7422,7424,7384,()
+374,gamesense_controls.is_on_shot_anti_aim,7425,7427,7387,()
+375,gamesense_controls.is_slow_motion,7428,7430,7390,()
+376,gamesense_controls.get_minimum_damage_value,7431,7434,7393,()
+377,gamesense_controls.get_minimum_damage_override_value,7435,7438,7397,()
+378,gamesense_controls.get_minimum_damage,7439,7444,7401,()
+379,gamesense_controls.is_fakelag_enabled,7445,7447,7407,()
+380,gamesense_controls.get_fakelag_limit,7448,7451,7410,()
+381,gamesense_controls.get_double_tap_fakelag_limit,7452,7455,7414,()
+382,gamesense_controls.is_auto_scope_enabled,7456,7458,7418,()
+383,gamesense_controls.get_leg_movement,7459,7461,7421,()
+384,gamesense_controls.get_menu_color,7462,7464,7424,()
+385,callback:defer,7466,7474,7428,()
+386,callback:pui_lib.traverse,7467,7473,7429,(argument_2785)
+387,helper_2767,7477,7491,7439,"(argument_2787, argument_2788, argument_2789)"
+388,helper_2793,7493,7535,7455,"(argument_2797, argument_2798, argument_2799, argument_2800)"
+389,helper_2805,7498,7526,7460,()
+390,anonymous,7528,7534,7490,(...)
+391,native_contracts.vmt_bind,7537,7539,7499,"(argument_2813, argument_2814, argument_2815, argument_2816)"
+392,native_contracts.vmt_bind_type,7541,7543,7503,"(argument_2819, argument_2820, argument_2821, argument_2822)"
+393,native_contracts.vmt_thunk,7550,7570,7510,"(argument_2826, argument_2827)"
+394,anonymous,7556,7569,7516,"(argument_2833, ...)"
+395,anonymous,7572,7711,7532,()
+396,draw_helpers.text,7573,7578,7533,"(argument_2835, argument_2836, argument_2837, argument_2838, argument_2839, argument_2840, ...)"
+397,draw_helpers.rectangle,7579,7584,7539,"(argument_2841, argument_2842, argument_2843, argument_2844, argument_2845, argument_2846, argument_2847, argument_2848)"
+398,draw_helpers.line,7585,7590,7545,"(argument_2849, argument_2850, argument_2851, argument_2852, argument_2853, argument_2854, argument_2855, argument_2856)"
+399,draw_helpers.gradient,7591,7596,7551,"(argument_2857, argument_2858, argument_2859, argument_2860, argument_2861, argument_2862, argument_2863, argument_2864, p9, p10, p11, p12, p13)"
+400,draw_helpers.circle,7597,7602,7557,"(argument_2870, argument_2871, argument_2872, argument_2873, argument_2874, argument_2875, argument_2876, argument_2877, p9)"
+401,draw_helpers.circle_outline,7603,7608,7563,"(argument_2879, argument_2880, argument_2881, argument_2882, argument_2883, argument_2884, argument_2885, argument_2886, p9, p10)"
+402,draw_helpers.triangle,7609,7614,7569,"(argument_2889, argument_2890, argument_2891, argument_2892, argument_2893, argument_2894, argument_2895, argument_2896, p9, p10)"
+403,draw_helpers.texture,7615,7620,7575,"(argument_2899, argument_2900, argument_2901, argument_2902, argument_2903, argument_2904, argument_2905, argument_2906, p9, p10)"
+404,draw_helpers.indicator,7621,7626,7581,"(argument_2909, argument_2910, argument_2911, argument_2912, argument_2913)"
+405,draw_helpers.rounded_rectangle,7627,7653,7587,"(argument_2914, argument_2915, argument_2916, argument_2917, argument_2918, argument_2919, argument_2920, argument_2921, p9)"
+406,draw_helpers.outlined_rounded_rectangle,7654,7682,7614,"(argument_2925, argument_2926, argument_2927, argument_2928, argument_2929, argument_2930, argument_2931, argument_2932, p9, p10)"
+407,draw_helpers.vertical_fade,7683,7704,7643,"(argument_2937, argument_2938, math_floor_result_2939, math_floor_result_2940, argument_2941, argument_2942, argument_2943, math_max_result_2944, p9)"
+408,draw_helpers.rgba_to_hex,7705,7710,7665,"(argument_2947, argument_2948, argument_2949, argument_2950)"
+409,anonymous,7719,7796,7677,()
+410,math_helpers.clamp,7720,7722,7678,"(argument_2954, argument_2955, argument_2956)"
+411,math_helpers.clamp_number,7723,7729,7681,"(tonumber_result_2957, argument_2958, argument_2959, argument_2960)"
+412,math_helpers.clamp_int,7730,7732,7688,"(argument_2961, argument_2962, argument_2963, argument_2964)"
+413,state_table_2953.required_damage,7733,7743,7691,"(math_max_result_2965, clamp_int_result)"
+414,math_helpers.normalize,7744,7759,7702,"(argument_2967, argument_2968, argument_2969)"
+415,math_helpers.normalize_yaw,7760,7763,7718,(argument_2971)
+416,math_helpers.yaw_to,7764,7771,7722,"(tonumber_result_2972, tonumber_result_2973, tonumber_result_2974, tonumber_result_2975, argument_2976)"
+417,state_table_2952.to_ticks,7772,7778,7730,(argument_2977)
+418,state_table_2952.from_ticks,7779,7785,7737,(argument_2979)
+419,math_helpers.vector_length_sqr,7786,7788,7744,"(argument_2981, argument_2982, argument_2983)"
+420,math_helpers.scale,7789,7795,7747,"(argument_2984, argument_2985, argument_2986)"
+421,anonymous,7802,7810,7758,()
+422,state_table_2988.shuffle,7803,7809,7759,(self_state_2990)
+423,anonymous,7812,7919,7768,()
+424,helper_3000,7820,7833,7776,()
+425,helper_3003,7834,7837,7790,(argument_3004)
+426,helper_3006,7838,7840,7794,"(argument_3007, argument_3008)"
+427,helper_3009,7841,7857,7797,"(self_state_3010, argument_3011, argument_3012, argument_3013, argument_3014)"
+428,animation_manager.interp,7858,7870,7814,"(argument_3018, argument_3019, argument_3020, argument_3021, argument_3022)"
+429,animation_manager.to,7871,7898,7827,"(self_state_3025, argument_3026, argument_3027, argument_3028, argument_3029, argument_3030, argument_3031)"
+430,animation_manager.clear_owner,7899,7910,7855,"(argument_3036, argument_3037)"
+431,animation_manager.clear,7911,7917,7867,(argument_3039)
+432,helper_3042,7929,7937,7883,(argument_3046)
+433,helper_3053,7943,7951,7897,"(argument_3057, argument_3058)"
+434,control_override.is_active,7953,7973,7907,(argument_3064)
+435,helper_3069,7975,8000,7929,"(argument_3072, state_3073)"
+436,helper_3054,8001,8016,7955,"(argument_3080, argument_3081, argument_3082)"
+437,control_override.update,8018,8024,7972,"(argument_3085, argument_3086, argument_3087)"
+438,control_override.force,8025,8027,7979,"(argument_3092, argument_3093)"
+439,control_override.disable,8030,8032,7984,"(argument_3096, argument_3097)"
+440,control_override.restore,8033,8035,7987,"(argument_3098, argument_3099)"
+441,control_override.restore_all,8036,8041,7990,()
+442,helper_3105,8053,8077,8005,"(argument_3107, state_3108)"
+443,shared_control_owners.set,8078,8106,8030,"(argument_3115, argument_3116, argument_3117, argument_3118)"
+444,shared_control_owners.release,8107,8109,8059,"(argument_3122, argument_3123)"
+445,shared_control_owners.restore_all,8111,8117,8063,()
+446,callback:events.on,8127,8137,8079,()
+447,callback:events.on,8139,8151,8091,()
+448,player_state_3143.reset_runtime,8203,8234,8153,(self_state_3145)
+449,helper_3146,8236,8243,8186,(argument_3148)
+450,player_state_3143.get_raw_state,8245,8273,8195,(argument_3151)
+451,player_state_3143.stabilize_state,8275,8300,8225,"(self_state_3158, state_3159)"
+452,player_state_3143.update_aa_state,8301,8309,8251,"(self_state_3161, argument_3162)"
+453,player_state_3143.get_state,8311,8314,8261,(argument_3167)
+454,helper_3169,8319,8334,8269,(argument_3171)
+455,helper_3170,8336,8385,8286,(argument_3178)
+456,player_state_3143.get_weapon,8387,8389,8337,()
+457,player_state_3143.get_weapon_idx,8391,8397,8341,()
+458,player_state_3143.get_game_use_state,8399,8459,8349,"(argument_3194, argument_3195)"
+459,player_state_3143.is_in_fake_lag,8460,8477,8410,"(argument_3213, argument_3214)"
+460,player_state_3143.shifted_ticks,8479,8490,8429,(self_state_3218)
+461,player_state_3143.get_exploit_hotkey,8494,8519,8444,"(argument_3223, argument_3224, argument_3225)"
+462,player_state_3143.get_exploit,8520,8522,8470,(argument_3233)
+463,player_state_3143.is_exploit_transitioning,8523,8525,8473,(argument_3234)
+464,player_state_3143.is_exploit_stable,8527,8534,8477,(argument_3237)
+465,helper_3239,8536,8562,8486,(exploit_last_tickbase_3241)
+466,callback:events.on,8564,8631,8514,(argument_3251)
+467,callback:events.on,8633,8643,8583,(argument_3283)
+468,helper_3293,8670,8683,8618,(argument_3297)
+469,helper_3294,8685,8693,8633,(argument_3302)
+470,helper_3305,8699,8708,8647,"(argument_3309, argument_3310)"
+471,helper_3314,8710,8721,8658,(argument_3317)
+472,helper_3306,8723,8730,8671,"(argument_3323, argument_3324)"
+473,helper_3327,8736,8745,8684,(argument_3333)
+474,helper_3328,8747,8750,8695,(argument_3339)
+475,helper_3329,8751,8759,8699,"(a_2_3342_3344_3341, a_2_3342, argument_3343)"
+476,helper_3330,8761,8852,8709,"(self_state_3346, argument_3347)"
+477,helper_3385,8858,8865,8806,"(argument_3391, argument_3392)"
+478,helper_3386,8866,8874,8814,"(argument_3394, argument_3395, argument_3396)"
+479,helper_3387,8876,8890,8824,"(argument_3403, argument_3404, argument_3405, argument_3406)"
+480,helper_3388,8891,8984,8839,"(argument_3409, argument_3410)"
+481,yaw_scheduler_3287.default_config,8986,9033,8934,(self_state_3446)
+482,helper_3449,9036,9061,8984,(self_state_3450)
+483,helper_3459,9063,9095,9011,"(state_3461, argument_3462)"
+484,helper_3478,9096,9106,9044,(argument_3479)
+485,helper_3481,9108,9131,9056,"(self_state_3483, argument_3484)"
+486,yaw_scheduler_3287.scheduler.update,9132,9255,9080,"(argument_3494, argument_3495, argument_3496)"
+487,yaw_scheduler_3287.get,9257,9259,9205,"(argument_3538, argument_3539, argument_3540)"
+488,helper_3541,9263,9274,9211,(argument_3544)
+489,yaw_scheduler_3287.pattern.get_offset,9276,9363,9224,(argument_3552)
+490,yaw_scheduler_3287.get_offset,9364,9366,9312,(argument_3594)
+491,helper_3595,9368,9385,9316,(self_state_3597)
+492,yaw_scheduler_3287.reset_name,9386,9393,9334,(argument_3598)
+493,yaw_scheduler_3287.reset,9394,9399,9342,()
+494,yaw_scheduler_3287.block,9401,9406,9349,(argument_3604)
+495,helper_3613,9496,9525,9440,(argument_3616)
+496,callback:pcall,9514,9516,9458,()
+497,helper_3626,9529,9537,9473,(argument_3627)
+498,preset_catalog.normalize_key,9539,9541,9483,(argument_3632)
+499,preset_catalog.get_preset,9542,9550,9486,(argument_3633)
+500,preset_catalog.get_preset_source,9552,9559,9496,"(argument_3638, argument_3639)"
+501,preset_catalog.get_preset_color,9561,9563,9505,(argument_3644)
+502,preset_catalog.get_preset_level,9565,9573,9509,(argument_3646)
+503,preset_catalog.get_angle_type_options,9575,9597,9519,(argument_3650)
+504,helper_3658,9613,9615,9555,()
+505,helper_3669,9640,9647,9582,(argument_3670)
+506,helper_3667,9649,9694,9591,(argument_3674)
+507,callback:pcall,9664,9666,9606,()
+508,callback:pcall,9670,9675,9612,()
+509,local_configs_3660.export,9696,9703,9638,(argument_3688)
+510,local_configs_3660.import,9704,9721,9646,"(argument_3692, argument_3693)"
+511,local_configs_3660.list,9725,9733,9667,()
+512,local_configs_3660.get,9735,9737,9677,(argument_3704)
+513,local_configs_3660.delete,9738,9747,9680,(argument_3705)
+514,local_configs_3660.create,9749,9763,9691,"(argument_3710, code_3711)"
+515,local_configs_3660.save,9764,9771,9706,"(argument_3716, code_3717)"
+516,local_configs_3660.create_encoded,9773,9806,9715,(argument_3720)
+517,helper_3732,9788,9799,9730,(argument_3733)
+518,callback:defer,9808,9811,9750,()
+519,field:is_owner,9834,9841,9774,()
+520,field:is_selected_author,9842,9851,9782,()
+521,field:is_selected_liked,9852,9865,9792,()
+522,anonymous,9869,9875,9809,()
+523,anonymous,9876,11913,9816,()
+524,helper_3750,9879,9881,9819,(argument_3751)
+525,helper_3752,9882,9888,9822,(argument_3753)
+526,menu.lock,9889,9906,9829,"(argument_3755, argument_3756, argument_3757, argument_3758)"
+527,helper_3760,9896,9898,9836,()
+528,helper_3761,9899,9901,9839,()
+529,menu.set_feature_unlocked,9907,9916,9847,"(argument_3762, argument_3763)"
+530,callback:pui_lib.traverse,9924,9929,9864,(argument_3766)
+531,helper_3770,9941,9960,9881,()
+532,callback:pui_lib.traverse,9965,9967,9905,(argument_3773)
+533,callback:pui_lib.traverse,9976,9978,9916,(argument_3774)
+534,helper_3776,9982,9988,9922,()
+535,helper_3778,9989,10000,9929,(argument_3779)
+536,helper_3781,10001,10009,9941,()
+537,helper_3784,10010,10018,9950,()
+538,helper_3787,10019,10033,9959,()
+539,helper_3792,10034,10041,9974,()
+540,helper_3795,10042,10049,9982,()
+541,helper_3798,10050,10058,9990,()
+542,callback:state_table_3749.aa.angles:button,10068,10070,10008,()
+543,helper_3801,10071,10078,10011,(argument_3802)
+544,helper_3804,10079,10110,10019,()
+545,callback:pui_lib.traverse,10113,10115,10053,(argument_3810)
+546,callback:state_table_3749.aa.angles:button,10125,10127,10065,()
+547,callback:state_table_3749.aa.angles:button,10128,10130,10068,()
+548,callback:state_table_3749.aa.angles:button,10131,10133,10071,()
+549,callback:state_table_3749.aa.angles:button,10134,10136,10074,()
+550,callback:state_table_3749.aa.angles:button,10137,10139,10077,()
+551,callback:state_table_3749.aa.angles:button,10140,10142,10080,()
+552,helper_3812,10143,10145,10083,(argument_3813)
+553,helper_3814,10146,10148,10086,()
+554,callback:pui_lib.traverse,10152,10154,10092,(argument_3815)
+555,anonymous,10157,10159,10097,()
+556,anonymous,10163,10165,10103,()
+557,callback:pui_lib.traverse,10171,10178,10111,(argument_3816)
+558,anonymous,10174,10176,10114,()
+559,callback:pui_lib.traverse,10186,10188,10126,(argument_3817)
+560,callback:pui_lib.traverse,10196,10198,10136,(argument_3818)
+561,callback:pui_lib.traverse,10207,10209,10147,(argument_3819)
+562,helper_3820,10219,10234,10159,(argument_3821)
+563,helper_3823,10221,10227,10161,()
+564,helper_3826,10258,10266,10198,()
+565,callback:pui_lib.traverse,10274,10276,10214,(argument_3829)
+566,anonymous,10284,10286,10224,()
+567,anonymous,10299,10301,10239,()
+568,callback:pui_lib.traverse,10337,10339,10277,(argument_3831)
+569,callback:pui_lib.traverse,10370,10372,10310,(argument_3833)
+570,callback:pui_lib.traverse,10414,10416,10354,(argument_3835)
+571,callback:pui_lib.traverse,10427,10429,10367,(argument_3837)
+572,callback:pui_lib.traverse,10435,10437,10375,(argument_3838)
+573,callback:pui_lib.traverse,10474,10476,10414,(argument_3839)
+574,callback:pui_lib.traverse,10479,10481,10419,(argument_3840)
+575,callback:pui_lib.traverse,10508,10510,10448,(argument_3842)
+576,anonymous,10514,10516,10454,()
+577,callback:pui_lib.traverse,10550,10552,10490,(argument_3843)
+578,callback:pui_lib.traverse,10556,10558,10496,(argument_3844)
+579,callback:pui_lib.traverse,10566,10568,10506,(argument_3845)
+580,callback:pui_lib.traverse,10584,10586,10524,(argument_3846)
+581,callback:pui_lib.traverse,10607,10609,10547,(argument_3847)
+582,callback:pui_lib.traverse,10617,10619,10557,(argument_3848)
+583,callback:pui_lib.traverse,10622,10624,10562,(argument_3849)
+584,callback:pui_lib.traverse,10626,10637,10566,(argument_3850)
+585,anonymous,10629,10635,10569,(argument_3851)
+586,callback:pui_lib.traverse,10645,10647,10585,(argument_3852)
+587,callback:pui_lib.traverse,10667,10669,10607,(argument_3853)
+588,callback:pui_lib.traverse,10680,10682,10620,(argument_3854)
+589,callback:pui_lib.traverse,10692,10694,10632,(argument_3855)
+590,callback:pui_lib.traverse,10696,10698,10636,(argument_3856)
+591,callback:pui_lib.traverse,10703,10705,10643,(argument_3857)
+592,callback:pui_lib.traverse,10710,10712,10650,(argument_3858)
+593,helper_3859,10725,10728,10665,(argument_3860)
+594,callback:pui_lib.traverse,10734,10736,10674,(argument_3862)
+595,callback:pui_lib.traverse,10738,10740,10678,(argument_3863)
+596,callback:pui_lib.traverse,10756,10758,10696,(argument_3864)
+597,callback:pui_lib.traverse,10763,10765,10703,(argument_3865)
+598,anonymous,10783,10785,10723,(argument_3868)
+599,callback:pui_lib.traverse,10820,10822,10760,(argument_3869)
+600,callback:pui_lib.traverse,10841,10843,10781,(argument_3870)
+601,anonymous,10851,10853,10791,(argument_3871)
+602,callback:pui_lib.traverse,10858,10860,10798,(argument_3872)
+603,callback:pui_lib.traverse,10867,10869,10807,(argument_3873)
+604,helper_3874,10870,10877,10810,"(argument_3875, argument_3876, argument_3877)"
+605,anonymous,10871,10876,10811,"(argument_3878, ...)"
+606,anonymous,10873,10875,10813,"(argument_3880, argument_3881, argument_3882)"
+607,helper_3883,10878,11014,10818,"(argument_3884, argument_3885)"
+608,helper_3892,11016,11018,10956,()
+609,callback:pui_lib.traverse,11021,11023,10961,(argument_3893)
+610,helper_3901,11046,11048,10986,"(argument_3902, argument_3903)"
+611,helper_3912,11196,11199,11136,(argument_3913)
+612,helper_3915,11200,11203,11140,(argument_3916)
+613,helper_3918,11204,11207,11144,(argument_3919)
+614,anonymous,11215,11217,11155,()
+615,anonymous,11231,11237,11171,()
+616,callback:pui_lib.traverse,11290,11292,11230,(argument_3932)
+617,anonymous,11302,11304,11242,(argument_3935)
+618,callback:pui_lib.traverse,11312,11314,11252,(argument_3936)
+619,callback:pui_lib.traverse,11316,11318,11256,(argument_3937)
+620,callback:pui_lib.traverse,11321,11323,11261,(argument_3938)
+621,callback:pui_lib.traverse,11324,11326,11264,(argument_3939)
+622,callback:pui_lib.traverse,11327,11329,11267,(argument_3940)
+623,callback:pui_lib.traverse,11330,11332,11270,(argument_3941)
+624,callback:pui_lib.traverse,11333,11335,11273,(argument_3942)
+625,callback:pui_lib.traverse,11356,11358,11296,(argument_3943)
+626,callback:pui_lib.traverse,11412,11414,11352,(argument_3944)
+627,callback:pui_lib.traverse,11415,11417,11355,(argument_3945)
+628,callback:pui_lib.traverse,11458,11460,11398,(argument_3946)
+629,anonymous,11483,11485,11423,(argument_3950)
+630,anonymous,11489,11491,11429,(argument_3951)
+631,anonymous,11495,11497,11435,(argument_3952)
+632,callback:pui_lib.traverse,11504,11506,11444,(argument_3953)
+633,callback:pui_lib.traverse,11507,11509,11447,(argument_3954)
+634,callback:pui_lib.traverse,11517,11519,11457,(argument_3955)
+635,callback:pui_lib.traverse,11524,11526,11464,(argument_3956)
+636,callback:pui_lib.traverse,11527,11529,11467,(argument_3957)
+637,callback:pui_lib.traverse,11530,11532,11470,(argument_3958)
+638,callback:pui_lib.traverse,11538,11540,11478,(argument_3959)
+639,callback:pui_lib.traverse,11542,11544,11482,(argument_3960)
+640,callback:pui_lib.traverse,11560,11562,11500,(argument_3961)
+641,helper_3962,11566,11572,11506,(argument_3963)
+642,helper_3967,11573,11588,11513,(argument_3968)
+643,callback:pui_lib.traverse,11579,11585,11519,"(argument_3973, argument_3974)"
+644,helper_3976,11589,11592,11529,(argument_3977)
+645,helper_3979,11593,11597,11533,(argument_3980)
+646,callback:menu.conditions.cheat_based.type:set_callback,11599,11612,11539,(argument_3982)
+647,callback:menu.conditions.cheat_based.send_button:set_callback,11613,11648,11553,()
+648,helper_3998,11649,11652,11589,(argument_3999)
+649,helper_4001,11653,11668,11593,(argument_4002)
+650,callback:pcall,11660,11662,11600,()
+651,helper_4006,11669,11671,11609,()
+652,helper_4007,11672,11679,11612,()
+653,helper_4012,11680,11682,11620,"(argument_4013, argument_4014)"
+654,preset_decoder.extract_elements,11687,11698,11625,"(argument_4016, argument_4017)"
+655,preset_decoder.apply_to_current,11699,11733,11637,(argument_4020)
+656,callback:pui_lib.traverse,11709,11717,11647,"(argument_4025, argument_4026)"
+657,preset_decoder.decode_preset_source,11734,11750,11672,(argument_4030)
+658,callback:pcall,11743,11745,11681,()
+659,preset_decoder.apply_preset_snapshot,11751,11811,11689,(argument_4035)
+660,callback:pcall,11767,11803,11705,()
+661,callback:pui_lib.traverse,11776,11784,11714,"(argument_4048, argument_4049)"
+662,callback:menu.builder.export_current_state:set_callback,11812,11831,11750,()
+663,callback:menu.builder.import_into_current_state:set_callback,11832,11845,11770,()
+664,callback:menu.builder.reset_current_state:set_callback,11846,11854,11784,()
+665,callback:defer,11855,11859,11793,()
+666,callback:pui_lib.traverse,11860,11862,11798,(argument_4064)
+667,callback:pui_lib.traverse,11863,11865,11801,(argument_4065)
+668,helper_4066,11868,11870,11806,()
+669,helper_4067,11871,11873,11809,()
+670,helper_4068,11874,11876,11812,()
+671,helper_4069,11877,11879,11815,()
+672,callback:pui_lib.traverse,11881,11883,11819,(argument_4070)
+673,callback:pui_lib.traverse,11884,11889,11822,(argument_4071)
+674,callback:pui_lib.traverse,11890,11895,11828,(argument_4072)
+675,callback:pui_lib.traverse,11909,11911,11847,(argument_4073)
+676,anonymous,11948,12341,11884,"(argument_4075, ...)"
+677,helper_4084,12246,12258,12182,"(argument_4085, argument_4086)"
+678,helper_4091,12259,12261,12195,()
+679,helper_4092,12262,12264,12198,(...)
+680,anonymous,12342,12735,12278,"(argument_4116, ...)"
+681,helper_4125,12640,12652,12576,"(argument_4126, argument_4127)"
+682,helper_4132,12653,12655,12589,()
+683,helper_4133,12656,12658,12592,(...)
+684,anonymous,12739,12927,12675,()
+685,helper_4178,12834,12837,12770,(argument_4179)
+686,helper_4183,12841,12850,12777,(...)
+687,anonymous,12854,12926,12790,(argument_4189)
+688,helper_4230,12929,12945,12865,(argument_4233)
+689,helper_4157,12946,12948,12882,"(argument_4242, argument_4243)"
+690,helper_4244,12953,12955,12889,()
+691,helper_4245,12957,12974,12893,(argument_4250)
+692,parse_json_response_4251,12976,12986,12912,(argument_4253)
+693,helper_4246,12988,13044,12924,"(argument_4257, argument_4258, argument_4259, argument_4260)"
+694,callback:request,13012,13043,12948,(argument_4278)
+695,cloud_api.user_state_change,13046,13079,12982,"(argument_4290, server_ip_4291)"
+696,callback:offline_http_2_4304.request,13069,13073,13005,()
+697,cloud_api.add_balance,13085,13087,13021,"(argument_4308, argument_4309)"
+698,cloud_api.purchase_product,13088,13090,13024,"(argument_4310, argument_4311)"
+699,cloud_api.get_user_products,13091,13093,13027,"(argument_4312, argument_4313)"
+700,helper_4314,13094,13111,13030,(argument_4315)
+701,helper_4319,13113,13127,13049,"(argument_4322, argument_4323)"
+702,helper_4329,13129,13129,13065,"(argument_4332, argument_4333, argument_4334, argument_4335)"
+703,helper_4336,13131,13173,13067,"(argument_4338, argument_4339)"
+704,cloud_api.config_request,13174,13255,13110,"(argument_4347, argument_4348, argument_4349, argument_4350)"
+705,helper_4359,13185,13228,13121,(argument_4360)
+706,callback:request,13208,13227,13144,(argument_4370)
+707,callback:a[72],13224,13226,13160,()
+708,callback:offline_http_2_4381.request,13248,13254,13184,(argument_4382)
+709,anonymous,13257,13278,13193,()
+710,state_table_4305.measure_text,13260,13277,13196,"(argument_4386, ...)"
+711,helper_4395,13286,13304,13222,(argument_4399)
+712,helper_4407,13321,13341,13257,(argument_4408)
+713,helper_4415,13343,13361,13279,(argument_4417)
+714,helper_4405,13363,13383,13299,(argument_4426)
+715,helper_4406,13385,13430,13321,(argument_4432)
+716,helper_4457,13435,13448,13371,"(argument_4460, argument_4461)"
+717,helper_4458,13450,13467,13386,(argument_4465)
+718,helper_4459,13468,13476,13404,()
+719,helper_4474,13481,13502,13417,"(argument_4476, argument_4477, argument_4478)"
+720,helper_4483,13504,13520,13440,"(argument_4485, argument_4486, argument_4487)"
+721,helper_4475,13521,13537,13457,()
+722,helper_4501,13542,13553,13478,(argument_4502)
+723,helper_4498,13554,13582,13490,(argument_4508)
+724,helper_4499,13583,13594,13519,()
+725,helper_4500,13596,13607,13532,(argument_4522)
+726,helper_4524,13613,13631,13549,"(self_state_4528, argument_4529)"
+727,helper_4525,13633,13635,13569,()
+728,helper_4536,13641,13664,13577,(argument_4541)
+729,helper_4537,13666,13678,13602,(argument_4554)
+730,helper_4538,13680,13731,13616,()
+731,helper_4577,13733,13748,13669,"(argument_4581, argument_4582)"
+732,config_browser.update_controls,13749,13769,13685,()
+733,config_browser.rebuild_list,13771,13824,13707,()
+734,callback:table.sort,13787,13797,13723,"(argument_4611, argument_4612)"
+735,helper_4621,13829,13862,13765,"(argument_4623, argument_4624)"
+736,config_browser.select,13863,13869,13799,(argument_4635)
+737,helper_4622,13871,13956,13807,"(action_4641, argument_4642, argument_4643, argument_4644)"
+738,helper_4650,13877,13899,13813,(self_state_4651)
+739,helper_4652,13900,13939,13836,(argument_4653)
+740,callback:a[72],13922,13929,13858,()
+741,helper_4674,13962,13979,13898,(argument_4678)
+742,helper_4675,13981,13988,13917,()
+743,callback:a[72],13985,13987,13921,()
+744,helper_4684,13989,14000,13925,()
+745,helper_4690,14001,14009,13937,(argument_4691)
+746,helper_4694,14010,14028,13946,(argument_4695)
+747,config_browser.refresh,14030,14108,13966,(argument_4700)
+748,callback:helper_4622,14062,14105,13998,"(argument_4708, argument_4709)"
+749,callback:helper_4622,14105,14107,14041,()
+750,helper_4714,14109,14167,14045,(argument_4715)
+751,callback:helper_4622,14144,14160,14080,"(argument_4730, argument_4731)"
+752,config_browser.upload_selected_local,14168,14170,14104,()
+753,config_browser.load_selected,14174,14181,14110,()
+754,config_browser.load_selected_aa,14182,14189,14118,()
+755,config_browser.update_selected,14190,14247,14126,()
+756,callback:helper_4622,14220,14239,14156,"(argument_4752, argument_4753)"
+757,config_browser.delete_selected,14248,14267,14184,()
+758,callback:helper_4622,14255,14263,14191,"(argument_4761, argument_4762)"
+759,config_browser.toggle_selected_like,14268,14305,14204,()
+760,callback:helper_4622,14279,14299,14215,"(argument_4773, argument_4774)"
+761,callback:state_42.set_callback,14310,14316,14246,(argument_4787)
+762,callback:events.on,14317,14339,14253,()
+763,helper_4800,14373,14409,14307,(argument_4802)
+764,helper_4813,14422,14425,14356,"(argument_4819, argument_4820, argument_4821)"
+765,helper_4823,14426,14428,14360,(argument_4824)
+766,helper_4831,14440,14451,14374,(argument_4832)
+767,helper_4814,14453,14464,14387,(argument_4839)
+768,helper_4815,14465,14476,14399,(argument_4843)
+769,helper_4847,14482,14492,14416,(argument_4852)
+770,helper_4848,14493,14498,14427,(argument_4858)
+771,helper_4849,14500,14502,14434,()
+772,helper_4861,14508,14518,14442,(argument_4865)
+773,helper_4862,14520,14546,14454,()
+774,helper_4882,14552,14560,14486,(argument_4884)
+775,helper_4887,14561,14569,14495,(argument_4888)
+776,helper_4880,14570,14580,14504,(argument_4891)
+777,helper_4894,14582,14594,14516,(argument_4896)
+778,helper_4899,14596,14614,14530,(argument_4903)
+779,helper_4906,14615,14633,14549,()
+780,helper_4881,14634,14642,14568,()
+781,helper_4919,14647,14650,14581,()
+782,helper_4923,14651,14654,14585,()
+783,helper_4920,14656,14709,14590,()
+784,helper_4949,14710,14725,14644,(argument_4950)
+785,account_rewards.refresh_products,14726,14917,14660,(argument_4955)
+786,helper_4970,14792,14805,14726,"(status_4974, error_4975)"
+787,helper_4971,14806,14815,14740,()
+788,helper_4972,14816,14857,14750,(argument_4978)
+789,helper_4984,14823,14849,14757,"(argument_4985, argument_4986)"
+790,callback:a[72],14838,14841,14772,()
+791,helper_4973,14858,14914,14792,(argument_4997)
+792,callback:request,14875,14911,14809,(argument_5011)
+793,callback:a[72],14905,14908,14839,()
+794,account_rewards.award,14919,14941,14853,(argument_5026)
+795,callback:cloud_api.add_balance,14923,14938,14857,"(argument_5029, argument_5030)"
+796,account_rewards.add_playtime,14942,14953,14876,(argument_5033)
+797,helper_4921,14954,14961,14888,()
+798,helper_4798,14963,14976,14897,()
+799,helper_5047,14985,14993,14919,()
+800,callback:state_42.set_callback,14995,15040,14929,()
+801,callback:cloud_api.purchase_product,15009,15026,14943,"(argument_5059, argument_5060)"
+802,callback:state_42.set_callback,15044,15049,14978,()
+803,callback:events.on,15051,15061,14985,()
+804,antiaim_builder.normalize_side,15106,15116,15034,"(b_5079, argument_5080)"
+805,antiaim_builder.angle_plan.copy,15117,15125,15045,"(self_state_5082, argument_5083)"
+806,antiaim_builder.desync_plan.clear_sides,15127,15131,15055,(self_state_5090)
+807,antiaim_builder.desync_plan.set_sides,15133,15149,15061,"(self_state_5094, argument_5095, argument_5096)"
+808,antiaim_builder.desync_plan.apply_scheduler_side,15153,15156,15081,"(argument_5105, argument_5106)"
+809,antiaim_builder.command_context.reset,15158,15163,15086,(self_state_5111)
+810,antiaim_builder.command_context.get,15165,15222,15093,"(self_state_5115, cmd_5116)"
+811,antiaim_builder.packet_control.clear_request,15224,15231,15152,(self_state_5143)
+812,antiaim_builder.packet_control.begin,15233,15242,15161,"(self_state_5145, argument_5146)"
+813,antiaim_builder.packet_control.submit,15243,15262,15171,"(self_state_5149, argument_5150, owner_5151, allow_send_packet_5152, no_choke_5153, argument_5154)"
+814,antiaim_builder.packet_control.choke,15266,15268,15194,"(argument_5160, argument_5161, argument_5162, argument_5163)"
+815,antiaim_builder.packet_control.send,15270,15272,15198,"(argument_5167, argument_5168, argument_5169, argument_5170)"
+816,antiaim_builder.packet_control.apply,15274,15286,15202,"(argument_5173, state_5174)"
+817,antiaim_builder.packet_control.resolve,15287,15292,15215,"(self_state_5175, argument_5176)"
+818,antiaim_builder.packet_control.reset,15293,15297,15221,(self_state_5178)
+819,antiaim_builder.is_live_command_target,15322,15331,15248,"(argument_5182, argument_5183)"
+820,antiaim_builder.get_command_target,15333,15362,15259,()
+821,helper_5195,15370,15382,15296,()
+822,antiaim_backend.should_update_peek_state,15384,15406,15310,"(argument_5201, argument_5202, argument_5203)"
+823,helper_5213,15460,15466,15384,()
+824,helper_5218,15468,15479,15392,(argument_5222)
+825,helper_5214,15481,15508,15405,(argument_5230)
+826,helper_5237,15513,15519,15437,()
+827,reset_peek_data_5238,15521,15540,15445,()
+828,helper_5239,15542,15574,15466,(argument_5246)
+829,helper_5268,15580,15593,15504,"(argument_5271, argument_5272)"
+830,helper_5266,15594,15629,15518,"(argument_5282, argument_5283)"
+831,antiaim_backend.get_freestand_direction,15630,15640,15554,()
+832,helper_5267,15641,15725,15565,"(skip_5308, argument_5309)"
+833,helper_5355,15728,15750,15652,"(argument_5356, argument_5357)"
+834,helper_5374,15751,15826,15675,"(argument_5375, argument_5376)"
+835,helper_5411,15827,15883,15751,"(argument_5412, argument_5413)"
+836,helper_5425,15839,15857,15763,(argument_5426)
+837,helper_5435,15884,15898,15808,"(argument_5436, argument_5437, argument_5438)"
+838,helper_5453,15899,15971,15823,"(argument_5454, side_threat_5455, argument_5456)"
+839,helper_5462,15909,15914,15833,(side_value_5463)
+840,helper_5491,15973,15986,15897,(argument_5493)
+841,helper_5497,15987,16001,15911,(was_incoming_5498)
+842,antiaim_backend.get_peek_state,16002,16086,15926,"(argument_5501, argument_5502)"
+843,antiaim_builder.get_default_setup,16090,16111,16014,()
+844,antiaim_builder.is_dynamic_preset_active,16112,16127,16036,()
+845,helper_5532,16137,16146,16061,"(self_state_5537, desync_mode_5538, argument_5539, argument_5540)"
+846,helper_5533,16148,16156,16072,"(self_state_5544, argument_5545)"
+847,helper_5548,16160,16168,16084,"(argument_5552, argument_5553)"
+848,antiaim_builder.apply_direction_side,16170,16186,16094,"(self_state_5557, argument_5558, argument_5559, argument_5560)"
+849,antiaim_builder.apply_peek_side_desync,16188,16198,16112,"(self_state_5568, argument_5569)"
+850,helper_5570,16203,16209,16127,"(self_state_5574, state_5575)"
+851,helper_5576,16233,16241,16157,"(argument_5579, argument_5580, argument_5581)"
+852,helper_5577,16242,16248,16166,()
+853,helper_5578,16250,16260,16174,()
+854,antiaim_builder.update_threat_cheat,16262,16270,16186,(argument_5590)
+855,antiaim_builder.update_peek_state,16272,16288,16196,"(argument_5594, argument_5595)"
+856,antiaim_builder.update_last_tick_timer,16289,16318,16213,(argument_5602)
+857,state_42,16320,16322,16244,(argument_5606)
+858,helper_5611,16412,16421,16336,()
+859,helper_5607,16422,16441,16346,"(argument_5613, argument_5614)"
+860,helper_5619,16866,16881,16790,"(argument_5620, enemy_ping_5621)"
+861,helper_5609,16882,16892,16806,"(argument_5625, argument_5626)"
+862,antiaim_builder.is_height_advantage,16894,16940,16818,(argument_5632)
+863,antiaim_builder.yaw_scheduler.resolve,16942,16991,16866,"(self_state_5667, argument_5668, argument_5669, argument_5670)"
+864,helper_5682,16993,17002,16917,(argument_5683)
+865,antiaim_builder.is_vanish_safe,17003,17008,16927,()
+866,antiaim_builder.apply_safe_head_static_profile,17011,17030,16935,(self_state_5685)
+867,antiaim_builder.apply_safe_head_defensive_profile,17031,17036,16955,(self_state_5686)
+868,antiaim_builder.request_safe_head_defensive,17038,17050,16962,"(self_state_5690, argument_5691, argument_5692)"
+869,antiaim_builder.apply_vanish_mode,17052,17061,16976,"(argument_5695, argument_5696)"
+870,antiaim_builder.is_long_distance,17067,17079,16991,()
+871,antiaim_builder.is_safe_head_state,17080,17099,17004,"(argument_5704, argument_5705)"
+872,antiaim_builder.apply_safe_head,17100,17115,17024,"(argument_5710, argument_5711, argument_5712)"
+873,antiaim_builder.is_custom_preset,17116,17123,17040,(argument_5713)
+874,helper_5715,17124,17126,17048,()
+875,helper_5697,17127,17143,17051,"(argument_5716, argument_5717)"
+876,helper_5724,17149,17170,17073,(argument_5725)
+877,helper_5732,17171,17199,17095,(argument_5733)
+878,helper_5745,17201,17268,17125,"(self_state_5749, argument_5750)"
+879,helper_5765,17269,17306,17193,"(self_state_5766, argument_5767)"
+880,helper_5778,17308,17326,17232,"(argument_5779, argument_5780, argument_5781, argument_5782)"
+881,antiaim_builder.apply_preset,17329,17505,17253,"(self_state_5794, argument_5795, argument_5796, argument_5797)"
+882,helper_5855,17511,17524,17435,()
+883,field:callback,17528,17582,17452,(argument_5862)
+884,callback:state_42.bind,17586,17595,17510,()
+885,callback:events.on,17597,17601,17521,()
+886,helper_5893,17612,17617,17536,()
+887,helper_5894,17618,17622,17542,(argument_5895)
+888,helper_5891,17624,17631,17548,(argument_5898)
+889,antiaim_backend.is_freestanding_requested,17633,17656,17557,()
+890,manual_antiaim.reset,17657,17660,17581,()
+891,manual_antiaim.update_hotkeys,17662,17680,17586,()
+892,manual_antiaim.apply_directional,17682,17695,17606,"(argument_5922, state_5923)"
+893,manual_antiaim.apply_manual,17700,17739,17624,(self_state_5931)
+894,helper_5945,17756,17763,17680,()
+895,helper_5950,17764,17769,17688,()
+896,helper_5953,17770,17773,17694,()
+897,helper_5944,17775,17779,17699,()
+898,native_edge_yaw.is_enabled,17781,17819,17705,()
+899,helper_5970,17825,17840,17749,(argument_5976)
+900,helper_5971,17841,17852,17765,()
+901,helper_5972,17853,17862,17777,"(argument_5986, argument_5987)"
+902,helper_5973,17863,17869,17787,"(argument_5993, argument_5994, argument_5995)"
+903,helper_5943,17871,17900,17795,()
+904,helper_6006,17879,17884,17803,(argument_6007)
+905,helper_6019,17905,17908,17829,(argument_6020)
+906,helper_6022,17910,17924,17834,"(argument_6026, argument_6027, argument_6028)"
+907,helper_6037,17925,17933,17849,"(argument_6038, argument_6039, argument_6040)"
+908,helper_6018,17935,17943,17859,"(argument_6052, argument_6053, argument_6054, argument_6055)"
+909,helper_6061,17948,17962,17872,"(argument_6062, argument_6063, argument_6064, argument_6065, argument_6066)"
+910,helper_6072,17964,18045,17888,()
+911,helper_6089,17979,18002,17903,(argument_6090)
+912,helper_6059,18046,18060,17970,(argument_6105)
+913,antiaim_builder.get_auto_desync_side,18061,18063,17985,(argument_6110)
+914,helper_6111,18065,18072,17989,()
+915,helper_6114,18073,18095,17997,(argument_6115)
+916,helper_6060,18097,18099,18021,()
+917,helper_6122,18103,18115,18027,(argument_6125)
+918,helper_6129,18117,18124,18041,()
+919,helper_6132,18126,18137,18050,"(self_state_6135, argument_6136, argument_6137)"
+920,native_edge_yaw.apply,18139,18202,18063,"(self_state_6144, state_6145)"
+921,native_edge_yaw.on_run_command,18203,18211,18127,(argument_6159)
+922,native_edge_yaw.on_pre_config_save,18212,18222,18136,()
+923,native_edge_yaw.cleanup,18223,18232,18147,()
+924,field:callback,18236,18260,18160,()
+925,callback:state_42.bind,18263,18272,18187,()
+926,helper_6170,18287,18311,18211,"(argument_6171, argument_6172)"
+927,preset_manager.is_enabled,18313,18321,18237,"(argument_6183, argument_6184, argument_6185)"
+928,preset_manager.is_mode_enabled,18323,18365,18247,"(argument_6189, argument_6190, argument_6191, argument_6192)"
+929,helper_6202,18371,18376,18295,(argument_6206)
+930,antiaim_builder.get_delay_values,18378,18398,18302,"(argument_6209, argument_6210, argument_6211, argument_6212, argument_6213, argument_6214, argument_6215, argument_6216, p9, p10, p11)"
+931,antiaim_builder.apply_builder_yaw_jitter,18399,18459,18323,"(self_state_6228, argument_6229, jitter_way_offset_6230, argument_6231, argument_6232, jitter_custom_values_6233, argument_6234, argument_6235)"
+932,helper_5722,18460,18470,18384,(argument_6250)
+933,helper_6201,18472,18483,18396,"(argument_6258, state_6259)"
+934,preset_manager.get_active_elements,18485,18561,18409,"(self_state_6262, argument_6263, argument_6264, argument_6265, argument_6266)"
+935,helper_6287,18660,18667,18584,(argument_6290)
+936,field:get,18663,18665,18587,()
+937,helper_6292,18668,18682,18592,(argument_6293)
+938,helper_6301,18683,18691,18607,"(argument_6302, argument_6303)"
+939,helper_6304,18692,18711,18616,"(argument_6305, argument_6306, argument_6307)"
+940,preset_manager.get_active_preset_elements,18713,18749,18637,"(self_state_6312, argument_6313, argument_6314, argument_6315, argument_6316, argument_6317)"
+941,preset_manager.get_active_source,18755,18761,18679,"(argument_6336, argument_6337, argument_6338, argument_6339, argument_6340, argument_6341)"
+942,helper_6343,18765,18915,18689,(argument_6346)
+943,helper_6331,18916,18954,18840,"(argument_6410, state_6411, argument_6412, argument_6413)"
+944,helper_6332,18956,19049,18880,"(argument_6428, argument_6429, state_6430, argument_6431, argument_6432, condition_6433, argument_6434, argument_6435)"
+945,preset_manager.setup,19055,19072,18979,"(argument_6464, argument_6465, argument_6466, argument_6467, argument_6468, argument_6469)"
+946,helper_6484,19107,19113,19029,"(argument_6485, argument_6486, get_command_target_result, argument_6488)"
+947,defensive_predictor.clear_profile,19115,19129,19037,(self_state_6490)
+948,defensive_predictor.clear_output,19131,19146,19053,(argument_6492)
+949,defensive_predictor.reset,19147,19155,19069,(self_state_6494)
+950,defensive_predictor.capture_command,19157,19160,19079,"(self_state_6497, argument_6498)"
+951,defensive_predictor.update_tickbase,19161,19207,19083,"(self_state_6500, argument_6501)"
+952,helper_6510,19208,19216,19130,(argument_6511)
+953,defensive_predictor.can_run,19218,19225,19140,"(argument_6514, argument_6515)"
+954,defensive_predictor.is_trigger_active,19227,19252,19149,"(argument_6519, argument_6520)"
+955,defensive_predictor.evaluate,19253,19261,19175,"(argument_6524, argument_6525)"
+956,defensive_predictor.refresh_profile,19263,19341,19185,"(self_state_6533, argument_6534)"
+957,defensive_antiaim.refresh,19343,19345,19265,(argument_6565)
+958,defensive_antiaim.get_cached_profile,19346,19353,19268,(argument_6566)
+959,helper_6568,19358,19361,19280,()
+960,helper_6569,19362,19364,19284,(argument_6572)
+961,helper_6570,19366,19368,19288,(argument_6576)
+962,helper_6577,19374,19377,19296,()
+963,helper_6578,19378,19394,19300,"(argument_6583, argument_6584)"
+964,helper_6579,19395,19404,19317,(argument_6589)
+965,helper_6595,19410,19413,19332,(argument_6600)
+966,helper_6596,19415,19423,19337,"(a_2_6605_6607_6604, a_2_6605, argument_6606)"
+967,helper_6608,19429,19437,19351,()
+968,helper_6609,19439,19464,19361,"(argument_6616, phase_profile_key_6617)"
+969,helper_6625,19470,19485,19392,"(argument_6628, argument_6629, argument_6630)"
+970,helper_6626,19487,19499,19409,"(argument_6639, argument_6640)"
+971,helper_6647,19504,19506,19426,"(argument_6650, argument_6651)"
+972,helper_6648,19508,19522,19430,"(argument_6655, argument_6656)"
+973,helper_6649,19524,19543,19446,"(argument_6667, argument_6668, argument_6669, argument_6670)"
+974,helper_6684,19549,19558,19471,"(argument_6688, argument_6689, argument_6690)"
+975,helper_6685,19559,19576,19481,"(argument_6694, argument_6695, argument_6696)"
+976,defensive_antiaim.policy_seed_phase,19578,19588,19500,"(argument_6709, argument_6710)"
+977,defensive_antiaim.policy_sawtooth,19589,19591,19511,"(argument_6715, argument_6716, argument_6717)"
+978,defensive_antiaim.policy_distortion,19593,19616,19515,"(argument_6721, argument_6722, argument_6723)"
+979,field:Custom,19623,19625,19545,(argument_6754)
+980,"field:""Cross switch""",19626,19629,19548,(argument_6755)
+981,"field:""Three point""",19630,19633,19552,(argument_6757)
+982,"field:""Five point""",19634,19637,19556,(argument_6759)
+983,field:Pendulum,19638,19640,19560,(argument_6761)
+984,"field:""Edge sweep""",19641,19643,19563,(argument_6762)
+985,field:Distortion,19644,19646,19566,(argument_6763)
+986,field:Random,19647,19649,19569,(argument_6764)
+987,field:Adaptive,19650,19658,19572,(argument_6765)
+988,helper_6742,19661,19674,19583,(argument_6771)
+989,field:Custom,19681,19683,19603,(argument_6785)
+990,"field:""Cross switch""",19684,19688,19606,(argument_6786)
+991,"field:""Three point""",19689,19692,19611,(argument_6789)
+992,"field:""Wide switch""",19693,19696,19615,(argument_6791)
+993,field:Spin,19697,19705,19619,(argument_6793)
+994,field:Distortion,19706,19708,19628,(argument_6796)
+995,field:Random,19709,19711,19631,(argument_6797)
+996,field:Freestanding,19712,19714,19634,(argument_6798)
+997,field:Adaptive,19715,19719,19637,(argument_6799)
+998,helper_6774,19722,19753,19644,"(argument_6804, argument_6805, argument_6806, argument_6807, argument_6808)"
+999,helper_6822,19761,19873,19683,(argument_6826)
+1000,helper_6819,19874,19923,19796,"(argument_6870, condition_6871, argument_6872, argument_6873, argument_6874, argument_6875)"
+1001,helper_6820,19924,19932,19846,"(argument_6889, argument_6890, argument_6891, argument_6892, argument_6893)"
+1002,helper_6821,19981,20039,19903,(self_state_6899)
+1003,defensive_antiaim.is_preset_allowed,20040,20054,19962,()
+1004,defensive_antiaim.get_preset_context,20056,20080,19978,"(argument_6916, argument_6917)"
+1005,defensive_antiaim.is_anim_event_active,20084,20123,20006,(argument_6931)
+1006,helper_6933,20088,20101,20010,(argument_6934)
+1007,defensive_antiaim.is_force_defensive_enabled,20125,20149,20047,()
+1008,defensive_antiaim.resolve_preset_reason,20151,20184,20073,(argument_6960)
+1009,defensive_antiaim.apply_preset,20186,20200,20108,(self_state_6967)
+1010,defensive_antiaim.apply,20202,20324,20124,"(self_state_6971, argument_6972)"
+1011,defensive_antiaim.on_player_death,20326,20331,20248,(argument_7013)
+1012,defensive_antiaim.on_player_hurt,20332,20345,20254,(argument_7014)
+1013,field:callback,20364,20367,20286,(argument_7019)
+1014,field:callback,20372,20375,20294,(argument_7024)
+1015,defensive_antiaim.sync_callbacks,20384,20387,20306,()
+1016,helper_7032,20411,20415,20333,()
+1017,state_table_5068.reset,20416,20419,20338,()
+1018,helper_7033,20420,20444,20342,(argument_7034)
+1019,helper_7040,20445,20460,20367,()
+1020,helper_7044,20462,20477,20384,(argument_7047)
+1021,helper_7048,20478,20495,20400,(argument_7049)
+1022,helper_7055,20497,20523,20419,(argument_7057)
+1023,state_table_5068.apply,20524,20544,20446,"(self_state_7061, argument_7062)"
+1024,helper_7063,20550,20560,20472,"(aa_type_7067, cmd_7068)"
+1025,helper_7070,20562,20571,20484,(self_state_7073)
+1026,helper_7075,20573,20601,20495,(argument_7077)
+1027,antiaim_backend.setup,20603,20634,20525,"(argument_7081, argument_7082, argument_7083)"
+1028,helper_7093,20648,20659,20568,"(argument_7094, argument_7095, ...)"
+1029,native_antiaim_bridge.write,20660,20681,20580,"(argument_7097, argument_7098, ...)"
+1030,native_antiaim_bridge.set_mode,20683,20686,20603,(mode_7107)
+1031,native_antiaim_bridge.apply_disabled,20688,20706,20608,(argument_7110)
+1032,native_antiaim_bridge.apply_bridge,20708,20729,20628,"(argument_7115, argument_7116)"
+1033,helper_7122,20730,20757,20650,(argument_7123)
+1034,native_antiaim_bridge.apply_native,20758,20804,20678,"(argument_7132, argument_7133)"
+1035,native_antiaim_bridge.restore,20805,20840,20725,()
+1036,antiaim_backend.disable_native,20842,20844,20762,()
+1037,antiaim_backend.push,20846,20873,20766,"(argument_7174, argument_7175, argument_7176)"
+1038,antiaim_backend.cleanup,20874,20893,20794,()
+1039,helper_7185,20896,20907,20816,(argument_7186)
+1040,helper_7189,20908,20920,20828,(self_state_7190)
+1041,state_table_5069.is_enabled,20922,20924,20842,()
+1042,state_table_5069.apply,20926,20948,20846,(argument_7195)
+1043,helper_7201,20950,20957,20870,(argument_7205)
+1044,helper_7207,20958,20972,20878,"(self_state_7208, state_7209)"
+1045,state_table_5070.is_enabled,20973,20975,20893,()
+1046,state_table_5070.apply,20977,20983,20897,"(argument_7211, argument_7212)"
+1047,helper_7216,20991,21004,20911,"(argument_7217, argument_7218, argument_7219)"
+1048,helper_7222,21006,21045,20926,"(argument_7226, skip_7227)"
+1049,ladder_antiaim.is_enabled,21047,21049,20967,()
+1050,ladder_antiaim.reset,21050,21053,20970,()
+1051,ladder_antiaim.should_block_aa,21054,21065,20974,"(argument_7251, argument_7252)"
+1052,ladder_antiaim.update_ladder_state,21069,21073,20989,(was_on_ladder_7257)
+1053,ladder_antiaim.fix_entry_movement,21075,21093,20995,"(self_state_7261, argument_7262, argument_7263, argument_7264)"
+1054,ladder_antiaim.update,21095,21182,21015,(self_state_7278)
+1055,helper_7304,21184,21190,21104,()
+1056,legit_antiaim.is_enabled,21192,21194,21112,()
+1057,legit_antiaim.reset,21195,21198,21115,()
+1058,legit_antiaim.update,21199,21207,21119,(argument_7310)
+1059,helper_7313,21213,21237,21133,(argument_7314)
+1060,backstab_guard.is_enabled,21238,21251,21158,()
+1061,backstab_guard.reset,21252,21255,21172,()
+1062,backstab_guard.update,21256,21287,21176,(self_state_7322)
+1063,helper_7340,21294,21298,21214,"(argument_7343, argument_7344)"
+1064,helper_7345,21299,21414,21219,()
+1065,helper_7365,21416,21427,21336,()
+1066,helper_7337,21429,21441,21349,()
+1067,helper_7374,21445,21457,21365,"(argument_7376, state_7377)"
+1068,state_table_5074.is_enabled,21459,21461,21379,()
+1069,state_table_5074.apply,21463,21469,21383,"(argument_7382, argument_7383)"
+1070,state_table_5076.is_enabled,21471,21501,21391,()
+1071,state_table_5076.apply,21502,21510,21422,(self_state_7393)
+1072,antiaim_builder.is_low_confidence_attacker,21534,21547,21454,"(argument_7397, argument_7398)"
+1073,helper_7406,21573,21577,21493,(self_state_7409)
+1074,helper_7407,21579,21587,21499,()
+1075,helper_7408,21589,21596,21509,()
+1076,helper_7417,21601,21611,21521,(argument_7420)
+1077,helper_7419,21614,21625,21534,(argument_7425)
+1078,helper_7431,21631,21638,21551,()
+1079,anti_bruteforce.dynamic_cheat_for,21671,21679,21591,(argument_7441)
+1080,anti_bruteforce.cleanup_dynamic_profiles,21682,21743,21602,"(dynamic_last_cleanup_7444, argument_7445)"
+1081,callback:table.sort,21716,21720,21636,"(argument_7464, argument_7465)"
+1082,helper_7476,21749,21816,21669,"(argument_7479, argument_7480, argument_7481, argument_7482)"
+1083,helper_7474,21817,21892,21737,"(argument_7493, argument_7494, last_event_7495)"
+1084,anti_bruteforce.get_dynamic_setup,21894,22069,21814,"(argument_7515, argument_7516)"
+1085,helper_7475,22071,22121,21991,"(argument_7538, argument_7539, argument_7540, argument_7541, argument_7542)"
+1086,helper_7554,22127,22167,22047,"(argument_7559, argument_7560, argument_7561, argument_7562, argument_7563)"
+1087,helper_7418,22168,22175,22088,()
+1088,helper_7555,22177,22186,22097,(argument_7584)
+1089,anti_bruteforce.capture_history,22188,22252,22108,(argument_7588)
+1090,helper_7613,22258,22274,22178,"(argument_7617, argument_7618, argument_7619, argument_7620, argument_7621, argument_7622, argument_7623, argument_7624, p9)"
+1091,helper_7634,22275,22277,22195,"(argument_7635, argument_7636, argument_7637, argument_7638, argument_7639, argument_7640, argument_7641)"
+1092,helper_7611,22279,22338,22199,"(argument_7643, argument_7644)"
+1093,helper_7612,22340,22372,22260,"(argument_7676, argument_7677, argument_7678)"
+1094,helper_7692,22377,22386,22297,()
+1095,helper_7689,22387,22401,22307,(argument_7696)
+1096,helper_7690,22402,22406,22322,()
+1097,helper_7697,22407,22436,22327,"(argument_7698, argument_7699, argument_7700, argument_7701)"
+1098,helper_7713,22437,22465,22357,"(argument_7714, argument_7715, argument_7716)"
+1099,anti_bruteforce.on_player_hurt,22466,22543,22386,(argument_7729)
+1100,anti_bruteforce.on_bullet_impact,22544,22594,22464,(argument_7753)
+1101,anti_bruteforce.on_player_death,22596,22609,22516,(argument_7769)
+1102,helper_7691,22611,22630,22531,()
+1103,helper_7779,22634,22640,22554,()
+1104,anti_bruteforce.update,22641,22734,22561,(argument_7784)
+1105,anti_bruteforce.reset,22736,22760,22656,(argument_7809)
+1106,anti_bruteforce.reset_runtime,22762,22764,22682,()
+1107,anti_bruteforce.reset_all,22766,22768,22686,()
+1108,helper_7817,22819,22826,22739,()
+1109,helper_7818,22828,22841,22748,(argument_7821)
+1110,helper_7826,22847,22855,22767,(argument_7831)
+1111,helper_7827,22857,22864,22777,"(argument_7841, argument_7842)"
+1112,helper_7844,22870,22892,22790,(argument_7848)
+1113,helper_7845,22893,22933,22813,"(argument_7855, argument_7856)"
+1114,helper_7846,22935,22953,22855,"(argument_7871, argument_7872)"
+1115,helper_7885,22959,22962,22879,()
+1116,helper_7886,22964,22969,22884,()
+1117,helper_7891,22974,22979,22894,(target_lock_7895)
+1118,helper_7892,22981,22990,22901,"(argument_7897, argument_7898, argument_7899, argument_7900)"
+1119,helper_7893,22992,23012,22912,"(argument_7910, argument_7911, argument_7912)"
+1120,helper_7914,23014,23031,22934,"(argument_7916, argument_7917, argument_7918, argument_7919, argument_7920, argument_7921, argument_7922, argument_7923)"
+1121,helper_7894,23033,23057,22953,"(argument_7934, argument_7935, argument_7936, argument_7937, argument_7938, argument_7939)"
+1122,helper_7954,23063,23083,22983,"(argument_7957, argument_7958, argument_7959, argument_7960)"
+1123,helper_7973,23085,23114,23005,(argument_7975)
+1124,helper_7980,23116,23138,23036,"(argument_7984, argument_7985, argument_7986, argument_7987)"
+1125,target_selector.select_target,23139,23161,23059,(argument_7993)
+1126,state_42,23162,23182,23082,(argument_7999)
+1127,helper_7953,23189,23233,23109,"(argument_8004, argument_8005)"
+1128,helper_8034,23239,23260,23159,(argument_8039)
+1129,helper_8035,23261,23271,23181,(argument_8043)
+1130,helper_8047,23272,23307,23192,"(argument_8048, argument_8049)"
+1131,helper_8057,23309,23321,23229,"(argument_8059, argument_8060)"
+1132,helper_8062,23323,23334,23243,"(argument_8065, argument_8066, argument_8067, argument_8068)"
+1133,helper_8036,23335,23350,23255,"(argument_8071, argument_8072, argument_8073, argument_8074)"
+1134,helper_8083,23354,23381,23274,"(argument_8086, argument_8087, argument_8088, argument_8089)"
+1135,helper_8106,23383,23424,23303,"(argument_8110, argument_8111, argument_8112, argument_8113)"
+1136,helper_8129,23426,23452,23346,"(argument_8131, argument_8132)"
+1137,helper_8135,23453,23470,23373,"(self_state_8136, argument_8137, argument_8138)"
+1138,target_selector.apply,23472,23535,23392,"(self_state_8144, argument_8145)"
+1139,target_selector.deactivate,23536,23542,23456,(argument_8176)
+1140,target_selector.reset,23543,23566,23463,()
+1141,helper_8182,23591,23607,23511,(self_state_8186)
+1142,antiaim_builder.mode_proposal.prepare,23610,23612,23530,(argument_8192)
+1143,antiaim_builder.mode_proposal.commit,23613,23617,23533,"(argument_8193, argument_8194)"
+1144,helper_8179,23618,23682,23538,"(argument_8195, argument_8196)"
+1145,helper_8180,23683,23688,23603,(argument_8207)
+1146,antiaim_backend.run_secondary_aa,23694,23702,23614,"(argument_8213, argument_8214)"
+1147,helper_8217,23703,23815,23623,(self_state_8218)
+1148,helper_8208,23817,23839,23737,()
+1149,field:callback,23851,23857,23771,(argument_8261)
+1150,field:callback,23862,23864,23782,(argument_8263)
+1151,field:callback,23870,23873,23790,()
+1152,field:callback,23878,23883,23798,(argument_8268)
+1153,state_42,23894,23908,23814,()
+1154,callback:events.on,23912,23920,23832,()
+1155,helper_8282,23939,23951,23857,()
+1156,helper_8281,23953,23965,23871,()
+1157,helper_8291,23971,23978,23889,(argument_8294)
+1158,helper_8296,23980,23989,23898,()
+1159,helper_8301,23990,23997,23908,(argument_8302)
+1160,helper_8292,23999,24011,23917,(argument_8306)
+1161,session_statistics.can_earn_rewards,24012,24020,23930,()
+1162,session_statistics.update_activity,24021,24033,23939,(argument_8312)
+1163,helper_8318,24038,24046,23956,(argument_8319)
+1164,session_statistics.add_kill,24048,24066,23966,(argument_8325)
+1165,session_statistics.add_hit,24068,24075,23986,(argument_8329)
+1166,session_statistics.add_miss,24076,24083,23994,(argument_8330)
+1167,session_statistics.add_playtime,24085,24111,24003,()
+1168,session_statistics.get_hitrate,24113,24119,24031,()
+1169,session_statistics.update_ui,24123,24139,24041,()
+1170,anonymous,24140,24145,24058,()
+1171,callback:events.on,24151,24153,24069,(argument_8360)
+1172,callback:events.on,24155,24157,24073,(argument_8364)
+1173,callback:events.on,24159,24164,24077,(argument_8367)
+1174,callback:events.on,24165,24172,24083,()
+1175,callback:events.on,24174,24176,24092,(argument_8370)
+1176,helper_8382,24235,24237,24153,"(argument_8386, argument_8387, argument_8388)"
+1177,helper_8383,24239,24247,24157,(argument_8391)
+1178,helper_8394,24253,24264,24171,(argument_8400)
+1179,helper_8395,24265,24272,24183,(argument_8401)
+1180,helper_8396,24274,24283,24192,"(argument_8406, argument_8407)"
+1181,helper_8411,24289,24299,24207,"(math_min_result_8415, argument_8416, argument_8417)"
+1182,helper_8412,24301,24312,24219,(argument_8421)
+1183,helper_8424,24318,24331,24236,(argument_8430)
+1184,helper_8433,24332,24347,24250,(argument_8434)
+1185,helper_8425,24348,24381,24266,"(argument_8440, argument_8441)"
+1186,helper_8426,24382,24412,24300,"(argument_8451, argument_8452)"
+1187,helper_8462,24417,24426,24335,(argument_8465)
+1188,helper_8463,24428,24440,24346,(argument_8475)
+1189,helper_8464,24442,24456,24360,"(argument_8480, argument_8481)"
+1190,helper_8489,24461,24475,24379,"(argument_8490, argument_8491)"
+1191,helper_8487,24477,24525,24395,"(argument_8500, argument_8501, argument_8502, argument_8503)"
+1192,helper_8488,24526,24549,24444,"(argument_8526, argument_8527, argument_8528, argument_8529)"
+1193,helper_8538,24555,24599,24473,"(self_state_8541, last_side_8542, last_desync_angle_8543, argument_8544, argument_8545)"
+1194,helper_8553,24601,24610,24519,"(argument_8555, argument_8556, argument_8557, argument_8558, argument_8559)"
+1195,helper_8537,24612,24655,24530,"(argument_8565, argument_8566, argument_8567, argument_8568, argument_8569)"
+1196,helper_8588,24661,24670,24579,(argument_8591)
+1197,helper_8592,24672,24677,24590,()
+1198,helper_8596,24678,24688,24596,(argument_8597)
+1199,helper_8586,24689,24693,24607,(argument_8598)
+1200,state_42,24695,24703,24613,"(argument_8599, argument_8600)"
+1201,field:callback,24708,24719,24626,()
+1202,field:callback,24724,24772,24642,()
+1203,helper_8617,24780,24783,24698,(argument_8621)
+1204,callback:events.bind_controls,24785,24798,24703,()
+1205,callback:events.on,24800,24803,24718,()
+1206,aimtools.no_lagcompensation_active,24831,24833,24747,()
+1207,aimtools.is_resolver_feedback_suppressed,24835,24842,24751,(argument_8631)
+1208,aimtools.is_resolver_class_miss,24846,24857,24762,(argument_8633)
+1209,helper_8642,24862,24902,24778,()
+1210,aimtools.get_native_feature_flags_address,24903,24909,24819,()
+1211,aimtools.begin_movement_command,24910,24931,24826,(argument_8653)
+1212,aimtools.claim_movement,24933,24943,24849,"(argument_8660, owner_8661, argument_8662)"
+1213,aimtools.native_movement_owner,24945,24951,24861,(argument_8669)
+1214,aimtools.numeric_cvar,24972,24980,24888,"(argument_8674, argument_8675)"
+1215,aimtools.no_lagcompensation_requested,24982,24998,24898,()
+1216,aimtools.no_lagcompensation_native_ready,25000,25008,24916,()
+1217,aimtools.register_no_lagcompensation_feature,25010,25013,24926,(argument_8690)
+1218,aimtools.get_outgoing_latency,25014,25022,24930,()
+1219,aimtools.update_server_rewind_clock,25023,25079,24939,()
+1220,aimtools.get_server_rewind_state,25081,25097,24997,(argument_8716)
+1221,aimtools.add_target_policy_resetter,25103,25108,25019,(argument_8728)
+1222,helper_8724,25110,25120,25026,(argument_8732)
+1223,aimtools.new_target_jitter_context,25122,25124,25038,()
+1224,aimtools.new_target_jitter_contexts,25125,25134,25041,()
+1225,aimtools.target_jitter_context_name,25136,25159,25052,"(argument_8739, argument_8740, argument_8741)"
+1226,aimtools.target_life_token,25163,25171,25079,(argument_8747)
+1227,aimtools.reset_target_policies,25173,25177,25089,(argument_8753)
+1228,aimtools.valid_target_index,25183,25191,25099,(argument_8756)
+1229,aimtools.clear_inflight_target,25193,25204,25109,(argument_8761)
+1230,aimtools.track_shot_transaction,25206,25231,25122,(argument_8766)
+1231,aimtools.settle_shot_transaction,25233,25255,25149,(argument_8783)
+1232,aimtools.invalidate_target_history_now,25256,25268,25172,(argument_8793)
+1233,aimtools.invalidate_target_history,25272,25283,25188,(argument_8798)
+1234,aimtools.defer_target_retirement,25284,25309,25200,"(argument_8801, argument_8802)"
+1235,aimtools.defer_target_retirement_from_event,25311,25315,25227,(argument_8811)
+1236,aimtools.arm_pending_target_retirements,25317,25321,25233,()
+1237,aimtools.perform_target_history_clear,25323,25333,25239,()
+1238,aimtools.flush_pending_target_retirements,25334,25353,25250,()
+1239,aimtools.hard_invalidate_target_from_event,25354,25358,25270,(argument_8826)
+1240,helper_8829,25363,25378,25279,(argument_8830)
+1241,aimtools.build_target_yaw_clusters,25380,25402,25296,"(argument_8834, argument_8835)"
+1242,aimtools.find_target_yaw_cluster,25404,25418,25320,"(argument_8847, argument_8848, argument_8849)"
+1243,aimtools.build_target_yaw_cluster_runs,25419,25431,25335,"(argument_8854, argument_8855, argument_8856)"
+1244,helper_8862,25437,25470,25353,"(argument_8865, argument_8866)"
+1245,helper_8868,25471,25570,25387,"(self_state_8869, observed_simtime_8870, observed_simulation_tick_8871, argument_8872, argument_8873, argument_8874, argument_8875)"
+1246,helper_8920,25571,26073,25487,"(self_state_8921, eye_pitch_8922, argument_8923, argument_8924, body_yaw_delta_8925, angle_reliable_8926, argument_8927, argument_8928, p9, p10, p11, p12, p13, p14, p15, p16, p17)"
+1247,helper_8861,26075,27117,25991,"(argument_9082, argument_9083)"
+1248,aimtools.get_target_classification,27119,27121,27035,(argument_9127)
+1249,aimtools.get_bounded_record_evidence,27123,27154,27039,(argument_9129)
+1250,aimtools.debug_target_classification_required,27196,27198,27112,()
+1251,aimtools.target_classification_required,27199,27230,27115,()
+1252,helper_9160,27234,27266,27150,()
+1253,aimtools.update_all_target_classifications_profiled,27268,27270,27184,()
+1254,state_43,27274,27280,27190,()
+1255,callback:events.on,27301,27303,27217,()
+1256,callback:events.on,27313,27317,27229,()
+1257,state_42,27318,27937,27234,()
+1258,shot_feedback_policy.reset_pending,27362,27368,27276,(self_state_9191)
+1259,shot_feedback_policy.reset_tables,27369,27394,27283,(self_state_9192)
+1260,shot_feedback_policy.build_cave,27395,27498,27309,(self_state_9194)
+1261,shot_feedback_policy.begin_policy_publish,27500,27510,27414,(self_state_9271)
+1262,shot_feedback_policy.end_policy_publish,27514,27526,27428,(self_state_9277)
+1263,shot_feedback_policy.expire_pending,27527,27539,27441,(self_state_9280)
+1264,shot_feedback_policy.update_policy,27543,27602,27457,(self_state_9288)
+1265,shot_feedback_policy.queue_shot,27605,27616,27519,"(self_state_9310, argument_9311, state_9312)"
+1266,shot_feedback_policy.on_aim_fire,27619,27660,27533,(argument_9316)
+1267,shot_feedback_policy.take_shot,27664,27692,27578,"(self_state_9329, argument_9330)"
+1268,shot_feedback_policy.feedback_policy_compatible,27696,27709,27610,"(argument_9341, argument_9342, argument_9343)"
+1269,shot_feedback_policy.consume_feedback_record,27713,27725,27627,"(self_state_9348, argument_9349, argument_9350)"
+1270,shot_feedback_policy.on_aim_hit,27727,27747,27641,(argument_9352)
+1271,shot_feedback_policy.on_aim_miss,27750,27781,27664,(argument_9361)
+1272,shot_feedback_policy.clear_player_index,27782,27821,27696,(argument_9366)
+1273,shot_feedback_policy.clear_player_policy,27823,27828,27737,(argument_9375)
+1274,shot_feedback_policy.set_callbacks_enabled,27830,27852,27744,"(self_state_9378, argument_9379)"
+1275,shot_feedback_policy.update_policy_callback,27854,27858,27768,()
+1276,shot_feedback_policy.reset_feedback_callback,27862,27882,27776,()
+1277,shot_feedback_policy.install,27886,27910,27800,(self_state_9402)
+1278,shot_feedback_policy.restore,27911,27921,27825,(self_state_9411)
+1279,aimtools.apply_aimtools_full_stop,27939,27982,27853,"(self_state_9424, argument_9425, argument_9426)"
+1280,aimtools.get_aimtools_fire_window,27989,28019,27903,"(argument_9453, argument_9454, argument_9455)"
+1281,aimtools.get_damageable_threat,28034,28115,27948,"(me_9468, target_9469, argument_9470, predicate_9471)"
+1282,helper_9486,28062,28072,27976,(argument_9487)
+1283,field:set_defensive_active,28141,28155,28053,"(self_state_9516, defensive_active_9517, argument_9518)"
+1284,field:set_air_active,28156,28165,28068,"(self_state_9523, air_active_9524)"
+1285,field:set_land_stopping,28166,28175,28078,"(self_state_9528, land_stopping_9529)"
+1286,field:reset,28176,28189,28088,(self_state_9533)
+1287,field:is_target_valid,28190,28197,28102,"(argument_9537, argument_9538)"
+1288,field:land_weapon_enabled,28198,28200,28110,(argument_9540)
+1289,field:target_in_air_range,28201,28218,28113,"(argument_9541, argument_9542, argument_9543)"
+1290,field:get_stop_context,28219,28237,28131,"(self_state_9554, argument_9555, argument_9556, argument_9557)"
+1291,field:is_direct_defensive_target,28238,28250,28150,"(argument_9564, argument_9565)"
+1292,field:get_defensive_prestop_horizon,28251,28266,28163,"(argument_9570, argument_9571)"
+1293,helper_9502,28269,28271,28181,(argument_9583)
+1294,autostop_controller.rage_quick_stop_enabled,28274,28283,28186,()
+1295,autostop_controller.run_defensive_prestop,28284,28314,28196,"(argument_9587, argument_9588, argument_9589, argument_9590, argument_9591)"
+1296,autostop_controller.run_airborne,28316,28362,28228,"(self_state_9609, state_9610, argument_9611, argument_9612, argument_9613, argument_9614, argument_9615)"
+1297,autostop_controller.run_grounded,28364,28421,28276,"(self_state_9631, state_9632, argument_9633, argument_9634, argument_9635, argument_9636)"
+1298,autostop_controller.on_setup_command,28423,28467,28335,(argument_9651)
+1299,autostop_controller.on_aim_fire,28469,28472,28381,()
+1300,autostop_controller.set_callbacks_enabled,28473,28487,28385,"(self_state_9672, argument_9673)"
+1301,callback:events.bind_controls,28489,28511,28401,()
+1302,callback:events.on,28512,28515,28424,()
+1303,helper_9689,28544,28555,28454,"(argument_9692, argument_9693)"
+1304,aimtools.refresh_movement_cvars,28557,28569,28467,(argument_9697)
+1305,aimtools.get_field,28572,28585,28482,"(argument_9703, argument_9704, argument_9705)"
+1306,aimtools.peak_inaccuracy,28586,28615,28496,"(argument_9708, argument_9709, argument_9710, argument_9711)"
+1307,aimtools.predict_next,28617,28638,28527,"(argument_9724, argument_9725, argument_9726)"
+1308,helper_9739,28639,28652,28549,"(argument_9740, argument_9741, argument_9742, argument_9743)"
+1309,aimtools.recovery_time,28653,28668,28563,"(argument_9749, argument_9750, argument_9751)"
+1310,aimtools.get_movement_yaw,28672,28684,28582,(argument_9757)
+1311,aimtools.clear_move_buttons,28685,28690,28595,(self_state_9762)
+1312,aimtools.counter_strafe,28692,28711,28602,"(argument_9764, argument_9765)"
+1313,aimtools.apply_aimtools_air_stop,28713,28742,28623,(self_state_9782)
+1314,aimtools.blend_move,28743,28746,28653,"(self_state_9798, argument_9799, argument_9800, argument_9801)"
+1315,aimtools.friction_scale,28747,28756,28657,(argument_9802)
+1316,helper_9827,28800,28807,28710,()
+1317,helper_9824,28808,28823,28718,()
+1318,helper_9837,28829,28831,28739,()
+1319,helper_9838,28832,28850,28742,(argument_9843)
+1320,helper_9839,28852,28858,28762,(argument_9860)
+1321,helper_9840,28860,28874,28770,(argument_9864)
+1322,helper_9867,28879,28890,28789,"(argument_9871, argument_9872)"
+1323,helper_9868,28892,28927,28802,"(self_state_9877, argument_9878, argument_9879)"
+1324,helper_9886,28929,28934,28839,()
+1325,helper_9869,28936,28980,28846,"(argument_9891, argument_9892, argument_9893)"
+1326,helper_9870,28982,28988,28892,()
+1327,helper_9916,28992,28994,28902,()
+1328,field:callback,28999,29061,28909,(argument_9923)
+1329,field:callback,29065,29091,28975,()
+1330,callback:state_43.bind,29095,29104,29005,()
+1331,callback:state_43.bind,29104,29107,29014,()
+1332,helper_9950,29120,29126,29030,()
+1333,field:callback,29131,29152,29041,(argument_9956)
+1334,callback:state_43.bind,29156,29169,29066,()
+1335,helper_9970,29174,29186,29084,()
+1336,helper_9978,29194,29204,29104,"(argument_9979, argument_9980)"
+1337,helper_9990,29205,29228,29115,"(argument_9991, argument_9992)"
+1338,helper_9973,29230,29264,29140,"(argument_10000, argument_10001)"
+1339,helper_10016,29268,29275,29178,()
+1340,helper_10021,29277,29279,29187,()
+1341,field:callback,29285,29295,29195,()
+1342,callback:events.bind_controls,29299,29320,29209,()
+1343,callback:events.on,29322,29326,29232,()
+1344,helper_10045,29333,29336,29243,()
+1345,field:callback,29341,29362,29251,()
+1346,callback:state_43.bind,29366,29375,29276,()
+1347,callback:events.on,29377,29381,29287,()
+1348,helper_10075,29396,29404,29306,(argument_10079)
+1349,helper_10082,29406,29414,29316,()
+1350,field:callback,29418,29459,29328,()
+1351,callback:state_43.bind,29463,29472,29373,()
+1352,field:resolve,29475,29477,29385,()
+1353,field:mark_crash_stage,29483,29485,29393,()
+1354,feature_registry.site,29492,29497,29402,"(argument_10095, argument_10096, argument_10097, argument_10098)"
+1355,literal_patch_class.new,29502,29525,29410,(argument_10100)
+1356,literal_patch_class.resolve_site,29526,29530,29434,(self_state_10107)
+1357,literal_patch_class.install,29532,29563,29440,(self_state_10112)
+1358,literal_patch_class.restore,29565,29572,29473,(self_state_10130)
+1359,feature_registry.literal_patch,29573,29575,29481,(argument_10132)
+1360,helper_10133,29579,29586,29487,(argument_10137)
+1361,feature_registry.flush,29588,29625,29496,()
+1362,feature_registry.register,29627,29642,29535,"(argument_10153, argument_10154)"
+1363,native_feature_compat.new,29650,29675,29556,(argument_10158)
+1364,setmetatable_5_result_10164.callback,29668,29670,29574,()
+1365,setmetatable_5_result_10164.shutdown,29671,29673,29577,()
+1366,native_feature_compat.disable_control,29676,29689,29582,(argument_10166)
+1367,native_feature_compat.restore,29690,29694,29596,(self_state_10169)
+1368,native_feature_compat.reconcile,29695,29701,29601,(argument_10172)
+1369,native_feature_compat.handle_callback_error,29702,29707,29608,"(self_state_10175, argument_10176, argument_10177)"
+1370,native_feature_compat.bind,29709,29730,29615,"(argument_10180, ...)"
+1371,helper_10183,29712,29715,29618,()
+1372,native_feature_compat.set_event_callback,29732,29745,29638,"(argument_10191, argument_10192, argument_10193)"
+1373,callback:events.on,29738,29744,29644,"(argument_10199, argument_10200)"
+1374,native_feature_compat.new_callback_group,29747,29766,29653,"(argument_10204, argument_10205)"
+1375,helper_10208,29750,29753,29656,"(argument_10209, argument_10210)"
+1376,native_feature_compat.queue,29767,29773,29673,"(argument_10221, argument_10222)"
+1377,feature_registry.feature,29775,29780,29681,(argument_10225)
+1378,feature_registry.unload_all,29781,29828,29687,(argument_10226)
+1379,callback:events.on,29830,29832,29736,()
+1380,aimtools.native_rage_multithreading.resolve,29838,29860,29744,()
+1381,callback:events.on,29869,29882,29773,()
+1382,field:valid_enemy,29898,29905,29802,(argument_10266)
+1383,rage_target_priority.select_bomb_carrier,29908,29921,29812,(argument_10271)
+1384,rage_target_priority.select_lowest_health,29922,29937,29826,(argument_10275)
+1385,rage_target_priority.clear_selected_target,29939,29944,29843,()
+1386,rage_target_priority.build_cave,29945,29985,29849,()
+1387,rage_target_priority.update_selected_target,29986,30013,29890,()
+1388,rage_target_priority.set_setup_enabled,30015,30021,29919,(argument_10327)
+1389,rage_target_priority.install,30024,30041,29928,(self_state_10332)
+1390,rage_target_priority.restore,30042,30050,29946,(self_state_10338)
+1391,field:get,30052,30054,29956,()
+1392,field:set,30055,30061,29959,"(argument_10340, argument_10341)"
+1393,helper_10345,30110,30117,30012,(argument_10349)
+1394,damage_snapshot.begin_publish,30119,30131,30021,(self_state_10354)
+1395,damage_snapshot.end_publish,30133,30145,30035,(self_state_10359)
+1396,damage_snapshot.publish,30146,30166,30048,"(self_state_10362, argument_10363, argument_10364, argument_10365)"
+1397,damage_snapshot.clear_snapshot,30167,30170,30069,(argument_10376)
+1398,damage_snapshot.ensure_snapshot_buffer,30171,30178,30073,(self_state_10378)
+1399,damage_snapshot.refresh_snapshot,30180,30279,30082,(self_state_10381)
+1400,damage_snapshot.build_cave,30280,30336,30182,(self_state_10420)
+1401,damage_snapshot.set_callbacks_enabled,30338,30354,30240,"(self_state_10464, argument_10465)"
+1402,damage_snapshot.refresh_callback,30358,30361,30260,()
+1403,damage_snapshot.clear_callback,30363,30366,30265,()
+1404,damage_snapshot.restore,30368,30378,30270,(self_state_10483)
+1405,damage_snapshot.install,30379,30408,30281,(self_state_10487)
+1406,field:build_cave,30473,30495,30375,"(self_state_10507, argument_10508)"
+1407,field:install,30496,30520,30398,(self_state_10524)
+1408,field:restore,30521,30529,30423,(self_state_10532)
+1409,load_library.wanted,30541,30543,30443,()
+1410,helper_10537,30688,30690,30588,"(argument_10540, argument_10541)"
+1411,helper_10542,30694,30696,30594,"(argument_10546, argument_10547, argument_10548, argument_10549)"
+1412,prediction_frame_hook.clear_boundary_cache,30697,30709,30597,(self_state_10550)
+1413,prediction_frame_hook.clear_cave_cache,30711,30757,30611,(self_state_10553)
+1414,prediction_frame_hook.resolve_boundaries,30759,30831,30659,(self_state_10557)
+1415,prediction_frame_hook.build_caves,30833,31636,30733,(self_state_10601)
+1416,prediction_frame_hook.settle_pending,31640,31694,31540,(self_state_11105)
+1417,prediction_frame_hook.seed_activation_frame,31696,31710,31596,(self_state_11138)
+1418,prediction_frame_hook.commit_install,31712,31802,31612,(self_state_11142)
+1419,prediction_frame_hook.set_activation_callback,31804,31810,31704,"(self_state_11182, argument_11183)"
+1420,prediction_frame_hook.set_deactivation_callback,31812,31818,31712,"(self_state_11188, argument_11189)"
+1421,prediction_frame_hook.commit_deactivation,31819,31848,31719,()
+1422,prediction_frame_hook.commit_activation,31849,31886,31749,()
+1423,prediction_frame_hook.install,31889,31908,31789,(self_state_11215)
+1424,prediction_frame_hook.commit_restore,31910,31959,31810,(self_state_11222)
+1425,helper_11231,31928,31945,31828,"(argument_11232, argument_11233, argument_11234)"
+1426,prediction_frame_hook.restore,31960,31982,31860,(self_state_11242)
+1427,prediction_frame_hook.on_shutdown,31983,31995,31883,()
+1428,network_update_hook.bytes_equal,32049,32051,31947,"(argument_11257, argument_11258, argument_11259)"
+1429,network_update_hook.resolve_site,32053,32059,31951,(self_state_11262)
+1430,network_update_hook.build_cave,32061,32111,31959,(self_state_11266)
+1431,feature_registry.ensure_prediction_error_observer_storage,32113,32124,32011,()
+1432,network_update_hook.update_local_player,32125,32150,32023,()
+1433,helper_11309,32153,32164,32051,(argument_11310)
+1434,network_update_hook.on_net_update_start,32166,32183,32064,()
+1435,network_update_hook.on_net_update_end,32184,32223,32082,()
+1436,network_update_hook.paint,32225,32244,32123,()
+1437,network_update_hook.set_paint_enabled,32246,32252,32144,"(self_state_11345, argument_11346)"
+1438,network_update_hook.set_local_updates_enabled,32254,32260,32152,"(self_state_11350, argument_11351)"
+1439,network_update_hook.set_network_updates_enabled,32261,32280,32159,"(self_state_11353, argument_11354)"
+1440,network_update_hook.install,32282,32354,32180,(self_state_11362)
+1441,network_update_hook.restore,32356,32376,32254,(self_state_11398)
+1442,field:update_roll_constants,32448,32471,32344,(argument_11413)
+1443,field:resolve_angle_decoder,32472,32486,32368,(self_state_11424)
+1444,field:build_cave,32487,32654,32383,(self_state_11429)
+1445,helper_11446,32508,32511,32404,(argument_11447)
+1446,helper_11450,32513,32520,32409,"(argument_11451, argument_11452)"
+1447,helper_11456,32521,32527,32417,(argument_11457)
+1448,field:expire_pending,32655,32667,32551,(self_state_11533)
+1449,field:queue_roll_shot,32668,32677,32564,"(self_state_11538, argument_11539, state_11540)"
+1450,field:take_roll_shot,32678,32705,32574,"(self_state_11542, argument_11543)"
+1451,roll_feedback_hook.update_roll_policy,32708,32927,32604,(self_state_11553)
+1452,roll_feedback_hook.on_roll_fire,32931,32971,32827,(argument_11581)
+1453,roll_feedback_hook.roll_feedback_compatible,32972,32991,32868,"(argument_11594, argument_11595, argument_11596)"
+1454,roll_feedback_hook.on_roll_hit,32993,33024,32889,(argument_11602)
+1455,roll_feedback_hook.probe_roll_miss,33026,33057,32922,"(self_state_11616, argument_11617, state_11618)"
+1456,roll_feedback_hook.on_roll_miss,33058,33092,32954,(argument_11627)
+1457,roll_feedback_hook.clear_player_index,33094,33121,32990,(argument_11638)
+1458,roll_feedback_hook.clear_player_policy,33123,33127,33019,(argument_11644)
+1459,roll_feedback_hook.set_callbacks,33130,33150,33026,"(self_state_11650, argument_11651)"
+1460,roll_feedback_hook.update_roll_policy_callback,33152,33155,33048,()
+1461,roll_feedback_hook.install,33159,33183,33055,(self_state_11665)
+1462,roll_feedback_hook.restore,33185,33197,33081,(self_state_11679)
+1463,field:reset_policy,33248,33252,33144,(self_state_11696)
+1464,field:clear_shot_slot,33253,33265,33149,"(self_state_11697, argument_11698)"
+1465,field:flush_deferred_cleanup,33266,33271,33162,(argument_11702)
+1466,field:update_controls,33272,33314,33168,(argument_11706)
+1467,field:on_aim_fire,33315,33357,33211,"(self_state_11718, argument_11719)"
+1468,field:on_aim_miss,33358,33366,33254,"(self_state_11739, argument_11740)"
+1469,field:on_aim_hit,33367,33374,33263,"(argument_11744, argument_11745)"
+1470,field:set_callbacks_enabled,33375,33467,33271,"(self_state_11751, argument_11752)"
+1471,field:callback,33389,33395,33285,(argument_11762)
+1472,field:callback,33399,33402,33295,(argument_11764)
+1473,field:callback,33406,33410,33302,(argument_11766)
+1474,field:callback,33414,33418,33310,()
+1475,field:callback,33422,33426,33318,()
+1476,field:callback,33430,33434,33326,()
+1477,field:callback,33438,33441,33334,()
+1478,field:callback,33445,33449,33341,()
+1479,field:callback,33453,33456,33349,()
+1480,field:build_dispatch_cave,33468,33705,33364,"(self_state_11776, dispatch_call_address_11777)"
+1481,field:build_feedback_cave,33706,33789,33602,"(self_state_11810, argument_11811, argument_11812)"
+1482,field:restore,33790,33808,33686,(self_state_11869)
+1483,field:install,33809,33891,33705,(self_state_11874)
+1484,field:install,33847,33859,33743,()
+1485,field:rollback,33860,33864,33756,()
+1486,field:install,33868,33878,33764,()
+1487,field:rollback,33879,33883,33775,()
+1488,field:build_history_cave,33979,34035,33873,"(self_state_11906, argument_11907)"
+1489,field:build_penetration_cave,34036,34097,33930,"(self_state_11953, argument_11954)"
+1490,penetration_feedback_hook.on_aim_fire,34099,34139,33993,(argument_12006)
+1491,penetration_feedback_hook.set_feedback_callback,34141,34147,34035,"(self_state_12022, argument_12023)"
+1492,penetration_feedback_hook.begin_penetration_publish,34148,34157,34042,(self_state_12025)
+1493,penetration_feedback_hook.end_penetration_publish,34158,34167,34052,(self_state_12028)
+1494,penetration_feedback_hook.update_penetration_policy,34168,34217,34062,()
+1495,penetration_feedback_hook.set_penetration_callback,34218,34224,34112,"(self_state_12041, argument_12042)"
+1496,penetration_feedback_hook.build_primary_result_cave,34225,34288,34119,"(self_state_12044, argument_12045, argument_12046, argument_12047)"
+1497,penetration_feedback_hook.build_secondary_cave,34290,34390,34184,"(self_state_12099, argument_12100)"
+1498,helper_12107,34302,34306,34196,(argument_12108)
+1499,helper_12113,34310,34319,34204,"(argument_12114, argument_12115)"
+1500,anonymous,34365,34371,34259,(argument_12151)
+1501,penetration_feedback_hook.resolve_sites,34392,34436,34286,(self_state_12167)
+1502,penetration_feedback_hook.install,34437,34564,34331,(self_state_12191)
+1503,field:install,34494,34498,34388,()
+1504,field:rollback,34499,34502,34393,()
+1505,field:install,34506,34510,34400,()
+1506,field:rollback,34511,34517,34405,()
+1507,field:install,34521,34525,34415,()
+1508,field:rollback,34526,34529,34420,()
+1509,field:install,34533,34539,34427,()
+1510,field:rollback,34540,34543,34434,()
+1511,penetration_feedback_hook.restore,34565,34612,34459,(self_state_12228)
+1512,helper_12236,34575,34586,34469,"(argument_12237, argument_12238, argument_12239, argument_12240)"
+1513,field:resolve_call_return,34671,34679,34563,"(argument_12250, argument_12251, argument_12252, argument_12253)"
+1514,field:resolve_native_layout,34680,34696,34572,(argument_12258)
+1515,helper_12271,34699,34739,34591,(argument_12275)
+1516,anonymous,34707,34710,34599,(argument_12283)
+1517,anonymous,34710,34718,34602,"(argument_12285, argument_12286)"
+1518,anonymous,34718,34724,34610,(argument_12290)
+1519,anonymous,34724,34738,34616,()
+1520,record_builder_policy.build_policy_cave,34740,34809,34632,"(self_state_12301, argument_12302, argument_12303, argument_12304)"
+1521,record_builder_policy.build_diversity_cave,34811,35040,34703,"(self_state_12363, argument_12364)"
+1522,record_builder_policy.build_caves,35042,35052,34934,(argument_12495)
+1523,record_builder_policy.update_policy,35056,35081,34948,(self_state_12507)
+1524,record_builder_policy.clear_player_index,35082,35090,34974,(argument_12515)
+1525,record_builder_policy.clear_player_policy,35092,35096,34984,(argument_12517)
+1526,record_builder_policy.install,35098,35185,34990,(self_state_12520)
+1527,field:install,35119,35138,35011,()
+1528,field:rollback,35139,35145,35031,()
+1529,field:install,35149,35168,35041,()
+1530,field:rollback,35169,35178,35061,()
+1531,record_builder_policy.set_callbacks_enabled,35187,35201,35079,"(self_state_12550, argument_12551)"
+1532,record_builder_policy.update_policy_callback,35202,35205,35094,()
+1533,record_builder_policy.restore,35207,35234,35099,(self_state_12562)
+1534,helper_12566,35211,35220,35103,"(argument_12567, argument_12568, argument_12569)"
+1535,field:cap_helper_entry_is_native,35319,35331,35209,"(argument_12585, argument_12586)"
+1536,field:install_cap_helper,35332,35405,35222,"(self_state_12590, cap_helper_hook_12591)"
+1537,field:restore_cap_helper,35406,35412,35296,(self_state_12633)
+1538,field:install_forward_delta_guard,35413,35507,35303,(self_state_12635)
+1539,field:build_zero_lag_compensation_predicate_cave,35508,35598,35398,"(self_state_12706, argument_12707)"
+1540,helper_12720,35528,35532,35418,"(argument_12721, argument_12722, argument_12723)"
+1541,field:install_zero_lag_compensation_predicate_guard,35599,35621,35489,(self_state_12772)
+1542,field:restore_zero_lag_compensation_predicate_guard,35622,35630,35512,(self_state_12780)
+1543,field:zero_lag_compensation_requested,35631,35633,35521,()
+1544,field:update_native_ready,35634,35638,35524,(argument_12782)
+1545,field:begin_owner_publish,35639,35648,35529,(self_state_12785)
+1546,field:end_owner_publish,35649,35658,35539,(self_state_12788)
+1547,field:update_forward_policy,35659,35711,35549,(self_state_12791)
+1548,lag_compensation_policy.clear_player_index,35714,35729,35604,(argument_12817)
+1549,lag_compensation_policy.clear_player_policy,35732,35736,35622,(argument_12821)
+1550,lag_compensation_policy.update_runtime_policy,35738,35759,35628,(self_state_12824)
+1551,lag_compensation_policy.runtime_policy_callback,35760,35763,35650,()
+1552,lag_compensation_policy.register_runtime,35764,35779,35654,"(self_state_12834, argument_12835)"
+1553,lag_compensation_policy.restore_forward_delta_guard,35781,35789,35671,(self_state_12845)
+1554,lag_compensation_policy.restore,35790,35829,35680,(self_state_12847)
+1555,lag_compensation_policy.install,35831,35862,35721,(self_state_12858)
+1556,state_43.wanted,35881,35899,35771,(argument_12876)
+1557,field:build_cave,35966,36047,35854,"(self_state_12887, argument_12888)"
+1558,field:update_policy,36048,36073,35936,(self_state_12956)
+1559,interpolation_policy.clear_player_index,36076,36089,35964,(argument_12969)
+1560,interpolation_policy.clear_player_policy,36090,36094,35978,(argument_12971)
+1561,interpolation_policy.set_callbacks_enabled,36096,36110,35984,"(self_state_12974, argument_12975)"
+1562,interpolation_policy.update_policy_callback,36112,36115,36000,()
+1563,interpolation_policy.install,36119,36147,36007,(self_state_12989)
+1564,interpolation_policy.restore,36149,36166,36037,(self_state_13001)
+1565,state_43.wanted,36176,36178,36064,()
+1566,callback:events.on,36186,36202,36074,()
+1567,helper_13013,36239,36241,36125,(argument_13014)
+1568,tick_anchor_policy.reset_runtime,36242,36254,36128,(self_state_13015)
+1569,tick_anchor_policy.publish_runtime,36256,36264,36142,(argument_13018)
+1570,tick_anchor_policy.build_cave,36265,36681,36151,"(argument_13020, argument_13021, argument_13022)"
+1571,tick_anchor_policy.update_anchor_policy,36683,36698,36569,(self_state_13064)
+1572,tick_anchor_policy.update_enabled,36700,36713,36586,(argument_13074)
+1573,tick_anchor_policy.clear_all_policy,36715,36724,36601,(self_state_13086)
+1574,tick_anchor_policy.on_setup_command,36726,36737,36612,(self_state_13089)
+1575,tick_anchor_policy.clear_player_index,36741,36748,36627,"(self_state_13097, argument_13098)"
+1576,tick_anchor_policy.clear_player_event,36749,36754,36635,"(argument_13100, argument_13101)"
+1577,tick_anchor_policy.setup_command_callback,36755,36758,36641,()
+1578,tick_anchor_policy.anchor_policy_callback,36759,36762,36645,()
+1579,tick_anchor_policy.clear_player_event_callback,36763,36766,36649,(argument_13107)
+1580,tick_anchor_policy.clear_all_policy_callback,36767,36770,36653,()
+1581,tick_anchor_policy.set_callbacks,36772,36793,36658,"(self_state_13111, argument_13112)"
+1582,tick_anchor_policy.audit_site,36795,36803,36681,"(argument_13125, argument_13126, argument_13127, argument_13128, argument_13129)"
+1583,tick_anchor_policy.install_site,36804,36817,36690,"(argument_13133, argument_13134, argument_13135, argument_13136)"
+1584,tick_anchor_policy.install,36818,36906,36704,(self_state_13142)
+1585,field:install,36852,36862,36738,()
+1586,field:rollback,36863,36872,36749,()
+1587,field:install,36876,36886,36762,()
+1588,field:rollback,36887,36895,36773,()
+1589,tick_anchor_policy.restore,36908,36940,36794,(self_state_13175)
+1590,helper_13179,36912,36921,36798,"(argument_13180, argument_13181)"
+1591,helper_13193,36994,36996,36880,"(argument_13195, argument_13196)"
+1592,helper_13197,36998,37031,36884,(argument_13199)
+1593,helper_13223,37032,37038,36918,(argument_13224)
+1594,helper_13226,37041,37045,36927,(argument_13229)
+1595,helper_13232,37046,37057,36932,()
+1596,helper_13238,37058,37068,36944,(argument_13239)
+1597,helper_13241,37069,37085,36955,()
+1598,helper_13247,37086,37097,36972,()
+1599,field:install,37100,37102,36986,()
+1600,field:restore,37103,37105,36989,()
+1601,helper_13251,37160,37162,37044,()
+1602,helper_13253,37168,37179,37052,"(argument_13257, argument_13258, argument_13259)"
+1603,record_enrichment.spawn_ready_now,37181,37197,37065,()
+1604,record_enrichment.reset_storage,37199,37232,37083,"(self_state_13275, argument_13276)"
+1605,record_enrichment.publish_runtime,37233,37244,37117,(self_state_13281)
+1606,record_enrichment.clear_runtime,37246,37256,37130,()
+1607,record_enrichment.resolve_contracts,37260,37285,37144,(self_state_13287)
+1608,record_enrichment.build_core_cave,37286,37578,37170,(self_state_13298)
+1609,record_enrichment.audit_core_cave,37580,37598,37464,(argument_13325)
+1610,record_enrichment.install,37600,37662,37484,(self_state_13336)
+1611,callback:pcall,37638,37652,37522,()
+1612,record_enrichment.restore,37664,37677,37548,(self_state_13370)
+1613,helper_13374,37682,37690,37566,"(argument_13377, argument_13378)"
+1614,helper_13383,37693,37719,37577,"(argument_13386, state_13387)"
+1615,helper_13396,37720,37732,37604,(argument_13397)
+1616,helper_13399,37733,37743,37617,(argument_13400)
+1617,record_enrichment.enrich_new_records,37745,37823,37629,(self_state_13405)
+1618,field:disable,37828,37828,37712,()
+1619,helper_13437,37837,37844,37721,()
+1620,helper_13441,37845,37853,37729,()
+1621,helper_13443,37855,37862,37739,()
+1622,callback:state_42.set_event_callback,37864,37891,37748,(argument_13447)
+1623,callback:state_42.set_event_callback,37894,37928,37778,()
+1624,callback:state_42.set_event_callback,37931,37938,37815,(argument_13460)
+1625,field:emit_snapshot_matrix_hash,38181,38205,38063,"(argument_13468, argument_13469, argument_13470)"
+1626,field:emit_guard_matrix_hash,38206,38231,38088,"(argument_13491, argument_13492, argument_13493, argument_13494)"
+1627,prediction_observer.emit_snapshot_matrix_copy,38234,38243,38116,"(argument_13519, argument_13520, argument_13521)"
+1628,prediction_observer.emit_guard_matrix_exact,38245,38264,38127,"(argument_13530, argument_13531, argument_13532, argument_13533)"
+1629,prediction_observer.emit_fire_runtime_snapshot,38266,38284,38148,(argument_13552)
+1630,prediction_observer.reset_runtime,38288,38356,38170,(self_state_13571)
+1631,prediction_observer.update_live_consistency_policy,38358,38375,38240,()
+1632,prediction_observer.set_consistency_policy_enabled,38377,38383,38259,"(self_state_13582, argument_13583)"
+1633,prediction_observer.trace_invalid_record_rescan,38385,38413,38267,(self_state_13587)
+1634,prediction_observer.update_runtime_policy,38415,38439,38297,(argument_13602)
+1635,prediction_observer.runtime_policy_callback,38443,38446,38325,()
+1636,prediction_observer.set_runtime_policy_enabled,38447,38453,38329,"(self_state_13620, argument_13621)"
+1637,prediction_observer.build_record_tracker,38455,38489,38337,(self_state_13626)
+1638,prediction_observer.update_current_tick,38491,38493,38373,()
+1639,prediction_observer.update_record_policy,38495,38568,38377,()
+1640,prediction_observer.reset_player_index,38570,38596,38452,(argument_13665)
+1641,prediction_observer.reset_player_policy,38598,38602,38480,(argument_13669)
+1642,prediction_observer.reset_runtime_callback,38607,38610,38489,()
+1643,prediction_observer.set_record_policy_enabled,38611,38632,38493,"(self_state_13676, argument_13677)"
+1644,prediction_observer.build_invalid_policy_cave,38634,38680,38516,"(self_state_13690, argument_13691, argument_13692, argument_13693, argument_13694, argument_13695)"
+1645,prediction_observer.build_reconstruction_policy_cave,38681,38760,38563,"(self_state_13725, argument_13726, argument_13727)"
+1646,prediction_observer.resolve_prediction_tick_shift_site,38762,38771,38644,(self_state_13784)
+1647,prediction_observer.build_prediction_tick_shift_storage,38773,38789,38655,(self_state_13787)
+1648,prediction_observer.build_prediction_tick_shift_cave,38791,38825,38673,(self_state_13796)
+1649,prediction_observer.install_prediction_tick_shift_hook,38826,38854,38708,(self_state_13821)
+1650,prediction_observer.restore_prediction_tick_shift_hook,38856,38870,38738,(self_state_13832)
+1651,prediction_observer.build_snapshot_cave,38874,39075,38756,"(self_state_13837, argument_13838)"
+1652,prediction_observer.build_snapshot_gate_cave,39076,39131,38958,"(self_state_13986, argument_13987)"
+1653,prediction_observer.resolve_final_tick_math,39133,39165,39015,(self_state_14027)
+1654,prediction_observer.build_preaim_cave,39167,39770,39049,"(self_state_14047, argument_14048)"
+1655,prediction_observer.build_preaim_gate_cave,39772,39799,39654,"(self_state_14103, argument_14104)"
+1656,prediction_observer.install_record_tracker,39800,39810,39682,(self_state_14117)
+1657,prediction_observer.restore_record_tracker,39812,39826,39694,(self_state_14121)
+1658,prediction_observer.audit_immutable_cave_range,39827,39854,39709,"(argument_14123, argument_14124, argument_14125, argument_14126, argument_14127)"
+1659,prediction_observer.audit_snapshot_gate_cave,39855,39864,39737,(argument_14136)
+1660,prediction_observer.audit_preaim_gate_cave,39868,39877,39750,(argument_14143)
+1661,prediction_observer.audit_snapshot_cave,39879,39888,39761,(argument_14148)
+1662,prediction_observer.audit_preaim_cave,39889,39933,39771,(argument_14152)
+1663,prediction_observer.install_snapshot_hook,39935,39956,39817,(self_state_14174)
+1664,prediction_observer.restore_snapshot_hook,39957,39964,39839,(self_state_14183)
+1665,prediction_observer.install_preaim_hook,39966,39986,39848,(self_state_14186)
+1666,prediction_observer.restore_preaim_hook,39987,39993,39869,(self_state_14195)
+1667,prediction_observer.install,39994,40232,39876,(self_state_14197)
+1668,field:install,40126,40133,40008,()
+1669,field:rollback,40134,40137,40016,()
+1670,field:install,40146,40151,40028,()
+1671,field:rollback,40152,40157,40034,()
+1672,field:install,40168,40174,40050,()
+1673,field:rollback,40175,40181,40057,()
+1674,field:install,40190,40194,40072,()
+1675,field:rollback,40195,40201,40077,()
+1676,prediction_observer.restore,40233,40283,40115,(self_state_14258)
+1677,field:restore,40355,40361,40237,(self_state_14270)
+1678,field:install,40362,40407,40244,(self_state_14272)
+1679,field:set_policy,40487,40494,40367,"(argument_14306, argument_14307)"
+1680,field:update_policy,40495,40500,40375,(argument_14310)
+1681,dt_charge_hook.update_policy_callback,40503,40506,40383,(argument_14317)
+1682,dt_charge_hook.set_callback,40507,40513,40387,"(self_state_14319, argument_14320)"
+1683,dt_charge_hook.build_cave,40515,40572,40395,(self_state_14324)
+1684,dt_charge_hook.audit,40573,40586,40453,(argument_14365)
+1685,dt_charge_hook.restore,40590,40600,40470,(self_state_14371)
+1686,dt_charge_hook.install,40602,40628,40482,(self_state_14376)
+1687,field:create_branch_cave,40690,40722,40570,"(argument_14395, argument_14396, argument_14397)"
+1688,callback:argument_14397,40698,40702,40578,(argument_14405)
+1689,callback:argument_14397,40702,40709,40582,"(argument_14407, argument_14408)"
+1690,field:build_hooks,40723,40810,40603,(self_state_14420)
+1691,callback:a_2_14436.create_branch_cave,40740,40753,40620,"(argument_14437, argument_14438, argument_14439)"
+1692,callback:a_2_14450.create_branch_cave,40759,40779,40639,"(argument_14451, argument_14452, argument_14453)"
+1693,field:reapply_hook,40811,40815,40691,"(argument_14478, argument_14479, argument_14480, argument_14481, argument_14482)"
+1694,field:install,40816,40826,40696,(argument_14486)
+1695,field:restore,40827,40852,40707,(argument_14490)
+1696,helper_14497,40834,40845,40714,"(argument_14498, argument_14499, argument_14500)"
+1697,field:resolve_sites,40912,40919,40790,(self_state_14507)
+1698,field:build_caves,40920,40983,40798,(self_state_14510)
+1699,quick_peek_return_hook.update_return_policy,40986,41031,40864,()
+1700,quick_peek_return_hook.reset_return_policy,41033,41041,40911,()
+1701,quick_peek_return_hook.set_runtime_enabled,41043,41056,40921,"(self_state_14574, argument_14575)"
+1702,quick_peek_return_hook.install,41058,41115,40936,(argument_14583)
+1703,field:install,41085,41092,40963,()
+1704,field:rollback,41093,41096,40971,()
+1705,field:install,41100,41104,40978,()
+1706,field:rollback,41105,41108,40983,()
+1707,quick_peek_return_hook.restore,41116,41140,40994,(argument_14602)
+1708,helper_14608,41122,41131,41000,"(argument_14609, argument_14610, argument_14611)"
+1709,field:resolve_sites,41169,41179,41047,(self_state_14617)
+1710,field:install,41180,41246,41058,(argument_14621)
+1711,field:install,41209,41213,41087,()
+1712,field:rollback,41214,41217,41092,()
+1713,field:install,41221,41227,41099,()
+1714,field:rollback,41228,41231,41106,()
+1715,field:install,41235,41239,41113,()
+1716,field:rollback,41240,41243,41118,()
+1717,field:restore,41247,41275,41125,(argument_14643)
+1718,helper_14652,41256,41267,41134,"(argument_14653, argument_14654, argument_14655, argument_14656)"
+1719,helper_14664,41299,41302,41177,()
+1720,field:callback,41306,41418,41184,(argument_14665)
+1721,callback:state_42.bind,41421,41430,41299,()
+1722,helper_14685,41438,41455,41316,"(argument_14691, argument_14692)"
+1723,helper_14705,41471,41475,41349,()
+1724,field:callback,41494,41606,41372,()
+1725,field:callback,41610,41626,41488,()
+1726,callback:state_42.bind,41630,41639,41508,()
+1727,helper_14735,41649,41656,41527,()
+1728,field:callback,41660,41713,41538,(self_state_14737)
+1729,field:callback,41717,41735,41595,()
+1730,callback:state_42.bind,41739,41748,41617,()
+1731,peek_math.is_in_air,41768,41779,41644,(argument_14767)
+1732,peek_math.is_fake_ducking,41781,41800,41657,(argument_14772)
+1733,peek_math.lerp,41801,41803,41677,"(argument_14783, argument_14784, argument_14785)"
+1734,peek_math.draw_polygon_3d,41804,41827,41680,"(argument_14786, argument_14787, argument_14788, argument_14789, argument_14790, argument_14791, argument_14792, argument_14793, p9)"
+1735,peek_math.draw_glow_circle,41829,41834,41705,"(argument_14807, argument_14808, argument_14809, argument_14810, argument_14811, argument_14812, argument_14813, argument_14814, p9)"
+1736,peek_math.draw_holo_beam,41836,41853,41712,"(argument_14821, argument_14822, argument_14823, argument_14824, argument_14825, argument_14826, argument_14827, argument_14828, p9, p10)"
+1737,peek_math.distance_2d,41908,41912,41782,"(argument_14856, argument_14857, argument_14858, argument_14859)"
+1738,peek_math.assign_vector,41913,41921,41787,"(self_state_14862, x_14863, y_14864, z_14865)"
+1739,peek_math.get_origin_vector,41923,41929,41797,(argument_14867)
+1740,peek_math.get_eye_position,41931,41944,41805,(argument_14873)
+1741,peek_math.calculate_angle,41946,41951,41820,"(argument_14883, argument_14884, argument_14885, argument_14886, argument_14887, argument_14888)"
+1742,peek_math.trace_line_fraction,41952,41960,41826,"(argument_14892, argument_14893, argument_14894, argument_14895, argument_14896, argument_14897, argument_14898)"
+1743,peek_math.trace_move_fraction,41963,41976,41837,"(argument_14904, argument_14905, argument_14906, argument_14907, argument_14908, argument_14909, argument_14910, argument_14911, p9)"
+1744,peek_math.clear_candidates,41978,41980,41852,()
+1745,peek_math.store_candidate,41981,42000,41855,"(target_14919, argument_14920, argument_14921, argument_14922, argument_14923, argument_14924, argument_14925, argument_14926, p9, p10, p11, p12, p13, p14, p15)"
+1746,helper_14935,42005,42007,41879,()
+1747,helper_14938,42009,42016,41883,(argument_14941)
+1748,helper_14936,42018,42025,41892,(argument_14945)
+1749,helper_14952,42030,42032,41904,(argument_14953)
+1750,helper_14947,42034,42077,41908,()
+1751,helper_14948,42079,42098,41953,(argument_14962)
+1752,helper_14949,42099,42138,41973,(argument_14969)
+1753,helper_14992,42140,42180,42014,"(argument_14994, argument_14995, argument_14996, argument_14997, argument_14998, argument_14999, argument_15000, argument_15001, p9, p10, p11)"
+1754,helper_14950,42181,42190,42055,()
+1755,helper_14951,42191,42249,42065,"(argument_15022, argument_15023, argument_15024, argument_15025, argument_15026, argument_15027, argument_15028, argument_15029, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19)"
+1756,helper_15069,42255,42274,42129,"(argument_15072, argument_15073)"
+1757,helper_15068,42276,42324,42150,"(argument_15079, last_target_15080, argument_15081, argument_15082)"
+1758,helper_15115,42329,42352,42203,"(argument_15119, argument_15120)"
+1759,helper_15116,42353,42361,42227,(argument_15127)
+1760,helper_15117,42362,42364,42236,()
+1761,helper_15118,42365,42372,42239,()
+1762,helper_15131,42378,42386,42252,()
+1763,helper_15135,42387,42395,42261,"(argument_15136, argument_15137)"
+1764,helper_15140,42396,42406,42270,"(argument_15141, argument_15142)"
+1765,helper_15129,42408,42421,42282,"(self_state_15147, argument_15148, argument_15149, argument_15150)"
+1766,helper_15130,42423,42429,42297,"(argument_15155, argument_15156, argument_15157)"
+1767,helper_15159,42434,42441,42308,()
+1768,helper_15160,42442,42446,42316,()
+1769,helper_15161,42447,42465,42321,()
+1770,helper_15162,42466,42470,42340,()
+1771,helper_15167,42476,42484,42350,()
+1772,helper_15168,42485,42504,42359,()
+1773,helper_15169,42505,42523,42379,(argument_15173)
+1774,helper_15179,42529,42538,42403,(argument_15183)
+1775,helper_15180,42539,42565,42413,"(self_state_15186, argument_15187, argument_15188, argument_15189)"
+1776,helper_15181,42566,42582,42440,"(self_state_15197, argument_15198, argument_15199)"
+1777,helper_15202,42588,42597,42462,(argument_15207)
+1778,helper_15203,42599,42619,42473,"(argument_15210, state_15211)"
+1779,helper_15220,42625,42635,42499,(argument_15224)
+1780,helper_15221,42637,42653,42511,()
+1781,helper_15231,42656,42662,42530,()
+1782,state_42,42664,42670,42538,(argument_15235)
+1783,field:callback,42675,42719,42549,()
+1784,field:callback,42723,42882,42597,(argument_15273)
+1785,field:callback,42886,42891,42760,()
+1786,callback:state_42.bind,42901,42910,42775,()
+1787,anonymous,42911,43465,42785,()
+1788,helper_15294,42915,42917,42789,(argument_15295)
+1789,helper_15296,42918,42920,42792,(argument_15297)
+1790,helper_15298,42921,42923,42795,"(argument_15299, argument_15300)"
+1791,helper_15308,42937,42939,42811,"(argument_15309, argument_15310, argument_15311, argument_15312)"
+1792,helper_15313,42940,42942,42814,()
+1793,helper_15314,42943,42945,42817,()
+1794,helper_15315,42946,42955,42820,(argument_15316)
+1795,helper_15318,42956,42961,42830,"(argument_15319, argument_15320)"
+1796,helper_15321,42962,42972,42836,"(argument_15322, argument_15323)"
+1797,helper_15325,42973,42982,42847,()
+1798,helper_15329,42984,42997,42858,()
+1799,helper_15334,42998,43005,42872,(argument_15335)
+1800,helper_15336,43006,43014,42880,(argument_15337)
+1801,helper_15340,43015,43031,42889,"(argument_15341, argument_15342, argument_15343)"
+1802,callback:private_transport.send_private,43022,43030,42896,(argument_15346)
+1803,helper_15347,43032,43044,42906,(argument_15348)
+1804,helper_15353,43045,43083,42919,"(argument_15354, argument_15355)"
+1805,helper_15364,43084,43086,42958,()
+1806,helper_15365,43087,43100,42961,()
+1807,helper_15367,43101,43109,42975,(argument_15368)
+1808,helper_15370,43110,43121,42984,(argument_15371)
+1809,helper_15375,43123,43125,42997,(argument_15376)
+1810,helper_15378,43127,43142,43001,()
+1811,helper_15380,43143,43150,43017,()
+1812,helper_15385,43168,43173,43042,()
+1813,helper_15386,43174,43179,43048,()
+1814,helper_15390,43183,43204,43057,(argument_15391)
+1815,helper_15394,43205,43213,43079,()
+1816,helper_15397,43214,43221,43088,"(band_result_15398, band_result_15399)"
+1817,helper_15400,43222,43237,43096,(argument_15401)
+1818,helper_15406,43238,43260,43112,"(argument_15407, argument_15408)"
+1819,helper_15421,43262,43268,43136,(argument_15422)
+1820,helper_15427,43269,43275,43143,(self_state_15428)
+1821,helper_15431,43276,43316,43150,"(argument_15432, argument_15433, argument_15434, argument_15435)"
+1822,state_table_15381.send_fake_packets,43317,43326,43191,"(argument_15444, argument_15445, argument_15446, argument_15447)"
+1823,helper_15456,43334,43336,43208,()
+1824,helper_15457,43337,43342,43211,()
+1825,helper_15458,43343,43352,43217,()
+1826,helper_15460,43353,43366,43227,"(argument_15461, argument_15462, argument_15463)"
+1827,helper_15472,43367,43384,43241,"(argument_15473, argument_15474, argument_15475, argument_15476)"
+1828,helper_15489,43385,43397,43259,"(argument_15490, argument_15491)"
+1829,helper_15495,43398,43405,43272,(argument_15496)
+1830,helper_15498,43406,43421,43280,()
+1831,helper_15501,43422,43434,43296,()
+1832,helper_15504,43437,43439,43311,(argument_15505)
+1833,helper_15506,43440,43448,43314,()
+1834,callback:events.on,43453,43457,43327,()
+1835,anonymous,43474,51875,43344,()
+1836,helper_15548,43623,43625,43491,(argument_15549)
+1837,helper_15550,43626,43628,43494,(argument_15551)
+1838,helper_15552,43629,43643,43497,()
+1839,helper_15561,43648,43656,43516,()
+1840,helper_15560,43657,43696,43525,()
+1841,callback:offline_http_2:request,43674,43695,43542,(argument_15564)
+1842,helper_15566,43697,43699,43565,()
+1843,helper_15543,43700,43715,43568,(argument_15567)
+1844,helper_15569,43716,43729,43584,(argument_15570)
+1845,helper_15573,43730,43763,43598,(argument_15574)
+1846,helper_15581,43764,43817,43632,()
+1847,callback:group_result_15592:bind,43820,43822,43688,()
+1848,helper_15598,43831,43844,43699,()
+1849,helper_15601,43845,43862,43713,()
+1850,helper_15597,43864,43866,43732,()
+1851,helper_15623,43951,43953,43817,()
+1852,helper_15624,43954,43958,43820,"(argument_15625, argument_15626, argument_15627, argument_15628, argument_15629, argument_15630, gsub_result, argument_15632, p9)"
+1853,helper_15635,43959,44004,43825,"(argument_15636, argument_15637, argument_15638, argument_15639, argument_15640, argument_15641, argument_15642, argument_15643, p9)"
+1854,center_indicator.update_palette,44005,44014,43871,"(argument_15660, r_15661, g_15662, b_15663)"
+1855,center_indicator.sync_header,44015,44031,43881,(self_state_15666)
+1856,helper_15669,44032,44048,43898,"(argument_15670, argument_15671)"
+1857,center_indicator.sync_slot,44049,44103,43915,"(argument_15678, state_15679, current_15680, current_style_15681, argument_15682, argument_15683)"
+1858,center_indicator.sync,44104,44142,43970,"(argument_15686, argument_15687, argument_15688, argument_15689, argument_15690, argument_15691)"
+1859,center_indicator.draw_layer,44143,44171,44009,"(argument_15704, argument_15705, argument_15706, argument_15707, argument_15708, argument_15709, argument_15710, argument_15711, p9, p10, p11, p12)"
+1860,center_indicator.render_slot,44172,44189,44038,"(argument_15723, argument_15724, argument_15725, argument_15726, argument_15727, argument_15728, argument_15729, argument_15730)"
+1861,center_indicator.render_exploit_slot,44190,44208,44056,"(argument_15735, argument_15736, argument_15737, argument_15738, argument_15739, argument_15740)"
+1862,helper_15741,44191,44200,44057,"(argument_15742, argument_15743, argument_15744, argument_15745, argument_15746)"
+1863,center_indicator.render_header,44209,44222,44075,"(self_state_15750, argument_15751, argument_15752, argument_15753, argument_15754, argument_15755, argument_15756, argument_15757, p9)"
+1864,center_indicator.render_state,44233,44244,44099,"(self_state_15766, argument_15767, argument_15768, argument_15769, argument_15770, argument_15771, argument_15772, argument_15773, p9)"
+1865,center_indicator.render_status,44245,44285,44111,"(self_state_15780, argument_15781, argument_15782, argument_15783, argument_15784, argument_15785, argument_15786, argument_15787, p9)"
+1866,center_indicator.reset,44286,44336,44152,(self_state_15805)
+1867,center_indicator.reset_stack,44337,44356,44203,(argument_15812)
+1868,center_indicator.reset_runtime,44357,44362,44223,(self_state_15815)
+1869,helper_15816,44363,44374,44229,"(argument_15817, argument_15818, argument_15819, argument_15820)"
+1870,helper_15824,44375,44391,44241,"(argument_15825, argument_15826, argument_15827, argument_15828, argument_15829, argument_15830, argument_15831)"
+1871,helper_15840,44392,44401,44258,"(argument_15841, argument_15842, argument_15843, argument_15844, argument_15845, argument_15846, argument_15847, argument_15848)"
+1872,helper_15851,44402,44421,44268,"(argument_15852, argument_15853, argument_15854, argument_15855)"
+1873,helper_15867,44423,44502,44289,()
+1874,helper_15897,44505,44512,44371,()
+1875,helper_15919,44534,44567,44400,()
+1876,helper_15922,44568,44580,44434,"(argument_15923, argument_15924, argument_15925, argument_15926, argument_15927, argument_15928, argument_15929)"
+1877,helper_15937,44581,44598,44447,"(argument_15938, argument_15939, argument_15940, argument_15941)"
+1878,helper_15953,44599,44601,44465,"(argument_15954, argument_15955)"
+1879,helper_15956,44602,44655,44468,"(argument_15957, argument_15958)"
+1880,helper_15987,44656,44679,44522,()
+1881,helper_16007,44680,44686,44546,"(argument_16008, argument_16009, argument_16010, argument_16011, argument_16012)"
+1882,helper_16014,44687,44703,44553,"(argument_16015, argument_16016, argument_16017, argument_16018, argument_16019, argument_16020, argument_16021, argument_16022, p9)"
+1883,helper_16039,44704,44726,44570,"(argument_16040, argument_16041, argument_16042, argument_16043)"
+1884,helper_16057,44727,44760,44593,()
+1885,helper_15918,44762,44765,44628,()
+1886,helper_16066,44774,44778,44640,()
+1887,helper_16067,44779,44782,44645,()
+1888,helper_16068,44783,44785,44649,()
+1889,helper_16069,44786,44827,44652,()
+1890,callback:group_10:bind,44829,44831,44695,()
+1891,callback:group_10:bind,44831,44834,44697,()
+1892,callback:events.on,44835,44839,44701,()
+1893,helper_16093,44844,44847,44710,()
+1894,helper_16094,44848,44859,44714,(self_state_16095)
+1895,helper_16101,44861,44872,44727,()
+1896,callback:events.on,44874,44879,44740,()
+1897,helper_16104,44883,44890,44749,(argument_16105)
+1898,helper_15542,44891,44895,44757,(argument_16106)
+1899,helper_16107,44896,44904,44762,(argument_16108)
+1900,helper_16109,44905,44915,44771,(self_state_16110)
+1901,draggable_class.new,44922,44951,44786,"(argument_16113, argument_16114, argument_16115, argument_16116)"
+1902,draggable_class.set,44952,44956,44816,"(argument_16121, argument_16122, argument_16123)"
+1903,draggable_class.get,44957,44960,44821,(argument_16126)
+1904,draggable_class.is_dragging,44961,44963,44825,(argument_16129)
+1905,draggable_class._clear_drag,44964,44969,44828,(self_state_16130)
+1906,draggable_class._refresh_input,44970,44988,44834,"(self_state_16131, argument_16132)"
+1907,draggable_class._mouse_over_menu,44989,44991,44853,(argument_16134)
+1908,draggable_class._try_begin_drag,44992,45002,44856,"(self_state_16135, argument_16136, argument_16137, argument_16138, argument_16139)"
+1909,draggable_class._apply_drag,45003,45018,44867,"(argument_16140, math_max_15513_result_16141, math_max_15513_result_16142, argument_16143, argument_16144, argument_16145, argument_16146)"
+1910,draggable_class._draw_overlay,45019,45042,44883,"(argument_16147, argument_16148, argument_16149, argument_16150, argument_16151, argument_16152)"
+1911,draggable_class.drag,45043,45057,44907,"(argument_16161, argument_16162, argument_16163, argument_16164, argument_16165)"
+1912,helper_15539,45058,45060,44922,"(argument_16171, argument_16172, argument_16173)"
+1913,helper_15543,45062,45218,44926,()
+1914,rounded_rect_pool.create_node,45068,45085,44930,()
+1915,callback:pcall,45071,45074,44933,()
+1916,rounded_rect_pool.ensure_pool,45086,45096,44948,(math_min_15514_result_16183)
+1917,rounded_rect_pool.release_node,45097,45109,44959,(argument_16185)
+1918,callback:pcall,45102,45104,44964,()
+1919,rounded_rect_pool.hide_node,45110,45125,44972,(argument_16190)
+1920,rounded_rect_pool.apply_node,45126,45153,44988,"(argument_16194, argument_16195)"
+1921,rounded_rect_pool.renderer_rect,45154,45180,45016,"(x_16203, y_16204, w_16205, h_16206, factor_16207, argument_16208, argument_16209)"
+1922,rounded_rect_pool.clear_rects,45181,45183,45043,()
+1923,rounded_rect_pool.release,45184,45191,45046,()
+1924,helper_16215,45196,45198,45058,()
+1925,helper_16216,45199,45214,45061,()
+1926,hud_effects.finite_number,45221,45234,45083,"(d_16222, argument_16223, argument_16224, argument_16225)"
+1927,hud_effects.draw_blur,45235,45253,45097,"(finite_number_result, finite_number_result_16227, finite_number_result_16228, finite_number_result_16229, finite_number_result_16230, finite_number_result_16231, finite_number_result_16232, finite_number_result_16233)"
+1928,helper_15543,45254,45396,45116,()
+1929,shadow_rect_pool.create_node,45260,45277,45120,()
+1930,callback:pcall,45263,45266,45123,()
+1931,shadow_rect_pool.ensure_pool,45278,45288,45138,(math_min_15514_result_16245)
+1932,shadow_rect_pool.release_node,45289,45301,45149,(argument_16247)
+1933,callback:pcall,45294,45296,45154,()
+1934,shadow_rect_pool.hide_node,45302,45316,45162,(argument_16252)
+1935,shadow_rect_pool.apply_node,45317,45338,45177,"(argument_16256, argument_16257)"
+1936,shadow_rect_pool.renderer_rect,45339,45358,45199,"(x_16263, y_16264, w_16265, h_16266, argument_16267, argument_16268, argument_16269, argument_16270, p9, p10)"
+1937,shadow_rect_pool.clear_rects,45359,45361,45219,()
+1938,shadow_rect_pool.release,45362,45369,45222,()
+1939,helper_16277,45374,45376,45234,()
+1940,helper_16278,45377,45392,45237,()
+1941,hud_effects.draw_shadow,45398,45419,45258,"(math_floor_15512_result_16284, math_floor_15512_result_16285, math_max_15513_result_16286, math_max_15513_result_16287, argument_16288, finite_number_result_16289, finite_number_result_16290)"
+1942,hud_effects.effect_enabled,45420,45422,45280,"(argument_16298, argument_16299)"
+1943,hud_effects.draw,45423,45456,45283,"(math_floor_15512_result_16300, math_floor_15512_result_16301, math_max_15513_result_16302, math_max_15513_result_16303, argument_16304, argument_16305, argument_16306, argument_16307, p9)"
+1944,helper_15541,45457,45476,45317,(tostring_result_16316)
+1945,helper_16325,45482,45484,45342,()
+1946,helper_16326,45485,45490,45345,()
+1947,helper_16327,45491,45496,45351,(argument_16328)
+1948,helper_16329,45497,45533,45357,()
+1949,helper_16339,45536,45545,45396,()
+1950,helper_16343,45551,45555,45411,(argument_16344)
+1951,helper_16348,45557,45562,45417,(self_state_16349)
+1952,helper_16351,45563,45565,45423,"(argument_16352, argument_16353, argument_16354, argument_16355)"
+1953,helper_16356,45566,45568,45426,"(argument_16357, argument_16358, argument_16359, argument_16360)"
+1954,helper_16361,45569,45571,45429,"(argument_16362, argument_16363, argument_16364)"
+1955,helper_16365,45572,45575,45432,"(argument_16366, argument_16367)"
+1956,helper_16370,45576,45589,45436,"(self_state_16371, argument_16372, argument_16373, math_max_15513_result_16374, math_max_15513_result_16375)"
+1957,helper_16377,45591,45605,45451,"(argument_16378, math_floor_15512_result_16379, math_floor_15512_result_16380)"
+1958,theme_colors.read,45606,45608,45466,"(argument_16382, argument_16383, argument_16384)"
+1959,theme_colors.normalized_rgba,45609,45652,45469,"(argument_16385, math_floor_15512_result_16386, math_floor_15512_result_16387)"
+1960,theme_colors.draw,45653,45659,45513,"(argument_16411, argument_16412, argument_16413, argument_16414, argument_16415, argument_16416, argument_16417, argument_16418, p9, p10)"
+1961,helper_16421,45661,45687,45521,"(argument_16422, argument_16423, argument_16424, argument_16425)"
+1962,helper_16427,45663,45665,45523,()
+1963,helper_16428,45666,45673,45526,()
+1964,field:callback,45677,45683,45537,()
+1965,helper_16483,45769,45782,45627,"(argument_16484, argument_16485, icon_16486)"
+1966,helper_16488,45783,45807,45641,()
+1967,helper_16493,45809,45813,45667,()
+1968,helper_16494,45814,45816,45672,()
+1969,helper_16495,45817,45841,45675,()
+1970,helper_16500,45843,45853,45701,()
+1971,helper_16502,45854,45862,45712,()
+1972,helper_16506,45863,45873,45721,()
+1973,helper_16510,45874,45909,45732,()
+1974,helper_16516,45910,45936,45768,()
+1975,helper_16523,45937,45940,45795,"(argument_16524, argument_16525)"
+1976,helper_16526,45941,45986,45799,()
+1977,helper_16537,45987,45989,45845,()
+1978,helper_16540,45992,46015,45850,()
+1979,callback:pcall,46002,46012,45860,()
+1980,state_table_15510.Script,46016,46026,45874,"(argument_16545, argument_16546)"
+1981,state_table_15510.FPS,46027,46036,45885,"(argument_16550, argument_16551, argument_16552)"
+1982,"state_table_15510[""1% FPS""]",46037,46046,45895,"(argument_16555, argument_16556, argument_16557)"
+1983,state_table_15510.Ping,46047,46053,45905,"(argument_16560, argument_16561, argument_16562)"
+1984,state_table_15510.Var,46054,46061,45912,"(argument_16564, argument_16565, argument_16566)"
+1985,state_table_15510.Loss,46062,46068,45920,"(argument_16569, argument_16570, argument_16571)"
+1986,state_table_15510.Time,46069,46071,45927,(argument_16573)
+1987,state_table_15510.Timeout,46072,46078,45930,"(argument_16574, argument_16575, argument_16576)"
+1988,state_table_15510.Tickrate,46079,46085,45937,"(argument_16579, argument_16580, argument_16581)"
+1989,state_table_15510.Username,46086,46088,45944,(argument_16583)
+1990,state_table_15510.Avatar,46089,46098,45947,"(argument_16584, argument_16585, argument_16586)"
+1991,helper_16589,46099,46105,45957,"(argument_16590, argument_16591)"
+1992,helper_16593,46106,46121,45964,"(argument_16594, argument_16595, argument_16596, argument_16597, argument_16598)"
+1993,helper_16601,46122,46129,45980,(argument_16602)
+1994,helper_16604,46130,46145,45988,()
+1995,helper_16608,46146,46164,46004,"(argument_16609, argument_16610)"
+1996,helper_16614,46165,46182,46023,()
+1997,helper_16615,46183,46213,46041,"(argument_16616, argument_16617, argument_16618, argument_16619, argument_16620, argument_16621)"
+1998,helper_16639,46214,46221,46072,"(argument_16640, argument_16641, argument_16642)"
+1999,helper_16646,46222,46227,46080,"(argument_16647, math_max_15513_result_16648, argument_16649, math_max_15513_result_16650)"
+2000,helper_16651,46228,46230,46086,"(argument_16652, argument_16653, argument_16654)"
+2001,helper_16655,46231,46233,46089,"(argument_16656, argument_16657, argument_16658)"
+2002,helper_16659,46234,46402,46092,()
+2003,helper_16718,46404,46420,46262,()
+2004,callback:helper_16421,46421,46423,46279,()
+2005,helper_16724,46470,46473,46328,(argument_16725)
+2006,helper_16726,46474,46479,46332,"(argument_16727, argument_16728, argument_16729, argument_16730, argument_16731, argument_16732, argument_16733)"
+2007,helper_16735,46480,46497,46338,"(math_floor_15512_result_16736, math_floor_15512_result_16737, math_max_15513_result_16738, math_max_15513_result_16739, argument_16740, argument_16741, argument_16742)"
+2008,helper_16761,46507,46534,46363,"(argument_16762, state_16763, argument_16764)"
+2009,helper_16773,46535,46647,46391,()
+2010,helper_16828,46649,46656,46505,()
+2011,callback:helper_16421,46657,46659,46513,()
+2012,helper_16843,46699,46702,46549,(argument_16844)
+2013,helper_16845,46703,46708,46553,"(argument_16846, argument_16847, argument_16848, argument_16849, argument_16850, argument_16851, argument_16852)"
+2014,helper_16854,46709,46711,46559,"(argument_16855, argument_16856)"
+2015,helper_16857,46712,46730,46562,"(argument_16858, argument_16859, argument_16860, state_16861, argument_16862)"
+2016,helper_16870,46731,46752,46581,"(self_state_16871, argument_16872)"
+2017,helper_16881,46753,46762,46603,()
+2018,helper_16885,46763,46766,46613,()
+2019,helper_16887,46767,46771,46617,()
+2020,helper_16888,46772,46783,46622,()
+2021,helper_16889,46784,46826,46634,(argument_16890)
+2022,helper_16899,46827,46860,46677,(argument_16900)
+2023,helper_16907,46861,46894,46711,"(argument_16908, argument_16909)"
+2024,helper_16923,46895,46898,46745,(argument_16924)
+2025,helper_16925,46899,46907,46749,(argument_16926)
+2026,helper_16928,46908,46912,46758,()
+2027,helper_16931,46913,47027,46763,()
+2028,helper_16985,47029,47037,46879,()
+2029,callback:helper_16421,47038,47040,46888,()
+2030,callback:events.on,47042,47044,46892,()
+2031,helper_17001,47063,47065,46911,"(argument_17002, argument_17003)"
+2032,helper_17004,47066,47069,46914,(argument_17005)
+2033,helper_17006,47070,47117,46918,()
+2034,helper_17013,47118,47166,46966,(argument_17014)
+2035,helper_17025,47167,47204,47015,()
+2036,helper_17036,47205,47209,47053,"(argument_17037, argument_17038, argument_17039)"
+2037,helper_17042,47210,47237,47058,"(argument_17043, argument_17044, argument_17045, argument_17046, argument_17047, argument_17048, argument_17049, argument_17050)"
+2038,helper_17069,47238,47247,47086,"(self_state_17070, argument_17071)"
+2039,helper_17076,47248,47264,47096,"(argument_17077, argument_17078, argument_17079, argument_17080, argument_17081)"
+2040,helper_17094,47265,47291,47113,"(argument_17095, argument_17096, argument_17097, argument_17098, argument_17099)"
+2041,helper_17120,47292,47328,47140,"(argument_17121, argument_17122, active_17123)"
+2042,helper_17128,47329,47421,47177,()
+2043,helper_17159,47423,47433,47271,()
+2044,callback:helper_16421,47434,47436,47282,()
+2045,helper_17162,47443,47447,47291,()
+2046,state_table_17164.count_lines,47458,47470,47306,(argument_17173)
+2047,state_table_17164.remove_line,47471,47481,47319,()
+2048,helper_17179,47482,47493,47330,()
+2049,helper_17183,47494,47521,47342,(argument_17184)
+2050,helper_17187,47522,47538,47370,(argument_17188)
+2051,helper_17194,47539,47580,47387,(time_17195)
+2052,helper_17204,47581,47586,47429,(time_17205)
+2053,helper_17208,47587,47589,47435,(argument_17209)
+2054,helper_17210,47590,47598,47438,"(argument_17211, argument_17212)"
+2055,helper_17218,47599,47634,47447,"(argument_17219, argument_17220, argument_17221, argument_17222, argument_17223)"
+2056,helper_17233,47635,47763,47483,()
+2057,helper_17272,47768,47775,47616,()
+2058,helper_17273,47776,47794,47624,()
+2059,helper_17277,47795,47801,47643,()
+2060,helper_17292,47840,47849,47686,()
+2061,helper_17293,47850,47852,47696,"(argument_17294, argument_17295, argument_17296, argument_17297)"
+2062,helper_17298,47853,47855,47699,"(argument_17299, argument_17300, argument_17301, argument_17302)"
+2063,helper_17303,47856,47858,47702,"(argument_17304, argument_17305, argument_17306)"
+2064,helper_17308,47860,47872,47706,"(argument_17309, math_max_15513_result_17310)"
+2065,helper_17312,47873,47915,47719,()
+2066,helper_17320,47916,47918,47762,()
+2067,helper_17321,47919,47925,47765,(argument_17322)
+2068,helper_17326,47926,47953,47772,"(self_state_17327, argument_17328)"
+2069,helper_17329,47927,47938,47773,(argument_17330)
+2070,helper_17342,47954,47966,47800,()
+2071,state_table_15511.add,47967,47986,47813,"(argument_17346, argument_17347, argument_17348)"
+2072,helper_17349,47987,48035,47833,()
+2073,helper_17350,48036,48047,47882,(active_17351)
+2074,helper_17355,48048,48081,47894,(argument_17356)
+2075,helper_17365,48082,48120,47928,"(argument_17366, argument_17367, argument_17368, argument_17369)"
+2076,helper_17374,48121,48128,47967,"(argument_17375, argument_17376)"
+2077,helper_17377,48129,48156,47975,"(argument_17378, argument_17379, argument_17380, argument_17381, argument_17382, argument_17383, argument_17384, argument_17385)"
+2078,helper_17404,48157,48208,48003,"(argument_17405, argument_17406, argument_17407, argument_17408, argument_17409)"
+2079,helper_17445,48209,48282,48055,()
+2080,helper_17289,48284,48286,48130,(argument_17467)
+2081,helper_17468,48287,48308,48133,()
+2082,helper_17472,48310,48313,48156,()
+2083,helper_17481,48337,48347,48183,(argument_17482)
+2084,helper_17485,48348,48394,48194,()
+2085,helper_17488,48351,48355,48197,"(argument_17489, argument_17490)"
+2086,helper_17498,48395,48405,48241,(argument_17499)
+2087,helper_17501,48406,48414,48252,()
+2088,helper_17504,48415,48437,48261,(argument_17505)
+2089,helper_17510,48438,48444,48284,()
+2090,helper_17511,48445,48450,48291,(argument_17512)
+2091,helper_17513,48451,48460,48297,(argument_17514)
+2092,helper_17516,48461,48466,48307,"(argument_17517, argument_17518)"
+2093,helper_17521,48469,48479,48315,(argument_17522)
+2094,helper_17524,48480,48484,48326,(self_state_17525)
+2095,helper_17526,48485,48503,48331,"(argument_17527, argument_17528, argument_17529)"
+2096,helper_17535,48504,48524,48350,"(argument_17536, argument_17537)"
+2097,helper_17547,48525,48537,48371,"(argument_17548, argument_17549, argument_17550)"
+2098,helper_17553,48538,48595,48384,(argument_17554)
+2099,helper_17559,48614,48616,48458,"(argument_17560, argument_17561, argument_17562)"
+2100,helper_17563,48617,48619,48461,"(argument_17564, argument_17565)"
+2101,helper_17566,48620,48622,48464,"(argument_17567, argument_17568)"
+2102,helper_17569,48623,48638,48467,(argument_17570)
+2103,helper_17571,48639,48677,48483,(argument_17572)
+2104,helper_17579,48678,48729,48522,(argument_17580)
+2105,helper_17591,48730,48801,48574,"(argument_17592, argument_17593, argument_17594, argument_17595)"
+2106,helper_17621,48802,48815,48646,"(argument_17622, argument_17623)"
+2107,helper_17626,48816,48880,48660,"(argument_17627, argument_17628, argument_17629)"
+2108,helper_17659,48881,48890,48725,"(argument_17660, argument_17661, argument_17662)"
+2109,helper_17666,48891,48953,48735,"(argument_17667, argument_17668)"
+2110,helper_17694,48954,49039,48798,"(argument_17695, argument_17696, argument_17697, argument_17698, argument_17699)"
+2111,helper_17731,49040,49098,48884,"(argument_17732, argument_17733, argument_17734, argument_17735, argument_17736)"
+2112,helper_17755,49099,49109,48943,(argument_17756)
+2113,helper_17758,49110,49118,48954,(argument_17759)
+2114,helper_17764,49119,49134,48963,(self_state_17765)
+2115,helper_17772,49135,49139,48979,(self_state_17773)
+2116,helper_17774,49140,49154,48984,"(argument_17775, argument_17776, argument_17777)"
+2117,helper_17781,49155,49164,48999,"(argument_17782, argument_17783, argument_17784)"
+2118,helper_17786,49165,49233,49009,"(self_state_17787, argument_17788)"
+2119,helper_17808,49234,49236,49078,"(argument_17809, argument_17810)"
+2120,helper_17811,49237,49272,49081,(argument_17812)
+2121,helper_17830,49273,49279,49117,(argument_17831)
+2122,helper_17832,49280,49296,49124,(argument_17833)
+2123,helper_17841,49297,49308,49141,"(argument_17842, argument_17843)"
+2124,helper_17844,49309,49322,49153,"(argument_17845, argument_17846)"
+2125,helper_17847,49323,49360,49167,"(self_state_17848, argument_17849)"
+2126,helper_17862,49363,49370,49207,(argument_17863)
+2127,helper_17865,49371,49379,49215,(argument_17866)
+2128,helper_17480,49380,49388,49224,(argument_17870)
+2129,helper_17874,49389,49536,49233,"(argument_17875, argument_17876, argument_17877)"
+2130,helper_17927,49537,49669,49381,(argument_17928)
+2131,shot_log_formatter.format_weapon_sidecar,49679,49684,49521,(argument_17959)
+2132,shot_log_formatter.format_record_provenance,49685,49696,49527,(argument_17960)
+2133,shot_log_formatter.format_packet_phase,49697,49702,49539,(argument_17967)
+2134,shot_log_formatter.append_field,49703,49707,49545,"(argument_17968, argument_17969, argument_17970, ...)"
+2135,shot_log_formatter.build_state,49708,49748,49550,"(argument_17971, argument_17972, argument_17973)"
+2136,shot_log_formatter.format,49749,49777,49591,"(argument_17975, argument_17976, argument_17977, argument_17978)"
+2137,shot_log_formatter.build_mismatch_detail,49778,49791,49620,"(argument_17984, argument_17985)"
+2138,shot_log_formatter.get_record_cause,49792,49804,49634,(argument_17988)
+2139,shot_log_formatter.get_record_mismatch_label,49805,49812,49647,"(argument_17989, argument_17990)"
+2140,shot_log_formatter.resolve_mismatch_cause,49813,49835,49655,"(argument_17993, argument_17994, argument_17995, argument_17996)"
+2141,helper_17999,49836,49889,49678,(argument_18000)
+2142,helper_18027,49890,49935,49732,(argument_18028)
+2143,helper_18061,49937,49939,49779,(argument_18062)
+2144,helper_18065,49946,49953,49788,()
+2145,callback:events.on,49961,49965,49803,()
+2146,helper_18075,50124,50126,49962,(argument_18076)
+2147,helper_18077,50127,50129,49965,()
+2148,helper_18078,50130,50132,49968,()
+2149,helper_18079,50133,50141,49971,()
+2150,helper_18080,50142,50147,49980,()
+2151,helper_18082,50148,50151,49986,()
+2152,helper_18083,50152,50160,49990,()
+2153,helper_18084,50161,50166,49999,()
+2154,helper_18087,50167,50174,50005,()
+2155,helper_18090,50175,50179,50013,()
+2156,helper_18091,50180,50196,50018,(argument_18092)
+2157,helper_18098,50197,50204,50035,(argument_18099)
+2158,helper_18102,50205,50217,50043,"(argument_18103, argument_18104)"
+2159,helper_18107,50219,50225,50057,()
+2160,helper_18109,50226,50235,50064,(argument_18110)
+2161,helper_18111,50236,50250,50074,(self_state_18112)
+2162,helper_18116,50251,50266,50089,(argument_18117)
+2163,helper_18124,50267,50286,50105,(argument_18125)
+2164,helper_18131,50287,50318,50125,"(argument_18132, argument_18133, argument_18134)"
+2165,helper_18153,50319,50322,50157,(argument_18154)
+2166,helper_18156,50323,50335,50161,()
+2167,helper_18158,50336,50338,50174,(argument_18159)
+2168,helper_18160,50339,50357,50177,(argument_18161)
+2169,helper_18165,50358,50380,50196,(timer_last_seconds_18166)
+2170,helper_18170,50381,50384,50219,(argument_18171)
+2171,helper_18172,50385,50390,50223,"(argument_18173, argument_18174, argument_18175)"
+2172,helper_18176,50391,50397,50229,"(argument_18177, argument_18178, argument_18179, argument_18180)"
+2173,helper_18181,50398,50424,50236,(argument_18182)
+2174,helper_18183,50425,50431,50263,(argument_18184)
+2175,helper_18188,50432,50482,50270,"(argument_18189, argument_18190, argument_18191, argument_18192, argument_18193, argument_18194)"
+2176,helper_18200,50441,50447,50279,"(argument_18201, argument_18202)"
+2177,helper_18204,50448,50450,50286,"(argument_18205, argument_18206)"
+2178,helper_18207,50451,50461,50289,"(argument_18208, argument_18209, argument_18210, argument_18211)"
+2179,helper_18231,50483,50485,50321,(argument_18232)
+2180,helper_18233,50486,50498,50324,"(argument_18234, argument_18235)"
+2181,helper_18240,50499,50524,50337,(argument_18241)
+2182,helper_18242,50525,50530,50363,"(argument_18243, argument_18244)"
+2183,helper_18245,50531,50541,50369,(argument_18246)
+2184,helper_18249,50542,50548,50380,"(argument_18250, argument_18251, argument_18252, argument_18253, argument_18254)"
+2185,helper_18255,50549,50552,50387,"(argument_18256, argument_18257)"
+2186,helper_18258,50553,50562,50391,"(argument_18259, argument_18260, argument_18261, argument_18262)"
+2187,helper_18264,50563,50565,50401,"(argument_18265, argument_18266, argument_18267, argument_18268, argument_18269)"
+2188,helper_18270,50566,50608,50404,"(argument_18271, argument_18272)"
+2189,helper_18286,50609,50617,50447,"(argument_18287, argument_18288)"
+2190,helper_18291,50618,50675,50456,"(argument_18292, argument_18293, argument_18294, argument_18295, argument_18296, argument_18297, argument_18298)"
+2191,helper_18318,50676,50698,50514,"(argument_18319, state_18320, argument_18321)"
+2192,helper_18328,50699,50730,50537,"(argument_18329, argument_18330, state_18331, state_18332)"
+2193,helper_18340,50731,50746,50569,"(argument_18341, argument_18342, argument_18343, argument_18344, argument_18345, argument_18346)"
+2194,helper_18356,50747,50758,50585,"(argument_18357, argument_18358)"
+2195,helper_18359,50759,51147,50597,"(argument_18360, argument_18361, argument_18362)"
+2196,helper_18453,51148,51174,50978,()
+2197,callback:group_15:bind,51187,51189,51017,()
+2198,callback:events.on,51190,51193,51020,()
+2199,helper_18465,51201,51203,51031,"(argument_18466, argument_18467, argument_18468)"
+2200,helper_18469,51204,51208,51034,(argument_18470)
+2201,helper_18472,51209,51229,51039,(argument_18473)
+2202,callback:pcall,51210,51212,51040,()
+2203,helper_18478,51230,51246,51060,"(argument_18479, argument_18480)"
+2204,helper_18488,51247,51252,51077,"(argument_18489, argument_18490)"
+2205,helper_18491,51253,51269,51083,"(argument_18492, argument_18493, argument_18494, argument_18495, argument_18496)"
+2206,helper_18497,51270,51277,51100,"(argument_18498, argument_18499, argument_18500, argument_18501, argument_18502, math_floor_15512_result_18503, math_floor_15512_result_18504)"
+2207,helper_18505,51278,51300,51108,(argument_18506)
+2208,helper_18514,51301,51307,51131,(argument_18515)
+2209,helper_18519,51308,51314,51138,(argument_18520)
+2210,helper_18524,51315,51357,51145,()
+2211,callback:group_16:bind,51365,51367,51195,()
+2212,callback:group_16:bind,51367,51369,51197,()
+2213,helper_18561,51428,51431,51256,(math_max_18548_result)
+2214,helper_18563,51432,51489,51260,"(argument_18564, argument_18565, argument_18566, argument_18567, argument_18568, argument_18569, argument_18570)"
+2215,helper_18599,51490,51499,51318,"(argument_18600, argument_18601, argument_18602, argument_18603, argument_18604, argument_18605, argument_18606, argument_18607, p9)"
+2216,helper_18611,51500,51509,51328,"(argument_18612, argument_18613, argument_18614, argument_18615, argument_18616, argument_18617, argument_18618)"
+2217,helper_18621,51510,51524,51338,"(argument_18622, argument_18623, argument_18624, argument_18625, argument_18626)"
+2218,helper_18632,51525,51553,51353,"(argument_18633, argument_18634, argument_18635, argument_18636, argument_18637, argument_18638, argument_18639, argument_18640, p9, p10, p11, p12, p13, p14, p15)"
+2219,helper_18663,51554,51588,51382,"(argument_18664, argument_18665, argument_18666, argument_18667, argument_18668, argument_18669, argument_18670, argument_18671, p9, p10)"
+2220,helper_18696,51590,51602,51418,(argument_18697)
+2221,helper_18716,51603,51611,51431,(argument_18717)
+2222,helper_18720,51612,51634,51440,(argument_18721)
+2223,helper_18722,51635,51642,51463,"(argument_18723, argument_18724)"
+2224,helper_18727,51643,51646,51471,"(self_state_18728, fr_18729, fg_18730, fb_18731, fa_18732, olr_18733, olg_18734, olb_18735, p9)"
+2225,helper_18737,51647,51707,51475,(argument_18738)
+2226,helper_18762,51708,51713,51536,"(argument_18763, argument_18764)"
+2227,helper_18765,51714,51727,51542,"(argument_18766, argument_18767, argument_18768, argument_18769, argument_18770, argument_18771, argument_18772, argument_18773, p9, p10, p11, p12, p13, p14, p15, p16)"
+2228,helper_18790,51728,51753,51556,()
+2229,helper_18803,51754,51757,51582,()
+2230,helper_18804,51758,51782,51586,(argument_18805)
+2231,helper_18812,51783,51860,51611,()
+2232,callback:group_17:bind,51867,51869,51695,()
+2233,callback:group_17:bind,51869,51872,51697,()
+2234,helper_18866,51919,51928,51747,()
+2235,helper_18867,51930,51936,51758,()
+2236,helper_18881,51942,51948,51770,"(argument_18883, argument_18884)"
+2237,helper_18878,51950,51956,51778,()
+2238,helper_18888,51957,51967,51785,()
+2239,field:callback,51972,51988,51800,()
+2240,state_42,51992,52004,51820,()
+2241,helper_18880,52005,52012,51833,()
+2242,callback:state_43.set_callback,52020,52026,51848,()
+2243,callback:events.on,52032,52038,51860,(argument_18902)
+2244,callback:events.on,52040,52044,51868,()
+2245,helper_18917,52088,52095,51916,"(argument_18921, argument_18922)"
+2246,helper_18916,52096,52113,51924,"(argument_18925, argument_18926)"
+2247,helper_18927,52118,52125,51946,(argument_18931)
+2248,helper_18932,52127,52132,51955,()
+2249,helper_18928,52134,52143,51962,()
+2250,helper_18929,52145,52148,51973,()
+2251,helper_18930,52150,52188,51978,()
+2252,helper_18954,52168,52184,51996,()
+2253,helper_18956,52191,52200,52019,()
+2254,helper_18960,52202,52217,52030,(argument_18963)
+2255,helper_18966,52219,52231,52047,()
+2256,helper_18975,52232,52248,52060,()
+2257,state_42,52250,52258,52078,()
+2258,callback:events.on,52269,52272,52097,()
+2259,helper_18996,52302,52308,52128,"(argument_18999, argument_19000)"
+2260,helper_19001,52313,52315,52139,()
+2261,helper_19010,52323,52374,52149,()
+2262,callback:pcall,52339,52352,52165,()
+2263,helper_19004,52376,52404,52202,(argument_19029)
+2264,helper_19040,52410,52432,52236,()
+2265,helper_19050,52433,52450,52259,()
+2266,helper_19038,52451,52463,52277,()
+2267,field:callback,52468,52484,52294,()
+2268,field:callback,52488,52514,52314,()
+2269,callback:events.bind_controls,52518,52538,52344,()
+2270,state_42,52541,52544,52367,()
+2271,callback:events.on,52547,52552,52373,()
+2272,helper_19082,52570,52577,52394,()
+2273,helper_19083,52578,52584,52402,(argument_19092)
+2274,helper_19084,52585,52755,52409,()
+2275,helper_19145,52761,52772,52585,(argument_19147)
+2276,helper_19144,52774,52780,52598,"(argument_19153, argument_19154)"
+2277,callback:events.bind_controls,52782,52795,52606,()
+2278,callback:events.on,52797,52801,52621,()
+2279,helper_19163,52813,52816,52637,()
+2280,helper_19164,52818,52822,52642,"(argument_19171, argument_19172)"
+2281,helper_19165,52824,52835,52648,()
+2282,helper_19196,53127,53148,52951,"(argument_19197, argument_19198, argument_19199)"
+2283,helper_19207,53149,53153,52973,()
+2284,field:callback,53159,53165,52983,()
+2285,field:callback,53169,53243,52993,(argument_19213)
+2286,callback:events.bind_controls,53247,53258,53071,()
+2287,anonymous,53277,53285,53099,()
+2288,helper_19245,53294,53326,53116,()
+2289,helper_19246,53328,53337,53150,()
+2290,helper_19262,53339,53341,53161,"(argument_19266, argument_19267)"
+2291,helper_19247,53342,53345,53164,()
+2292,helper_19270,53351,53364,53173,()
+2293,field:callback,53369,53375,53191,()
+2294,field:callback,53379,53384,53201,(argument_19276)
+2295,callback:events.bind_controls,53388,53408,53210,()
+2296,callback:events.on,53410,53415,53232,(argument_19287)
+2297,callback:events.on,53423,53431,53245,()
+2298,helper_19269,53434,53444,53256,"(argument_19292, argument_19293)"
+2299,helper_19298,53448,53457,53270,(argument_19301)
+2300,callback:defer,53459,53471,53281,()
