@@ -1,0 +1,11 @@
+windows-compile.log
+windows_smoke.cpp
+
+windows-native-driver.log
+Native C++ driver: 31 checks passed, no Lua/FFI.
+
+windows-native-unchanged.log
+Native C++ driver: 33 checks passed, no Lua/FFI.
+
+windows-smoke.log
+Passed 53 checks on actual packaged Windows x86 DLL; CS:GO was not run.
