@@ -15,6 +15,9 @@ assert report['native_driver']['production_native_driver'] is True
 assert report['native_driver']['external_lua_required'] is False
 assert report['native_driver']['native_feedback_bridge'] and report['native_driver']['feedback_events_checked']
 assert report['feedback_archive_checked']
+assert report['source_bootstrap_regression']['unchanged_handler_test']
+assert report['source_bootstrap_regression']['source_frame_callbacks_verified']
+assert report['native_driver']['source_frame_callbacks_verified']
 with tempfile.TemporaryDirectory() as temp:
     folder = Path(temp)
     with zipfile.ZipFile(archive) as source:

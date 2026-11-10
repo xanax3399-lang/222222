@@ -1,5 +1,6 @@
 #define NOMINMAX
 #include "native_driver.h"
+#include "bootstrap_status.h"
 #include "native_controller.h"
 #include "feedback_status.h"
 #include "feedback_hook.h"
@@ -12,12 +13,17 @@
 #include <cstddef>
 
 extern "C" __declspec(dllexport) stock_native::DriverStatus sr_driver_status={1,1};
+extern "C" __declspec(dllexport) stock_native::BootstrapStatus sr_bootstrap_status={1};
 extern "C" __declspec(dllexport) stock_feedback::Status sr_feedback_status={1,1,1};
 extern "C" __declspec(dllexport) stock_feedback::Log sr_feedback_log{};
 namespace stock_native {
 namespace {
 constexpr unsigned base=0x43310000,image_size=0x2fc000;
-constexpr unsigned gs_engine=0x4346a514,gs_entities=0x4346a890,gs_globals=0x43467b04;
+// Time and interval are the same direct pointers used by the working native
+// fire/brake paths. The separate GS Lua-global view is not a bootstrap gate.
+constexpr unsigned gs_time=0x43467eb8,gs_interval=0x4346a338,legacy_globals=0x43467b04;
+float* source_time=nullptr;float* source_interval=nullptr;
+constexpr unsigned gs_engine=0x4346a514,gs_entities=0x4346a890,gs_globals=legacy_globals; // fixture/backward diagnostic addresses
 constexpr unsigned frame_stage=37,get_classes=8;
 using StageFn=void(__thiscall*)(void*,int);
 using Factory=void*(__cdecl*)(const char*,int*);
@@ -47,6 +53,18 @@ bool readable(const void* p,std::size_t bytes) {
     if(!VirtualQuery(p,&info,sizeof(info))||info.State!=MEM_COMMIT||(info.Protect&(PAGE_GUARD|PAGE_NOACCESS)))return false;
     const auto begin=reinterpret_cast<std::uintptr_t>(p),region=reinterpret_cast<std::uintptr_t>(info.BaseAddress);
     return begin>=region&&bytes<=info.RegionSize-(begin-region);
+}
+bool refresh_clocks() {
+    static float* checked_time=nullptr;static float* checked_interval=nullptr;
+    static bool time_readable=false,interval_readable=false;
+    source_time=at<float*>(gs_time);source_interval=at<float*>(gs_interval);
+    if(source_time!=checked_time||!time_readable){checked_time=source_time;time_readable=readable(source_time,4);}
+    if(source_interval!=checked_interval||!interval_readable){checked_interval=source_interval;interval_readable=readable(source_interval,4);}
+    const bool time_ok=time_readable&&std::isfinite(*source_time)&&*source_time>=0;
+    const bool interval_ok=interval_readable&&std::isfinite(*source_interval)&&*source_interval>=.001f&&*source_interval<=.1f;
+    auto& boot=sr_bootstrap_status;boot.time=reinterpret_cast<unsigned>(source_time);boot.interval=reinterpret_cast<unsigned>(source_interval);
+    boot.ready_mask=(boot.ready_mask&~24u)|(time_ok?8u:0u)|(interval_ok?16u:0u);
+    return time_ok&&interval_ok;
 }
 template<class F> F method(void* object,unsigned slot){return reinterpret_cast<F>((*static_cast<void***>(object))[slot]);}
 void* resolve_interface(const wchar_t* module,const char* name) {
@@ -158,10 +176,9 @@ void feedback_register();
 bool __cdecl shot_capture(unsigned*,void*);
 void update() {
     const auto started=std::chrono::steady_clock::now();FrameInput input;
-    auto* globals=at<unsigned char*>(gs_globals);
     const bool in_game=method<bool(__thiscall*)(void*)>(engine,26)(engine);
-    if(!in_game||!globals){controller.reset({reinterpret_cast<unsigned char*>(plist_base)});feedback.reset();mirror_stats();return;}
-    const float now=read<float>(globals,0x10),interval=read<float>(globals,0x20);
+    if(!in_game||!source_time||!source_interval){controller.reset({reinterpret_cast<unsigned char*>(plist_base)});feedback.reset();mirror_stats();return;}
+    const float now=*source_time,interval=*source_interval;
     const int local=method<int(__thiscall*)(void*)>(engine,12)(engine);
     void* self=local>=1&&local<=64?entity(static_cast<unsigned>(local)):nullptr;
     if(!alive(self)||!std::isfinite(now)||!std::isfinite(interval)||interval<.001f||interval>.1f) {
@@ -178,7 +195,7 @@ void update() {
     float latency=0;void* channel=method<void*(__thiscall*)(void*)>(engine,78)(engine);
     if(channel)latency=method<float(__thiscall*)(void*,int)>(channel,10)(channel,0);
     if(!std::isfinite(latency))latency=0;latency=std::clamp(latency,0.f,2.f);
-    const int count=std::clamp(read<int>(globals,0x18),0,64);
+    const int count=std::clamp(method<int(__thiscall*)(void*)>(engine,21)(engine),0,64);
     for(int index=1;index<=count;++index) {
         if(index==local)continue;
         void* object=entity(static_cast<unsigned>(index));if(!object||dormant(static_cast<unsigned>(index)))continue;
@@ -297,14 +314,23 @@ void feedback_register() {
 }
 
 void __fastcall notify(void* object,void*,int stage) {
-    ++sr_driver_status.callbacks;
-    if(stage==4&&sr_driver_status.enabled) {
+    ++sr_driver_status.callbacks;sr_bootstrap_status.callbacks=sr_driver_status.callbacks;
+    if(sr_driver_status.installed&&stage>=0&&stage<=6) {
+        const bool clocks_ready=refresh_clocks();
+        if(sr_driver_status.state==Waiting) {
+            if(clocks_ready){InterlockedExchange(reinterpret_cast<volatile LONG*>(&sr_driver_status.state),Active);sr_bootstrap_status.phase=5;sr_bootstrap_status.ready_mask|=256;}
+            else sr_bootstrap_status.phase=2;
+        }
+    }
+    if(stage==4&&sr_driver_status.enabled&&sr_driver_status.installed&&sr_driver_status.state==Active) {
         feedback_register();FeedbackGuard guard;
         if(guard.locked){feedback_boundary();++sr_driver_status.updates;update();}
     }
-    if(stage==5) {
-        ++sr_driver_status.frames;auto* globals=at<unsigned char*>(gs_globals);
-        if(globals)shared_engine().frame(read<float>(globals,8));
+    if(stage==5&&sr_driver_status.installed) {
+        ++sr_driver_status.frames;
+        static auto last=std::chrono::steady_clock::now();const auto now=std::chrono::steady_clock::now();
+        const float elapsed=std::chrono::duration<float>(now-last).count();last=now;
+        shared_engine().frame(elapsed>0?elapsed:(source_interval?*source_interval:1.f/64));
         if(fps_limit&&vars.fps) {
             const float current=number(vars.fps,0);
             if(method<bool(__thiscall*)(void*)>(engine,26)(engine)) {
@@ -316,7 +342,7 @@ void __fastcall notify(void* object,void*,int stage) {
     previous(object,stage);
 }
 bool fail(Error code,const char* text){
-    sr_driver_status.error=code;sr_driver_status.state=Failed;error_text=text;
+    sr_driver_status.error=code;sr_driver_status.state=Failed;sr_bootstrap_status.phase=6;error_text=text;
     if(code==CoreContract||code==Netvars)SetLastError(ERROR_REVISION_MISMATCH);
     else if(code==ClientInterface)SetLastError(ERROR_MOD_NOT_FOUND);
     else if(code==WaitHook)SetLastError(ERROR_TIMEOUT);
@@ -327,12 +353,13 @@ bool matches(const unsigned char* image,unsigned address,const unsigned char* da
 }
 const char* last_error(){return error_text;}
 bool prepare(unsigned char* image,unsigned size,HMODULE module) {
-    sr_driver_status.error=None;
+    sr_driver_status.error=None;sr_bootstrap_status.phase=1;
     if(nl_hypotheses::selected_mode!=nl_hypotheses::StockResolver){sr_driver_status.state=Off;return true;}
     constexpr unsigned char descriptors[]={1,14,0,0,0,0,0,0,0xc2,0x5b,0xfe,0x6a,5,0,0,0,3,20,0xc4,0xff,0x3c,0,0,0,0x27,0xa5,0xba,0xfb,8,0,0,0};
-    constexpr unsigned char tick[]={0xa1,4,0x7b,0x46,0x43,0x51,0x51,0xf3,0x0f,0x10,0x40,0x20};
+    constexpr unsigned char time_read[]={0xa1,0xb8,0x7e,0x46,0x43,0xf3,0x0f,0x10,0};
+    constexpr unsigned char interval_read[]={0xa1,0x38,0xa3,0x46,0x43,0x8b,0x4c,0x24,0x40,0xf3,0x0f,0x5e,0};
     if(reinterpret_cast<std::uintptr_t>(image)!=base||size!=image_size||
-       !matches(image,0x4346d5a8,descriptors,sizeof(descriptors))||!matches(image,0x433b75a4,tick,sizeof(tick)))
+       !matches(image,0x4346d5a8,descriptors,sizeof(descriptors))||!matches(image,0x43355e18,time_read,sizeof(time_read))||!matches(image,0x433560f0,interval_read,sizeof(interval_read)))
         return fail(CoreContract,"Native resolver: GS player-override/global layout differs.");
     wchar_t path[32768]{};
     if(!GetModuleFileNameW(module,path,32768))return fail(CoreContract,"Native resolver: cannot locate settings.");
@@ -359,38 +386,54 @@ bool prepare(unsigned char* image,unsigned size,HMODULE module) {
         if(!stock_feedback::install_hook(image,size,reinterpret_cast<unsigned>(shot_capture),true))return fail(CoreContract,"Native resolver: shot capture contract or installation failed.");
         sr_feedback_status.installed=1;sr_feedback_status.bytes=sizeof(sr_feedback_log);
     }
-    sr_driver_status.client=static_cast<unsigned>(reinterpret_cast<std::uintptr_t>(client));sr_driver_status.state=Prepared;
+    sr_driver_status.client=static_cast<unsigned>(reinterpret_cast<std::uintptr_t>(client));sr_bootstrap_status.client=sr_driver_status.client;sr_driver_status.state=Prepared;
     return true;
 }
 bool start() {
     if(nl_hypotheses::selected_mode!=nl_hypotheses::StockResolver||!sr_driver_status.enabled)return true;
     if(sr_driver_status.state!=Prepared)return fail(ClientInterface,"Native resolver was not prepared before GS startup.");
-    sr_driver_status.state=Waiting;const auto began=GetTickCount64();void** stable_slot=nullptr;void* stable_entry=nullptr;ULONGLONG stable_since=0;
+    sr_driver_status.state=Waiting;sr_bootstrap_status.phase=2;
+    const auto began=GetTickCount64();void** stable_slot=nullptr;void* stable_entry=nullptr;ULONGLONG stable_since=0;
     while(GetTickCount64()-began<60000) {
+        auto& boot=sr_bootstrap_status;++boot.polls;boot.ready_mask=0;
+        engine=resolve_interface(L"engine.dll","VEngineClient014");entities=resolve_interface(L"client.dll","VClientEntityList003");
+        boot.engine=reinterpret_cast<unsigned>(engine);boot.entities=reinterpret_cast<unsigned>(entities);
+        boot.core_globals=at<unsigned>(legacy_globals);
+        if(readable(client,4))boot.ready_mask|=1;
+        const bool engine_ok=readable(engine,4)&&readable(*static_cast<void***>(engine),79*4);
+        const bool entities_ok=readable(entities,4)&&readable(*static_cast<void***>(entities),4*4);
+        if(engine_ok)boot.ready_mask|=2;if(entities_ok)boot.ready_mask|=4;
+        refresh_clocks();
         auto** table=*static_cast<void***>(client);
-        if(readable(table,(frame_stage+1)*4)) {
-            void* entry=table[frame_stage];
-            const bool changed=table!=original_table||entry!=original_entry||
+        if(engine_ok&&entities_ok&&readable(table,(frame_stage+1)*4)) {
+            void* entry=table[frame_stage];boot.entry=reinterpret_cast<unsigned>(entry);boot.slot=reinterpret_cast<unsigned>(table+frame_stage);
+            boot.original_changed=table!=original_table||entry!=original_entry||
                 (readable(entry,original_code.size())&&std::memcmp(entry,original_code.data(),original_code.size())!=0);
-            engine=at<void*>(gs_engine);entities=at<void*>(gs_entities);
-            if(changed&&engine&&entities&&at<void*>(gs_globals)&&readable(entry,16)) {
+            if(readable(entry,16)) {
+                boot.ready_mask|=32;
                 if(stable_slot!=table+frame_stage||stable_entry!=entry){stable_slot=table+frame_stage;stable_entry=entry;stable_since=GetTickCount64();}
                 if(GetTickCount64()-stable_since>=250) {
-                    if(!resolve_netvars())return fail(Netvars,"Native resolver: required DT_CSPlayer netvars were not found.");
+                    if(!resolve_netvars()){boot.phase=2;Sleep(50);continue;}
+                    boot.ready_mask|=64;boot.phase=3;
                     cache_variables();event_manager=resolve_interface(L"engine.dll","GAMEEVENTSMANAGER002");previous=reinterpret_cast<StageFn>(entry);hook_slot=table+frame_stage;
                     DWORD old=0;if(!VirtualProtect(hook_slot,4,PAGE_READWRITE,&old))return fail(Protect,"Native resolver: cannot write FrameStageNotify slot.");
                     void* replaced=InterlockedCompareExchangePointer(hook_slot,reinterpret_cast<void*>(&notify),entry);
                     DWORD unused=0;const bool restored=VirtualProtect(hook_slot,4,old,&unused)!=0;
                     if(replaced!=entry)return fail(HookLost,"Native resolver: FrameStageNotify changed during installation.");
                     if(!restored){InterlockedCompareExchangePointer(hook_slot,entry,reinterpret_cast<void*>(&notify));return fail(Protect,"Native resolver: cannot restore vtable protection.");}
-                    sr_driver_status.previous=static_cast<unsigned>(reinterpret_cast<std::uintptr_t>(entry));
-                    sr_driver_status.slot=static_cast<unsigned>(reinterpret_cast<std::uintptr_t>(hook_slot));
-                    sr_driver_status.installed=1;sr_driver_status.state=Active;error_text="Native resolver installed.";return true;
+                    sr_driver_status.previous=reinterpret_cast<unsigned>(entry);sr_driver_status.slot=reinterpret_cast<unsigned>(hook_slot);
+                    // Publish all setup fields before enabling callback work.
+                    // A quiet menu stays Waiting; the first observed engine
+                    // callback, not this worker, marks the driver Active.
+                    boot.ready_mask|=128;boot.phase=4;
+                    error_text="Native frame hook attached; awaiting engine callbacks.";
+                    InterlockedExchange(reinterpret_cast<volatile LONG*>(&sr_driver_status.installed),1);return true;
                 }
             }
-        }
+        } else {stable_slot=nullptr;stable_entry=nullptr;}
         Sleep(50);
     }
-    return fail(WaitHook,"GS entry started, but native resolver did not observe the GS FrameStage hook within 60 seconds.");
+    if((sr_bootstrap_status.ready_mask&39)==39)return fail(Netvars,"Native resolver: timed out waiting for DT_CSPlayer netvars; inspect bootstrap ready mask.");
+    return fail(WaitHook,"Native resolver: timed out waiting for Source interfaces; inspect bootstrap ready mask.");
 }
 }

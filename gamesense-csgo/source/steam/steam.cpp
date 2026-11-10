@@ -15,6 +15,7 @@
 #include "../skeet/v3_status.h"
 #include "../skeet/v3_fire_status.h"
 #include "../../stock-resolver/native_driver.h"
+#include "../../stock-resolver/bootstrap_status.h"
 #include "../../stock-resolver/accuracy_status.h"
 #include "../../stock-resolver/dt_status.h"
 #include "../../stock-resolver/dt_fast_status.h"
@@ -216,6 +217,14 @@ static int diagnostics(const wchar_t* path,DWORD selected_pid=0) {
                 native.tracked,native.applied,native.blocked,native.invalid_controls,native.netvar_mask,native.previous,native.slot,
                 native.records,native.duplicates,native.rejected,native.selected,native.fallback,native.threshold,native.memory_bytes,native.last_update_ms,native.worst_update_ms);
         }
+        const DWORD bootstrap_rva=exported_rva(path,"sr_bootstrap_status",sizeof(stock_native::BootstrapStatus));
+        if(bootstrap_rva){stock_native::BootstrapStatus boot{};
+            if(ReadProcessMemory(process.value,item.modBaseAddr+bootstrap_rva,&boot,sizeof(boot),&got)&&got==sizeof(boot)&&boot.version==1)
+                diagnostic_printf("Source bootstrap: phase %u (2 waiting prerequisites, 4 attached/waiting frames, 5 callbacks observed, 6 failed); polls %u; ready mask %03X; callbacks %u\nSource client/engine/entities: %08X/%08X/%08X; curtime/interval: %08X/%08X; chained entry/slot: %08X/%08X; GS global view: %08X; original handler changed: %u\n",boot.phase,boot.polls,boot.ready_mask,boot.callbacks,boot.client,boot.engine,boot.entities,boot.time,boot.interval,boot.entry,boot.slot,boot.core_globals,boot.original_changed);
+            float now=0,interval=0;
+            if(boot.time&&boot.interval&&ReadProcessMemory(process.value,reinterpret_cast<void*>(boot.time),&now,4,&got)&&got==4&&ReadProcessMemory(process.value,reinterpret_cast<void*>(boot.interval),&interval,4,&got)&&got==4)
+                diagnostic_printf("Native core curtime/interval: %.6f/%.6f seconds.\n",now,interval);
+        }
         const DWORD accuracy_rva=exported_rva(path,"sr_accuracy_status",sizeof(native_accuracy::Status));
         if(accuracy_rva) {
             native_accuracy::Status accuracy{};
@@ -315,6 +324,7 @@ int wmain(int argc,wchar_t** argv) {
     const char* mode_message=mode==8?"Selected: stock GS with integrated native resolver / shot feedback / C++ accuracy/braking and DT 64-sample fast sampler. No Lua driver.":"Selected: original GameSense gameplay.";
     std::puts(mode_message);log_line(mode_message);
     if(mode==8&&(!exported_rva(path,"sr_driver_status",sizeof(stock_native::DriverStatus))||
+        !exported_rva(path,"sr_bootstrap_status",sizeof(stock_native::BootstrapStatus))||
         !exported_rva(path,"sr_accuracy_status",sizeof(native_accuracy::Status))||
         !exported_rva(path,"sr_dt_status",sizeof(native_accuracy::DtStatus))||
         !exported_rva(path,"sr_dt_fast_status",sizeof(native_accuracy::DtFastStatus))||
@@ -410,7 +420,7 @@ int wmain(int argc,wchar_t** argv) {
         if (status.state == LoaderFailed || status.state == LoaderEntryStarted) {
             std::printf("%s (code %lu)\n", status.message, status.error);
             if (status.state == LoaderFailed) std::puts("Restart the game before retrying.");
-            else launcher_reports::start(path,process.value,pid);
+            launcher_reports::start(path,process.value,pid);
             return status.state == LoaderEntryStarted ? 0 : 1;
         }
         if (WaitForSingleObject(process.value, 0) == WAIT_OBJECT_0) {

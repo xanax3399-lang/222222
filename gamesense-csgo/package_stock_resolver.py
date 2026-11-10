@@ -8,7 +8,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parent
 BUILD = ROOT / 'build'
-DEST = BUILD / 'skeet-feedback'
+DEST = BUILD / 'skeet-feedback-bootstrap'
 if DEST.exists(): shutil.rmtree(DEST)
 DEST.mkdir(exist_ok=True)
 for name in ('skeet.dll', 'injector.exe'):
@@ -56,12 +56,13 @@ sha = os.environ.get('GITHUB_SHA') or subprocess.check_output(['git', 'rev-parse
     'dt_experiment': 'SCAR-20/G3SG1 active DT: promote native reduced 32-job HC to existing 64-job tier; unchanged threshold and recharge',
     'dt_sampler_optimization': 'Integer-only stack-scoped sampler; same 64 native jobs, sampled HC timing every 32 eligible calls',
     'resolver_feedback': 'Native shot intent + Source events; exact selected tick and model ownership; bounded state-specific positive evidence, ambiguous/unknown outcomes never penalized by the new learner',
+    'source_bootstrap': 'Attach current Source FrameStageNotify without requiring a GS hook change; direct Source interfaces and native core clocks; Active only after observed callbacks',
     'game': 'CS:GO Legacy 8802 x86', 'gameplay_tested': False,
 }, indent=2) + '\n')
 hashes = {str(p.relative_to(DEST)): hashlib.sha256(p.read_bytes()).hexdigest()
           for p in sorted(DEST.rglob('*')) if p.is_file() and p.name != 'SHA256SUMS.json'}
 (DEST / 'SHA256SUMS.json').write_text(json.dumps(hashes, indent=2) + '\n')
-archive = BUILD / 'skeet-feedback-windows.zip'
+archive = BUILD / 'skeet-feedback-bootstrap-windows.zip'
 with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as output:
     for p in sorted(DEST.rglob('*')):
         if p.is_file(): output.write(p, str(p.relative_to(DEST)))

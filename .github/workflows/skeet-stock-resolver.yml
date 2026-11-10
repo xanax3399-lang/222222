@@ -1,7 +1,7 @@
-name: Skeet native resolver feedback CS-GO DLL
+name: Skeet resolver Source bootstrap fix CS-GO DLL
 on:
   push:
-    branches: [codex/gs-resolver-feedback]
+    branches: [codex/gs-feedback-bootstrap-fix]
     paths: ['gamesense-csgo/**', '.github/workflows/skeet-stock-resolver.yml']
   workflow_dispatch:
 permissions:
@@ -52,7 +52,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: skeet-stock-resolver-windows
-          path: gamesense-csgo/build/skeet-feedback-windows.zip
+          path: gamesense-csgo/build/skeet-feedback-bootstrap-windows.zip
       - uses: actions/upload-artifact@v4
         with:
           name: stock-mode-probe
@@ -87,7 +87,7 @@ jobs:
       - name: Extract compiled artifact
         shell: pwsh
         run: |
-          Expand-Archive dist/skeet-feedback-windows.zip -DestinationPath dist/runtime
+          Expand-Archive dist/skeet-feedback-bootstrap-windows.zip -DestinationPath dist/runtime
           if (Get-ChildItem dist/runtime -Recurse -Filter '*.lua') { throw 'Native archive must not require Lua files' }
           New-Item -ItemType Directory -Force gamesense-csgo/build | Out-Null
       - name: Compile independent native x86 ABI and installer probe
@@ -127,9 +127,11 @@ jobs:
         run: |
           & dist/native_driver_probe.exe "$PWD/gamesense-csgo/source/skeet/Binary/skeet.bin" "$PWD/dist/native_driver.json" *> gamesense-csgo/build/windows-native-driver.log
           if ($LASTEXITCODE -ne 0) { Get-Content gamesense-csgo/build/windows-native-driver.log; throw 'Native C++ driver test failed' }
+          & dist/native_driver_probe.exe "$PWD/gamesense-csgo/source/skeet/Binary/skeet.bin" "$PWD/dist/native_driver_unchanged.json" unchanged *> gamesense-csgo/build/windows-native-unchanged.log
+          if ($LASTEXITCODE -ne 0) { Get-Content gamesense-csgo/build/windows-native-unchanged.log; throw 'Unchanged Source handler / absent GS global view regression failed' }
           $shots = Get-Content dist/resolver_shots.json -Raw | ConvertFrom-Json
           if ($shots.shots.Count -lt 3 -or -not ($shots.shots | Where-Object { $_.reinforced -and $_.record_tick -eq 682 })) { throw 'Native shot archive evidence is missing' }
-          $report = @{ feedback_archive_checked = $true; abi = (Get-Content dist/windows_abi.json -Raw | ConvertFrom-Json); legacy_patch_guards = @(0,8); injector_cli_checked = $true; native_driver = (Get-Content dist/native_driver.json -Raw | ConvertFrom-Json); gameplay_tested = $false }
+          $report = @{ source_bootstrap_regression = (Get-Content dist/native_driver_unchanged.json -Raw | ConvertFrom-Json); feedback_archive_checked = $true; abi = (Get-Content dist/windows_abi.json -Raw | ConvertFrom-Json); legacy_patch_guards = @(0,8); injector_cli_checked = $true; native_driver = (Get-Content dist/native_driver.json -Raw | ConvertFrom-Json); gameplay_tested = $false }
           $report | ConvertTo-Json -Depth 8 | Set-Content -Encoding utf8 gamesense-csgo/build/stock_resolver_windows_validation.json
           exit 0
       - uses: actions/upload-artifact@v4
@@ -160,15 +162,15 @@ jobs:
           name: stock-windows-validation
           path: dist
       - name: Preserve tested DLL bytes and include Windows evidence
-        run: python gamesense-csgo/stock-resolver/finalize_release.py dist/skeet-feedback-windows.zip dist/stock_resolver_windows_validation.json
+        run: python gamesense-csgo/stock-resolver/finalize_release.py dist/skeet-feedback-bootstrap-windows.zip dist/stock_resolver_windows_validation.json
       - name: Publish compiled and tested Windows download
         env:
           GH_TOKEN: ${{ github.token }}
           SOURCE_SHA: ${{ github.sha }}
         run: |
-          tag="skeet-feedback-${SOURCE_SHA}"
+          tag="skeet-feedback-bootstrap-${SOURCE_SHA}"
           if gh release view "$tag" >/dev/null 2>&1; then
-            gh release upload "$tag" dist/skeet-feedback-windows.zip --clobber
+            gh release upload "$tag" dist/skeet-feedback-bootstrap-windows.zip --clobber
           else
-            gh release create "$tag" dist/skeet-feedback-windows.zip --target "$SOURCE_SHA" --prerelease --title 'CS:GO 8802 / native resolver shot feedback' --notes-file gamesense-csgo/stock-resolver/README_RU.txt
+            gh release create "$tag" dist/skeet-feedback-bootstrap-windows.zip --target "$SOURCE_SHA" --prerelease --title 'CS:GO 8802 / native resolver Source bootstrap fix' --notes-file gamesense-csgo/stock-resolver/README_RU.txt
           fi

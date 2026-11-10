@@ -10,6 +10,7 @@
 #include "../source/skeet/nl_stop_status.h"
 #include "../source/skeet/v3_fire_status.h"
 #include "native_driver.h"
+#include "bootstrap_status.h"
 #include "accuracy_status.h"
 #include "dt_status.h"
 #include "dt_fast_status.h"
@@ -39,6 +40,8 @@ int wmain(int argc,wchar_t** argv) {
     auto frames=symbol<void(*)(FrameStats*)>(module,"sr_frame_stats");
     auto* driver=reinterpret_cast<stock_native::DriverStatus*>(GetProcAddress(module,"sr_driver_status"));
     check(driver&&driver->version==1&&driver->installed==0,"integrated native driver export");
+    auto* bootstrap=reinterpret_cast<stock_native::BootstrapStatus*>(GetProcAddress(module,"sr_bootstrap_status"));
+    check(bootstrap&&bootstrap->version==1&&bootstrap->callbacks==0,"bootstrap callbacks are not claimed before game modules load");
     auto* accuracy=reinterpret_cast<native_accuracy::Status*>(GetProcAddress(module,"sr_accuracy_status"));
     check(accuracy&&accuracy->version==1&&accuracy->check_enabled==1&&accuracy->brake_enabled==1&&!accuracy->installed,"integrated accuracy settings/export");
     check(version()==0x00010001&&snapshot_size()==sizeof(Snapshot)&&decision_size()==sizeof(Decision),"x86 C ABI sizes");

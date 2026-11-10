@@ -88,7 +88,7 @@ static DWORD WINAPI initialize(LPVOID parameter) {
             if(!stock_native::start())return fail(stock_native::last_error());
         }
         status(LoaderEntryStarted, 0, (nl_hypotheses::selected_mode==nl_hypotheses::Stock||nl_hypotheses::selected_mode==nl_hypotheses::StockResolver)
-            ? (sr_driver_status.installed?"Native C++ resolver connected to FrameStageNotify. Game runtime unverified.":"GameSense mode: original entry resumed. Game runtime unverified.")
+            ? (sr_driver_status.installed?(sr_driver_status.state==stock_native::Active?"Native C++ resolver has received engine frame callbacks. Game runtime unverified.":"Native frame hook attached; waiting for engine frame callbacks."):"GameSense mode: original entry resumed. Game runtime unverified.")
             : "Selected NL modules installed. Entry resumed; game runtime unverified.");
         return 0;
     } catch (const std::exception& e) {

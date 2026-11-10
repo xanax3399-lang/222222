@@ -11,7 +11,7 @@ namespace stock_native {stock_resolver::Engine& shared_engine(){static stock_res
 #include "../source/steam/feedback_reports.h"
 using namespace stock_native;
 namespace {
-unsigned checks=0,gs_calls=0,gs_saw_force=0;
+unsigned checks=0,gs_calls=0,gs_saw_force=0,source_calls=0;
 bool in_game=true,enemy_dormant=false;unsigned user_id=42;
 struct Object {void** table;};
 void* manager_table[6]{},*event_vtable[10]{};Object fake_manager{manager_table};
@@ -24,11 +24,12 @@ RecvProp props[11]{};RecvTable property_table{},root_table{};RecvProp base_prop{
 constexpr int sim=64,yaw=68,lby=72,pose=80,velocity=176,duck=188,origin=192,flags=204,health=208,life=212,team=216;
 void check(bool value,const char* text){++checks;if(!value){std::fprintf(stderr,"FAIL: %s\n",text);std::exit(1);}}
 template<class T> void put(void* p,unsigned off,T value){std::memcpy(static_cast<unsigned char*>(p)+off,&value,sizeof(value));}
-void __fastcall old_stage(void*,void*,int){++gs_calls;}
+void __fastcall old_stage(void*,void*,int stage){++gs_calls;++source_calls;if(stage==4&&at<unsigned char>(plist_base+2*stride+5))++gs_saw_force;}
 void __fastcall gs_stage(void*,void*,int stage){++gs_calls;if(stage==4&&at<unsigned char>(plist_base+2*stride+5))++gs_saw_force;}
 ClientClass* __fastcall classes(void*,void*){return &player_class;}
 bool __fastcall is_game(void*,void*){return in_game;}
 int __fastcall local_player(void*,void*){return 1;}
+int __fastcall max_players(void*,void*){return 2;}
 void* __fastcall channel(void*,void*){return nullptr;}
 void* __fastcall get_entity(void*,void*,int index){return index==1?self_data.data():index==2?enemy_data.data():nullptr;}
 void* __fastcall network(void*,void*,int index){return index==2?&fake_network:nullptr;}
@@ -54,6 +55,7 @@ void tables() {
     manager_table[3]=reinterpret_cast<void*>(add_event);manager_table[5]=reinterpret_cast<void*>(remove_event);
     event_vtable[1]=reinterpret_cast<void*>(event_name);event_vtable[6]=reinterpret_cast<void*>(event_int);
     event_vtable[8]=reinterpret_cast<void*>(event_float);event_vtable[9]=reinterpret_cast<void*>(event_string);
+    engine_table[21]=reinterpret_cast<void*>(max_players);
     engine_table[9]=reinterpret_cast<void*>(by_user);
     engine_table[8]=reinterpret_cast<void*>(player_info);engine_table[12]=reinterpret_cast<void*>(local_player);
     engine_table[26]=reinterpret_cast<void*>(is_game);engine_table[78]=reinterpret_cast<void*>(channel);
@@ -77,11 +79,14 @@ void step(int stage=4){method<void(__thiscall*)(void*,int)>(&fake_client,37)(&fa
 namespace stock_native {namespace {
 void* fixture_interface(const wchar_t* module,const char* name){
     if(!_wcsicmp(module,L"engine.dll")&&!std::strcmp(name,"GAMEEVENTSMANAGER002"))return &fake_manager;
+    if(!_wcsicmp(module,L"engine.dll")&&!std::strcmp(name,"VEngineClient014"))return &fake_engine;
+    if(!_wcsicmp(module,L"client.dll")&&!std::strcmp(name,"VClientEntityList003"))return &fake_entities;
     return !_wcsicmp(module,L"client.dll")&&std::strcmp(name,"VClient018")==0?&fake_client:nullptr;
 }
 }}
 int main(int argc,char** argv) {
-    if(argc!=3)return 2;
+    if(argc!=3&&argc!=4)return 2;
+    const bool unchanged=argc==4&&!std::strcmp(argv[3],"unchanged");
     auto* image=static_cast<unsigned char*>(VirtualAlloc(reinterpret_cast<void*>(0x43310000),0x2fc000,MEM_RESERVE|MEM_COMMIT,PAGE_READWRITE));
     check(image==reinterpret_cast<void*>(0x43310000),"fixture pinned GS image allocation");
     std::ifstream file(argv[1],std::ios::binary);file.read(reinterpret_cast<char*>(image),0x2fc000);check(file.gcount()==0x2fc000,"actual pinned core bytes");tables();
@@ -92,14 +97,26 @@ int main(int argc,char** argv) {
     check(prepare(image,0x2fc000,GetModuleHandleW(nullptr))&&sr_driver_status.state==Prepared,"native prepare with NO Lua file");
     put(reinterpret_cast<void*>(gs_engine),0,reinterpret_cast<void*>(&fake_engine));
     put(reinterpret_cast<void*>(gs_entities),0,reinterpret_cast<void*>(&fake_entities));
-    put(reinterpret_cast<void*>(gs_globals),0,global_data.data());
+    put(reinterpret_cast<void*>(gs_globals),0,unchanged?nullptr:global_data.data());
+    put(reinterpret_cast<void*>(gs_interval),0,unchanged?nullptr:global_data.data()+0x20);
+    put(reinterpret_cast<void*>(gs_time),0,unchanged?nullptr:global_data.data()+0x10);fields(0);
+    if(unchanged){put(reinterpret_cast<void*>(gs_engine),0,static_cast<void*>(nullptr));put(reinterpret_cast<void*>(gs_entities),0,static_cast<void*>(nullptr));}
     Controls controls{reinterpret_cast<unsigned char*>(plist_base)};
     for(unsigned p=1;p<=64;++p)controls.set(p,false,17);
-    fake_client.table=client_gs_table;
-    check(start()&&sr_driver_status.installed==1&&sr_driver_status.state==Active,"native vtable hook installed after GS hook");
+    if(!unchanged)fake_client.table=client_gs_table;
+    check(start()&&sr_driver_status.installed==1&&sr_driver_status.state==Waiting,"current Source hook attaches without requiring GS replacement or claiming callbacks");
+    check(sr_bootstrap_status.original_changed==static_cast<unsigned>(!unchanged),"changed and unchanged Source handlers are distinguished");
+    check(sr_bootstrap_status.phase==4&&sr_bootstrap_status.callbacks==0,"main-menu attachment waits for actual engine frames");
     check(offsets.sim==sim&&offsets.yaw==yaw&&offsets.pose==pose&&offsets.health==health,"real RecvTable walker includes inherited offset");
     check(sr_driver_status.netvar_mask==1023,"all required and optional netvars resolved");
+    if(unchanged) {
+        step(0);check(sr_driver_status.state==Waiting&&sr_bootstrap_status.phase==2&&sr_bootstrap_status.callbacks==1,"late core clocks do not falsely activate or fatally block the installed Source hook");
+        put(reinterpret_cast<void*>(gs_interval),0,global_data.data()+0x20);put(reinterpret_cast<void*>(gs_time),0,global_data.data()+0x10);
+        gs_calls=0;source_calls=0;
+    }
     for(unsigned tick=0;tick<8;++tick){fields(tick);step();}
+    check(sr_driver_status.state==Active&&sr_bootstrap_status.phase==5&&sr_bootstrap_status.callbacks>0,"actual Source callbacks activate resolver and feedback");
+    if(unchanged)check(source_calls>0&&sr_bootstrap_status.core_globals==0,"unchanged handler and absent GS Lua global view are a supported runtime path");
     bool enabled=false;int value=0;
     check(controls.get(2,enabled,value)&&enabled&&value==-60,"Source data reaches C++ model and real GS override layout");
     check(gs_calls==8&&gs_saw_force>0,"original GS callback runs and sees override in same update");
@@ -140,7 +157,7 @@ int main(int argc,char** argv) {
     check(feedback_reports::save_to(shot_path.c_str(),GetCurrentProcess(),&sr_feedback_status,&sr_feedback_log),"production external shot archive writer");
     std::ifstream shot_file(shot_path);std::string shot_text((std::istreambuf_iterator<char>(shot_file)),std::istreambuf_iterator<char>());
     check(shot_text.find("\"reinforced\":true")!=std::string::npos&&shot_text.find("\"record_tick\":682")!=std::string::npos,"shot archive contains actual credited record and reinforcement");
-    std::ofstream report(argv[2]);report<<"{\"checks\":"<<checks<<",\"production_native_driver\":true,\"source_interfaces\":\"controlled fixture\",\"actual_gs_core_layout\":true,\"external_lua_required\":false,\"native_feedback_bridge\":true,\"feedback_events_checked\":true,\"gameplay_tested\":false}\n";
+    std::ofstream report(argv[2]);report<<"{\"checks\":"<<checks<<",\"production_native_driver\":true,\"source_interfaces\":\"controlled fixture\",\"actual_gs_core_layout\":true,\"external_lua_required\":false,\"source_frame_callbacks_verified\":true,\"unchanged_handler_test\":"<<(unchanged?"true":"false")<<",\"native_feedback_bridge\":true,\"feedback_events_checked\":true,\"gameplay_tested\":false}\n";
     check(static_cast<bool>(report),"native evidence written");std::printf("Native C++ driver: %u checks passed, no Lua/FFI.\n",checks);
     return 0;
 }
