@@ -1,6 +1,7 @@
 #pragma once
 #include "accuracy_status.h"
 #include "dt_status.h"
+#include "dt_fast_shim.h"
 #include "../source/skeet/nl_hypotheses.h"
 #include "../source/skeet/v3_fire_shim.h"
 #include "../source/skeet/nl_stop_shim.h"
@@ -10,13 +11,17 @@
 
 namespace native_accuracy {
 inline DWORD storage=FLS_OUT_OF_INDEXES;
+inline LARGE_INTEGER hc_frequency{};
+inline void peak(volatile LONG& target,LONG value) {
+    LONG previous=target;while(previous<value){const LONG actual=InterlockedCompareExchange(&target,value,previous);if(actual==previous)break;previous=actual;}
+}
 inline const char* error_text="Native accuracy setup did not finish.";
 inline unsigned read(const void* p,unsigned off=0){unsigned out;std::memcpy(&out,static_cast<const unsigned char*>(p)+off,4);return out;}
 inline float real(const void* p,unsigned off){float out;std::memcpy(&out,static_cast<const unsigned char*>(p)+off,4);return out;}
 inline unsigned char* frame(unsigned* registers){return reinterpret_cast<unsigned char*>(registers)+36;}
 struct Inputs {unsigned geometry[6],precision[2],target,flags;};
 struct State {
-    unsigned context,command,number,previous_mode;
+    unsigned context,command,number,previous_mode,profile_counter,hc_count;
     bool release,have_sample,cached,passed,used_check;
     bool dt_latched,dt_call;
     void *dt_weapon,*dt_candidate,*dt_hc_context;
@@ -46,6 +51,10 @@ inline bool __cdecl observe(unsigned* registers,void*) {
     if(!s||!context_ok(context)||command<0x10000){InterlockedIncrement(&st.fallback);return false;}
     const unsigned number=read(reinterpret_cast<void*>(command),4),mode=read(reinterpret_cast<void*>(context),0xf4);
     if(s->context!=context||s->command!=command||s->number!=number) {
+        if(sr_dt_fast_status.profiling&&s->hc_count) {
+            sr_dt_fast_status.last_hc_calls=static_cast<LONG>(s->hc_count);peak(sr_dt_fast_status.peak_hc_calls,static_cast<LONG>(s->hc_count));
+        }
+        s->hc_count=0;
         const bool sequential=s->context==context&&number>s->number&&number-s->number<=150;
         s->release=sequential&&s->previous_mode==1&&mode!=1;
         s->have_sample=false;s->cached=false;s->used_check=false;
@@ -62,18 +71,42 @@ inline bool active_dt(const State& s) {
     return mode==1||(mode==0&&(read(context,0x14)&8));
 }
 using Hitchance=bool(__thiscall*)(void*,void*,void*,float*);
+using FastHitchance=bool(__fastcall*)(void*,const DtScope*,void*,void*,float*);
+inline FastHitchance fast_gate=nullptr;
 inline bool run_hc(State* s,void* context,void* weapon,void* candidate,float* probability) {
-    // Bound the sampler callback to the currently executing native HC call.
-    const bool old_call=s&&s->dt_call;
-    void *old_weapon=s?s->dt_weapon:nullptr,*old_candidate=s?s->dt_candidate:nullptr,*old_context=s?s->dt_hc_context:nullptr;
-    if(s) {
-        s->dt_call=sr_dt_status.enabled&&active_dt(*s)&&s->command&&
-            read(reinterpret_cast<void*>(s->command),4)==s->number&&weapon&&candidate&&
-            (read(weapon,0xd8)==11||read(weapon,0xd8)==38);
-        s->dt_weapon=weapon;s->dt_candidate=candidate;s->dt_hc_context=context;
+    const bool eligible=s&&sr_dt_status.enabled&&active_dt(*s)&&s->command&&weapon&&candidate&&
+        read(reinterpret_cast<void*>(s->command),4)==s->number&&
+        (read(weapon,0xd8)==11||read(weapon,0xd8)==38);
+    const auto invoke=[&]() {
+        if(fast_gate) {
+            if(!eligible)return reinterpret_cast<Hitchance>(0x4341b4c2)(context,weapon,candidate,probability);
+            const DtScope scope{s->context,s->command,s->number,reinterpret_cast<unsigned>(weapon),
+                reinterpret_cast<unsigned>(candidate),reinterpret_cast<unsigned>(context)};
+            return fast_gate(context,&scope,weapon,candidate,probability);
+        }
+        // Reference callback retained for the INI A/B switch.
+        const bool old_call=s&&s->dt_call;
+        void *old_weapon=s?s->dt_weapon:nullptr,*old_candidate=s?s->dt_candidate:nullptr,*old_context=s?s->dt_hc_context:nullptr;
+        if(s) {
+            s->dt_call=eligible;
+            s->dt_weapon=weapon;s->dt_candidate=candidate;s->dt_hc_context=context;
+        }
+        const bool result=reinterpret_cast<Hitchance>(0x4341b4c2)(context,weapon,candidate,probability);
+        if(s){s->dt_call=old_call;s->dt_weapon=old_weapon;s->dt_candidate=old_candidate;s->dt_hc_context=old_context;}
+        return result;
+    };
+    // One out of 32 eligible calls; never use wall-clock data to change HC.
+    if(!eligible||!sr_dt_fast_status.profiling)return invoke();
+    ++s->hc_count;
+    if((++s->profile_counter&31)||hc_frequency.QuadPart<=0)return invoke();
+    LARGE_INTEGER start{},end{};const bool started=QueryPerformanceCounter(&start)!=0;
+    const bool result=invoke();
+    if(started&&QueryPerformanceCounter(&end)&&end.QuadPart>=start.QuadPart&&
+       end.QuadPart-start.QuadPart<=hc_frequency.QuadPart*60) {
+        const LONG us=static_cast<LONG>((end.QuadPart-start.QuadPart)*1000000/hc_frequency.QuadPart);
+        auto& perf=sr_dt_fast_status;perf.last_us=us;peak(perf.worst_us,us);
+        InterlockedIncrement(&perf.samples);if(us>=1000)InterlockedIncrement(&perf.slow_samples);
     }
-    const bool result=reinterpret_cast<Hitchance>(0x4341b4c2)(context,weapon,candidate,probability);
-    if(s){s->dt_call=old_call;s->dt_weapon=old_weapon;s->dt_candidate=old_candidate;s->dt_hc_context=old_context;}
     return result;
 }
 inline bool __fastcall sample(void* context,void*,void* weapon,void* candidate,float* probability) {
@@ -204,19 +237,25 @@ inline bool apply(unsigned char* image,unsigned size) {
     if(dt) {
         constexpr unsigned char tier[]={0xc7,0x44,0x24,0x10,0x20,0,0,0};
         constexpr unsigned char divide[]={0xf7,0x74,0x24,0x10};
+        constexpr unsigned char entry[]={0x55,0x8b,0xec,0x83,0xe4,0xf0};
         if(std::memcmp(image+(dt_site.address-0x43310000),dt_site.original,dt_site.size)||
-           std::memcmp(image+0x10bbf8,tier,8)||std::memcmp(image+0x10bc14,divide,4))
+           std::memcmp(image+0x10bbf8,tier,8)||std::memcmp(image+0x10bc14,divide,4)||std::memcmp(image+0x10b4c2,entry,6))
             return fail("DT HC sampler: native sample-bank contract differs.");
     }
     if(st.brake_enabled&&!nl_stop_shim::compatible(image))return fail("Accuracy patch: native braking contract differs.");
+    if(dt&&sr_dt_fast_status.profiling&&!QueryPerformanceFrequency(&hc_frequency))hc_frequency.QuadPart=0;
     if(st.check_enabled){storage=FlsAlloc(cleanup);if(storage==FLS_OUT_OF_INDEXES){error_text="Accuracy patch: no thread storage.";return false;}}
     auto* memory=static_cast<unsigned char*>(VirtualAlloc(nullptr,4096,MEM_RESERVE|MEM_COMMIT,PAGE_READWRITE));
     const auto release=[&](){if(memory)VirtualFree(memory,0,MEM_RELEASE);if(storage!=FLS_OUT_OF_INDEXES){FlsFree(storage);storage=FLS_OUT_OF_INDEXES;}};
     if(!memory){release();error_text="Accuracy patch: bridge allocation failed.";return false;}
     v3_fire_shim::Plan plans[2]{};
     if(st.check_enabled)for(unsigned i=0;i<2;++i){const auto& s=sites[i];plans[i]=v3_fire_shim::make(reinterpret_cast<unsigned>(memory)+i*256,s.address,s.original,s.size,s.address+s.size,s.address+s.size,reinterpret_cast<unsigned>(i==0?observe:guard));std::memcpy(memory+i*256,plans[i].code,plans[i].length);}
-    v3_fire_shim::Plan dt_plan{};
-    if(dt){const auto& site=dt_site;dt_plan=v3_fire_shim::make(reinterpret_cast<unsigned>(memory)+768,site.address,site.original,site.size,site.address+site.size,site.address+site.size,reinterpret_cast<unsigned>(dt_budget));std::memcpy(memory+768,dt_plan.code,dt_plan.length);}
+    v3_fire_shim::Plan dt_plan{};dt_fast_shim::Plan fast{};
+    const bool fast_dt=dt&&sr_dt_fast_status.enabled;
+    if(fast_dt) {
+        fast=dt_fast_shim::make(reinterpret_cast<unsigned>(memory)+768,reinterpret_cast<unsigned>(memory)+1536,reinterpret_cast<unsigned>(&sr_dt_status));
+        std::memcpy(memory+768,fast.code,fast.length);std::memcpy(memory+1536,fast.gate,fast.gate_length);
+    } else if(dt){const auto& site=dt_site;dt_plan=v3_fire_shim::make(reinterpret_cast<unsigned>(memory)+768,site.address,site.original,site.size,site.address+site.size,site.address+site.size,reinterpret_cast<unsigned>(dt_budget));std::memcpy(memory+768,dt_plan.code,dt_plan.length);}
     nl_stop_shim::Plan stop{};
     if(st.brake_enabled){stop=nl_stop_shim::make(reinterpret_cast<unsigned>(memory)+512,reinterpret_cast<unsigned>(brake));std::memcpy(memory+512,stop.code,stop.length);}
     DWORD old=0;
@@ -225,7 +264,7 @@ inline bool apply(unsigned char* image,unsigned size) {
         for(unsigned i=0;i<2;++i)std::memcpy(image+(sites[i].address-0x43310000),plans[i].jump,sites[i].size);
         for(unsigned site:hc_sites){unsigned char call[5]={0xe8};const unsigned delta=reinterpret_cast<unsigned>(sample)-site-5;std::memcpy(call+1,&delta,4);std::memcpy(image+(site-0x43310000),call,5);}
     }
-    if(dt)std::memcpy(image+(dt_site.address-0x43310000),dt_plan.jump,dt_site.size);
+    if(dt)std::memcpy(image+(dt_site.address-0x43310000),fast_dt?fast.jump:dt_plan.jump,dt_site.size);
     if(st.brake_enabled)std::memcpy(image+nl_stop_shim::site,stop.jump,6);
     if(!FlushInstructionCache(GetCurrentProcess(),image,size)) {
         if(st.check_enabled){for(const auto& s:sites)std::memcpy(image+(s.address-0x43310000),s.original,s.size);for(unsigned i=0;i<3;++i)std::memcpy(image+(hc_sites[i]-0x43310000),hc_calls[i],5);}
@@ -233,6 +272,7 @@ inline bool apply(unsigned char* image,unsigned size) {
         if(st.brake_enabled)std::memcpy(image+nl_stop_shim::site,nl_stop_shim::original,6);
         FlushInstructionCache(GetCurrentProcess(),image,size);release();error_text="Accuracy patch: instruction flush failed, changes rolled back.";return false;
     }
+    if(fast_dt){fast_gate=reinterpret_cast<FastHitchance>(memory+1536);InterlockedExchange(&sr_dt_fast_status.installed,1);}
     if(dt)InterlockedExchange(&sr_dt_status.installed,1);
     InterlockedExchange(&st.installed,1);return true;
 }

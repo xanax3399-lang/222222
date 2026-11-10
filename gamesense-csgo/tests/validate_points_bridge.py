@@ -84,6 +84,9 @@ class Machine:
             n=3;self.flushes+=1;result=int(self.fault!='flush' and not(self.fault=='flush_core' and arg(2)==BASE))
         elif name=='SetLastError':n=1;self.error=arg(1)
         elif name=='GetLastError':result=self.error
+        elif name=='QueryPerformanceFrequency':n=1;u.mem_write(arg(1),struct.pack('<q',10000000));result=1
+        elif name=='QueryPerformanceCounter':
+            n=1;self.qpc=getattr(self,'qpc',0)+2000;u.mem_write(arg(1),struct.pack('<q',self.qpc));result=1
         elif name in ('memcpy','memmove'):
             u.mem_write(arg(1),bytes(u.mem_read(arg(2),arg(3))));result=arg(1)
             n=-1

@@ -1,7 +1,7 @@
-name: Skeet DT sampling experiment CS-GO DLL
+name: Skeet DT fast sampler CS-GO DLL
 on:
   push:
-    branches: [codex/gs-dt-experiment]
+    branches: [codex/gs-dt-performance]
     paths: ['gamesense-csgo/**', '.github/workflows/skeet-stock-resolver.yml']
   workflow_dispatch:
 permissions:
@@ -41,12 +41,14 @@ jobs:
         run: python gamesense-csgo/stock-resolver/validate_accuracy.py --donor donor/neverlose-csgo/neverlose/bins/nl.bin
       - name: Execute DT sample shim and actual native budget arithmetic
         run: python gamesense-csgo/stock-resolver/validate_dt_sampling.py
+      - name: Compare fast/reference x86 samplers and preserved 64-job arithmetic
+        run: python gamesense-csgo/stock-resolver/validate_dt_fast.py
       - name: Package matching DLL injector and driver
         run: python gamesense-csgo/package_stock_resolver.py
       - uses: actions/upload-artifact@v4
         with:
           name: skeet-stock-resolver-windows
-          path: gamesense-csgo/build/skeet-dt-sampling-windows.zip
+          path: gamesense-csgo/build/skeet-dt-fast-windows.zip
       - uses: actions/upload-artifact@v4
         with:
           name: stock-mode-probe
@@ -81,7 +83,7 @@ jobs:
       - name: Extract compiled artifact
         shell: pwsh
         run: |
-          Expand-Archive dist/skeet-dt-sampling-windows.zip -DestinationPath dist/runtime
+          Expand-Archive dist/skeet-dt-fast-windows.zip -DestinationPath dist/runtime
           if (Get-ChildItem dist/runtime -Recurse -Filter '*.lua') { throw 'Native archive must not require Lua files' }
           New-Item -ItemType Directory -Force gamesense-csgo/build | Out-Null
       - name: Compile independent native x86 ABI and installer probe
@@ -152,15 +154,15 @@ jobs:
           name: stock-windows-validation
           path: dist
       - name: Preserve tested DLL bytes and include Windows evidence
-        run: python gamesense-csgo/stock-resolver/finalize_release.py dist/skeet-dt-sampling-windows.zip dist/stock_resolver_windows_validation.json
+        run: python gamesense-csgo/stock-resolver/finalize_release.py dist/skeet-dt-fast-windows.zip dist/stock_resolver_windows_validation.json
       - name: Publish compiled and tested Windows download
         env:
           GH_TOKEN: ${{ github.token }}
           SOURCE_SHA: ${{ github.sha }}
         run: |
-          tag="skeet-dt-sampling-${SOURCE_SHA}"
+          tag="skeet-dt-fast-${SOURCE_SHA}"
           if gh release view "$tag" >/dev/null 2>&1; then
-            gh release upload "$tag" dist/skeet-dt-sampling-windows.zip --clobber
+            gh release upload "$tag" dist/skeet-dt-fast-windows.zip --clobber
           else
-            gh release create "$tag" dist/skeet-dt-sampling-windows.zip --target "$SOURCE_SHA" --prerelease --title 'CS:GO 8802 / DT native HC sampling experiment' --notes-file gamesense-csgo/stock-resolver/README_RU.txt
+            gh release create "$tag" dist/skeet-dt-fast-windows.zip --target "$SOURCE_SHA" --prerelease --title 'CS:GO 8802 / DT 64-sample fast sampler' --notes-file gamesense-csgo/stock-resolver/README_RU.txt
           fi

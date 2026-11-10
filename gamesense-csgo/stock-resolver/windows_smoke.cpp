@@ -12,6 +12,7 @@
 #include "native_driver.h"
 #include "accuracy_status.h"
 #include "dt_status.h"
+#include "dt_fast_status.h"
 #include <filesystem>
 using namespace stock_resolver;
 static unsigned checks=0;
@@ -43,6 +44,8 @@ int wmain(int argc,wchar_t** argv) {
     Sleep(200);
     auto* dt=reinterpret_cast<native_accuracy::DtStatus*>(GetProcAddress(module,"sr_dt_status"));
     check(dt&&dt->version==1&&dt->enabled==1&&!dt->installed,"DT sampler configuration/export");
+    auto* fast=reinterpret_cast<native_accuracy::DtFastStatus*>(GetProcAddress(module,"sr_dt_fast_status"));
+    check(fast&&fast->version==1&&fast->enabled==1&&fast->profiling==1&&!fast->installed&&!fast->samples,"DT fast sampler configuration/export");
     auto* loader=reinterpret_cast<LoaderStatus*>(GetProcAddress(module,"skeet_loader_status"));
     check(loader&&loader->state==LoaderWaiting&&mode()==0,"no game modules: waiting, bridge disabled");
     auto* stop=reinterpret_cast<nl_stop_patch::Status*>(GetProcAddress(module,"skeet_nl_stop_status"));

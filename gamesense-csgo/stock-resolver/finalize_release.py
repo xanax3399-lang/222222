@@ -33,6 +33,13 @@ with tempfile.TemporaryDirectory() as temp:
     assert dt['checks'] >= 24 and dt['native_budget_arithmetic_executed']
     assert dt['maximum_jobs'] == 64 and dt['seed_bank'] == 128
     assert dt['queued_DT_latch_tested'] and dt['thresholds_and_recharge_unchanged']
+    fast = json.loads((folder / 'reports/stock_resolver_dt_fast_validation.json').read_text())
+    assert fast['checks'] >= 55 and fast['same_64_sample_arithmetic'] and fast['GPR_and_FP_preserved']
+    assert fast['stack_scope_and_thread_isolation'] and fast['native_traces_reduced'] is False
+    for mode in ('0', '1'):
+        pair = fast['shim_retired_instructions'][mode]
+        assert pair['fast']['instructions'] < pair['reference']['instructions']
+        assert pair['fast']['fp_save_restore'] == 0 and pair['fast']['os_calls'] == []
     (folder / 'reports' / evidence.name).write_bytes(evidence.read_bytes())
     hashes = {str(p.relative_to(folder)): hashlib.sha256(p.read_bytes()).hexdigest()
               for p in sorted(folder.rglob('*')) if p.is_file() and p.name != 'SHA256SUMS.json'}
