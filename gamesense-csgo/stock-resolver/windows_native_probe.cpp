@@ -19,7 +19,7 @@ void* registered_listener=nullptr;unsigned registrations=0;
 struct FakeEvent {void** table=event_vtable;const char* name="";int userid=1,attacker=1,group=1,damage=120,remaining=0;};
 void* client_old_table[38]{},*client_gs_table[38]{},*engine_table[79]{},*entity_table[4]{},*network_table[10]{};
 Object fake_client{client_old_table},fake_engine{engine_table},fake_entities{entity_table},fake_network{network_table};
-std::array<unsigned char,512> self_data{},enemy_data{},global_data{};
+std::array<unsigned char,0x20000> self_data{},enemy_data{};std::array<unsigned char,512> global_data{};
 RecvProp eye_element{},eye_children[2]{};RecvTable eye_table{};
 RecvProp props[11]{};RecvTable property_table{},root_table{};RecvProp base_prop{};ClientClass player_class{};
 constexpr int sim=64,yaw=68,lby=72,pose=80,velocity=176,duck=188,origin=192,flags=204,health=208,life=212,team=216;
@@ -64,16 +64,20 @@ void tables() {
     const char* names[]={"m_flSimulationTime","m_angEyeAngles[1]","m_flLowerBodyYawTarget","m_flPoseParameter","m_vecVelocity[0]","m_flDuckAmount","m_vecOrigin","m_fFlags","m_iHealth","m_lifeState","m_iTeamNum"};
     const int positions[]={sim,yaw,lby,pose,velocity,duck,origin,flags,health,life,team};
     for(unsigned i=0;i<11;++i){props[i].name=names[i];props[i].offset=positions[i]-16;props[i].type=1;}
-    if(!std::strcmp(yaw_variant,"vector")||!std::strcmp(yaw_variant,"array")||!std::strcmp(yaw_variant,"nested")||!std::strcmp(yaw_variant,"missing")) {
-        eye_yaw_offset=228;props[1].name="m_angEyeAngles";props[1].offset=224-16;
-        if(!std::strcmp(yaw_variant,"vector"))props[1].type=3;
-        else if(!std::strcmp(yaw_variant,"array")){props[1].type=5;props[1].elements=3;props[1].stride=4;eye_element.type=1;props[1].array=&eye_element;}
-        else if(!std::strcmp(yaw_variant,"nested")){
+    const bool high=!std::strncmp(yaw_variant,"high_",5);const char* layout=high?yaw_variant+5:yaw_variant;
+    if(high){eye_yaw_offset=0x117d4;props[1].offset=eye_yaw_offset-16;}
+    if(!std::strcmp(layout,"vector")||!std::strcmp(layout,"array")||!std::strcmp(layout,"nested")||!std::strcmp(layout,"missing")) {
+        eye_yaw_offset=high?0x117d4:228;props[1].name="m_angEyeAngles";props[1].offset=eye_yaw_offset-4-16;
+        if(!std::strcmp(layout,"vector"))props[1].type=3;
+        else if(!std::strcmp(layout,"array")){props[1].type=5;props[1].elements=3;props[1].stride=4;eye_element.type=1;props[1].array=&eye_element;}
+        else if(!std::strcmp(layout,"nested")){
             props[1].type=6;eye_children[0].name="000";eye_children[1].name="001";
             eye_children[0].type=eye_children[1].type=1;eye_children[1].offset=4;
+            if(high){props[1].offset=0xffe0;eye_children[0].offset=0x17e0;eye_children[1].offset=0x17e4;}
             eye_table={eye_children,2,nullptr,"DT_TestEyeArray",1,1,{0,0}};props[1].table=&eye_table;
         }else{props[1].name="m_angEyeAngles[0]";props[1].type=1;}
     }
+    if(!std::strcmp(layout,"out_of_range")){props[1].offset=netvar_extent;eye_yaw_offset=228;}
     property_table={props,11,nullptr,"DT_BasePlayer",1,1,{0,0}};
     base_prop.name="baseclass";base_prop.type=6;base_prop.offset=16;base_prop.table=&property_table;
     root_table={&base_prop,1,nullptr,"DT_CSPlayer",1,1,{0,0}};player_class={nullptr,nullptr,"CCSPlayer",&root_table,nullptr,40};
@@ -99,7 +103,7 @@ int main(int argc,char** argv) {
     if(argc!=3&&argc!=4)return 2;
     const bool unchanged=argc==4&&!std::strcmp(argv[3],"unchanged");
     if(argc==4&&!unchanged)yaw_variant=argv[3];
-    const bool missing=!std::strcmp(yaw_variant,"missing");
+    const bool missing=!std::strcmp(yaw_variant,"missing")||!std::strcmp(yaw_variant,"out_of_range");
     auto* image=static_cast<unsigned char*>(VirtualAlloc(reinterpret_cast<void*>(0x43310000),0x2fc000,MEM_RESERVE|MEM_COMMIT,PAGE_READWRITE));
     check(image==reinterpret_cast<void*>(0x43310000),"fixture pinned GS image allocation");
     std::ifstream file(argv[1],std::ios::binary);file.read(reinterpret_cast<char*>(image),0x2fc000);check(file.gcount()==0x2fc000,"actual pinned core bytes");tables();
@@ -123,6 +127,9 @@ int main(int argc,char** argv) {
     check(offsets.sim==sim&&offsets.yaw==(missing?-1:eye_yaw_offset)&&offsets.pose==pose&&offsets.health==health,"typed eye binding and RecvTable walker include inherited offset");
     check(sr_driver_status.netvar_mask==(missing?1021u:1023u),"netvar mask distinguishes an unresolved model yaw");
     check(sr_yaw_status.ready==static_cast<unsigned>(!missing),"yaw binding readiness is explicit");
+    if(!std::strncmp(yaw_variant,"high_",5)) {
+        check(offsets.yaw==0x117d4&&sr_yaw_status.count>0,"eye yaw above 64 KiB is bound and visible in diagnostics");
+    }
     if(unchanged) {
         step(0);check(sr_driver_status.state==Waiting&&sr_bootstrap_status.phase==2&&sr_bootstrap_status.callbacks==1,"late core clocks do not falsely activate or fatally block the installed Source hook");
         put(reinterpret_cast<void*>(gs_interval),0,global_data.data()+0x20);put(reinterpret_cast<void*>(gs_time),0,global_data.data()+0x10);
@@ -133,6 +140,7 @@ int main(int argc,char** argv) {
     if(unchanged)check(source_calls>0&&sr_bootstrap_status.core_globals==0,"unchanged handler and absent GS Lua global view are a supported runtime path");
     bool enabled=false;int value=0;
     if(missing) {
+        if(!std::strcmp(yaw_variant,"out_of_range"))check(sr_yaw_status.count>0&&sr_yaw_status.properties[0].offset>netvar_extent,"rejected eye metadata is still reported instead of silently hidden");
         check(controls.get(2,enabled,value)&&!enabled&&value==17&&sr_driver_status.records==0,"unpaired pitch cannot cause guessed yaw or force-body overrides");
         check(sr_feedback_status.listening==1&&registrations==5,"event logging remains available while yaw model is suspended");
         std::array<unsigned char,0xe8> weapon{};std::array<unsigned char,0xb8> candidate{};unsigned command[3]={0,888,0};std::array<unsigned,80> capture{};
@@ -140,7 +148,7 @@ int main(int argc,char** argv) {
         put(weapon.data(),0xd8,38u);put(candidate.data(),4,2u);put(candidate.data(),0xb4,647u);put(candidate.data(),0xc,100.f);put(candidate.data(),0x38,.8f);put(candidate.data(),0x28,120);
         shot_capture(capture.data(),nullptr);emit("weapon_fire");emit("bullet_impact");emit("player_hurt");step();
         check(sr_feedback_status.counters.intents==1&&sr_feedback_status.counters.hurts==1&&sr_feedback_status.counters.credits==0,"actual native intents and events log without fabricated model tokens");
-        std::ofstream report(argv[2]);report<<"{\"checks\":"<<checks<<",\"missing_yaw_model_suspended\":true,\"shot_logging_without_yaw\":true,\"gameplay_tested\":false}\n";return 0;
+        std::ofstream report(argv[2]);report<<"{\"checks\":"<<checks<<",\"missing_yaw_model_suspended\":true,\"shot_logging_without_yaw\":true,\"rejected_eye_property_reported\":"<<(!std::strcmp(yaw_variant,"out_of_range")?"true":"false")<<",\"gameplay_tested\":false}\n";return 0;
     }
     check(controls.get(2,enabled,value)&&enabled&&value==-60,"Source data reaches C++ model and real GS override layout");
     check(gs_calls==8&&gs_saw_force>0,"original GS callback runs and sees override in same update");
@@ -181,7 +189,7 @@ int main(int argc,char** argv) {
     check(feedback_reports::save_to(shot_path.c_str(),GetCurrentProcess(),&sr_feedback_status,&sr_feedback_log),"production external shot archive writer");
     std::ifstream shot_file(shot_path);std::string shot_text((std::istreambuf_iterator<char>(shot_file)),std::istreambuf_iterator<char>());
     check(shot_text.find("\"reinforced\":true")!=std::string::npos&&shot_text.find("\"record_tick\":682")!=std::string::npos,"shot archive contains actual credited record and reinforcement");
-    std::ofstream report(argv[2]);report<<"{\"checks\":"<<checks<<",\"production_native_driver\":true,\"source_interfaces\":\"controlled fixture\",\"actual_gs_core_layout\":true,\"external_lua_required\":false,\"yaw_variant\":\""<<yaw_variant<<"\",\"yaw_binding_method\":"<<sr_yaw_status.method<<",\"source_frame_callbacks_verified\":true,\"unchanged_handler_test\":"<<(unchanged?"true":"false")<<",\"native_feedback_bridge\":true,\"feedback_events_checked\":true,\"gameplay_tested\":false}\n";
+    std::ofstream report(argv[2]);report<<"{\"checks\":"<<checks<<",\"production_native_driver\":true,\"source_interfaces\":\"controlled fixture\",\"actual_gs_core_layout\":true,\"external_lua_required\":false,\"yaw_variant\":\""<<yaw_variant<<"\",\"high_offset_regression\":"<<(!std::strncmp(yaw_variant,"high_",5)?"true":"false")<<",\"yaw_offset\":"<<sr_yaw_status.offset<<",\"yaw_binding_method\":"<<sr_yaw_status.method<<",\"source_frame_callbacks_verified\":true,\"unchanged_handler_test\":"<<(unchanged?"true":"false")<<",\"native_feedback_bridge\":true,\"feedback_events_checked\":true,\"gameplay_tested\":false}\n";
     check(static_cast<bool>(report),"native evidence written");std::printf("Native C++ driver: %u checks passed, no Lua/FFI.\n",checks);
     return 0;
 }

@@ -100,10 +100,10 @@ int find(RecvTable* table,const char* name,unsigned depth=0,int parent=0) {
        !readable(table->props,static_cast<unsigned>(table->count)*sizeof(RecvProp)))return -1;
     for(int i=0;i<table->count;++i) {
         const auto& property=table->props[i];
-        if(property.offset<0||property.offset>0xffff||parent+property.offset>0xffff)continue;
-        if(text_is(property.name,name))return parent+property.offset;
+        const int absolute=netvar_offset(parent,property.offset,1);if(absolute<0)continue;
+        if(text_is(property.name,name)&&netvar_offset(parent,property.offset)>=0)return absolute;
         if(property.type==6&&property.table) {
-            const int child=find(property.table,name,depth+1,parent+property.offset);
+            const int child=find(property.table,name,depth+1,absolute);
             if(child>=0)return child;
         }
     }
@@ -132,11 +132,16 @@ int find_eye(RecvTable* table,unsigned& method,unsigned depth=0,int parent=0,boo
         if(found<0){found=offset;chosen=kind;}else if(found!=offset)conflict=true;
     };
     for(int i=0;i<table->count;++i) {
-        const auto& p=table->props[i];if(p.offset<0||p.offset>0xffff||parent+p.offset>0xffff)continue;
-        const int absolute=parent+p.offset;char name[64]{};copy_name(name,p.name);observe_eye(table,p,absolute,inside);
+        const auto& p=table->props[i];char name[64]{};copy_name(name,p.name);
+        const int absolute=netvar_offset(parent,p.offset,1);
+        // Observe named eye fields even when rejected; the old 16-bit guard
+        // discarded them before diagnostics and hid the reason for suspension.
+        const auto raw=static_cast<long long>(parent)+p.offset;
+        observe_eye(table,p,raw>0x7fffffffLL?0x7fffffff:static_cast<int>(raw),inside);
+        if(absolute<0)continue;
         const int element=p.type==5&&p.array&&readable(p.array,sizeof(RecvProp))?p.array->type:-1;
         unsigned kind=0;int offset=yaw_component({name,p.type,absolute,p.elements,p.stride,element},kind);
-        if(inside&&p.type==1&&absolute%4==0&&(!std::strcmp(name,"1")||!std::strcmp(name,"001")||!std::strcmp(name,"[1]"))){offset=absolute;kind=YawNested;}
+        if(inside&&p.type==1&&netvar_offset(0,absolute)>=0&&absolute%4==0&&(!std::strcmp(name,"1")||!std::strcmp(name,"001")||!std::strcmp(name,"[1]"))){offset=absolute;kind=YawNested;}
         accept(offset,kind);
         if(p.type==6&&p.table) {
             unsigned child_kind=0;const int child=find_eye(p.table,child_kind,depth+1,absolute,inside||eye_base(name));
